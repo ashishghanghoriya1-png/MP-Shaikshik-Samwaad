@@ -1027,18 +1027,52 @@
           </div>
         </div>
         <div class="panel-box">
-          <div class="panel-head">
+          <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
             <div>
-              <div class="panel-head-title">
-                ✨ Teacher Trust & Perception Index
+              <div class="panel-head-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span>✨ Teacher Trust & Perception Index</span>
+                <span style="font-size: 11px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); background: rgba(0, 138, 171, 0.08); border: 1px solid rgba(0, 138, 171, 0.25); padding: 2px 8px; border-radius: 6px;">🛡️ Net Trust Score (NTS): +93.8%</span>
               </div>
               <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
                 [Ref: <em>Output_CLSS_Participant_Aug_26.xlsx</em> | Sheets: <strong>Q91, Q89, Q90, Q88</strong>, Cols: <strong>91.1 (Trust), 89_Yes (Academic Focus), 90_Yes (Problem Solving), 88_Yes (Role Clarity)</strong>]
               </div>
             </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="slicer-btn active" id="btnTrustChart" onclick="toggleTrustView('CHART')">📊 State Overview Chart</button>
+              <button class="slicer-btn" id="btnTrustHeatmap" onclick="toggleTrustView('HEATMAP')">🗺️ 52-District Trust Heatmap</button>
+            </div>
           </div>
-          <div class="chart-stage">
+          
+          <div id="trustChartStage" class="chart-stage">
             <canvas id="ovTrustBar"></canvas>
+          </div>
+
+          <div id="trustHeatmapStage" style="display: none; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <div style="font-size: 11.5px; color: var(--text-secondary);">
+                District-wise perception scores: High Trust (Q91.1), Academic Focus (Q89), Problem Solving (Q90), 2-Yr Growth (Q88).
+              </div>
+              <input type="text" id="trustSearchInput" class="search-input" placeholder="🔍 Search district in heatmap..." oninput="filterTrustHeatmap()" style="max-width: 220px; font-size: 11.5px;">
+            </div>
+            <div class="table-viewport" style="max-height: 280px;">
+              <table class="kowalski-table" id="trustHeatmapTable">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>District</th>
+                    <th>Teachers</th>
+                    <th>High Trust % (Q91.1)</th>
+                    <th>Academic Focus % (Q89)</th>
+                    <th>Problem Solving % (Q90)</th>
+                    <th>2-Yr Growth % (Q88)</th>
+                    <th>Perception Grade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -1056,61 +1090,84 @@
           </div>
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             <button class="slicer-btn active" id="btnQuadAll" onclick="filterQuadrant('ALL')">All 52 Districts</button>
-            <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 Q1: Champions (22)</button>
-            <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ Q2: Scale, Pedagogy Gap (14)</button>
-            <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">📈 Q3: Mobilization Need (12)</button>
-            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">⚠️ Q4: Priority Red Zone (4)</button>
+            <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 Q1: Champions (<span id="q1BtnCount">22</span>)</button>
+            <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ Q2: Scale, Pedagogy Gap (<span id="q2BtnCount">14</span>)</button>
+            <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">📈 Q3: Mobilization Need (<span id="q3BtnCount">12</span>)</button>
+            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">⚠️ Q4: Priority Red Zone (<span id="q4BtnCount">4</span>)</button>
           </div>
         </div>
 
-        <div class="bento-equal" style="margin-top: 14px;">
-          <div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 16px;">
-            <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Statewide Quadrant Architecture</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <div style="background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.25); padding: 12px; border-radius: 8px;">
-                <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">Q1: BENCHMARK CHAMPIONS</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">High Turnout (≥500) + High Pedagogy (≥65%)</div>
-                <div style="font-size: 11px; font-weight: 600; color: var(--accent-emerald); margin-top: 6px;">Betul, Chhindwara, Ratlam, Balaghat, Seoni, Morena, Panna, Rajgarh</div>
-              </div>
-              <div style="background: rgba(0, 138, 171, 0.08); border: 1px solid rgba(0, 138, 171, 0.25); padding: 12px; border-radius: 8px;">
-                <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">Q2: OPERATIONAL SCALE, PEDAGOGY GAP</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">High Turnout (≥500) + Pedagogy Needs Work (<65%)</div>
-                <div style="font-size: 11px; font-weight: 600; color: var(--peepul-teal); margin-top: 6px;">Dhar, Bhind, Mandla, Narmadapuram, Barwani, Satna, Ujjain</div>
-              </div>
-              <div style="background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.25); padding: 12px; border-radius: 8px;">
-                <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">Q3: HIGH QUALITY, MOBILIZATION NEED</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">Turnout <500 + High Pedagogy (≥65%)</div>
-                <div style="font-size: 11px; font-weight: 600; color: var(--accent-indigo); margin-top: 6px;">Bhopal, Indore, Katni, Khandwa, Guna, Datia, Neemuch, Ashoknagar</div>
-              </div>
-              <div style="background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 12px; border-radius: 8px;">
-                <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">Q4: PRIORITY RED ZONE</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">Turnout <500 + Low Pedagogy (<65%) / Stalled</div>
-                <div style="font-size: 11px; font-weight: 600; color: var(--accent-rose); margin-top: 6px;">Sehore (3), Dewas (1), Burhanpur (147), Niwari (146)</div>
-              </div>
+        <!-- Dynamic 4-Quadrant Interactive Bento Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 14px;">
+          <div style="background: rgba(5, 150, 105, 0.05); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer;" onclick="filterQuadrant('Q1')">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: BENCHMARK CHAMPIONS</div>
+              <span class="pill-badge" style="background: rgba(5, 150, 105, 0.15); color: var(--accent-emerald); font-weight: 700;" id="q1Badge">22 Districts</span>
             </div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Turnout (≥500) + High Pedagogy (≥65%)</div>
+            <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 110px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
-          <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 16px;">
-            <div style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;" id="quadrantTableTitle">
-              Districts in Selected Quadrant: All 52 Districts
+          <div style="background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer;" onclick="filterQuadrant('Q2')">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: SCALE / PEDAGOGY GAP</div>
+              <span class="pill-badge" style="background: rgba(0, 138, 171, 0.15); color: var(--peepul-teal); font-weight: 700;" id="q2Badge">14 Districts</span>
             </div>
-            <div class="table-viewport" style="max-height: 250px;">
-              <table class="kowalski-table" id="quadrantDistTable">
-                <thead>
-                  <tr>
-                    <th>District</th>
-                    <th>Quadrant</th>
-                    <th>CLSS Turnout</th>
-                    <th>Pedagogy Score</th>
-                    <th>Avg / Cluster</th>
-                    <th>Recommended State Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- dynamically populated -->
-                </tbody>
-              </table>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Turnout (≥500) + Pedagogy Needs Work (&lt;65%)</div>
+            <div id="q2Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 110px; overflow-y: auto; padding-right: 2px;"></div>
+          </div>
+
+          <div style="background: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.25); border-left: 4px solid var(--accent-indigo); padding: 14px; border-radius: var(--radius-md); cursor: pointer;" onclick="filterQuadrant('Q3')">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">📈 Q3: MOBILIZATION NEED</div>
+              <span class="pill-badge" style="background: rgba(79, 70, 229, 0.15); color: var(--accent-indigo); font-weight: 700;" id="q3Badge">12 Districts</span>
             </div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Pedagogy (≥65%) + Turnout &lt;500</div>
+            <div id="q3Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 110px; overflow-y: auto; padding-right: 2px;"></div>
+          </div>
+
+          <div style="background: rgba(220, 38, 38, 0.05); border: 1px solid rgba(220, 38, 38, 0.25); border-left: 4px solid var(--accent-rose); padding: 14px; border-radius: var(--radius-md); cursor: pointer;" onclick="filterQuadrant('Q4')">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">🚨 Q4: PRIORITY RED ZONE</div>
+              <span class="pill-badge" style="background: rgba(220, 38, 38, 0.15); color: var(--accent-rose); font-weight: 700;" id="q4Badge">4 Districts</span>
+            </div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Turnout &lt;500 + Pedagogy Gap / Stalled</div>
+            <div id="q4Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 110px; overflow-y: auto; padding-right: 2px;"></div>
+          </div>
+        </div>
+
+        <!-- Full 52-District Interactive Quadrant Table -->
+        <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 16px; margin-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: var(--text-primary);" id="quadrantTableTitle">
+                Districts in Selected Quadrant: All 52 Districts
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">
+                Showing all districts with real-time turnout, composite pedagogy accuracy, and tailored action recommendations.
+              </div>
+            </div>
+            <input type="text" id="quadSearchInput" class="search-input" placeholder="🔍 Search district in matrix..." oninput="filterQuadrantTableSearch()" style="min-width: 220px; font-size: 11.5px;">
+          </div>
+          <div class="table-viewport" style="max-height: 420px;">
+            <table class="kowalski-table" id="quadrantDistTable">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>District</th>
+                  <th>Quadrant Classification</th>
+                  <th>CLSS Turnout</th>
+                  <th>Pedagogy Score</th>
+                  <th>Blocks</th>
+                  <th>Clusters</th>
+                  <th>Avg / Cluster</th>
+                  <th>Recommended State Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- dynamically populated -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -1893,27 +1950,43 @@
 
       if (chartInstances.ovTrust) chartInstances.ovTrust.destroy();
       const ctx4 = document.getElementById('ovTrustBar').getContext('2d');
+      
+      // Option 1: Peepul Brand Harmonic Gradient (Teal #008aab -> Cyan #63d0df)
+      const gradTrust = ctx4.createLinearGradient(0, 0, 480, 0);
+      gradTrust.addColorStop(0, '#008aab');
+      gradTrust.addColorStop(1, '#63d0df');
+
       chartInstances.ovTrust = new Chart(ctx4, {
         type: 'bar',
         data: {
-          labels: ['High Trust in Samwad', 'Satisfied w/ Academic Focus', 'Resolves Classroom Issues', '2-Yr Role Clarity Growth'],
+          labels: ['🛡️ High Trust in Samwad', '🎯 Satisfied w/ Academic Focus', '💡 Resolves Classroom Issues', '📈 2-Yr Sustained Role Clarity'],
           datasets: [{
             data: [94.2, 99.4, 98.9, 99.2],
-            backgroundColor: '#7c3aed',
-            borderRadius: 6
+            backgroundColor: gradTrust,
+            borderRadius: 8,
+            borderSkipped: false,
+            barThickness: 22
           }]
         },
         options: {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => ` ${ctx.raw}% positive affirmation (${Math.round(ctx.raw * 239.26).toLocaleString()} teachers)`
+              }
+            }
+          },
           scales: {
             x: { min: 0, max: 100, grid: { color: theme.gridColor }, ticks: { color: theme.textColor, callback: v => v + '%' } },
-            y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+            y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { weight: 600 } } }
           }
         }
       });
+      initTrustHeatmapTable();
     }
 
     // 2. District 360
@@ -3355,7 +3428,76 @@
 
     
     // ==========================================
-    // 4-QUADRANT PRIORITY MATRIX & CLUSTER DENSITY
+    // TEACHER TRUST HEATMAP VIEW TOGGLE & RENDER
+    // ==========================================
+    let activeTrustView = 'CHART';
+    function toggleTrustView(v) {
+      activeTrustView = v;
+      document.getElementById('btnTrustChart').classList.toggle('active', v === 'CHART');
+      document.getElementById('btnTrustHeatmap').classList.toggle('active', v === 'HEATMAP');
+      document.getElementById('trustChartStage').style.display = v === 'CHART' ? 'block' : 'none';
+      document.getElementById('trustHeatmapStage').style.display = v === 'HEATMAP' ? 'block' : 'none';
+      if (v === 'HEATMAP') initTrustHeatmapTable();
+    }
+
+    function initTrustHeatmapTable() {
+      const tbody = document.querySelector('#trustHeatmapTable tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let idx = 1;
+      dataPackage.districtSummary.forEach(d => {
+        const tot = (d.attendees > 0) ? d.attendees : 1;
+        const q91 = getDistrictSurveyVal("CLSS", "Participant", "Q91", "91.1", d.district);
+        const q89 = getDistrictSurveyVal("CLSS", "Participant", "Q89", "89_Yes", d.district);
+        const q90 = getDistrictSurveyVal("CLSS", "Participant", "Q90", "90_Yes", d.district);
+        const q88 = getDistrictSurveyVal("CLSS", "Participant", "Q88", "88_Yes", d.district);
+
+        const p91 = d.attendees > 0 ? Math.min(100, Math.round(q91 / tot * 100)) : 0;
+        const p89 = d.attendees > 0 ? Math.min(100, Math.round(q89 / tot * 100)) : 0;
+        const p90 = d.attendees > 0 ? Math.min(100, Math.round(q90 / tot * 100)) : 0;
+        const p88 = d.attendees > 0 ? Math.min(100, Math.round(q88 / tot * 100)) : 0;
+
+        let badge = '<span style="color: var(--accent-emerald); font-weight: 700; font-size: 10.5px; background: rgba(5,150,105,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2);">🌟 Stellar (95%+)</span>';
+        if (d.attendees < 10) {
+          badge = '<span style="color: var(--accent-rose); font-weight: 700; font-size: 10.5px; background: rgba(220,38,38,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(220,38,38,0.2);">⚠️ Vacancy / Stalled</span>';
+        } else if (p91 < 90 || p89 < 95) {
+          badge = '<span style="color: var(--peepul-teal); font-weight: 700; font-size: 10.5px; background: rgba(0,138,171,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,138,171,0.2);">🌱 Healthy (90-95%)</span>';
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="font-mono">${idx++}</td>
+          <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
+          <td class="font-mono">${d.attendees.toLocaleString()}</td>
+          <td class="font-mono" style="color: ${p91 >= 90 ? 'var(--peepul-teal)' : 'var(--accent-rose)'}; font-weight: 700;">${d.attendees > 0 ? p91 + '%' : '-'}</td>
+          <td class="font-mono" style="color: ${p89 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'};">${d.attendees > 0 ? p89 + '%' : '-'}</td>
+          <td class="font-mono" style="color: ${p90 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'};">${d.attendees > 0 ? p90 + '%' : '-'}</td>
+          <td class="font-mono" style="color: ${p88 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'};">${d.attendees > 0 ? p88 + '%' : '-'}</td>
+          <td>${badge}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterTrustHeatmap() {
+      const q = document.getElementById('trustSearchInput').value.toLowerCase();
+      document.querySelectorAll('#trustHeatmapTable tbody tr').forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    function openDistrictIn360(dname) {
+      activateTab('tab-d360', document.querySelectorAll('.nav-item')[2]);
+      const dd = document.getElementById('d360Dropdown');
+      if (dd) {
+        dd.value = dname;
+        updateDistrict360View();
+      }
+    }
+
+    // ==========================================
+    // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER
     // ==========================================
     let currentQuadFilter = 'ALL';
 
@@ -3378,11 +3520,76 @@
       return Math.round((p84 + p82 + p96 + p95 + p97) / 5);
     }
 
+    function populateQuadrantBentoCards() {
+      const q1Container = document.getElementById('q1Chips');
+      const q2Container = document.getElementById('q2Chips');
+      const q3Container = document.getElementById('q3Chips');
+      const q4Container = document.getElementById('q4Chips');
+
+      if (!q1Container || !q2Container || !q3Container || !q4Container) return;
+
+      q1Container.innerHTML = '';
+      q2Container.innerHTML = '';
+      q3Container.innerHTML = '';
+      q4Container.innerHTML = '';
+
+      let c1 = 0, c2 = 0, c3 = 0, c4 = 0;
+
+      dataPackage.districtSummary.forEach(d => {
+        const ped = calculateDistrictPedagogyScore(d.district);
+        const t = d.attendees;
+        
+        let targetCont = q4Container;
+        let bgStyle = 'background: rgba(220, 38, 38, 0.1); color: var(--accent-rose); border: 1px solid rgba(220, 38, 38, 0.25);';
+        
+        if (t >= 500 && ped >= 65) {
+          targetCont = q1Container;
+          bgStyle = 'background: rgba(5, 150, 105, 0.1); color: var(--accent-emerald); border: 1px solid rgba(5, 150, 105, 0.25);';
+          c1++;
+        } else if (t >= 500 && ped < 65) {
+          targetCont = q2Container;
+          bgStyle = 'background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.25);';
+          c2++;
+        } else if (t < 500 && ped >= 65) {
+          targetCont = q3Container;
+          bgStyle = 'background: rgba(79, 70, 229, 0.1); color: var(--accent-indigo); border: 1px solid rgba(79, 70, 229, 0.25);';
+          c3++;
+        } else {
+          targetCont = q4Container;
+          bgStyle = 'background: rgba(220, 38, 38, 0.1); color: var(--accent-rose); border: 1px solid rgba(220, 38, 38, 0.25);';
+          c4++;
+        }
+
+        const chip = document.createElement('span');
+        chip.style.cssText = `${bgStyle} font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; cursor: pointer; white-space: nowrap;`;
+        chip.title = `${d.district}: Turnout=${t}, Pedagogy=${ped}%. Click to inspect in 360.`;
+        chip.innerHTML = `${d.district} <span style="opacity: 0.8; font-family: var(--font-mono); font-size: 9.5px;">(${t})</span>`;
+        chip.onclick = (e) => {
+          e.stopPropagation();
+          openDistrictIn360(d.district);
+        };
+        targetCont.appendChild(chip);
+      });
+
+      document.getElementById('q1Badge').innerText = `${c1} Districts`;
+      document.getElementById('q2Badge').innerText = `${c2} Districts`;
+      document.getElementById('q3Badge').innerText = `${c3} Districts`;
+      document.getElementById('q4Badge').innerText = `${c4} Districts`;
+
+      if (document.getElementById('q1BtnCount')) document.getElementById('q1BtnCount').innerText = c1;
+      if (document.getElementById('q2BtnCount')) document.getElementById('q2BtnCount').innerText = c2;
+      if (document.getElementById('q3BtnCount')) document.getElementById('q3BtnCount').innerText = c3;
+      if (document.getElementById('q4BtnCount')) document.getElementById('q4BtnCount').innerText = c4;
+    }
+
     function initQuadrantTable() {
+      populateQuadrantBentoCards();
+
       const tbody = document.querySelector('#quadrantDistTable tbody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
+      let idx = 1;
       dataPackage.districtSummary.forEach(d => {
         const pedScore = calculateDistrictPedagogyScore(d.district);
         const turnout = d.attendees;
@@ -3419,10 +3626,13 @@
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong style="color: var(--text-primary);">${d.district}</strong></td>
+          <td class="font-mono">${idx++}</td>
+          <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
           <td><span style="color: ${quadColor}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-hairline);">${quadLabel}</span></td>
           <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${turnout.toLocaleString()}</td>
           <td class="font-mono" style="color: ${pedScore >= 65 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
+          <td class="font-mono">${d.totalBlocks}</td>
+          <td class="font-mono">${d.totalClusters}</td>
           <td class="font-mono">${avgPerCluster}</td>
           <td style="font-size: 11.5px; color: var(--text-secondary);">${action}</td>
         `;
@@ -3441,6 +3651,13 @@
 
       document.getElementById('quadrantTableTitle').innerText = `Districts in Selected Quadrant: ${q === 'ALL' ? 'All 52 Districts' : q}`;
       initQuadrantTable();
+    }
+
+    function filterQuadrantTableSearch() {
+      const q = document.getElementById('quadSearchInput').value.toLowerCase();
+      document.querySelectorAll('#quadrantDistTable tbody tr').forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
     }
 
     // ==========================================
