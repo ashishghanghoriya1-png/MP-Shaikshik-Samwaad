@@ -3916,6 +3916,89 @@
     }
 
 
+    // ==========================================
+    // UNIVERSAL COLUMN SORTING ENGINE (ALL TABLES)
+    // ==========================================
+    function makeTableSortable(table) {
+      if (!table) return;
+      const thead = table.querySelector('thead');
+      if (!thead) return;
+
+      const ths = thead.querySelectorAll('th');
+      ths.forEach((th, colIdx) => {
+        th.style.cursor = 'pointer';
+        th.style.userSelect = 'none';
+        th.title = 'Click to sort: Highest to Lowest / Lowest to Highest';
+
+        let iconSpan = th.querySelector('.sort-indicator');
+        if (!iconSpan) {
+          iconSpan = document.createElement('span');
+          iconSpan.className = 'sort-indicator';
+          iconSpan.style.cssText = 'font-size: 10px; margin-left: 6px; opacity: 0.5; font-family: var(--font-mono);';
+          iconSpan.innerText = '⇅';
+          th.appendChild(iconSpan);
+        }
+
+        th.onclick = function(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+
+          const tbody = table.querySelector('tbody');
+          if (!tbody) return;
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          if (rows.length === 0) return;
+
+          const currentOrder = th.dataset.sortOrder;
+          const isAsc = currentOrder !== 'asc';
+          th.dataset.sortOrder = isAsc ? 'asc' : 'desc';
+
+          // Reset other headers in the table
+          ths.forEach(otherTh => {
+            if (otherTh !== th) {
+              otherTh.dataset.sortOrder = '';
+              const ic = otherTh.querySelector('.sort-indicator');
+              if (ic) {
+                ic.innerText = '⇅';
+                ic.style.opacity = '0.5';
+                ic.style.color = 'inherit';
+              }
+            }
+          });
+
+          // Update active sort indicator
+          iconSpan.innerText = isAsc ? ' ▲' : ' ▼';
+          iconSpan.style.opacity = '1';
+          iconSpan.style.color = 'var(--peepul-teal)';
+
+          rows.sort((rowA, rowB) => {
+            const cellA = rowA.children[colIdx] ? rowA.children[colIdx].innerText.trim() : '';
+            const cellB = rowB.children[colIdx] ? rowB.children[colIdx].innerText.trim() : '';
+
+            // Number cleaner
+            const cleanA = cellA.replace(/,/g, '').replace(/%/g, '').replace(/[^\d.-]/g, '');
+            const cleanB = cellB.replace(/,/g, '').replace(/%/g, '').replace(/[^\d.-]/g, '');
+
+            const numA = parseFloat(cleanA);
+            const numB = parseFloat(cleanB);
+
+            const isNumA = !isNaN(numA) && cleanA.length > 0;
+            const isNumB = !isNaN(numB) && cleanB.length > 0;
+
+            if (isNumA && isNumB) {
+              return isAsc ? numA - numB : numB - numA;
+            }
+            return isAsc ? cellA.localeCompare(cellB, undefined, { numeric: true, sensitivity: 'base' }) : cellB.localeCompare(cellA, undefined, { numeric: true, sensitivity: 'base' });
+          });
+
+          tbody.innerHTML = '';
+          rows.forEach(r => tbody.appendChild(r));
+        };
+      });
+    }
+
+    function enableAllTableSorting() {
+      document.querySelectorAll('table.kowalski-table').forEach(tbl => makeTableSortable(tbl));
+    }
+
     window.onload = function() {
       initOverviewCharts();
       initQuadrantTable();
@@ -3928,6 +4011,7 @@
       refreshQuestionBankDropdown();
       initPedagogyRadar();
       initGovernance();
+      enableAllTableSorting();
     };
   </script>
 </body>
