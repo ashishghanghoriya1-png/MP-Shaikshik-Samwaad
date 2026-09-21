@@ -390,13 +390,19 @@
       border: 1px solid var(--border-hairline);
       border-radius: var(--radius-md);
       padding: 18px 20px;
-      box-shadow: var(--shadow-tactile);
-      transition: var(--transition-spring);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px -4px rgba(0, 138, 171, 0.06);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+      position: relative;
     }
 
     .bento-card:hover {
       transform: translateY(-2px);
-      border-color: var(--border-subtle);
+      border-color: rgba(0, 138, 171, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0, 0, 0, 0.05), 0 12px 28px -6px rgba(0, 138, 171, 0.12);
+    }
+
+    .slicer-btn:active, .btn-tactile:active, .nav-item:active, .theme-toggle-btn:active {
+      transform: scale(0.95) !important;
     }
 
     .kpi-micro-label {
@@ -1764,11 +1770,35 @@
       }
     }
 
+    function animateValue(elemId, start, end, duration = 450, suffix = '') {
+      const obj = document.getElementById(elemId);
+      if (!obj) return;
+      if (window.Motion && window.Motion.animate) {
+        window.Motion.animate(start, end, {
+          duration: duration / 1000,
+          ease: [0.16, 1, 0.3, 1],
+          onUpdate: (latest) => {
+            obj.innerText = Math.round(latest).toLocaleString() + suffix;
+          }
+        });
+      } else {
+        obj.innerText = end.toLocaleString() + suffix;
+      }
+    }
+
     function activateTab(tabId, el) {
       document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
+      const activeSec = document.getElementById(tabId);
+      activeSec.classList.add('active');
       el.classList.add('active');
+
+      if (window.Motion && window.Motion.animate) {
+        const targets = activeSec.querySelectorAll('.bento-card, .chart-card, .panel-box, .ind-card');
+        if (targets.length > 0) {
+          window.Motion.animate(targets, { opacity: [0, 1], transform: ['translateY(12px)', 'translateY(0px)'] }, { duration: 0.35, ease: [0.16, 1, 0.3, 1] });
+        }
+      }
 
       if (tabId === 'tab-rf') {
         selectRFIndicator(activeRFIndicatorId);
