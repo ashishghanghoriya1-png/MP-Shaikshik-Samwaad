@@ -842,6 +842,9 @@
 </head>
 <body>
 
+  <!-- Top Scroll Progress Bar driven by Motion -->
+  <div id="scrollProgressBar" style="position: fixed; top: 0; left: 0; right: 0; height: 3.5px; background: linear-gradient(90deg, #008aab 0%, #63d0df 100%); transform-origin: 0%; z-index: 9999; transform: scaleX(0);"></div>
+
   <!-- Top Studio Bar -->
   <header class="studio-header">
     <div class="brand-cluster">
@@ -4013,6 +4016,29 @@
       initGovernance();
       enableAllTableSorting();
     };
+  </script>
+
+  <!-- Motion Library Integration (Framer Motion / Motion One) -->
+  <script type="module">
+    import { animate, scroll, inView } from "https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm";
+
+    // 1. Scroll-linked Executive Progress Bar
+    const progressBar = document.getElementById("scrollProgressBar");
+    if (progressBar) {
+      scroll(animate(progressBar, { transform: ["scaleX(0)", "scaleX(1)"] }, { ease: "linear" }));
+    }
+
+    // 2. High-Taste Spring Viewport Entrance for Cards
+    inView(".bento-card", (info) => {
+      animate(info.target, { opacity: [0.3, 1], transform: ["translateY(12px)", "translateY(0px)"] }, { duration: 0.4, ease: [0.16, 1, 0.3, 1] });
+    });
+
+    inView(".chart-card, .panel-box", (info) => {
+      animate(info.target, { opacity: [0.4, 1], transform: ["translateY(16px)", "translateY(0px)"] }, { duration: 0.45, ease: [0.16, 1, 0.3, 1] });
+    });
+
+    // Expose for interactive micro-motion
+    window.Motion = { animate, scroll, inView };
   </script>
 </body>
 </html>
