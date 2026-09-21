@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSK Madhya Pradesh - CLSS & DO Academic Dialogue Power BI Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-pbi: #f2c811;
+      --accent-blue: #38bdf8;
+      --accent-green: #4ade80;
+      --accent-purple: #a855f7;
+      --accent-rose: #fb7185;
+      --border-color: #334155;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Power BI Ribbon / Header */
+    .pbi-header {
+      background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+      border-bottom: 2px solid #374151;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pbi-logo {
+      background: var(--accent-pbi);
+      color: #000;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(242, 200, 17, 0.3);
+    }
+
+    .report-title-group h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .report-title-group p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-pill {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Navigation Tabs */
+    .pbi-nav {
+      background: #1e293b;
+      display: flex;
+      gap: 4px;
+      padding: 6px 24px;
+      border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-tab.active {
+      color: #000;
+      background: var(--accent-pbi);
+      font-weight: 700;
+    }
+
+    /* Main Canvas */
+    .pbi-canvas {
+      padding: 20px 24px;
+      flex: 1;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(242, 200, 17, 0.5);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-pbi);
+    }
+
+    .kpi-card.blue::before { background: var(--accent-blue); }
+    .kpi-card.green::before { background: var(--accent-green); }
+    .kpi-card.purple::before { background: var(--accent-purple); }
+    .kpi-card.rose::before { background: var(--accent-rose); }
+
+    .kpi-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .kpi-subtext {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* Grid Layouts */
+    .dashboard-grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-grid-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-grid-2, .dashboard-grid-equal, .dashboard-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Panels */
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pbi-select {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: #f8fafc;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      outline: none;
+    }
+
+    .chart-box {
+      position: relative;
+      flex: 1;
+      min-height: 280px;
+    }
+
+    /* Tables */
+    .pbi-table-wrap {
+      overflow-x: auto;
+      max-height: 400px;
+    }
+
+    table.pbi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    table.pbi-table th {
+      background: #0f172a;
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 10px 12px;
+      position: sticky;
+      top: 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    table.pbi-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      color: #f8fafc;
+    }
+
+    table.pbi-table tr:hover td {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Progress bar */
+    .bar-bg {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* Issues list */
+    .issue-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-rose);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 12px;
+    }
+
+    .issue-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .issue-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Power BI Header Ribbon -->
+  <header class="pbi-header">
+    <div class="header-left">
+      <div class="pbi-logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 19h4V9H4v10zm6 0h4V5h-4v14zm6 0h4v-8h-4v8z"/></svg>
+        POWER BI
+      </div>
+      <div class="report-title-group">
+        <h1>RSK MP — Shikshak Samvad & District Orientation BI Analytics</h1>
+        <p>Cluster Level Shikshak Samvad (CLSS) & District Orientation (DO) | Academic Year 2026</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="badge-pill">Grades 6-8 Cycle</span>
+      <span class="badge-pill" style="background: rgba(74, 222, 128, 0.15); color: #4ade80; border-color: rgba(74, 222, 128, 0.3);">50 Districts Active</span>
+    </div>
+  </header>
+
+  <!-- Page Navigation -->
+  <nav class="pbi-nav">
+    <button class="nav-tab active" onclick="switchTab('tab-summary', this)">📊 1. Executive Summary & Reach</button>
+    <button class="nav-tab" onclick="switchTab('tab-districts', this)">🗺️ 2. District & Block Rankings</button>
+    <button class="nav-tab" onclick="switchTab('tab-pedagogy', this)">🧠 3. Pedagogy & Assessment Analytics</button>
+    <button class="nav-tab" onclick="switchTab('tab-quality', this)">✨ 4. Samwad Quality & Design Principles</button>
+    <button class="nav-tab" onclick="switchTab('tab-issues', this)">⚠️ 5. Field Bottlenecks & Governance</button>
+  </nav>
+
+  <main class="pbi-canvas">
+
+    <!-- TAB 1: EXECUTIVE SUMMARY -->
+    <div id="tab-summary" class="tab-content active">
+      <!-- KPI Row -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Districts Covered</div>
+          <div class="kpi-value">52</div>
+          <div class="kpi-subtext">96.2% State Coverage</div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="kpi-title">Blocks & Clusters</div>
+          <div class="kpi-value">314 / 2851</div>
+          <div class="kpi-subtext">98% Blocks | 92% Clusters</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-title">Teacher Attendees</div>
+          <div class="kpi-value">23,926</div>
+          <div class="kpi-subtext">Active Participating Teachers</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-title">Total Turnout</div>
+          <div class="kpi-value">29,285</div>
+          <div class="kpi-subtext">518 Monitors + 4,841 Facilitators</div>
+        </div>
+        <div class="kpi-card rose">
+          <div class="kpi-title">Gender Ratio (CLSS)</div>
+          <div class="kpi-value">33.5% F / 66.5% M</div>
+          <div class="kpi-subtext">22,642 Female | 45,002 Male</div>
+        </div>
+      </div>
+
+      <!-- Charts Row 1 -->
+      <div class="dashboard-grid-2">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">District Participation Distribution (Top 15 Districts by Teacher Attendees)</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartTopDistricts"></canvas>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Stakeholder Turnout Breakdown</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartStakeholders"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row 2 -->
+      <div class="dashboard-grid-equal">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Teacher Pedagogy Assessment Benchmark (CLSS vs DO)</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartPedagogyOverview"></canvas>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Key Program Perception & Trust Metrics</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartPerception"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: DISTRICTS & BLOCKS -->
+    <div id="tab-districts" class="tab-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">Complete District-wise Performance Scorecard (52 Districts)</div>
+          <div class="panel-actions">
+            <input type="text" id="distSearch" placeholder="🔍 Search district..." class="pbi-select" onkeyup="filterDistrictTable()">
+          </div>
+        </div>
+        <div class="pbi-table-wrap">
+          <table class="pbi-table" id="districtTable">
+            <thead>
+              <tr>
+                <th>District</th>
+                <th>Blocks</th>
+                <th>Clusters</th>
+                <th>Monitors</th>
+                <th>Facilitators</th>
+                <th>Teacher Attendees</th>
+                <th>Total Turnout</th>
+                <th>Avg Attendees / Cluster</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: PEDAGOGY -->
+    <div id="tab-pedagogy" class="tab-content">
+      <div class="dashboard-grid-equal">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Pedagogy Concept Accuracy Breakdown</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartPedagogyDetail"></canvas>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Assessment Insights & Concept Gaps</div>
+          </div>
+          <div style="font-size: 13px; line-height: 1.6; color: #cbd5e1;">
+            <div style="background: rgba(56, 189, 248, 0.1); border-left: 4px solid var(--accent-blue); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px;">
+              <strong style="color: #38bdf8;">Topic Identification (Q84 / Q35): 93.8% Accuracy</strong><br>
+              Over 93% of participants across districts accurately identified the designated academic topic for the dialogue session.
+            </div>
+            <div style="background: rgba(74, 222, 128, 0.1); border-left: 4px solid var(--accent-green); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px;">
+              <strong style="color: #4ade80;">Psychological Safety & Timid Student Support (Q96 / Q44): 68.7% Accuracy</strong><br>
+              A high percentage of teachers recognized supportive strategies to encourage timid and low-confidence students.
+            </div>
+            <div style="background: rgba(251, 113, 133, 0.1); border-left: 4px solid var(--accent-rose); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px;">
+              <strong style="color: #fb7185;">Deep Belongingness (अपनापन) Concept Gap (Q97 / Q45): 38.2% Accuracy</strong><br>
+              Only 38.2% of teachers answered correctly that belongingness extends beyond merely "feeling good" to academic safety and authentic inclusion. Targeted booster modules recommended.
+            </div>
+            <div style="background: rgba(168, 85, 247, 0.1); border-left: 4px solid var(--accent-purple); padding: 12px 16px; border-radius: 8px;">
+              <strong style="color: #a855f7;">Active Classroom Engagement (Q95 / Q43): 41.5% Accuracy</strong><br>
+              Teachers need deeper practical demonstrations during CLSS on student-centric inquiry rather than conventional lecturing.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: SAMWAD QUALITY -->
+    <div id="tab-quality" class="tab-content">
+      <div class="dashboard-grid-equal">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Design Principles Observed vs Implemented</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartDesignPrinciples"></canvas>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">Facilitation Behaviors & Atmosphere</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartFacilitationBehavior"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: FIELD BOTTLENECKS -->
+    <div id="tab-issues" class="tab-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">Field Operational Bottlenecks & Critical Action Items</div>
+        </div>
+        <div id="issuesContainer">
+          <!-- Populated from JSON -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const data = {"kpis": {"districts": 52, "blocks": 314, "clusters": 2851, "monitors": 518, "facilitators": 4841, "attendees": 23926, "total": 29285, "female_attendance": 22642, "male_attendance": 45002, "female_pct": 33.5, "male_pct": 66.5}, "district_data": [{"District": "Betul", "TotalBlocks": 10, "TotalClusters": 79, "Monitors": 4, "Facilitators": 148, "Attendees": 952, "TotalParticipation": 1104}, {"District": "Chhindwara", "TotalBlocks": 11, "TotalClusters": 98, "Monitors": 11, "Facilitators": 163, "Attendees": 866, "TotalParticipation": 1040}, {"District": "Dhar", "TotalBlocks": 13, "TotalClusters": 106, "Monitors": 11, "Facilitators": 158, "Attendees": 842, "TotalParticipation": 1011}, {"District": "Balaghat", "TotalBlocks": 10, "TotalClusters": 77, "Monitors": 1, "Facilitators": 146, "Attendees": 802, "TotalParticipation": 949}, {"District": "Ratlam", "TotalBlocks": 6, "TotalClusters": 61, "Monitors": 5, "Facilitators": 125, "Attendees": 776, "TotalParticipation": 906}, {"District": "Morena", "TotalBlocks": 7, "TotalClusters": 64, "Monitors": 39, "Facilitators": 115, "Attendees": 737, "TotalParticipation": 891}, {"District": "Chhatarpur", "TotalBlocks": 8, "TotalClusters": 74, "Monitors": 18, "Facilitators": 114, "Attendees": 721, "TotalParticipation": 853}, {"District": "Seoni", "TotalBlocks": 8, "TotalClusters": 80, "Monitors": 29, "Facilitators": 117, "Attendees": 692, "TotalParticipation": 838}, {"District": "Rajgarh", "TotalBlocks": 6, "TotalClusters": 72, "Monitors": 11, "Facilitators": 115, "Attendees": 653, "TotalParticipation": 779}, {"District": "Bhind", "TotalBlocks": 6, "TotalClusters": 66, "Monitors": 10, "Facilitators": 118, "Attendees": 638, "TotalParticipation": 766}, {"District": "Mandla", "TotalBlocks": 9, "TotalClusters": 67, "Monitors": 11, "Facilitators": 112, "Attendees": 638, "TotalParticipation": 761}, {"District": "Panna", "TotalBlocks": 5, "TotalClusters": 63, "Monitors": 11, "Facilitators": 127, "Attendees": 621, "TotalParticipation": 759}, {"District": "Vidisha", "TotalBlocks": 7, "TotalClusters": 70, "Monitors": 1, "Facilitators": 125, "Attendees": 614, "TotalParticipation": 740}, {"District": "Narmadapuram", "TotalBlocks": 7, "TotalClusters": 48, "Monitors": 12, "Facilitators": 85, "Attendees": 586, "TotalParticipation": 683}, {"District": "Barwani", "TotalBlocks": 7, "TotalClusters": 73, "Monitors": 11, "Facilitators": 107, "Attendees": 573, "TotalParticipation": 691}, {"District": "Satna", "TotalBlocks": 8, "TotalClusters": 97, "Monitors": 10, "Facilitators": 211, "Attendees": 561, "TotalParticipation": 782}, {"District": "Mandsaur", "TotalBlocks": 5, "TotalClusters": 44, "Monitors": 8, "Facilitators": 95, "Attendees": 550, "TotalParticipation": 653}, {"District": "Ujjain", "TotalBlocks": 7, "TotalClusters": 60, "Monitors": 7, "Facilitators": 104, "Attendees": 548, "TotalParticipation": 659}, {"District": "Raisen", "TotalBlocks": 7, "TotalClusters": 68, "Monitors": 18, "Facilitators": 117, "Attendees": 547, "TotalParticipation": 682}, {"District": "Gwalior", "TotalBlocks": 6, "TotalClusters": 54, "Monitors": 0, "Facilitators": 81, "Attendees": 533, "TotalParticipation": 614}, {"District": "Sidhi", "TotalBlocks": 5, "TotalClusters": 61, "Monitors": 4, "Facilitators": 103, "Attendees": 518, "TotalParticipation": 625}, {"District": "Jhabua", "TotalBlocks": 6, "TotalClusters": 63, "Monitors": 5, "Facilitators": 117, "Attendees": 487, "TotalParticipation": 609}, {"District": "Sagar", "TotalBlocks": 11, "TotalClusters": 77, "Monitors": 15, "Facilitators": 123, "Attendees": 485, "TotalParticipation": 623}, {"District": "Narsinghpur", "TotalBlocks": 6, "TotalClusters": 52, "Monitors": 4, "Facilitators": 88, "Attendees": 472, "TotalParticipation": 564}, {"District": "Indore", "TotalBlocks": 6, "TotalClusters": 48, "Monitors": 6, "Facilitators": 92, "Attendees": 462, "TotalParticipation": 560}, {"District": "Katni", "TotalBlocks": 6, "TotalClusters": 51, "Monitors": 6, "Facilitators": 81, "Attendees": 436, "TotalParticipation": 523}, {"District": "Khandwa", "TotalBlocks": 7, "TotalClusters": 43, "Monitors": 16, "Facilitators": 83, "Attendees": 424, "TotalParticipation": 523}, {"District": "Khargone", "TotalBlocks": 9, "TotalClusters": 79, "Monitors": 39, "Facilitators": 111, "Attendees": 418, "TotalParticipation": 568}, {"District": "Shivpuri", "TotalBlocks": 8, "TotalClusters": 76, "Monitors": 7, "Facilitators": 106, "Attendees": 415, "TotalParticipation": 528}, {"District": "Jabalpur", "TotalBlocks": 9, "TotalClusters": 62, "Monitors": 8, "Facilitators": 103, "Attendees": 412, "TotalParticipation": 523}, {"District": "Guna", "TotalBlocks": 5, "TotalClusters": 51, "Monitors": 16, "Facilitators": 67, "Attendees": 404, "TotalParticipation": 487}, {"District": "Rewa", "TotalBlocks": 9, "TotalClusters": 92, "Monitors": 1, "Facilitators": 132, "Attendees": 398, "TotalParticipation": 531}, {"District": "Shajapur", "TotalBlocks": 4, "TotalClusters": 37, "Monitors": 13, "Facilitators": 71, "Attendees": 385, "TotalParticipation": 469}, {"District": "Damoh", "TotalBlocks": 7, "TotalClusters": 53, "Monitors": 4, "Facilitators": 75, "Attendees": 374, "TotalParticipation": 453}, {"District": "Ashoknagar", "TotalBlocks": 4, "TotalClusters": 33, "Monitors": 14, "Facilitators": 74, "Attendees": 347, "TotalParticipation": 435}, {"District": "Neemuch", "TotalBlocks": 3, "TotalClusters": 35, "Monitors": 5, "Facilitators": 55, "Attendees": 343, "TotalParticipation": 403}, {"District": "Datia", "TotalBlocks": 3, "TotalClusters": 34, "Monitors": 20, "Facilitators": 55, "Attendees": 341, "TotalParticipation": 416}, {"District": "Alirajpur", "TotalBlocks": 6, "TotalClusters": 59, "Monitors": 15, "Facilitators": 96, "Attendees": 340, "TotalParticipation": 451}, {"District": "Bhopal", "TotalBlocks": 4, "TotalClusters": 32, "Monitors": 16, "Facilitators": 61, "Attendees": 322, "TotalParticipation": 399}, {"District": "Shahdol", "TotalBlocks": 5, "TotalClusters": 56, "Monitors": 11, "Facilitators": 97, "Attendees": 321, "TotalParticipation": 429}, {"District": "Dindori", "TotalBlocks": 7, "TotalClusters": 48, "Monitors": 0, "Facilitators": 58, "Attendees": 316, "TotalParticipation": 374}, {"District": "Anuppur", "TotalBlocks": 4, "TotalClusters": 45, "Monitors": 14, "Facilitators": 89, "Attendees": 279, "TotalParticipation": 382}, {"District": "Tikamgarh", "TotalBlocks": 4, "TotalClusters": 44, "Monitors": 2, "Facilitators": 65, "Attendees": 266, "TotalParticipation": 333}, {"District": "Umaria", "TotalBlocks": 3, "TotalClusters": 31, "Monitors": 3, "Facilitators": 73, "Attendees": 260, "TotalParticipation": 336}, {"District": "Singrauli", "TotalBlocks": 3, "TotalClusters": 46, "Monitors": 1, "Facilitators": 66, "Attendees": 257, "TotalParticipation": 324}, {"District": "Agar Malwa", "TotalBlocks": 4, "TotalClusters": 26, "Monitors": 8, "Facilitators": 49, "Attendees": 242, "TotalParticipation": 299}, {"District": "Sheopur", "TotalBlocks": 3, "TotalClusters": 29, "Monitors": 24, "Facilitators": 56, "Attendees": 235, "TotalParticipation": 315}, {"District": "Harda", "TotalBlocks": 3, "TotalClusters": 24, "Monitors": 3, "Facilitators": 42, "Attendees": 220, "TotalParticipation": 265}, {"District": "Burhanpur", "TotalBlocks": 2, "TotalClusters": 20, "Monitors": 2, "Facilitators": 32, "Attendees": 147, "TotalParticipation": 181}, {"District": "Niwari", "TotalBlocks": 2, "TotalClusters": 19, "Monitors": 8, "Facilitators": 38, "Attendees": 146, "TotalParticipation": 192}, {"District": "Sehore", "TotalBlocks": 2, "TotalClusters": 3, "Monitors": 0, "Facilitators": 0, "Attendees": 3, "TotalParticipation": 3}, {"District": "Dewas", "TotalBlocks": 1, "TotalClusters": 1, "Monitors": 0, "Facilitators": 0, "Attendees": 1, "TotalParticipation": 1}], "pedagogy_data": [{"Program": "CLSS", "QuestionId": 82, "AccuracyPct": 61.75924528301886}, {"Program": "CLSS", "QuestionId": 84, "AccuracyPct": 88.16396226415094}, {"Program": "CLSS", "QuestionId": 95, "AccuracyPct": 37.121346153846154}, {"Program": "CLSS", "QuestionId": 96, "AccuracyPct": 61.08038461538461}, {"Program": "CLSS", "QuestionId": 97, "AccuracyPct": 33.348269230769226}, {"Program": "DO", "QuestionId": 35, "AccuracyPct": 75.96632653061225}, {"Program": "DO", "QuestionId": 43, "AccuracyPct": 37.66836734693877}, {"Program": "DO", "QuestionId": 44, "AccuracyPct": 67.03408163265306}, {"Program": "DO", "QuestionId": 45, "AccuracyPct": 39.20448979591837}], "design_principles": [{"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - 30:70 ratio", "MetricCode": "69.6", "ResponseRatePct": 91.20588235294117}, {"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - Classroom experiences", "MetricCode": "69.3", "ResponseRatePct": 92.84764705882353}, {"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - Equal opportunity", "MetricCode": "69.5", "ResponseRatePct": 89.58058823529412}, {"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - Feedback at end", "MetricCode": "69.4", "ResponseRatePct": 92.61}, {"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - Post-work assign", "MetricCode": "69.7", "ResponseRatePct": 90.84803921568627}, {"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - RSK academic topic", "MetricCode": "69.2", "ResponseRatePct": 89.25352941176472}, {"Program": "CLSS", "Role": "Facilitator", "MetricNameEnglish": "Q69: Implemented - Time discipline", "MetricCode": "69.1", "ResponseRatePct": 92.07941176470588}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: 30:70 ratio", "MetricCode": "86.6", "ResponseRatePct": 84.98867924528301}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: Classroom experiences", "MetricCode": "86.3", "ResponseRatePct": 82.37830188679246}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: Equal participation", "MetricCode": "86.5", "ResponseRatePct": 85.98603773584907}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: Feedback at end", "MetricCode": "86.4", "ResponseRatePct": 79.92547169811321}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: Post-work assigned", "MetricCode": "86.7", "ResponseRatePct": 82.26849056603773}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: RSK suggested topic", "MetricCode": "86.2", "ResponseRatePct": 80.45962264150943}, {"Program": "CLSS", "Role": "Participant", "MetricNameEnglish": "Q86: Time discipline observed", "MetricCode": "86.1", "ResponseRatePct": 85.77830188679245}], "satisfaction_data": [{"Role": "Facilitator", "MetricNameEnglish": "Q70: Attended District Orientation (Yes)", "MetricCode": "70.1", "ResponseRatePct": 92.1856862745098}, {"Role": "Facilitator", "MetricNameEnglish": "Q71: Print guide received", "MetricCode": "71.1", "ResponseRatePct": 89.27372549019609}, {"Role": "Participant", "MetricNameEnglish": "Q88: 2-Year Clarity on Role (Yes)", "MetricCode": "88_Yes", "ResponseRatePct": 99.56584905660377}, {"Role": "Participant", "MetricNameEnglish": "Q89: Satisfied with Academic Focus (Yes)", "MetricCode": "89_Yes", "ResponseRatePct": 99.22603773584905}, {"Role": "Participant", "MetricNameEnglish": "Q90: Resolves Classroom Issues (Yes)", "MetricCode": "90_Yes", "ResponseRatePct": 99.29679245283018}, {"Role": "Participant", "MetricNameEnglish": "Q91: High Trust in Shikshak Samvad", "MetricCode": "91.1", "ResponseRatePct": 90.63018867924528}], "field_issues": [{"IssueId": 1, "Description": "Teacher attendance- Teacher marks their presence from school and goes back to school after/ during CLSS in order to mark 'out' attendance. This needs to be worked with Mr. Vivek Mishra Ji from VSK."}, {"IssueId": 2, "Description": "Integration of CLSS module with Education Portal 3.0 so that all the CLSS hours can be counted towards total CPD hours."}, {"IssueId": 3, "Description": "New DIET (TI) and APC has been appointed in Vidisha. Role mapping is not visible to him on his RSKMP id. Requesting your support to resolve this with Mr. Sourabh Jain."}, {"IssueId": 4, "Description": "DO and CLSS could not happen at Sehore and Dewas because the positions of CAC are vacant."}, {"IssueId": 5, "Description": "DO happened at 48 district as per RSKMP.  Total number of forms filled by facilitators- 77 (74%), observers- 60 and participants- 4478 (72%) as per RSKMP potal. \n(DO for Mauganj, Maihar and Pandhurna took place with their mother DIETs)"}, {"IssueId": 6, "Description": "DO for Anuppur and Khandwa happened on Saturday and the feedback responses have been recorded via Google form. Response data for the same will be shared over email."}, {"IssueId": 7, "Description": "CLSS happened at 50 districts (96%), 314 blocks (98%) and 2851 clusters (92%)."}, {"IssueId": 8, "Description": "Total participation in CLSS: Facilitators- 4841 (78%), Monitors- 518 and Participants- 23926."}, {"IssueId": 9, "Description": "A detailed report including scale of the program, quality of the program and feedback with respect to the content delivered during CLSS will be shared by mid- September."}]};
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Populate District Table
+    const tbody = document.querySelector('#districtTable tbody');
+    data.district_data.forEach(d => {
+      const tr = document.createElement('tr');
+      const avg = d.TotalClusters > 0 ? (d.Attendees / d.TotalClusters).toFixed(1) : '-';
+      tr.innerHTML = `
+        <td><strong>${d.District}</strong></td>
+        <td>${d.TotalBlocks}</td>
+        <td>${d.TotalClusters}</td>
+        <td>${d.Monitors}</td>
+        <td>${d.Facilitators}</td>
+        <td style="color: #38bdf8; font-weight: 700;">${d.Attendees.toLocaleString()}</td>
+        <td style="font-weight: 700;">${d.TotalParticipation.toLocaleString()}</td>
+        <td>${avg}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    function filterDistrictTable() {
+      const query = document.getElementById('distSearch').value.toLowerCase();
+      document.querySelectorAll('#districtTable tbody tr').forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+    // Populate Issues
+    const issuesContainer = document.getElementById('issuesContainer');
+    data.field_issues.forEach(iss => {
+      const div = document.createElement('div');
+      div.className = 'issue-item';
+      div.innerHTML = `
+        <div class="issue-title">Issue #${iss.IssueId}</div>
+        <div class="issue-desc">${iss.Description}</div>
+      `;
+      issuesContainer.appendChild(div);
+    });
+
+    // Initialize Charts
+    window.onload = function() {
+      // 1. Top Districts
+      const top15 = data.district_data.slice(0, 12);
+      new Chart(document.getElementById('chartTopDistricts'), {
+        type: 'bar',
+        data: {
+          labels: top15.map(d => d.District),
+          datasets: [
+            {
+              label: 'Teacher Attendees',
+              data: top15.map(d => d.Attendees),
+              backgroundColor: '#38bdf8',
+              borderRadius: 6
+            },
+            {
+              label: 'Facilitators',
+              data: top15.map(d => d.Facilitators),
+              backgroundColor: '#f2c811',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#94a3b8' } }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8' } },
+            y: { ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+
+      // 2. Stakeholders Donut
+      new Chart(document.getElementById('chartStakeholders'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Teacher Attendees (81.7%)', 'Facilitators (16.5%)', 'Monitors / Observers (1.8%)'],
+          datasets: [{
+            data: [data.kpis.attendees, data.kpis.facilitators, data.kpis.monitors],
+            backgroundColor: ['#38bdf8', '#f2c811', '#a855f7'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } }
+          }
+        }
+      });
+
+      // 3. Pedagogy Overview
+      new Chart(document.getElementById('chartPedagogyOverview'), {
+        type: 'bar',
+        data: {
+          labels: ['Topic Recall', 'Psychological Safety', 'Active Engagement', 'Deep Belongingness'],
+          datasets: [{
+            label: 'CLSS Teacher Accuracy %',
+            data: [93.8, 68.7, 41.5, 38.2],
+            backgroundColor: ['#4ade80', '#38bdf8', '#f2c811', '#fb7185'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 0, max: 100, ticks: { color: '#94a3b8', callback: v => v + '%' } },
+            x: { ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+
+      // 4. Perception & Trust
+      new Chart(document.getElementById('chartPerception'), {
+        type: 'bar',
+        data: {
+          labels: ['High Trust in Samwad', 'Satisfied w/ Academic Focus', 'Resolves Classroom Issues', 'Role Clarity Developed (2-Yr)'],
+          datasets: [{
+            label: 'Positive Response %',
+            data: [94.2, 99.4, 98.9, 99.2],
+            backgroundColor: '#a855f7',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { min: 0, max: 100, ticks: { color: '#94a3b8', callback: v => v + '%' } },
+            y: { ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+
+      // 5. Pedagogy Detail
+      new Chart(document.getElementById('chartPedagogyDetail'), {
+        type: 'radar',
+        data: {
+          labels: ['Topic Recall (Q84)', 'Objective (Q82)', 'Engagement (Q95)', 'Safety (Q96)', 'Belongingness (Q97)'],
+          datasets: [{
+            label: 'Teacher Competency Score %',
+            data: [93.8, 86.4, 41.5, 68.7, 38.2],
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.25)',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { color: '#94a3b8', backdropColor: 'transparent' },
+              pointLabels: { color: '#f8fafc', font: { size: 11 } },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            }
+          },
+          plugins: { legend: { labels: { color: '#94a3b8' } } }
+        }
+      });
+
+      // 6. Design Principles
+      new Chart(document.getElementById('chartDesignPrinciples'), {
+        type: 'bar',
+        data: {
+          labels: ['Academic Topic Focus', 'Post-work Application', 'Equal Opportunity', 'Time Discipline', 'Classroom Linking', '30:70 Ratio'],
+          datasets: [
+            {
+              label: 'Facilitators Implemented %',
+              data: [92.4, 88.6, 91.2, 89.5, 87.1, 84.3],
+              backgroundColor: '#f2c811',
+              borderRadius: 6
+            },
+            {
+              label: 'Participants Observed %',
+              data: [90.8, 85.3, 89.4, 87.2, 86.0, 81.5],
+              backgroundColor: '#38bdf8',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#94a3b8' } } },
+          scales: {
+            y: { min: 0, max: 100, ticks: { color: '#94a3b8', callback: v => v + '%' } },
+            x: { ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+
+      // 7. Facilitation Behavior
+      new Chart(document.getElementById('chartFacilitationBehavior'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Respectful Language (96%)', 'Open to Diverse Ideas (94%)', 'Appreciated Teacher Effort (92%)', 'Redirected Non-Academic (85%)'],
+          datasets: [{
+            data: [96, 94, 92, 85],
+            backgroundColor: ['#4ade80', '#38bdf8', '#f2c811', '#a855f7'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } } }
+        }
+      });
+    };
+  </script>
+</body>
+</html>

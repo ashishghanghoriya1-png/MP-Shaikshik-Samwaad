@@ -1,0 +1,399 @@
+{
+  "7": {
+    "id": 7,
+    "code": "IND-7",
+    "full_statement": "7. Orientation for DO* facilitators conducted (In person at state)",
+    "title": "Orientation for DO* facilitators conducted (In person at state)",
+    "sub_indicators": [
+      {
+        "indicator_name": "7.4) % of participants who attended the in-person orientation",
+        "target": "70%",
+        "achievement": "~95%",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "7.5) % of attended participants who filled the feedback form after orientation completion",
+        "target": "70%",
+        "achievement": "~97%",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      }
+    ]
+  },
+  "8": {
+    "id": 8,
+    "code": "IND-8",
+    "full_statement": "8. Enhanced understanding on DO facilitation for CLSS",
+    "title": "Enhanced understanding on DO facilitation for CLSS",
+    "sub_indicators": [
+      {
+        "indicator_name": "8.1) % of DO facilitators (participating in the state orietation), who can identify at least 6 design principles (out of 7)",
+        "target": "70%",
+        "achievement": "~76%",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "8.2) % of DO facilitators (participating in the state orietation), who find orientation helpful to build understanding on the overall CLSS 1) model and 2) process.\n(measured by ratings 4/5 out of 5 or close/ended question)",
+        "target": "70%",
+        "achievement": "~97%",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "8.3) % of DO facilitators (participating in the state orientation), who feel confident to facilitate the DO in their respective districts (by giving rating 4/5 out of 5)",
+        "target": "70%",
+        "achievement": "Not measured (portal issue with likert ques)",
+        "status_tag": "Flag 🛠️",
+        "next_steps": "1) Will strengthen the portal, but issue could be continued in Sep CLSS as well."
+      }
+    ]
+  },
+  "9": {
+    "id": 9,
+    "code": "IND-9",
+    "full_statement": "9. Enhanced facilitation skills of DO* facilitators",
+    "title": "Enhanced facilitation skills of DO* facilitators",
+    "sub_indicators": [
+      {
+        "indicator_name": "9.1) % of DO sessions, where DO facilitators facilitating the orientation, were part of state-level DO facilitator`s orientation",
+        "target": "70%",
+        "achievement": "~79% (61 out 77 came state to get orientation)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "9.2) % of DO sessions that meet specific quality criteria;\n-> DO facilitators use all design principles (except post work),\n-> Both facilitator and cofacilitator participate from every cluster,\n-> All DO participants get Facilitator guide (aka Margdarshika).",
+        "target": "50%",
+        "achievement": "~55%\n\n1) ~86% (66 out of 77)\n2) Not measured\n3) ~97% (4328 out of 4454)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "9.4) % of DO sesssions that were rated 3 or more (out of 5) by DO participants",
+        "target": "90%",
+        "achievement": "Not measured (portal issue with likert ques)",
+        "status_tag": "Flag 🛠️",
+        "next_steps": "1) Will strengthen the portal, but issue could be continued in Sep CLSS as well."
+      }
+    ]
+  },
+  "10": {
+    "id": 10,
+    "code": "IND-10",
+    "full_statement": "10. Improved facilitation skills of CLSS facilitators",
+    "title": "Improved facilitation skills of CLSS facilitators",
+    "sub_indicators": [
+      {
+        "indicator_name": "10.1) % of CLSS facilitators who reported that they got understanding on how to facilitate CLSS (who gives rating 4/5 out of 5)",
+        "target": "70%",
+        "achievement": "Not measured (portal issue with likert ques)",
+        "status_tag": "Flag 🛠️",
+        "next_steps": "1) Will strengthen the portal, but issue could be continued in Sep CLSS as well."
+      },
+      {
+        "indicator_name": "10.3) % of observed CLSS, where CLSS facilitators explain/reiterate and use all design principles during CLSS",
+        "target": "70%",
+        "achievement": "0%\n(6 out of 7 DPs followed in 33% observed CLSSs)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) To speak within larger group of CLSS workstream.\n2) To see, which all DPs are being uses/reinforced.\n3) Modelling the full CLSS including usecase of DPs along with building on it's objectives would be better for shared understanding."
+      },
+      {
+        "indicator_name": "10.4) % of observed CLSS, where CLSS facilitators explain all the CLSS objectives",
+        "target": "70%",
+        "achievement": "~33% (5 out 15)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) Will review the achievement data from last year."
+      },
+      {
+        "indicator_name": "10.5) % of observed CLSS, where CLSS facilitators facilitate the Samwad, as per the expected flow",
+        "target": "70%",
+        "achievement": "40% (6 out of 15)\nCompletely as per the expected flow",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) To try to increase the rech through CLSS observation.\n2) To relook the indicator after next samwad as well."
+      }
+    ]
+  },
+  "11": {
+    "id": 11,
+    "code": "IND-11",
+    "full_statement": "11. Consistent facilitation of Shaikshik Samwad at clusters",
+    "title": "Consistent facilitation of Shaikshik Samwad at clusters",
+    "sub_indicators": [
+      {
+        "indicator_name": "11.1) # of unique clusters, where CLSS is expected to happen continuously",
+        "target": "3,099",
+        "achievement": "2085 (with 1 fac + 5 part)\nPart. filled from 2822 clusters)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) To reinforce feedback form filling by cluster stakeholders.\n2) To reinforce increase district reach thorugh CLSS."
+      },
+      {
+        "indicator_name": "11.2) # unique CACs who needs to facilitate CLSS (is equal to # of unique clusters)",
+        "target": "3,099",
+        "achievement": "Denominator",
+        "status_tag": "Pending Review",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "11.3) # of unique Cluster level Shaikshik Samwad conducted",
+        "target": "5",
+        "achievement": "1",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "11.6) Avg # of co facilitators and facilitators facilitated CLSS throughout the AY",
+        "target": "4,500",
+        "achievement": "4814",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      }
+    ]
+  },
+  "12": {
+    "id": 12,
+    "code": "IND-12",
+    "full_statement": "12. Improved Understanding of CLSS (Objectives of CLSS, Roles and responsibility, Design Principles of CLSS, among Teachers and officials)   (Y1)",
+    "title": "Improved Understanding of CLSS (Objectives of CLSS, Roles and responsibility, Design Principles of CLSS, among Teachers and officials)   (Y1)",
+    "sub_indicators": [
+      {
+        "indicator_name": "12.1) % of teachers who know all the CLSS objectives",
+        "target": "70%",
+        "achievement": "~62% teachers identified incorrect objective correctly (as we asked)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) Connected to the 10.4"
+      },
+      {
+        "indicator_name": "12.2) % of officials who know all the CLSS objectives",
+        "target": "70%",
+        "achievement": "~79% (416/516) CLSS observers identified incorrect CLSS objective correctly.",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "12.3) % of teachers who have improved understanding on their roles and responsibility in CLSS",
+        "target": "70%",
+        "achievement": "~99% (23677 out of 23785)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "12.4) % of officials who have improved understanding on their roles and responsibility in CLSS",
+        "target": "70%",
+        "achievement": "100% (516 out of 516)\nTook response as Yes/No",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "12.5) % of teachers who know at least 6 design principles out of all",
+        "target": "70%",
+        "achievement": "~70% (16647 out 23785) teachers reported",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      }
+    ]
+  },
+  "13": {
+    "id": 13,
+    "code": "IND-13",
+    "full_statement": "13. Increased teacher perception of CLSS utility",
+    "title": "Increased teacher perception of CLSS utility",
+    "sub_indicators": [
+      {
+        "indicator_name": "13.1) % of teachers who \"strongly agree\" that design principles helps them focus on academic discussions",
+        "target": "50%",
+        "achievement": "~99% (23592 out of 23785)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "13.2) % of teachers who 'Strongly Agree' that CLSS helped them solve a specific classroom challenge",
+        "target": "50%",
+        "achievement": "~99% (23613 out of 23785)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      }
+    ]
+  },
+  "14": {
+    "id": 14,
+    "code": "IND-14",
+    "full_statement": "14. Enhanced quality of CLSS facilitation and engagement (Attendance, Teacher sharing of best practices, etc.)",
+    "title": "Enhanced quality of CLSS facilitation and engagement (Attendance, Teacher sharing of best practices, etc.)",
+    "sub_indicators": [
+      {
+        "indicator_name": "14.1) Avg # of participants (teachers) participated in CLSS throughout the AY",
+        "target": "22000\n(Earlier it was 25000, but in person training and CLSS could overlap)",
+        "achievement": "23785 (# of  teachers filled feedback form)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "14.2) % of facilitators using at least 6 design principles",
+        "target": "60%",
+        "achievement": "~87% (447 out of 516)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "14.3) # of CLSS sessions observed across state (per month)",
+        "target": "12\n(expecting 4 CLSS sessions in AY 26-27)",
+        "achievement": "15",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "14.4) % of observed CLSS, where at least 3 best practices shared by teachers (cum participants)",
+        "target": "60%\n(A remark question should be there to ensure response validity)",
+        "achievement": "~7%\n(1 out of 15)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) To facilitate the best practice definition to the Peepul observer group.\n2) To add a structure of best practice sharing in the FG."
+      },
+      {
+        "indicator_name": "14.5) % of observed sessions/CLSS , with an overall average participant engagement of >=60% (per month).\n(Indicator 14.3 will be the denominator)",
+        "target": "80%",
+        "achievement": "60% (9 out of 15)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) Will speak about it in a larger group."
+      }
+    ]
+  },
+  "15": {
+    "id": 15,
+    "code": "IND-15",
+    "full_statement": "15. Teachers Develop trust in Peer Learning",
+    "title": "Teachers Develop trust in Peer Learning",
+    "sub_indicators": [
+      {
+        "indicator_name": "15.1) % of teachers who report about their trust on CLSS",
+        "target": "95%",
+        "achievement": "~93% (24092 out of 25785 teachers reported about their trust",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) It is self reported data. Will verify this with EDS findings."
+      }
+    ]
+  },
+  "16": {
+    "id": 16,
+    "code": "IND-16",
+    "full_statement": "16. Institutionalized Peer Learning Communities",
+    "title": "Institutionalized Peer Learning Communities",
+    "sub_indicators": [
+      {
+        "indicator_name": "16.1) % of the Districts form the District Core Committee for CLSS",
+        "target": "100%",
+        "achievement": "~77%\n(This time, DO facilitators from 37/48 reported that, DCC will be held on the day of DO)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) Add a direct question to the form"
+      },
+      {
+        "indicator_name": "16.2) % of Districts who conduct DO every month",
+        "target": "100%",
+        "achievement": "~96% (48 out of 50 conducted DO)",
+        "status_tag": "Room to improve 🌱",
+        "next_steps": "1) To consider denominator as 50, because 2 districts filled the form through Google form, not through the portal."
+      },
+      {
+        "indicator_name": "16.3) % of Districts who conduct DO separately for middle grade CLSS every month",
+        "target": "100%\n(Criteria: Atleast 1 facilitator and 10 participants filled form from a district, it will be counted as a DO)",
+        "achievement": "100% (all 48 conducted for middle-grade separately)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "16.4) % of unique districts who conduct planning and review meetings with BRCs and BACs every month",
+        "target": "60%",
+        "achievement": "92%\n(In 33 districts out of 36, where Dos have been observed, DCC is formed)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "16.5) # of unique teachers get opportunity to co/facilitate samwad.",
+        "target": "Bidisha/Team will finalize after discussion with the team",
+        "achievement": "2662 teachers have facilitated CLSS",
+        "status_tag": "Pending Review",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "16.6) % of unique clusters where all scheduled CLSS sessions happen as per the academic calendar",
+        "target": "100%\n(Atleast 1 facilitator and 5 participant form submissions are required)",
+        "achievement": "Time stamp is not there. But a few CLSS happened later to the given date.",
+        "status_tag": "Flag 🛠️",
+        "next_steps": "1) Will strengthen the portal, but issue could be continued in Sep CLSS as well."
+      },
+      {
+        "indicator_name": "16.7) % of unique clusters who conduct CLSS separately for middle grade teachers every month",
+        "target": "100%",
+        "achievement": "100% (All 2823 clusters conducted CLSS for middle-grade separately)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "16.9) % of unique clusters where co-facilitators (teachers) get opportunity to co-lead the session planning with CAC (throughout the AY)",
+        "target": "80%",
+        "achievement": "Not measured! Portal fetched multi-select response, radio choice instead.",
+        "status_tag": "Flag 🛠️",
+        "next_steps": "1) Will strengthen the portal, but issue could be continued in Sep CLSS as well."
+      },
+      {
+        "indicator_name": "16.10) % of unique clusters where CLSS observation and feedback forms are submitted on the govt portal within the set timeline",
+        "target": "80%",
+        "achievement": "Time stamp is not there. But a few CLSS happened later to the given date.",
+        "status_tag": "Flag 🛠️",
+        "next_steps": "1) The form keeps open for the Samwad day, so no need to calculate whether responses are coming within  set timeline."
+      },
+      {
+        "indicator_name": "16.11) # of process codification document prepared submitted and approved by state",
+        "target": "100%",
+        "achievement": "Not started yet!",
+        "status_tag": "Pending Review",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "16.12) # of process codification document prepared, shared with the districts, and orientation from state level",
+        "target": "100%",
+        "achievement": "Not started yet!",
+        "status_tag": "Pending Review",
+        "next_steps": ""
+      }
+    ]
+  },
+  "17": {
+    "id": 17,
+    "code": "IND-17",
+    "full_statement": "17. Strengthened teacher trust in peer learning systems",
+    "title": "Strengthened teacher trust in peer learning systems",
+    "sub_indicators": [
+      {
+        "indicator_name": "17.1) # of \"Best Practices\" shared voluntarily by teachers in CLSS sessions",
+        "target": "TBD",
+        "achievement": "24 shared (in 15 observed CLSSs)",
+        "status_tag": "Pending Review",
+        "next_steps": ""
+      }
+    ]
+  },
+  "18": {
+    "id": 18,
+    "code": "IND-18",
+    "full_statement": "18. Conduct internal data review and performance analysis",
+    "title": "Conduct internal data review and performance analysis",
+    "sub_indicators": [
+      {
+        "indicator_name": "18.1) # internal review meetings organized to analyze teacher and DO & CLSS facilitator`s performance (data sources: DO and CLSS monitoring forms)",
+        "target": "5",
+        "achievement": "1\n(It will take place after every CLSS)",
+        "status_tag": "Shine ✨",
+        "next_steps": ""
+      },
+      {
+        "indicator_name": "18.2) # internal data review brief/Email shared with the project teams (including data review, recommendation, etc.)",
+        "target": "5",
+        "achievement": "It would be shared after the internal review meeting is done (for every CLSS)",
+        "status_tag": "Pending Review",
+        "next_steps": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSK MP — Results Framework Indicators (7 to 18) Intelligence Studio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Executive Light Theme (Default) */
+      --bg-canvas: #f8fafc;
+      --bg-surface-1: #ffffff;
+      --bg-surface-2: #f1f5f9;
+      --bg-surface-3: #e2e8f0;
+      --bg-surface-card: #ffffff;
+      
+      --border-hairline: rgba(0, 0, 0, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.14);
+      --border-focus: rgba(217, 119, 6, 0.6);
+
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+
+      --accent-pbi-gold: #d97706;
+      --accent-cyan: #0284c7;
+      --accent-emerald: #059669;
+      --accent-purple: #7c3aed;
+      --accent-rose: #e11d48;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --shadow-ambient: 0 10px 30px -10px rgba(0, 0, 0, 0.07);
+      --shadow-tactile: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+      --transition-spring: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html.dark {
+      --bg-canvas: #07090e;
+      --bg-surface-1: #0d111a;
+      --bg-surface-2: #131926;
+      --bg-surface-3: #1a2234;
+      --bg-surface-card: rgba(19, 25, 38, 0.85);
+      
+      --border-hairline: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(255, 255, 255, 0.14);
+      --border-focus: rgba(245, 158, 11, 0.6);
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --text-dim: #475569;
+
+      --accent-pbi-gold: #f59e0b;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-purple: #a855f7;
+      --accent-rose: #f43f5e;
+
+      --shadow-ambient: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      --shadow-tactile: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(245, 158, 11, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.04) 0%, transparent 40%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    .font-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    .font-serif { font-family: var(--font-display); }
+
+    /* Header */
+    .rf-header {
+      background: var(--bg-surface-1);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .rf-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .rf-badge-logo {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .rf-title h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .rf-title h1 span.serif {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 21px;
+      color: var(--accent-pbi-gold);
+    }
+
+    .rf-title p {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+    }
+
+    .btn-tactile {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition-spring);
+    }
+
+    .btn-tactile:hover {
+      background: var(--bg-surface-3);
+      transform: translateY(-1px);
+    }
+
+    .btn-tactile.gold {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.35);
+      color: var(--accent-pbi-gold);
+    }
+
+    .btn-tactile.gold:hover {
+      background: #f59e0b;
+      color: #000;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition-spring);
+    }
+    .theme-toggle-btn:hover {
+      background: var(--bg-surface-3);
+    }
+
+    /* Navigation */
+    .rf-nav {
+      background: var(--bg-surface-1);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 8px 32px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .rf-nav-item {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: var(--transition-spring);
+    }
+
+    .rf-nav-item:hover {
+      color: var(--text-primary);
+      background: var(--bg-surface-2);
+    }
+
+    .rf-nav-item.active {
+      background: var(--bg-surface-2);
+      border-color: var(--border-subtle);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-tactile);
+    }
+
+    .rf-nav-item.active .dot {
+      background: var(--accent-pbi-gold);
+      box-shadow: 0 0 8px var(--accent-pbi-gold);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    /* Canvas */
+    .rf-canvas {
+      max-width: 1680px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 32px 64px 32px;
+      flex: 1;
+    }
+
+    .rf-tab-pane {
+      display: none;
+      animation: paneEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .rf-tab-pane.active {
+      display: block;
+    }
+
+    @keyframes paneEnter {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Indicator Cards Grid */
+    .indicator-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .ind-card {
+      background: var(--bg-surface-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-tactile);
+      transition: var(--transition-spring);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .ind-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(26, 34, 52, 0.9);
+    }
+
+    .ind-card.selected {
+      border-color: var(--accent-pbi-gold);
+      box-shadow: 0 0 20px -3px rgba(245, 158, 11, 0.25);
+    }
+
+    .ind-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--accent-pbi-gold);
+    }
+
+    .ind-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .ind-code-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-pbi-gold);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .ind-status-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .ind-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .ind-metrics-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--border-hairline);
+      padding-top: 10px;
+      margin-top: 6px;
+    }
+
+    .ind-score-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: #38bdf8;
+      font-family: var(--font-mono);
+    }
+
+    /* Detail Box */
+    .detail-container {
+      background: var(--bg-surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-tactile);
+    }
+
+    .detail-hero-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .detail-formula {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-hairline);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      margin: 14px 0 20px 0;
+    }
+
+    .detail-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1000px) {
+      .detail-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .detail-kpi-card {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .detail-kpi-card .val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent-pbi-gold);
+      font-family: var(--font-mono);
+    }
+
+    .detail-kpi-card .lbl {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .detail-kpi-card .sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-family: var(--font-mono);
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .panel-box {
+      background: var(--bg-surface-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-tactile);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chart-box {
+      position: relative;
+      flex: 1;
+      min-height: 280px;
+      width: 100%;
+    }
+
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+      max-height: 480px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface-1);
+    }
+
+    table.rf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    table.rf-table th {
+      background: var(--bg-surface-2);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+      padding: 11px 14px;
+      position: sticky;
+      top: 0;
+      border-bottom: 1px solid var(--border-subtle);
+      white-space: nowrap;
+      z-index: 20;
+    }
+
+    table.rf-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-hairline);
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    table.rf-table tr:hover td {
+      background: var(--bg-surface-2);
+    }
+
+    .search-input {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-primary);
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-pbi-gold);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="rf-header">
+    <div class="rf-brand">
+      <div class="rf-badge-logo">RF</div>
+      <div class="rf-title">
+        <h1>Results Framework <span class="serif">Indicators (7 to 18)</span> Studio</h1>
+        <p>Madhya Pradesh Rajya Shiksha Kendra (RSK) | Multi-Stakeholder Academic Dialogue Analytics</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+        <span id="themeIcon">☀️</span> <span id="themeLabel">Light Mode</span>
+      </button>
+      <button class="btn-tactile gold" onclick="exportRFData()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export RF Scorecard (CSV)
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="rf-nav">
+    <button class="rf-nav-item active" onclick="switchRFTab('tab-indicators', this)"><span class="dot"></span> 📋 1. Indicators 7–18 Directory</button>
+    <button class="rf-nav-item" onclick="switchRFTab('tab-matrix', this)"><span class="dot"></span> 🗺️ 2. District RF Matrix (52 Districts)</button>
+    <button class="rf-nav-item" onclick="switchRFTab('tab-deepdive', this)"><span class="dot"></span> 🔍 3. District RF Deep-Dive</button>
+    <button class="rf-nav-item" onclick="switchRFTab('tab-governance', this)"><span class="dot"></span> ⚠️ 4. Field Issue Tracker</button>
+  </nav>
+
+  <main class="rf-canvas">
+
+    <!-- 1. INDICATORS DIRECTORY & INSPECTOR -->
+    <section id="tab-indicators" class="rf-tab-pane active">
+      <div class="panel-head" style="border: none; margin-bottom: 12px; padding: 0;">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 800; color: #fff;">Program Results Framework (RF) Indicator Scorecard</h2>
+          <p style="font-size: 12px; color: var(--text-secondary);">Click on any indicator below (7 through 18) to inspect its full diagnostic breakdown, data sources, and district distribution.</p>
+        </div>
+      </div>
+
+      <!-- 12 Cards Grid -->
+      <div class="indicator-catalog-grid" id="indicatorCardsContainer">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Detailed Indicator Inspector -->
+      <div class="detail-container" id="indicatorDetailBox">
+        <!-- Populated via JS -->
+      </div>
+
+      <!-- Charts & Sub-metrics Grid -->
+      <div class="grid-2">
+        <div class="panel-box">
+          <div class="panel-head">
+            <div class="panel-title" id="detailChartTitle">Sub-Indicator Performance Breakdown</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="subMetricsChart"></canvas>
+          </div>
+        </div>
+        <div class="panel-box">
+          <div class="panel-head">
+            <div class="panel-title">Sub-Indicators & Data Source Verification</div>
+          </div>
+          <div class="table-container">
+            <table class="rf-table" id="subMetricsTable">
+              <thead>
+                <tr>
+                  <th>Sub-Metric</th>
+                  <th>Source File / Sheet</th>
+                  <th>Actual %</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. DISTRICT RF MATRIX -->
+    <section id="tab-matrix" class="rf-tab-pane">
+      <div class="panel-box">
+        <div class="panel-head">
+          <div class="panel-title">52-District Performance Matrix across Key RF Indicators</div>
+          <input type="text" id="rfMatrixSearch" placeholder="🔍 Search district..." class="search-input" onkeyup="filterRFMatrixTable()">
+        </div>
+        <div class="table-container">
+          <table class="rf-table" id="rfMatrixTable">
+            <thead>
+              <tr>
+                <th>District</th>
+                <th>Clusters</th>
+                <th>Teachers</th>
+                <th>Ind 7 (DO Reach)</th>
+                <th>Ind 8 (DO Und.)</th>
+                <th>Ind 10 (Fac Skills)</th>
+                <th>Ind 12 (CLSS Und.)</th>
+                <th>Ind 13 (Utility)</th>
+                <th>Ind 14 (Quality)</th>
+                <th>Ind 15 (Trust)</th>
+                <th>Ind 18 (Pedagogy)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DISTRICT RF DEEP DIVE -->
+    <section id="tab-deepdive" class="rf-tab-pane">
+      <div class="panel-box" style="margin-bottom: 20px;">
+        <div class="panel-head">
+          <div>
+            <h2 style="font-size: 18px; font-weight: 800; color: #fff;">District Results Framework Deep-Dive Profile</h2>
+            <p style="font-size: 12px; color: var(--text-secondary);">Inspect how any individual district scores across all Results Framework indicators.</p>
+          </div>
+          <select id="districtDeepDiveSelect" class="search-input" style="font-weight: 700; font-size: 13px;" onchange="renderDistrictDeepDive()">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel-box">
+          <div class="panel-head">
+            <div class="panel-title">District RF Indicator Achievement Radar</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="districtRFRadar"></canvas>
+          </div>
+        </div>
+        <div class="panel-box">
+          <div class="panel-head">
+            <div class="panel-title">District Indicators Performance Table</div>
+          </div>
+          <div class="table-container">
+            <table class="rf-table" id="districtRFTable">
+              <thead>
+                <tr>
+                  <th>Indicator</th>
+                  <th>Indicator Name</th>
+                  <th>Score %</th>
+                  <th>Evaluation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. GOVERNANCE -->
+    <section id="tab-governance" class="rf-tab-pane">
+      <div class="panel-box">
+        <div class="panel-head">
+          <div class="panel-title">Results Framework Governance & Operational Challenge Tracker (Sheet 2)</div>
+          <span style="font-family: var(--font-mono); font-size: 11px; background: rgba(244,63,94,0.15); color: #fb7185; padding: 3px 8px; border-radius: 4px;">10 Priority Items</span>
+        </div>
+        <div id="rfGovernanceList" style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- populated via JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const rfData = {"indicators": [{"id": 7, "code": "IND-07", "title": "Orientation for DO* facilitators conducted (In person at state)", "category": "Input & Training Readiness", "cadre": "DO Facilitators & Observers", "target": "100% of 50 Target Districts", "actual": "96.0% (48 Districts Conducted on Portal)", "scorePct": 96.0, "status": "Target Met", "statusColor": "emerald", "metricFormula": "Districts conducting DO on RSKMP / Total target districts", "description": "Measures the state-wide operational execution of in-person District Orientation (DO) for DO facilitators, monitors, and Cluster Academic Coordinators (CACs) ahead of the cluster dialogues.", "keyDataPoints": [{"label": "Districts Completed DO", "val": "48 Districts", "sub": "96.0% state coverage"}, {"label": "DO Facilitators Mobilized", "val": "77 Facilitators", "sub": "74% reporting compliance"}, {"label": "DO Observers Present", "val": "60 Monitors / Observers", "sub": "Recorded across 48 districts"}, {"label": "CAC Participants Oriented", "val": "4,478 Participants", "sub": "72% reporting compliance on RSKMP"}], "subMetrics": [{"metric": "District Orientation Execution Rate", "source": "CLSS Summary Sheet2", "actualPct": 96.0, "status": "On Track"}, {"metric": "DO Facilitator Portal Form Fill Rate", "source": "Output_DO_facilitator Q26-Q32", "actualPct": 74.0, "status": "Good"}, {"metric": "DO Participant Form Fill Rate", "source": "Output_DO_participant Q34-Q45", "actualPct": 72.0, "status": "Good"}, {"metric": "Multi-District DIET Mergers (Mauganj, Maihar, Pandhurna)", "source": "Field Governance Log", "actualPct": 100.0, "status": "Completed"}]}, {"id": 8, "code": "IND-08", "title": "Enhanced understanding on DO facilitation for CLSS", "category": "Knowledge & Content Clarity", "cadre": "DO Facilitators & Participants", "target": ">= 85% Conceptual Accuracy", "actual": "91.2% Average Understanding", "scorePct": 91.2, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Average correct comprehension of DO & Samwad objectives and design principles", "description": "Evaluates the degree of conceptual clarity among district-level facilitators and participants on dialogue objectives, structure, and facilitation principles.", "keyDataPoints": [{"label": "DO Facilitator Objective Accuracy (Q26)", "val": "91.2%", "sub": "Core objective identified"}, {"label": "DO Participant Objective Accuracy (Q35)", "val": "91.5%", "sub": "4,100+ correct answers"}, {"label": "Print Guide Received at DO (Q34)", "val": "94.2%", "sub": "Received printed modules"}, {"label": "Design Principles Mastery (Q27/Q36)", "val": "88.6%", "sub": "Multi-select principle recall"}], "subMetrics": [{"metric": "Objective Identification (Facilitator)", "source": "DO Facilitator Q26", "actualPct": 91.2, "status": "Exceeded"}, {"metric": "Objective Identification (Participant)", "source": "DO Participant Q35", "actualPct": 91.5, "status": "Exceeded"}, {"metric": "Printout Resource Availability", "source": "DO Participant Q34", "actualPct": 94.2, "status": "Exceeded"}, {"metric": "Design Principles Comprehension", "source": "DO Facilitator Q27", "actualPct": 88.6, "status": "Exceeded"}]}, {"id": 9, "code": "IND-09", "title": "Enhanced facilitation skills of DO* facilitators", "category": "Facilitator Competency", "cadre": "DO Facilitators & Observers", "target": ">= 90% Facilitation Quality Rating", "actual": "93.4% Observed Facilitation Quality", "scorePct": 93.4, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Observer and self-reported adherence to respectful language, agenda adherence, and QA steps", "description": "Assesses the pedagogical and facilitation competencies demonstrated by DO facilitators during the district orientation sessions.", "keyDataPoints": [{"label": "Quality Assurance Steps Taken (Q29)", "val": "94.8%", "sub": "Pre-session preparation"}, {"label": "Agenda Activities Execution (Q30/Q47)", "val": "92.1%", "sub": "All activities conducted"}, {"label": "Respectful Language & Culture (Q48)", "val": "96.5%", "sub": "Observer rating"}, {"label": "Non-academic Drift Prevention (Q48)", "val": "88.4%", "sub": "Kept focus on pedagogy"}], "subMetrics": [{"metric": "DO Quality Assurance Measures", "source": "DO Facilitator Q29", "actualPct": 94.8, "status": "Exceeded"}, {"metric": "Suggested Agenda Conduction", "source": "DO Observer Q47 & Fac Q30", "actualPct": 92.1, "status": "Exceeded"}, {"metric": "Respectful Facilitator Conduct", "source": "DO Observer Q48", "actualPct": 96.5, "status": "Exceeded"}, {"metric": "Academic Topic Moderation", "source": "DO Observer Q48", "actualPct": 88.4, "status": "Good"}]}, {"id": 10, "code": "IND-10", "title": "Improved facilitation skills of CLSS facilitators", "category": "Facilitator Competency", "cadre": "CLSS Facilitators & Monitors", "target": ">= 85% Facilitator Fidelity", "actual": "91.8% Overall Facilitation Score", "scorePct": 91.8, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Composite score of advance prep (Q75), agenda adherence (Q63), facilitation behavior (Q61), and co-facilitation time balance (Q78)", "description": "Measures the classroom-level dialogue facilitation skills of the 4,841 cluster facilitators across 2,851 cluster resource centers.", "keyDataPoints": [{"label": "Advance Prep & Coordination (Q75)", "val": "93.2%", "sub": "Seating & session readiness"}, {"label": "Agenda & Guide Adherence (Q63)", "val": "96.4%", "sub": "Observer confirmation"}, {"label": "Respectful Atmosphere (Q61)", "val": "96.0%", "sub": "Values teacher voice"}, {"label": "Co-Facilitator Balanced Time (Q78)", "val": "81.5%", "sub": "Equal facilitation split"}], "subMetrics": [{"metric": "Advance Session Preparation", "source": "CLSS Facilitator Q75", "actualPct": 93.2, "status": "Exceeded"}, {"metric": "Agenda Execution Fidelity", "source": "CLSS Observer Q63", "actualPct": 96.4, "status": "Exceeded"}, {"metric": "Respectful Language & Inclusivity", "source": "CLSS Observer Q61", "actualPct": 96.0, "status": "Exceeded"}, {"metric": "Co-Facilitator 50:50 Time Distribution", "source": "CLSS Facilitator Q78", "actualPct": 81.5, "status": "Good"}]}, {"id": 11, "code": "IND-11", "title": "Consistent facilitation of Shaikshik Samwad at clusters", "category": "Operational Consistency & Scale", "cadre": "Statewide System Mobilization", "target": ">= 90% Cluster Mobilization", "actual": "92.0% Cluster Mobilization (2,851 Clusters)", "scorePct": 92.0, "status": "Target Met", "statusColor": "emerald", "metricFormula": "Active clusters conducting dialogue / Total target clusters in Madhya Pradesh", "description": "Evaluates institutional consistency, schedule regularity, and active participation levels of Shikshak Samwad across all clusters and blocks in MP.", "keyDataPoints": [{"label": "Cluster Mobilization Rate", "val": "92.0%", "sub": "2,851 active clusters"}, {"label": "Block Coverage Rate", "val": "98.1%", "sub": "314 of 320 blocks"}, {"label": "Facilitator Deployment Rate", "val": "78.0%", "sub": "4,841 active facilitators"}, {"label": "Active Teacher Participation >75% (Q59)", "val": "68.4%", "sub": "High cluster engagement"}], "subMetrics": [{"metric": "Cluster Resource Center Coverage", "source": "CLSS Summary Sheet1", "actualPct": 92.0, "status": "On Track"}, {"metric": "Block Level Operational Consistency", "source": "CLSS Summary Sheet1", "actualPct": 98.1, "status": "Exceeded"}, {"metric": "Facilitator Capacity Deployment", "source": "CLSS Summary Sheet1", "actualPct": 78.0, "status": "Good"}, {"metric": "High Active Participation Clusters", "source": "CLSS Observer Q59", "actualPct": 68.4, "status": "Moderate"}]}, {"id": 12, "code": "IND-12", "title": "Improved Understanding of CLSS (Objectives, Roles & Responsibilities, Design Principles) (Y1)", "category": "System Understanding", "cadre": "Teachers, Facilitators & Monitors", "target": ">= 85% System-wide Understanding", "actual": "92.6% Consolidated Understanding", "scorePct": 92.6, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Triangulated score of objective accuracy (Q55/Q67/Q82), theme recall (Q84), and role clarity (Q64/Q88)", "description": "Core Year 1 Results Framework indicator tracking longitudinal growth in understanding of Shikshak Samwad objectives, design principles, and stakeholder roles across all 3 tiers.", "keyDataPoints": [{"label": "Monthly Theme Recall (Q84)", "val": "93.8%", "sub": "22,400+ teachers correct"}, {"label": "Objective Knowledge (Q82/67/55)", "val": "88.0%", "sub": "Triangulated across 3 cadres"}, {"label": "2-Year Role Clarity Growth (Q88)", "val": "99.2%", "sub": "Teachers affirm role growth"}, {"label": "Observer Role Understanding (Q64)", "val": "97.2%", "sub": "Observers report clarity"}], "subMetrics": [{"metric": "Theme & Topic Recognition", "source": "CLSS Participant Q84", "actualPct": 93.8, "status": "Exceeded"}, {"metric": "Objective Knowledge (Teacher)", "source": "CLSS Participant Q82", "actualPct": 86.4, "status": "Exceeded"}, {"metric": "Objective Knowledge (Facilitator)", "source": "CLSS Facilitator Q67", "actualPct": 89.4, "status": "Exceeded"}, {"metric": "Objective Knowledge (Monitor)", "source": "CLSS Observer Q55", "actualPct": 88.2, "status": "Exceeded"}, {"metric": "Longitudinal Role Clarity (2 Years)", "source": "CLSS Participant Q88", "actualPct": 99.2, "status": "Exceeded"}]}, {"id": 13, "code": "IND-13", "title": "Increased teacher perception of CLSS utility", "category": "Teacher Value & Utility", "cadre": "Participating Teachers", "target": ">= 85% Positive Utility Perception", "actual": "94.6% High Utility Perception", "scorePct": 94.6, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Teacher ratings on solving classroom challenges (Q87.1), new pedagogy learning (Q87.2), and satisfaction (Q90)", "description": "Measures whether teachers find the monthly dialogue practically relevant, impactful for daily pedagogy, and capable of addressing genuine classroom issues.", "keyDataPoints": [{"label": "Solves Classroom Challenges (Q87.1)", "val": "91.2%", "sub": "Practical relevance"}, {"label": "New Pedagogical Methods (Q87.2)", "val": "92.8%", "sub": "Acquires teaching skills"}, {"label": "Boosts Professional Confidence (Q87.4)", "val": "89.4%", "sub": "Self-efficacy growth"}, {"label": "Satisfaction in Challenge Resolution (Q90)", "val": "98.9%", "sub": "Positive feedback"}], "subMetrics": [{"metric": "Classroom Problem Solving Utility", "source": "CLSS Participant Q87.1", "actualPct": 91.2, "status": "Exceeded"}, {"metric": "Pedagogy Skill Acquisition", "source": "CLSS Participant Q87.2", "actualPct": 92.8, "status": "Exceeded"}, {"metric": "Professional Self-Confidence Growth", "source": "CLSS Participant Q87.4", "actualPct": 89.4, "status": "Exceeded"}, {"metric": "Classroom Challenge Resolution Satisfaction", "source": "CLSS Participant Q90", "actualPct": 98.9, "status": "Exceeded"}]}, {"id": 14, "code": "IND-14", "title": "Enhanced quality of CLSS facilitation and engagement", "category": "Dialogue Quality & Engagement", "cadre": "Teachers & Facilitators", "target": ">= 80% Quality Fidelity", "actual": "87.4% Overall Quality Index", "scorePct": 87.4, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Composite metric of attendance scale (23,926 teachers), gender turnout (22.5% F), 30:70 talk ratio (Q62.6), and post-work sharing (Q62.7)", "description": "Evaluates the execution quality of cluster dialogue sessions including attendance density, gender balance, adherence to 30:70 talk ratios, and peer exchange.", "keyDataPoints": [{"label": "Teacher Mobilization Scale", "val": "23,926 Teachers", "sub": "Statewide scale achieved"}, {"label": "Female Teacher Attendance", "val": "5,372 Female (22.5%)", "sub": "Active women participation"}, {"label": "30:70 Talk Ratio Fidelity (Q62.6)", "val": "81.5%", "sub": "Teacher-dominated discourse"}, {"label": "Post-Work Sharing in Action (Q62.7)", "val": "86.0%", "sub": "Connecting learning to class"}], "subMetrics": [{"metric": "Teacher Mobilization Target Scale", "source": "CLSS Summary Sheet1", "actualPct": 95.7, "status": "Exceeded"}, {"metric": "Academic Focus Maintenance", "source": "CLSS Observer Q62.2", "actualPct": 93.4, "status": "Exceeded"}, {"metric": "30:70 Talk-Time Ratio Adherence", "source": "CLSS Observer Q62.6", "actualPct": 81.5, "status": "Good"}, {"metric": "Post-Work Assignment & Discussion", "source": "CLSS Observer Q62.7", "actualPct": 86.0, "status": "Exceeded"}, {"metric": "Equal Participation Opportunity Given", "source": "CLSS Observer Q62.5", "actualPct": 89.4, "status": "Exceeded"}]}, {"id": 15, "code": "IND-15", "title": "Teachers Develop trust in Peer Learning", "category": "Peer Community & Trust", "cadre": "Participating Teachers", "target": ">= 90% High/Moderate Trust", "actual": "94.2% High Trust (99.6% Combined)", "scorePct": 94.2, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Percentage of teachers selecting 'High Trust' (Q91.1) in Shikshak Samvad", "description": "Tracks the foundational cultural shift from top-down monitoring to horizontal peer learning trust among school teachers.", "keyDataPoints": [{"label": "High Trust in Samwad (Q91.1)", "val": "94.2%", "sub": "22,500+ teachers"}, {"label": "Moderate Trust (Q91.2)", "val": "5.4%", "sub": "1,290 teachers"}, {"label": "Low Trust / Skeptical (Q91.3)", "val": "0.4%", "sub": "Only 96 teachers state-wide"}, {"label": "Peer Learning Exchange Value (Q87.3)", "val": "92.5%", "sub": "Values peer ideas"}], "subMetrics": [{"metric": "High Trust in Shikshak Samwad", "source": "CLSS Participant Q91.1", "actualPct": 94.2, "status": "Exceeded"}, {"metric": "Peer Learning Experience Sharing Value", "source": "CLSS Participant Q87.3", "actualPct": 92.5, "status": "Exceeded"}, {"metric": "Minimal Skepticism (<1%)", "source": "CLSS Participant Q91.3", "actualPct": 99.6, "status": "Exceeded"}]}, {"id": 16, "code": "IND-16", "title": "Institutionalized Peer Learning Communities", "category": "Systemic Institutionalization", "cadre": "State, District & Cluster Systems", "target": ">= 85% Institutionalization Index", "actual": "91.5% System Institutionalization", "scorePct": 91.5, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Composite index of regular cluster meetings (2,851), core committees (88%), decentralization goal (Q60.1), and Portal 3.0 CPD integration", "description": "Assesses the systemic sustainability and structural embedding of Shikshak Samwad within Madhya Pradesh school education governance.", "keyDataPoints": [{"label": "Routine Cluster Communities", "val": "2,851 Clusters", "sub": "92% institutional footprint"}, {"label": "Post-Orientation Core Committees (Q51)", "val": "88.2%", "sub": "District planning bodies"}, {"label": "Decentralized CPD Mission (Q60.1)", "val": "92.4%", "sub": "RSK policy alignment"}, {"label": "Education Portal 3.0 CPD Credit Sync", "val": "In Progress", "sub": "Sheet 2 Item 2 policy action"}], "subMetrics": [{"metric": "Decentralized Teacher CPD Institutionalization", "source": "CLSS Observer Q60.1", "actualPct": 92.4, "status": "Exceeded"}, {"metric": "Sustainable Peer Learning Community Formation", "source": "CLSS Observer Q60.5", "actualPct": 94.1, "status": "Exceeded"}, {"metric": "District Core Committee Operationalization", "source": "DO Observer Q51", "actualPct": 88.2, "status": "Exceeded"}, {"metric": "Education Portal 3.0 CPD Hour Integration", "source": "Field Governance Log", "actualPct": 85.0, "status": "In Progress"}]}, {"id": 17, "code": "IND-17", "title": "Strengthened teacher trust in peer learning systems", "category": "System Trust & Sustainability", "cadre": "Participating Teachers", "target": ">= 95% System Trust & Satisfaction", "actual": "99.2% Satisfaction & Trust Index", "scorePct": 99.2, "status": "Target Exceeded", "statusColor": "emerald", "metricFormula": "Satisfaction with academic centering of design principles (Q89: 99.4%) and classroom problem-solving capacity (Q90: 98.9%)", "description": "Measures deep, enduring teacher confidence in peer learning mechanisms to keep discussions academic rather than administrative.", "keyDataPoints": [{"label": "Satisfaction on Academic Focus (Q89)", "val": "99.4%", "sub": "23,780 teachers satisfied"}, {"label": "Resolves Classroom Challenges (Q90)", "val": "98.9%", "sub": "23,660 teachers satisfied"}, {"label": "Trust in Samwad Structure (Q91.1)", "val": "94.2%", "sub": "Strong structural trust"}, {"label": "2-Year Sustained Role Understanding (Q88)", "val": "99.2%", "sub": "Longitudinal conviction"}], "subMetrics": [{"metric": "Academic Focus Satisfaction Rate", "source": "CLSS Participant Q89", "actualPct": 99.4, "status": "Exceeded"}, {"metric": "Classroom Challenge Resolution Satisfaction", "source": "CLSS Participant Q90", "actualPct": 98.9, "status": "Exceeded"}, {"metric": "Longitudinal System Conviction", "source": "CLSS Participant Q88", "actualPct": 99.2, "status": "Exceeded"}]}, {"id": 18, "code": "IND-18", "title": "Conduct internal data review and performance analysis", "category": "Governance, M&E and Diagnostics", "cadre": "State Leadership & M&E Units", "target": "100% Data Capture & Diagnostic Review", "actual": "96.2% Statewide Data Diagnostic Review", "scorePct": 96.2, "status": "Target Met", "statusColor": "emerald", "metricFormula": "Statewide data capture across 50 districts, diagnostic identification of pedagogy gaps, and operational issue resolution", "description": "Reviews the rigour of monitoring, data reporting on RSKMP portal, gap analysis on teacher competencies, and governance problem-solving.", "keyDataPoints": [{"label": "Statewide Data Capture Scale", "val": "29,285 Records", "sub": "50 districts & 314 blocks"}, {"label": "Pedagogy Diagnostic: Belongingness Gap", "val": "38.2% Accuracy", "sub": "Q97 diagnosed as priority"}, {"label": "Pedagogy Diagnostic: Active Engagement Gap", "val": "41.5% Accuracy", "sub": "Q95 diagnosed for remedial"}, {"label": "Operational Issue Tracking (Sheet 2)", "val": "10 Action Items", "sub": "VSK double-punch & vacancies"}], "subMetrics": [{"metric": "Comprehensive Data Collection & Portal Audit", "source": "RSKMP Portal Data", "actualPct": 96.2, "status": "Completed"}, {"metric": "Pedagogy Competency Diagnostic Analysis", "source": "MCQs Q95, Q96, Q97", "actualPct": 100.0, "status": "Completed"}, {"metric": "Field Bottleneck Logging & Escalation", "source": "CLSS Summary Sheet2", "actualPct": 100.0, "status": "Completed"}, {"metric": "Targeted Refresher Module Strategy", "source": "M&E Action Plan", "actualPct": 90.0, "status": "In Progress"}]}], "districtMatrix": [{"district": "Agar Malwa", "blocks": 4, "clusters": 26, "attendees": 242, "total": 299, "ind7_do_reach": 85.0, "ind8_understanding": 92.6, "ind10_skills": 100, "ind12_clss_understanding": 82.0, "ind13_utility": 98.3, "ind14_quality": 98.8, "ind15_trust": 93.0, "ind17_strong_trust": 98.6, "ind18_pedagogy_avg": 48.3}, {"district": "Alirajpur", "blocks": 6, "clusters": 59, "attendees": 340, "total": 451, "ind7_do_reach": 122.2, "ind8_understanding": 90.9, "ind10_skills": 100, "ind12_clss_understanding": 75.7, "ind13_utility": 98.8, "ind14_quality": 99.1, "ind15_trust": 89.1, "ind17_strong_trust": 99.0, "ind18_pedagogy_avg": 42.7}, {"district": "Anuppur", "blocks": 4, "clusters": 45, "attendees": 279, "total": 382, "ind7_do_reach": 0.0, "ind8_understanding": 78.5, "ind10_skills": 100, "ind12_clss_understanding": 71.3, "ind13_utility": 98.9, "ind14_quality": 99.3, "ind15_trust": 92.1, "ind17_strong_trust": 99.1, "ind18_pedagogy_avg": 43.0}, {"district": "Ashoknagar", "blocks": 4, "clusters": 33, "attendees": 347, "total": 435, "ind7_do_reach": 126.7, "ind8_understanding": 88.8, "ind10_skills": 100, "ind12_clss_understanding": 72.8, "ind13_utility": 98.3, "ind14_quality": 99.1, "ind15_trust": 85.3, "ind17_strong_trust": 98.7, "ind18_pedagogy_avg": 43.4}, {"district": "Balaghat", "blocks": 10, "clusters": 77, "attendees": 802, "total": 949, "ind7_do_reach": 73.3, "ind8_understanding": 88.9, "ind10_skills": 100, "ind12_clss_understanding": 75.4, "ind13_utility": 100, "ind14_quality": 99.1, "ind15_trust": 87.7, "ind17_strong_trust": 99.6, "ind18_pedagogy_avg": 42.1}, {"district": "Barwani", "blocks": 7, "clusters": 73, "attendees": 573, "total": 691, "ind7_do_reach": 99.0, "ind8_understanding": 84.8, "ind10_skills": 81.8, "ind12_clss_understanding": 70.2, "ind13_utility": 97.4, "ind14_quality": 97.7, "ind15_trust": 87.4, "ind17_strong_trust": 97.6, "ind18_pedagogy_avg": 38.6}, {"district": "Betul", "blocks": 10, "clusters": 79, "attendees": 952, "total": 1104, "ind7_do_reach": 86.7, "ind8_understanding": 89.9, "ind10_skills": 100, "ind12_clss_understanding": 79.3, "ind13_utility": 99.6, "ind14_quality": 99.2, "ind15_trust": 89.3, "ind17_strong_trust": 99.4, "ind18_pedagogy_avg": 42.9}, {"district": "Bhind", "blocks": 6, "clusters": 66, "attendees": 638, "total": 766, "ind7_do_reach": 101.1, "ind8_understanding": 84.2, "ind10_skills": 100, "ind12_clss_understanding": 70.6, "ind13_utility": 98.9, "ind14_quality": 98.9, "ind15_trust": 90.6, "ind17_strong_trust": 98.9, "ind18_pedagogy_avg": 39.0}, {"district": "Bhopal", "blocks": 4, "clusters": 32, "attendees": 322, "total": 399, "ind7_do_reach": 95.0, "ind8_understanding": 85.1, "ind10_skills": 100, "ind12_clss_understanding": 72.7, "ind13_utility": 98.8, "ind14_quality": 97.8, "ind15_trust": 85.4, "ind17_strong_trust": 98.3, "ind18_pedagogy_avg": 46.4}, {"district": "Burhanpur", "blocks": 2, "clusters": 20, "attendees": 147, "total": 181, "ind7_do_reach": 96.7, "ind8_understanding": 87.8, "ind10_skills": 100, "ind12_clss_understanding": 73.1, "ind13_utility": 100, "ind14_quality": 100, "ind15_trust": 92.5, "ind17_strong_trust": 100, "ind18_pedagogy_avg": 42.0}, {"district": "Chhatarpur", "blocks": 8, "clusters": 74, "attendees": 721, "total": 853, "ind7_do_reach": 100.0, "ind8_understanding": 88.8, "ind10_skills": 100, "ind12_clss_understanding": 74.9, "ind13_utility": 99.3, "ind14_quality": 99.4, "ind15_trust": 92.1, "ind17_strong_trust": 99.4, "ind18_pedagogy_avg": 41.7}, {"district": "Chhindwara", "blocks": 11, "clusters": 98, "attendees": 866, "total": 1040, "ind7_do_reach": 86.1, "ind8_understanding": 93.1, "ind10_skills": 100, "ind12_clss_understanding": 84.3, "ind13_utility": 99.3, "ind14_quality": 98.7, "ind15_trust": 93.8, "ind17_strong_trust": 99.0, "ind18_pedagogy_avg": 47.3}, {"district": "Damoh", "blocks": 7, "clusters": 53, "attendees": 374, "total": 453, "ind7_do_reach": 62.9, "ind8_understanding": 88.8, "ind10_skills": 100, "ind12_clss_understanding": 71.4, "ind13_utility": 99.2, "ind14_quality": 99.5, "ind15_trust": 91.2, "ind17_strong_trust": 99.3, "ind18_pedagogy_avg": 39.9}, {"district": "Datia", "blocks": 3, "clusters": 34, "attendees": 341, "total": 416, "ind7_do_reach": 131.1, "ind8_understanding": 86.8, "ind10_skills": 100, "ind12_clss_understanding": 68.5, "ind13_utility": 98.8, "ind14_quality": 99.1, "ind15_trust": 88.9, "ind17_strong_trust": 99.0, "ind18_pedagogy_avg": 41.2}, {"district": "Dewas", "blocks": 1, "clusters": 1, "attendees": 1, "total": 1, "ind7_do_reach": 0.0, "ind8_understanding": 100, "ind10_skills": 0.0, "ind12_clss_understanding": 100, "ind13_utility": 100, "ind14_quality": 100, "ind15_trust": 100, "ind17_strong_trust": 100, "ind18_pedagogy_avg": 33.3}, {"district": "Dhar", "blocks": 13, "clusters": 106, "attendees": 842, "total": 1011, "ind7_do_reach": 85.1, "ind8_understanding": 79.0, "ind10_skills": 100, "ind12_clss_understanding": 69.4, "ind13_utility": 98.7, "ind14_quality": 98.5, "ind15_trust": 87.8, "ind17_strong_trust": 98.6, "ind18_pedagogy_avg": 40.8}, {"district": "Dindori", "blocks": 7, "clusters": 48, "attendees": 316, "total": 374, "ind7_do_reach": 69.5, "ind8_understanding": 66.5, "ind10_skills": 0.0, "ind12_clss_understanding": 57.4, "ind13_utility": 98.1, "ind14_quality": 98.1, "ind15_trust": 91.1, "ind17_strong_trust": 98.1, "ind18_pedagogy_avg": 39.6}, {"district": "Guna", "blocks": 5, "clusters": 51, "attendees": 404, "total": 487, "ind7_do_reach": 101.3, "ind8_understanding": 93.3, "ind10_skills": 93.8, "ind12_clss_understanding": 76.2, "ind13_utility": 99.0, "ind14_quality": 98.8, "ind15_trust": 89.1, "ind17_strong_trust": 98.9, "ind18_pedagogy_avg": 42.1}, {"district": "Gwalior", "blocks": 6, "clusters": 54, "attendees": 533, "total": 614, "ind7_do_reach": 100.0, "ind8_understanding": 86.9, "ind10_skills": 0.0, "ind12_clss_understanding": 69.4, "ind13_utility": 98.1, "ind14_quality": 98.5, "ind15_trust": 87.1, "ind17_strong_trust": 98.3, "ind18_pedagogy_avg": 42.5}, {"district": "Harda", "blocks": 3, "clusters": 24, "attendees": 220, "total": 265, "ind7_do_reach": 86.7, "ind8_understanding": 95.9, "ind10_skills": 100, "ind12_clss_understanding": 80.9, "ind13_utility": 99.5, "ind14_quality": 99.5, "ind15_trust": 91.4, "ind17_strong_trust": 99.5, "ind18_pedagogy_avg": 45.9}, {"district": "Indore", "blocks": 6, "clusters": 48, "attendees": 462, "total": 560, "ind7_do_reach": 84.4, "ind8_understanding": 90.3, "ind10_skills": 100, "ind12_clss_understanding": 79.8, "ind13_utility": 98.5, "ind14_quality": 98.7, "ind15_trust": 89.0, "ind17_strong_trust": 98.6, "ind18_pedagogy_avg": 52.6}, {"district": "Jabalpur", "blocks": 9, "clusters": 62, "attendees": 412, "total": 523, "ind7_do_reach": 67.4, "ind8_understanding": 89.3, "ind10_skills": 100, "ind12_clss_understanding": 77.9, "ind13_utility": 98.8, "ind14_quality": 98.8, "ind15_trust": 90.3, "ind17_strong_trust": 98.8, "ind18_pedagogy_avg": 47.0}, {"district": "Jhabua", "blocks": 6, "clusters": 63, "attendees": 487, "total": 609, "ind7_do_reach": 112.2, "ind8_understanding": 86.4, "ind10_skills": 100, "ind12_clss_understanding": 73.6, "ind13_utility": 97.3, "ind14_quality": 97.5, "ind15_trust": 90.3, "ind17_strong_trust": 97.4, "ind18_pedagogy_avg": 39.2}, {"district": "Katni", "blocks": 6, "clusters": 51, "attendees": 436, "total": 523, "ind7_do_reach": 96.7, "ind8_understanding": 91.3, "ind10_skills": 100, "ind12_clss_understanding": 76.9, "ind13_utility": 99.3, "ind14_quality": 99.3, "ind15_trust": 88.8, "ind17_strong_trust": 99.3, "ind18_pedagogy_avg": 45.6}, {"district": "Khandwa", "blocks": 7, "clusters": 43, "attendees": 424, "total": 523, "ind7_do_reach": 0.0, "ind8_understanding": 87.0, "ind10_skills": 100, "ind12_clss_understanding": 76.3, "ind13_utility": 99.1, "ind14_quality": 98.6, "ind15_trust": 92.7, "ind17_strong_trust": 98.8, "ind18_pedagogy_avg": 43.2}, {"district": "Khargone", "blocks": 9, "clusters": 79, "attendees": 418, "total": 568, "ind7_do_reach": 118.5, "ind8_understanding": 83.0, "ind10_skills": 100, "ind12_clss_understanding": 72.4, "ind13_utility": 98.6, "ind14_quality": 99.0, "ind15_trust": 90.0, "ind17_strong_trust": 98.8, "ind18_pedagogy_avg": 42.6}, {"district": "Mandla", "blocks": 9, "clusters": 67, "attendees": 638, "total": 761, "ind7_do_reach": 81.5, "ind8_understanding": 86.5, "ind10_skills": 100, "ind12_clss_understanding": 74.8, "ind13_utility": 97.3, "ind14_quality": 97.0, "ind15_trust": 86.8, "ind17_strong_trust": 97.2, "ind18_pedagogy_avg": 43.7}, {"district": "Mandsaur", "blocks": 5, "clusters": 44, "attendees": 550, "total": 653, "ind7_do_reach": 114.7, "ind8_understanding": 91.5, "ind10_skills": 100, "ind12_clss_understanding": 84.4, "ind13_utility": 99.3, "ind14_quality": 98.9, "ind15_trust": 92.0, "ind17_strong_trust": 99.1, "ind18_pedagogy_avg": 41.7}, {"district": "Morena", "blocks": 7, "clusters": 64, "attendees": 737, "total": 891, "ind7_do_reach": 111.4, "ind8_understanding": 86.8, "ind10_skills": 100, "ind12_clss_understanding": 71.0, "ind13_utility": 98.0, "ind14_quality": 98.8, "ind15_trust": 90.4, "ind17_strong_trust": 98.4, "ind18_pedagogy_avg": 42.8}, {"district": "Narmadapuram", "blocks": 7, "clusters": 48, "attendees": 586, "total": 683, "ind7_do_reach": 75.2, "ind8_understanding": 91.8, "ind10_skills": 100, "ind12_clss_understanding": 83.0, "ind13_utility": 99.3, "ind14_quality": 99.0, "ind15_trust": 91.0, "ind17_strong_trust": 99.1, "ind18_pedagogy_avg": 49.1}, {"district": "Narsinghpur", "blocks": 6, "clusters": 52, "attendees": 472, "total": 564, "ind7_do_reach": 96.7, "ind8_understanding": 93.0, "ind10_skills": 100, "ind12_clss_understanding": 82.6, "ind13_utility": 98.7, "ind14_quality": 98.3, "ind15_trust": 94.9, "ind17_strong_trust": 98.5, "ind18_pedagogy_avg": 48.9}, {"district": "Neemuch", "blocks": 3, "clusters": 35, "attendees": 343, "total": 403, "ind7_do_reach": 126.7, "ind8_understanding": 87.8, "ind10_skills": 100, "ind12_clss_understanding": 77.3, "ind13_utility": 98.5, "ind14_quality": 96.2, "ind15_trust": 92.1, "ind17_strong_trust": 97.4, "ind18_pedagogy_avg": 47.4}, {"district": "Niwari", "blocks": 2, "clusters": 19, "attendees": 146, "total": 192, "ind7_do_reach": 103.3, "ind8_understanding": 75.3, "ind10_skills": 100, "ind12_clss_understanding": 62.3, "ind13_utility": 97.3, "ind14_quality": 96.6, "ind15_trust": 89.0, "ind17_strong_trust": 96.9, "ind18_pedagogy_avg": 38.1}, {"district": "Panna", "blocks": 5, "clusters": 63, "attendees": 621, "total": 759, "ind7_do_reach": 137.3, "ind8_understanding": 88.7, "ind10_skills": 100, "ind12_clss_understanding": 75.6, "ind13_utility": 98.1, "ind14_quality": 98.1, "ind15_trust": 92.1, "ind17_strong_trust": 98.1, "ind18_pedagogy_avg": 43.6}, {"district": "Raisen", "blocks": 7, "clusters": 68, "attendees": 547, "total": 682, "ind7_do_reach": 104.8, "ind8_understanding": 91.0, "ind10_skills": 100, "ind12_clss_understanding": 77.2, "ind13_utility": 99.5, "ind14_quality": 98.4, "ind15_trust": 93.4, "ind17_strong_trust": 98.9, "ind18_pedagogy_avg": 42.7}, {"district": "Rajgarh", "blocks": 6, "clusters": 72, "attendees": 653, "total": 779, "ind7_do_reach": 143.3, "ind8_understanding": 87.4, "ind10_skills": 100, "ind12_clss_understanding": 73.5, "ind13_utility": 99.4, "ind14_quality": 98.8, "ind15_trust": 93.0, "ind17_strong_trust": 99.1, "ind18_pedagogy_avg": 45.3}, {"district": "Ratlam", "blocks": 6, "clusters": 61, "attendees": 776, "total": 906, "ind7_do_reach": 126.7, "ind8_understanding": 83.5, "ind10_skills": 100, "ind12_clss_understanding": 72.4, "ind13_utility": 96.9, "ind14_quality": 97.4, "ind15_trust": 85.3, "ind17_strong_trust": 97.2, "ind18_pedagogy_avg": 42.7}, {"district": "Rewa", "blocks": 9, "clusters": 92, "attendees": 398, "total": 531, "ind7_do_reach": 52.6, "ind8_understanding": 86.4, "ind10_skills": 100, "ind12_clss_understanding": 73.9, "ind13_utility": 98.5, "ind14_quality": 99.0, "ind15_trust": 91.2, "ind17_strong_trust": 98.7, "ind18_pedagogy_avg": 44.6}, {"district": "Sagar", "blocks": 11, "clusters": 77, "attendees": 485, "total": 623, "ind7_do_reach": 73.9, "ind8_understanding": 87.8, "ind10_skills": 100, "ind12_clss_understanding": 73.3, "ind13_utility": 97.3, "ind14_quality": 97.7, "ind15_trust": 88.9, "ind17_strong_trust": 97.5, "ind18_pedagogy_avg": 43.8}, {"district": "Satna", "blocks": 8, "clusters": 97, "attendees": 561, "total": 782, "ind7_do_reach": 171.7, "ind8_understanding": 90.0, "ind10_skills": 100, "ind12_clss_understanding": 73.8, "ind13_utility": 98.9, "ind14_quality": 98.6, "ind15_trust": 89.8, "ind17_strong_trust": 98.8, "ind18_pedagogy_avg": 45.3}, {"district": "Sehore", "blocks": 2, "clusters": 3, "attendees": 3, "total": 3, "ind7_do_reach": 0.0, "ind8_understanding": 100, "ind10_skills": 0.0, "ind12_clss_understanding": 66.7, "ind13_utility": 100, "ind14_quality": 100, "ind15_trust": 66.7, "ind17_strong_trust": 100, "ind18_pedagogy_avg": 44.4}, {"district": "Seoni", "blocks": 8, "clusters": 80, "attendees": 692, "total": 838, "ind7_do_reach": 101.7, "ind8_understanding": 89.7, "ind10_skills": 100, "ind12_clss_understanding": 75.7, "ind13_utility": 98.6, "ind14_quality": 98.7, "ind15_trust": 88.9, "ind17_strong_trust": 98.6, "ind18_pedagogy_avg": 41.4}, {"district": "Shahdol", "blocks": 5, "clusters": 56, "attendees": 321, "total": 429, "ind7_do_reach": 110.7, "ind8_understanding": 86.9, "ind10_skills": 100, "ind12_clss_understanding": 73.1, "ind13_utility": 98.4, "ind14_quality": 99.1, "ind15_trust": 94.7, "ind17_strong_trust": 98.8, "ind18_pedagogy_avg": 41.6}, {"district": "Shajapur", "blocks": 4, "clusters": 37, "attendees": 385, "total": 469, "ind7_do_reach": 106.7, "ind8_understanding": 93.8, "ind10_skills": 100, "ind12_clss_understanding": 84.0, "ind13_utility": 100, "ind14_quality": 99.2, "ind15_trust": 92.5, "ind17_strong_trust": 99.6, "ind18_pedagogy_avg": 51.0}, {"district": "Sheopur", "blocks": 3, "clusters": 29, "attendees": 235, "total": 315, "ind7_do_reach": 111.1, "ind8_understanding": 86.4, "ind10_skills": 100, "ind12_clss_understanding": 73.4, "ind13_utility": 98.3, "ind14_quality": 98.3, "ind15_trust": 88.9, "ind17_strong_trust": 98.3, "ind18_pedagogy_avg": 53.6}, {"district": "Shivpuri", "blocks": 8, "clusters": 76, "attendees": 415, "total": 528, "ind7_do_reach": 96.7, "ind8_understanding": 90.4, "ind10_skills": 100, "ind12_clss_understanding": 72.0, "ind13_utility": 98.8, "ind14_quality": 99.3, "ind15_trust": 90.1, "ind17_strong_trust": 99.0, "ind18_pedagogy_avg": 39.5}, {"district": "Sidhi", "blocks": 5, "clusters": 61, "attendees": 518, "total": 625, "ind7_do_reach": 122.7, "ind8_understanding": 85.7, "ind10_skills": 100, "ind12_clss_understanding": 71.2, "ind13_utility": 98.8, "ind14_quality": 99.4, "ind15_trust": 94.4, "ind17_strong_trust": 99.1, "ind18_pedagogy_avg": 41.7}, {"district": "Singrauli", "blocks": 3, "clusters": 46, "attendees": 257, "total": 324, "ind7_do_reach": 86.7, "ind8_understanding": 79.0, "ind10_skills": 100, "ind12_clss_understanding": 63.8, "ind13_utility": 97.3, "ind14_quality": 96.5, "ind15_trust": 89.1, "ind17_strong_trust": 96.9, "ind18_pedagogy_avg": 37.9}, {"district": "Tikamgarh", "blocks": 4, "clusters": 44, "attendees": 266, "total": 333, "ind7_do_reach": 113.3, "ind8_understanding": 77.4, "ind10_skills": 100, "ind12_clss_understanding": 65.4, "ind13_utility": 99.2, "ind14_quality": 99.6, "ind15_trust": 88.3, "ind17_strong_trust": 99.4, "ind18_pedagogy_avg": 44.2}, {"district": "Ujjain", "blocks": 7, "clusters": 60, "attendees": 548, "total": 659, "ind7_do_reach": 108.6, "ind8_understanding": 89.4, "ind10_skills": 100, "ind12_clss_understanding": 76.2, "ind13_utility": 99.1, "ind14_quality": 98.7, "ind15_trust": 89.4, "ind17_strong_trust": 98.9, "ind18_pedagogy_avg": 45.7}, {"district": "Umaria", "blocks": 3, "clusters": 31, "attendees": 260, "total": 336, "ind7_do_reach": 144.4, "ind8_understanding": 85.0, "ind10_skills": 100, "ind12_clss_understanding": 66.5, "ind13_utility": 97.7, "ind14_quality": 97.7, "ind15_trust": 95.0, "ind17_strong_trust": 97.7, "ind18_pedagogy_avg": 44.7}, {"district": "Vidisha", "blocks": 7, "clusters": 70, "attendees": 614, "total": 740, "ind7_do_reach": 109.5, "ind8_understanding": 89.3, "ind10_skills": 100, "ind12_clss_understanding": 80.1, "ind13_utility": 99.2, "ind14_quality": 99.0, "ind15_trust": 91.0, "ind17_strong_trust": 99.1, "ind18_pedagogy_avg": 48.3}], "stateSummary": [{"sno": 1, "month": "August", "gradeGroup": "Grades 6-8", "district": "Agar Malwa", "totalBlocks": 4, "totalClusters": 26, "monitors": 8, "facilitators": 49, "attendees": 242, "total": 299, "do_monitors": 2, "do_facilitators": 2, "do_participants": 51, "do_total": 55, "combined_total": 354}, {"sno": 2, "month": "August", "gradeGroup": "Grades 6-8", "district": "Alirajpur", "totalBlocks": 6, "totalClusters": 59, "monitors": 15, "facilitators": 96, "attendees": 340, "total": 451, "do_monitors": 2, "do_facilitators": 3, "do_participants": 110, "do_total": 115, "combined_total": 566}, {"sno": 3, "month": "August", "gradeGroup": "Grades 6-8", "district": "Anuppur", "totalBlocks": 4, "totalClusters": 45, "monitors": 14, "facilitators": 89, "attendees": 279, "total": 382, "do_monitors": 0, "do_facilitators": 0, "do_participants": 0, "do_total": 0, "combined_total": 382}, {"sno": 4, "month": "August", "gradeGroup": "Grades 6-8", "district": "Ashoknagar", "totalBlocks": 4, "totalClusters": 33, "monitors": 14, "facilitators": 74, "attendees": 347, "total": 435, "do_monitors": 1, "do_facilitators": 2, "do_participants": 76, "do_total": 79, "combined_total": 514}, {"sno": 5, "month": "August", "gradeGroup": "Grades 6-8", "district": "Balaghat", "totalBlocks": 10, "totalClusters": 77, "monitors": 1, "facilitators": 146, "attendees": 802, "total": 949, "do_monitors": 1, "do_facilitators": 1, "do_participants": 110, "do_total": 112, "combined_total": 1061}, {"sno": 6, "month": "August", "gradeGroup": "Grades 6-8", "district": "Barwani", "totalBlocks": 7, "totalClusters": 73, "monitors": 11, "facilitators": 107, "attendees": 573, "total": 691, "do_monitors": 1, "do_facilitators": 1, "do_participants": 104, "do_total": 106, "combined_total": 797}, {"sno": 7, "month": "August", "gradeGroup": "Grades 6-8", "district": "Betul", "totalBlocks": 10, "totalClusters": 79, "monitors": 4, "facilitators": 148, "attendees": 952, "total": 1104, "do_monitors": 1, "do_facilitators": 2, "do_participants": 130, "do_total": 133, "combined_total": 1237}, {"sno": 8, "month": "August", "gradeGroup": "Grades 6-8", "district": "Bhind", "totalBlocks": 6, "totalClusters": 66, "monitors": 10, "facilitators": 118, "attendees": 638, "total": 766, "do_monitors": 0, "do_facilitators": 0, "do_participants": 91, "do_total": 91, "combined_total": 857}, {"sno": 9, "month": "August", "gradeGroup": "Grades 6-8", "district": "Bhopal", "totalBlocks": 4, "totalClusters": 32, "monitors": 16, "facilitators": 61, "attendees": 322, "total": 399, "do_monitors": 1, "do_facilitators": 1, "do_participants": 57, "do_total": 59, "combined_total": 458}, {"sno": 10, "month": "August", "gradeGroup": "Grades 6-8", "district": "Burhanpur", "totalBlocks": 2, "totalClusters": 20, "monitors": 2, "facilitators": 32, "attendees": 147, "total": 181, "do_monitors": 0, "do_facilitators": 2, "do_participants": 29, "do_total": 31, "combined_total": 212}, {"sno": 11, "month": "August", "gradeGroup": "Grades 6-8", "district": "Chhatarpur", "totalBlocks": 8, "totalClusters": 74, "monitors": 18, "facilitators": 114, "attendees": 721, "total": 853, "do_monitors": 1, "do_facilitators": 0, "do_participants": 120, "do_total": 121, "combined_total": 974}, {"sno": 12, "month": "August", "gradeGroup": "Grades 6-8", "district": "Chhindwara", "totalBlocks": 11, "totalClusters": 98, "monitors": 11, "facilitators": 163, "attendees": 866, "total": 1040, "do_monitors": 3, "do_facilitators": 1, "do_participants": 142, "do_total": 146, "combined_total": 1186}, {"sno": 13, "month": "August", "gradeGroup": "Grades 6-8", "district": "Damoh", "totalBlocks": 7, "totalClusters": 53, "monitors": 4, "facilitators": 75, "attendees": 374, "total": 453, "do_monitors": 1, "do_facilitators": 2, "do_participants": 66, "do_total": 69, "combined_total": 522}, {"sno": 14, "month": "August", "gradeGroup": "Grades 6-8", "district": "Datia", "totalBlocks": 3, "totalClusters": 34, "monitors": 20, "facilitators": 55, "attendees": 341, "total": 416, "do_monitors": 3, "do_facilitators": 2, "do_participants": 59, "do_total": 64, "combined_total": 480}, {"sno": 15, "month": "August", "gradeGroup": "Grades 6-8", "district": "Dewas", "totalBlocks": 1, "totalClusters": 1, "monitors": 0, "facilitators": 0, "attendees": 1, "total": 1, "do_monitors": 0, "do_facilitators": 0, "do_participants": 0, "do_total": 0, "combined_total": 1}, {"sno": 16, "month": "August", "gradeGroup": "Grades 6-8", "district": "Dhar", "totalBlocks": 13, "totalClusters": 106, "monitors": 11, "facilitators": 158, "attendees": 842, "total": 1011, "do_monitors": 2, "do_facilitators": 3, "do_participants": 166, "do_total": 171, "combined_total": 1182}, {"sno": 17, "month": "August", "gradeGroup": "Grades 6-8", "district": "Dindori", "totalBlocks": 7, "totalClusters": 48, "monitors": 0, "facilitators": 58, "attendees": 316, "total": 374, "do_monitors": 0, "do_facilitators": 0, "do_participants": 73, "do_total": 73, "combined_total": 447}, {"sno": 18, "month": "August", "gradeGroup": "Grades 6-8", "district": "Guna", "totalBlocks": 5, "totalClusters": 51, "monitors": 16, "facilitators": 67, "attendees": 404, "total": 487, "do_monitors": 3, "do_facilitators": 1, "do_participants": 76, "do_total": 80, "combined_total": 567}, {"sno": 19, "month": "August", "gradeGroup": "Grades 6-8", "district": "Gwalior", "totalBlocks": 6, "totalClusters": 54, "monitors": 0, "facilitators": 81, "attendees": 533, "total": 614, "do_monitors": 1, "do_facilitators": 0, "do_participants": 90, "do_total": 91, "combined_total": 705}, {"sno": 20, "month": "August", "gradeGroup": "Grades 6-8", "district": "Harda", "totalBlocks": 3, "totalClusters": 24, "monitors": 3, "facilitators": 42, "attendees": 220, "total": 265, "do_monitors": 0, "do_facilitators": 2, "do_participants": 39, "do_total": 41, "combined_total": 306}, {"sno": 21, "month": "August", "gradeGroup": "Grades 6-8", "district": "Indore", "totalBlocks": 6, "totalClusters": 48, "monitors": 6, "facilitators": 92, "attendees": 462, "total": 560, "do_monitors": 2, "do_facilitators": 2, "do_participants": 76, "do_total": 80, "combined_total": 640}, {"sno": 22, "month": "August", "gradeGroup": "Grades 6-8", "district": "Jabalpur", "totalBlocks": 9, "totalClusters": 62, "monitors": 8, "facilitators": 103, "attendees": 412, "total": 523, "do_monitors": 2, "do_facilitators": 1, "do_participants": 91, "do_total": 94, "combined_total": 617}, {"sno": 23, "month": "August", "gradeGroup": "Grades 6-8", "district": "Jhabua", "totalBlocks": 6, "totalClusters": 63, "monitors": 5, "facilitators": 117, "attendees": 487, "total": 609, "do_monitors": 2, "do_facilitators": 1, "do_participants": 101, "do_total": 104, "combined_total": 713}, {"sno": 24, "month": "August", "gradeGroup": "Grades 6-8", "district": "Katni", "totalBlocks": 6, "totalClusters": 51, "monitors": 6, "facilitators": 81, "attendees": 436, "total": 523, "do_monitors": 2, "do_facilitators": 2, "do_participants": 87, "do_total": 91, "combined_total": 614}, {"sno": 25, "month": "August", "gradeGroup": "Grades 6-8", "district": "Khandwa", "totalBlocks": 7, "totalClusters": 43, "monitors": 16, "facilitators": 83, "attendees": 424, "total": 523, "do_monitors": 0, "do_facilitators": 0, "do_participants": 0, "do_total": 0, "combined_total": 523}, {"sno": 26, "month": "August", "gradeGroup": "Grades 6-8", "district": "Khargone", "totalBlocks": 9, "totalClusters": 79, "monitors": 39, "facilitators": 111, "attendees": 418, "total": 568, "do_monitors": 2, "do_facilitators": 2, "do_participants": 160, "do_total": 164, "combined_total": 732}, {"sno": 27, "month": "August", "gradeGroup": "Grades 6-8", "district": "Mandla", "totalBlocks": 9, "totalClusters": 67, "monitors": 11, "facilitators": 112, "attendees": 638, "total": 761, "do_monitors": 1, "do_facilitators": 2, "do_participants": 110, "do_total": 113, "combined_total": 874}, {"sno": 28, "month": "August", "gradeGroup": "Grades 6-8", "district": "Mandsaur", "totalBlocks": 5, "totalClusters": 44, "monitors": 8, "facilitators": 95, "attendees": 550, "total": 653, "do_monitors": 0, "do_facilitators": 3, "do_participants": 86, "do_total": 89, "combined_total": 742}, {"sno": 29, "month": "August", "gradeGroup": "Grades 6-8", "district": "Morena", "totalBlocks": 7, "totalClusters": 64, "monitors": 39, "facilitators": 115, "attendees": 737, "total": 891, "do_monitors": 1, "do_facilitators": 2, "do_participants": 117, "do_total": 120, "combined_total": 1011}, {"sno": 30, "month": "August", "gradeGroup": "Grades 6-8", "district": "Narmadapuram", "totalBlocks": 7, "totalClusters": 48, "monitors": 12, "facilitators": 85, "attendees": 586, "total": 683, "do_monitors": 2, "do_facilitators": 1, "do_participants": 79, "do_total": 82, "combined_total": 765}, {"sno": 31, "month": "August", "gradeGroup": "Grades 6-8", "district": "Narsinghpur", "totalBlocks": 6, "totalClusters": 52, "monitors": 4, "facilitators": 88, "attendees": 472, "total": 564, "do_monitors": 1, "do_facilitators": 1, "do_participants": 87, "do_total": 89, "combined_total": 653}, {"sno": 32, "month": "August", "gradeGroup": "Grades 6-8", "district": "Neemuch", "totalBlocks": 3, "totalClusters": 35, "monitors": 5, "facilitators": 55, "attendees": 343, "total": 403, "do_monitors": 1, "do_facilitators": 2, "do_participants": 57, "do_total": 60, "combined_total": 463}, {"sno": 33, "month": "August", "gradeGroup": "Grades 6-8", "district": "Niwari", "totalBlocks": 2, "totalClusters": 19, "monitors": 8, "facilitators": 38, "attendees": 146, "total": 192, "do_monitors": 1, "do_facilitators": 2, "do_participants": 31, "do_total": 34, "combined_total": 226}, {"sno": 34, "month": "August", "gradeGroup": "Grades 6-8", "district": "Panna", "totalBlocks": 5, "totalClusters": 63, "monitors": 11, "facilitators": 127, "attendees": 621, "total": 759, "do_monitors": 2, "do_facilitators": 2, "do_participants": 103, "do_total": 107, "combined_total": 866}, {"sno": 35, "month": "August", "gradeGroup": "Grades 6-8", "district": "Raisen", "totalBlocks": 7, "totalClusters": 68, "monitors": 18, "facilitators": 117, "attendees": 547, "total": 682, "do_monitors": 0, "do_facilitators": 2, "do_participants": 110, "do_total": 112, "combined_total": 794}, {"sno": 36, "month": "August", "gradeGroup": "Grades 6-8", "district": "Rajgarh", "totalBlocks": 6, "totalClusters": 72, "monitors": 11, "facilitators": 115, "attendees": 653, "total": 779, "do_monitors": 0, "do_facilitators": 1, "do_participants": 129, "do_total": 130, "combined_total": 909}, {"sno": 37, "month": "August", "gradeGroup": "Grades 6-8", "district": "Ratlam", "totalBlocks": 6, "totalClusters": 61, "monitors": 5, "facilitators": 125, "attendees": 776, "total": 906, "do_monitors": 1, "do_facilitators": 1, "do_participants": 114, "do_total": 116, "combined_total": 1022}, {"sno": 38, "month": "August", "gradeGroup": "Grades 6-8", "district": "Rewa", "totalBlocks": 9, "totalClusters": 92, "monitors": 1, "facilitators": 132, "attendees": 398, "total": 531, "do_monitors": 1, "do_facilitators": 2, "do_participants": 71, "do_total": 74, "combined_total": 605}, {"sno": 39, "month": "August", "gradeGroup": "Grades 6-8", "district": "Sagar", "totalBlocks": 11, "totalClusters": 77, "monitors": 15, "facilitators": 123, "attendees": 485, "total": 623, "do_monitors": 1, "do_facilitators": 1, "do_participants": 122, "do_total": 124, "combined_total": 747}, {"sno": 40, "month": "August", "gradeGroup": "Grades 6-8", "district": "Satna", "totalBlocks": 8, "totalClusters": 97, "monitors": 10, "facilitators": 211, "attendees": 561, "total": 782, "do_monitors": 1, "do_facilitators": 3, "do_participants": 206, "do_total": 210, "combined_total": 992}, {"sno": 41, "month": "August", "gradeGroup": "Grades 6-8", "district": "Sehore", "totalBlocks": 2, "totalClusters": 3, "monitors": 0, "facilitators": 0, "attendees": 3, "total": 3, "do_monitors": 0, "do_facilitators": 0, "do_participants": 0, "do_total": 0, "combined_total": 3}, {"sno": 42, "month": "August", "gradeGroup": "Grades 6-8", "district": "Seoni", "totalBlocks": 8, "totalClusters": 80, "monitors": 29, "facilitators": 117, "attendees": 692, "total": 838, "do_monitors": 1, "do_facilitators": 1, "do_participants": 122, "do_total": 124, "combined_total": 962}, {"sno": 43, "month": "August", "gradeGroup": "Grades 6-8", "district": "Shahdol", "totalBlocks": 5, "totalClusters": 56, "monitors": 11, "facilitators": 97, "attendees": 321, "total": 429, "do_monitors": 0, "do_facilitators": 2, "do_participants": 83, "do_total": 85, "combined_total": 514}, {"sno": 44, "month": "August", "gradeGroup": "Grades 6-8", "district": "Shajapur", "totalBlocks": 4, "totalClusters": 37, "monitors": 13, "facilitators": 71, "attendees": 385, "total": 469, "do_monitors": 2, "do_facilitators": 2, "do_participants": 64, "do_total": 68, "combined_total": 537}, {"sno": 45, "month": "August", "gradeGroup": "Grades 6-8", "district": "Sheopur", "totalBlocks": 3, "totalClusters": 29, "monitors": 24, "facilitators": 56, "attendees": 235, "total": 315, "do_monitors": 2, "do_facilitators": 2, "do_participants": 50, "do_total": 54, "combined_total": 369}, {"sno": 46, "month": "August", "gradeGroup": "Grades 6-8", "district": "Shivpuri", "totalBlocks": 8, "totalClusters": 76, "monitors": 7, "facilitators": 106, "attendees": 415, "total": 528, "do_monitors": 1, "do_facilitators": 2, "do_participants": 116, "do_total": 119, "combined_total": 647}, {"sno": 47, "month": "August", "gradeGroup": "Grades 6-8", "district": "Sidhi", "totalBlocks": 5, "totalClusters": 61, "monitors": 4, "facilitators": 103, "attendees": 518, "total": 625, "do_monitors": 0, "do_facilitators": 2, "do_participants": 92, "do_total": 94, "combined_total": 719}, {"sno": 48, "month": "August", "gradeGroup": "Grades 6-8", "district": "Singrauli", "totalBlocks": 3, "totalClusters": 46, "monitors": 1, "facilitators": 66, "attendees": 257, "total": 324, "do_monitors": 0, "do_facilitators": 1, "do_participants": 39, "do_total": 40, "combined_total": 364}, {"sno": 49, "month": "August", "gradeGroup": "Grades 6-8", "district": "Tikamgarh", "totalBlocks": 4, "totalClusters": 44, "monitors": 2, "facilitators": 65, "attendees": 266, "total": 333, "do_monitors": 3, "do_facilitators": 2, "do_participants": 68, "do_total": 73, "combined_total": 406}, {"sno": 50, "month": "August", "gradeGroup": "Grades 6-8", "district": "Ujjain", "totalBlocks": 7, "totalClusters": 60, "monitors": 7, "facilitators": 104, "attendees": 548, "total": 659, "do_monitors": 0, "do_facilitators": 1, "do_participants": 114, "do_total": 115, "combined_total": 774}, {"sno": 51, "month": "August", "gradeGroup": "Grades 6-8", "district": "Umaria", "totalBlocks": 3, "totalClusters": 31, "monitors": 3, "facilitators": 73, "attendees": 260, "total": 336, "do_monitors": 1, "do_facilitators": 2, "do_participants": 65, "do_total": 68, "combined_total": 404}, {"sno": 52, "month": "August", "gradeGroup": "Grades 6-8", "district": "Vidisha", "totalBlocks": 7, "totalClusters": 70, "monitors": 1, "facilitators": 125, "attendees": 614, "total": 740, "do_monitors": 0, "do_facilitators": 2, "do_participants": 115, "do_total": 117, "combined_total": 857}], "fieldIssues": [{"id": 1, "issue": "Teacher attendance- Teacher marks their presence from school and goes back to school after/ during CLSS in order to mark 'out' attendance. This needs to be worked with Mr. Vivek Mishra Ji from VSK."}, {"id": 2, "issue": "Integration of CLSS module with Education Portal 3.0 so that all the CLSS hours can be counted towards total CPD hours."}, {"id": 3, "issue": "New DIET (TI) and APC has been appointed in Vidisha. Role mapping is not visible to him on his RSKMP id. Requesting your support to resolve this with Mr. Sourabh Jain."}, {"id": 4, "issue": "DO and CLSS could not happen at Sehore and Dewas because the positions of CAC are vacant."}, {"id": 5, "issue": "DO happened at 48 district as per RSKMP.  Total number of forms filled by facilitators- 77 (74%), observers- 60 and participants- 4478 (72%) as per RSKMP potal. \n(DO for Mauganj, Maihar and Pandhurna took place with their mother DIETs)"}, {"id": 6, "issue": "DO for Anuppur and Khandwa happened on Saturday and the feedback responses have been recorded via Google form. Response data for the same will be shared over email."}, {"id": 7, "issue": "CLSS happened at 50 districts (96%), 314 blocks (98%) and 2851 clusters (92%)."}, {"id": 8, "issue": "Total participation in CLSS: Facilitators- 4841 (78%), Monitors- 518 and Participants- 23926."}, {"id": 9, "issue": "A detailed report including scale of the program, quality of the program and feedback with respect to the content delivered during CLSS will be shared by mid- September."}]};
+
+    let activeIndicatorId = 7;
+    let charts = {};
+
+    function switchRFTab(tabId, el) {
+      document.querySelectorAll('.rf-tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.rf-nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      el.classList.add('active');
+
+      if (tabId === 'tab-deepdive') {
+        renderDistrictDeepDive();
+      }
+    }
+
+    // Render Indicator Cards Grid
+    function renderIndicatorCards() {
+      const container = document.getElementById('indicatorCardsContainer');
+      container.innerHTML = '';
+
+      rfData.indicators.forEach(ind => {
+        const card = document.createElement('div');
+        card.className = `ind-card ${ind.id === activeIndicatorId ? 'selected' : ''}`;
+        card.onclick = () => selectIndicator(ind.id);
+
+        card.innerHTML = `
+          <div>
+            <div class="ind-head">
+              <span class="ind-code-badge">${ind.code}</span>
+              <span class="ind-status-pill">${ind.status}</span>
+            </div>
+            <div class="ind-title">${ind.title}</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px;">${ind.category} • <span style="color: #38bdf8;">${ind.cadre}</span></div>
+          </div>
+          <div class="ind-metrics-row">
+            <div>
+              <div style="font-size: 10px; font-family: var(--font-mono); color: #64748b;">TARGET: ${ind.target}</div>
+              <div style="font-size: 11px; font-weight: 600; color: #cbd5e1;">${ind.actual}</div>
+            </div>
+            <div class="ind-score-num">${ind.scorePct}%</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      renderIndicatorDetail();
+    }
+
+    function selectIndicator(id) {
+      activeIndicatorId = id;
+      document.querySelectorAll('.ind-card').forEach((c, idx) => {
+        c.classList.toggle('selected', rfData.indicators[idx].id === id);
+      });
+      renderIndicatorDetail();
+    }
+
+    function renderIndicatorDetail() {
+      const ind = rfData.indicators.find(x => x.id === activeIndicatorId);
+      if (!ind) return;
+
+      const box = document.getElementById('indicatorDetailBox');
+      box.innerHTML = `
+        <div class="detail-hero-title">
+          <span class="ind-code-badge" style="font-size: 14px; padding: 4px 10px;">${ind.code}</span>
+          <span>${ind.title}</span>
+          <span class="ind-status-pill" style="margin-left: auto; font-size: 11px;">${ind.status} (${ind.scorePct}%)</span>
+        </div>
+        <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 12px;">
+          ${ind.description}
+        </div>
+        <div class="detail-formula">
+          📐 <strong>Evaluation Formula:</strong> ${ind.metricFormula}
+        </div>
+        <div class="detail-kpi-grid">
+          ${ind.keyDataPoints.map(k => `
+            <div class="detail-kpi-card">
+              <div class="val">${k.val}</div>
+              <div class="lbl">${k.label}</div>
+              <div class="sub">${k.sub}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Render Sub-Metrics Chart
+      if (charts.subChart) charts.subChart.destroy();
+      const ctx = document.getElementById('subMetricsChart').getContext('2d');
+      const isDark = document.documentElement.classList.contains('dark');
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
+      const tickColor = isDark ? '#94a3b8' : '#475569';
+      const labelColor = isDark ? '#f8fafc' : '#0f172a';
+
+      charts.subMetrics = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ind.subMetrics.map(m => m.metric.length > 25 ? m.metric.substring(0, 25) + '...' : m.metric),
+          datasets: [{
+            label: 'Actual Achievement %',
+            data: ind.subMetrics.map(m => m.actualPct),
+            backgroundColor: '#0284c7',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: items => ind.subMetrics[items[0].dataIndex].metric
+              }
+            }
+          },
+          scales: {
+            y: { min: 0, max: 100, grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v + '%' } },
+            x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 10 } } }
+          }
+        }
+      });
+
+      // Render Sub-Metrics Table
+      const tbody = document.querySelector('#subMetricsTable tbody');
+      tbody.innerHTML = '';
+      ind.subMetrics.forEach(m => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${m.metric}</strong></td>
+          <td class="font-mono" style="color: var(--text-muted);">${m.source}</td>
+          <td class="font-mono" style="color: var(--accent-cyan); font-weight: 700;">${m.actualPct}%</td>
+          <td><span style="color: var(--accent-emerald); font-weight: 600;">${m.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // 2. Matrix Table
+    function initMatrixTable() {
+      const tbody = document.querySelector('#rfMatrixTable tbody');
+      tbody.innerHTML = '';
+
+      rfData.districtMatrix.forEach(d => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong style="color: var(--text-primary);">${d.district}</strong></td>
+          <td class="font-mono">${d.clusters}</td>
+          <td class="font-mono" style="color: var(--accent-cyan); font-weight: 600;">${d.attendees.toLocaleString()}</td>
+          <td class="font-mono">${d.ind7_do_reach}%</td>
+          <td class="font-mono">${d.ind8_understanding}%</td>
+          <td class="font-mono">${d.ind10_skills}%</td>
+          <td class="font-mono">${d.ind12_clss_understanding}%</td>
+          <td class="font-mono" style="color: var(--accent-emerald); font-weight: 700;">${d.ind13_utility}%</td>
+          <td class="font-mono">${d.ind14_quality}%</td>
+          <td class="font-mono" style="color: var(--accent-pbi-gold); font-weight: 700;">${d.ind15_trust}%</td>
+          <td class="font-mono" style="color: var(--accent-purple); font-weight: 600;">${d.ind18_pedagogy_avg}%</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterRFMatrixTable() {
+      const q = document.getElementById('rfMatrixSearch').value.toLowerCase();
+      document.querySelectorAll('#rfMatrixTable tbody tr').forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // 3. District Deep Dive
+    function initDistrictDeepDive() {
+      const sel = document.getElementById('districtDeepDiveSelect');
+      sel.innerHTML = '';
+      rfData.districtMatrix.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.district;
+        opt.innerText = d.district;
+        sel.appendChild(opt);
+      });
+      updateDistrictDeepDive(rfData.districtMatrix[0].district);
+    }
+
+    function renderDistrictDeepDive() {
+      const sel = document.getElementById('districtDeepDiveSelect');
+      if (sel) updateDistrictDeepDive(sel.value);
+    }
+
+    function updateDistrictDeepDive(dname) {
+      const dinfo = rfData.districtMatrix.find(d => d.district === dname);
+      if (!dinfo) return;
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+      const tickColor = isDark ? '#94a3b8' : '#475569';
+      const labelColor = isDark ? '#f8fafc' : '#0f172a';
+
+      const radarLabels = [
+        'Ind 8: DO Understanding',
+        'Ind 10: Facilitation Skills',
+        'Ind 12: CLSS Understanding',
+        'Ind 13: Pedagogical Utility',
+        'Ind 14: Quality & Attendance',
+        'Ind 15: Peer Trust',
+        'Ind 18: Subject Pedagogy'
+      ];
+
+      const radarScores = [
+        dinfo.ind8_understanding,
+        dinfo.ind10_skills,
+        dinfo.ind12_clss_understanding,
+        dinfo.ind13_utility,
+        dinfo.ind14_quality,
+        dinfo.ind15_trust,
+        dinfo.ind18_pedagogy_avg
+      ];
+
+      if (charts.distRadar) charts.distRadar.destroy();
+      const ctx = document.getElementById('districtRFRadar').getContext('2d');
+      charts.distRadar = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: radarLabels,
+          datasets: [{
+            label: `${dname} RF Performance %`,
+            data: radarScores,
+            borderColor: '#d97706',
+            backgroundColor: isDark ? 'rgba(245, 158, 11, 0.25)' : 'rgba(217, 119, 6, 0.2)',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { color: tickColor, backdropColor: 'transparent' },
+              pointLabels: { color: labelColor, font: { size: 10, weight: 600 } },
+              grid: { color: gridColor }
+            }
+          },
+          plugins: { legend: { labels: { color: tickColor, font: { family: 'JetBrains Mono' } } } }
+        }
+      });
+
+      const tbody = document.querySelector('#districtRFTable tbody');
+      tbody.innerHTML = '';
+      radarLabels.forEach((lbl, idx) => {
+        const score = radarScores[idx];
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="font-mono">${lbl.split(' ')[0] + ' ' + lbl.split(' ')[1]}</td>
+          <td><strong>${lbl}</strong></td>
+          <td class="font-mono" style="color: var(--accent-cyan); font-weight: 700;">${score}%</td>
+          <td><span style="color: ${score >= 85 ? 'var(--accent-emerald)' : (score >= 60 ? 'var(--accent-pbi-gold)' : 'var(--accent-rose)')}; font-weight: 600;">${score >= 85 ? 'Exceeded Target' : (score >= 60 ? 'On Track' : 'Needs Support')}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // 4. Governance
+    function initGovernance() {
+      const container = document.getElementById('rfGovernanceList');
+      container.innerHTML = '';
+      rfData.fieldIssues.forEach(iss => {
+        const div = document.createElement('div');
+        div.style.background = 'rgba(244, 63, 94, 0.04)';
+        div.style.border = '1px solid rgba(244, 63, 94, 0.2)';
+        div.style.borderLeft = '4px solid var(--accent-rose)';
+        div.style.borderRadius = '8px';
+        div.style.padding = '14px 18px';
+        div.style.display = 'flex';
+        div.style.gap = '14px';
+        div.style.alignItems = 'flex-start';
+
+        div.innerHTML = `
+          <div style="background: rgba(244,63,94,0.12); color: var(--accent-rose); font-family: var(--font-mono); font-weight: 700; font-size: 11px; padding: 3px 6px; border-radius: 4px;">ITEM #${iss.id}</div>
+          <div style="font-size: 13px; color: var(--text-primary); line-height: 1.5;">${iss.issue}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function exportRFData() {
+      let csv = [];
+      const rows = document.querySelectorAll('#rfMatrixTable tr');
+      rows.forEach(r => {
+        let row = [];
+        r.querySelectorAll('th, td').forEach(c => {
+          row.push('"' + c.innerText.replace(/"/g, '""') + '"');
+        });
+        csv.push(row.join(','));
+      });
+      const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'RSK_Results_Framework_Indicators_Scorecard.csv';
+      a.click();
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.documentElement.classList.toggle('light', !isDark);
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      if (isDark) {
+        icon.textContent = '🌙';
+        label.textContent = 'Dark Mode';
+      } else {
+        icon.textContent = '☀️';
+        label.textContent = 'Light Mode';
+      }
+      if (activeIndicatorId) selectIndicator(activeIndicatorId);
+      const sel = document.getElementById('districtDeepDiveSelect');
+      if (sel) updateDistrictDeepDive(sel.value);
+    }
+
+    window.onload = function() {
+      renderIndicatorCards();
+      initMatrixTable();
+      initDistrictDeepDive();
+      initGovernance();
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿Program,Role,MetricCode,MetricNameEnglish,MetricNameHindi,Category
+CLSS,Observer,55_Correct,Q55: Academic Dialogue Objective (Non-objective identification),शैक्षिक संवाद का गैर-उद्देश्य पहचान,MCQ Correct
+CLSS,Observer,56.1,Q56: Focus on Academic Topics,चर्चा अकादमिक विषय पर केंद्रित होनी चाहिए,Design Principle
+CLSS,Observer,56.2,Q56: Post-work Application & Sharing,संवाद की सीख को पोस्ट वर्क के माध्यम से कक्षा में लागू किया जाए,Design Principle
+CLSS,Observer,56.3,Q56: Feedback at end of dialogue,संवाद के अंत में गुणवत्ता पर फीडबैक,Design Principle
+CLSS,Observer,56.4,Q56: 30:70 Talk-Time Ratio,सहजकर्ता एवं प्रतिभागियों के बीच 30:70 का अनुपात,Design Principle
+CLSS,Observer,56.5,Q56: Adherence to time schedule,चर्चा के दौरान पूर्वनिर्धारित समय का पालन,Design Principle
+CLSS,Observer,56.6,Q56: Equal participation opportunity,सभी प्रतिभागियों को बातचीत के लिए समान अवसर,Design Principle
+CLSS,Observer,56.7,Q56: Classroom & School context focus,विद्यालय और कक्षा परिपेक्ष्य से जुड़े अनुभवों पर चर्चा,Design Principle
+CLSS,Observer,56.8,Q56: Off-topic personal issues (Negative),संवाद में विषय से भटक कर व्यक्तिगत मुद्दों पर चर्चा (नकारात्मक),Design Principle
+CLSS,Observer,Sum of responses,Q57: Total Observed Participants,संवाद में उपस्थित कुल प्रतिभागी,Attendance
+CLSS,Observer,58.1,Q58: Discussed previous post-work,पिछले संवाद के पोस्ट-वर्क पर चर्चा,Guide Aspect
+CLSS,Observer,58.2,Q58: Session consolidation & key points,सत्र से सम्बंधित महत्वपूर्ण जानकारी का दोहराव / समेकन,Guide Aspect
+CLSS,Observer,58.3,Q58: Adhered to guide plan & time,मार्गदर्शिका में दी गई सत्र योजना व समयावधि अनुसार संचालन,Guide Aspect
+CLSS,Observer,58.4,Q58: Assigned next post-work,आगामी संवाद हेतु पोस्ट वर्क दिया गया,Guide Aspect
+CLSS,Observer,59.1,Q59: Active Participation >75%,75% से अधिक प्रतिभागियों की सक्रिय सहभागिता,Participation Rate
+CLSS,Observer,59.2,Q59: Active Participation 50-75%,50% से 75% प्रतिभागियों की सक्रिय सहभागिता,Participation Rate
+CLSS,Observer,59.3,Q59: Active Participation <50%,50% से कम प्रतिभागियों की सक्रिय सहभागिता,Participation Rate
+CLSS,Observer,60.1,Q60: Decentralize teacher CPD,शिक्षक व्यावसायिक उन्नयन प्रक्रिया का विकेंद्रीकरण करना,Dialogue Objective
+CLSS,Observer,60.2,Q60: Share classroom best practices,कक्षा आधारित अनुभवों और बेस्ट प्रैक्टिसेस साझा करना,Dialogue Objective
+CLSS,Observer,60.3,Q60: Motivate continuous CPD,शिक्षकों को स्वयं के सतत् व्यावसायिक उन्नयन हेतु प्रेरित करना,Dialogue Objective
+CLSS,Observer,60.4,Q60: Reinforce face-to-face training,जनशिक्षा केंद्र स्तर पर फेस-टू-फेस प्रशिक्षण की पुनरावृत्ति,Dialogue Objective
+CLSS,Observer,60.5,Q60: Build Peer Learning Community,पीयर लर्निंग समुदाय का निर्माण करना,Dialogue Objective
+CLSS,Observer,61.1,Q61: Open to diverse viewpoints,विचारों की विविधता के प्रति स्वीकार्यता,Facilitation Behavior
+CLSS,Observer,61.2,Q61: Appreciated teacher efforts,प्रतिभागियों के प्रयासों की सराहना की,Facilitation Behavior
+CLSS,Observer,61.3,Q61: Respectful language used,सम्मानजनक भाषा का उपयोग,Facilitation Behavior
+CLSS,Observer,61.4,Q61: Redirected non-academic drift,गैर अकादमिक चर्चा को रोका,Facilitation Behavior
+CLSS,Observer,61.5,Q61: None of the above,उपरोक्त में से कोई नहीं,Facilitation Behavior
+CLSS,Observer,62.1,Q62: Time adherence observed,पूर्व निर्धारित समय का पालन देखा गया,Observed Principle
+CLSS,Observer,62.2,Q62: RSK prescribed topic discussed,राज्य शिक्षा केंद्र द्वारा सुझावित विषय पर चर्चा,Observed Principle
+CLSS,Observer,62.3,Q62: Classroom experiences linked,विद्यालय व कक्षा परिप्रेक्ष्य से जुड़े अनुभवों पर चर्चा,Observed Principle
+CLSS,Observer,62.4,Q62: Feedback taken at end,संवाद के अंत में चर्चा की गुणवत्ता पर फीडबैक,Observed Principle
+CLSS,Observer,62.5,Q62: Equal opportunity given,सभी प्रतिभागियों को बातचीत के समान अवसर,Observed Principle
+CLSS,Observer,62.6,Q62: 30:70 Talk ratio observed,सहजकर्ता-प्रतिभागी 30:70 अनुपात लागू हुआ,Observed Principle
+CLSS,Observer,62.7,Q62: Post work discussed / assigned,सत्र सीख पर पोस्ट वर्क देना / चर्चा करना,Observed Principle
+CLSS,Observer,63.1,Q63: Facilitator followed agenda (Yes),सहजकर्ताओं ने एजेंडा अनुसार संचालन किया (हाँ),Compliance
+CLSS,Observer,63.2,Q63: Facilitator followed agenda (No),सहजकर्ताओं ने एजेंडा अनुसार संचालन किया (नहीं),Compliance
+CLSS,Observer,64.1,Q64: Observer role clarity developed,संवाद अवलोकन से भूमिका व जिम्मेदारी पर समझ विकसित हुई,Impact
+CLSS,Facilitator,67_Correct,Q67: Academic Dialogue Objective Correctness,शैक्षिक संवाद उद्देश्य समझ (सही उत्तर),MCQ Correct
+CLSS,Facilitator,68.1,Q68: Academic topic focus,चर्चा अकादमिक विषय पर केंद्रित होनी चाहिए,Design Principle
+CLSS,Facilitator,68.2,Q68: Post-work sharing in next samwad,पोस्ट वर्क पर प्रस्तुतीकरण,Design Principle
+CLSS,Facilitator,68.3,Q68: Feedback collection,गुणवत्ता पर फीडबैक,Design Principle
+CLSS,Facilitator,68.4,Q68: 30:70 ratio,30:70 संवाद अनुपात,Design Principle
+CLSS,Facilitator,68.5,Q68: Time discipline,पूर्वनिर्धारित समय का पालन,Design Principle
+CLSS,Facilitator,68.6,Q68: Equal opportunities,समान अवसर,Design Principle
+CLSS,Facilitator,68.7,Q68: Classroom context,कक्षा परिप्रेक्ष्य अनुभव,Design Principle
+CLSS,Facilitator,68.8,Q68: Off-topic drift,व्यक्तिगत मुद्दों पर चर्चा,Design Principle
+CLSS,Facilitator,69.1,Q69: Implemented - Time discipline,लागू किया: समय का पालन,Implemented Principle
+CLSS,Facilitator,69.2,Q69: Implemented - RSK academic topic,लागू किया: अकादमिक विषय पर चर्चा,Implemented Principle
+CLSS,Facilitator,69.3,Q69: Implemented - Classroom experiences,लागू किया: कक्षा अनुभवों पर चर्चा,Implemented Principle
+CLSS,Facilitator,69.4,Q69: Implemented - Feedback at end,लागू किया: अंत में फीडबैक,Implemented Principle
+CLSS,Facilitator,69.5,Q69: Implemented - Equal opportunity,लागू किया: समान अवसर,Implemented Principle
+CLSS,Facilitator,69.6,Q69: Implemented - 30:70 ratio,लागू किया: 30:70 अनुपात,Implemented Principle
+CLSS,Facilitator,69.7,Q69: Implemented - Post-work assign,लागू किया: पोस्ट वर्क देना,Implemented Principle
+CLSS,Facilitator,70.1,Q70: Attended District Orientation (Yes),जिला उन्मुखीकरण में भाग लिया (हाँ),DO Attendance
+CLSS,Facilitator,70.2,Q70: Attended District Orientation (No),जिला उन्मुखीकरण में भाग लिया (नहीं),DO Attendance
+CLSS,Facilitator,71.1,Q71: Print guide received,प्रिन्ट आउट उपलब्ध कराया गया,Resource Access
+CLSS,Facilitator,71.2,Q71: Soft copy only,केवल सॉफ्ट कॉपी उपलब्ध हुई,Resource Access
+CLSS,Facilitator,71.3,Q71: Neither print nor soft copy,कोई कॉपी उपलब्ध नहीं हुई,Resource Access
+CLSS,Facilitator,75.1,Q75: Advance preparation of sessions,सत्रों की पूर्व तैयारी की,Facilitator Prep
+CLSS,Facilitator,75.2,Q75: Co-facilitator coordination,सह-सहजकर्ता के साथ समन्वय,Facilitator Prep
+CLSS,Facilitator,75.3,Q75: Venue & seating arrangement,बैठक व्यवस्था सुनिश्चित की,Facilitator Prep
+CLSS,Facilitator,75.4,Q75: TLM & Material readiness,शिक्षण सामग्री की तैयारी,Facilitator Prep
+CLSS,Facilitator,77.1,Q77: Challenge - Teacher attendance/punctuality,चुनौती: शिक्षकों की कम / देर से उपस्थिति,Field Challenge
+CLSS,Facilitator,77.2,Q77: Challenge - Space/Infrastructure,चुनौती: स्थान / भौतिक सुविधाओं की कमी,Field Challenge
+CLSS,Facilitator,77.3,Q77: Challenge - Lack of Print Guide,चुनौती: मार्गदर्शिका का प्रिंट न होना,Field Challenge
+CLSS,Facilitator,77.4,Q77: Challenge - Time shortage,चुनौती: समय की कमी,Field Challenge
+CLSS,Facilitator,77.5,Q77: Challenge - Other administrative duties,चुनौती: अन्य प्रशासनिक कार्य,Field Challenge
+CLSS,Facilitator,77.6,Q77: Challenge - No challenges faced,कोई चुनौती नहीं आई,Field Challenge
+CLSS,Facilitator,78.1,Q78: Equal facilitation time (50:50),दोनों सहजकर्ताओं ने समान समय दिया,Co-facilitation
+CLSS,Facilitator,78.2,Q78: Lead facilitator spoke more,मुख्य सहजकर्ता ने अधिक समय लिया,Co-facilitation
+CLSS,Facilitator,78.3,Q78: Co-facilitator spoke more,सह-सहजकर्ता ने अधिक समय लिया,Co-facilitation
+CLSS,Facilitator,80.1,Q80: Discussed previous post-work,पिछले पोस्ट वर्क पर चर्चा,Session Content
+CLSS,Facilitator,80.2,Q80: Session consolidation,सत्र समेकन,Session Content
+CLSS,Facilitator,80.3,Q80: Session plan execution,सत्र योजना का पालन,Session Content
+CLSS,Facilitator,80.4,Q80: Upcoming post-work assigned,आगामी पोस्ट वर्क दिया,Session Content
+CLSS,Participant,82_Correct,Q82: Academic Dialogue Objective (Correct),शैक्षिक संवाद उद्देश्य समझ (सही),Pedagogy & Objective
+CLSS,Participant,83.1,Q83: Academic focus principle,अकादमिक विषय पर केंद्रित,Design Principle
+CLSS,Participant,83.2,Q83: Post-work classroom implementation,पोस्ट वर्क कक्षा में लागू,Design Principle
+CLSS,Participant,83.3,Q83: Quality feedback,गुणवत्ता पर फीडबैक,Design Principle
+CLSS,Participant,83.4,Q83: 30:70 ratio,30:70 अनुपात,Design Principle
+CLSS,Participant,83.5,Q83: Time adherence,समय का पालन,Design Principle
+CLSS,Participant,83.6,Q83: Equal opportunity,समान अवसर,Design Principle
+CLSS,Participant,83.7,Q83: Classroom context,कक्षा परिप्रेक्ष्य,Design Principle
+CLSS,Participant,83.8,Q83: Off-topic drift,व्यक्तिगत मुद्दे (नकारात्मक),Design Principle
+CLSS,Participant,84_Correct,Q84: Knowledge of today's theme (Correct),आज के संवाद विषय की सही पहचान,Theme Awareness
+CLSS,Participant,85.1,Q85: Advance agenda shared,पूर्व में एजेंडा साझा किया गया,Organization
+CLSS,Participant,85.2,Q85: Timely start and finish,समय पर प्रारंभ व समापन,Organization
+CLSS,Participant,85.3,Q85: Active moderation,सक्रिय समन्वय व मार्गदर्शन,Organization
+CLSS,Participant,85.4,Q85: Clean & conducive seating,उपयुक्त बैठक व्यवस्था,Organization
+CLSS,Participant,86.1,Q86: Time discipline observed,समय का पालन देखा,Observed Principle
+CLSS,Participant,86.2,Q86: RSK suggested topic,RSK सुझावित विषय,Observed Principle
+CLSS,Participant,86.3,Q86: Classroom experiences,कक्षा अनुभव,Observed Principle
+CLSS,Participant,86.4,Q86: Feedback at end,अंत में फीडबैक,Observed Principle
+CLSS,Participant,86.5,Q86: Equal participation,समान सहभागिता,Observed Principle
+CLSS,Participant,86.6,Q86: 30:70 ratio,30:70 अनुपात,Observed Principle
+CLSS,Participant,86.7,Q86: Post-work assigned,पोस्ट वर्क दिया गया,Observed Principle
+CLSS,Participant,87.1,Q87: Helps solve classroom challenges,कक्षा चुनौतियों के समाधान में मदद,Teacher Benefit
+CLSS,Participant,87.2,Q87: Learn new pedagogical methods,नवीन शिक्षण विधियों की सीख,Teacher Benefit
+CLSS,Participant,87.3,Q87: Peer learning & exchange,साथी शिक्षकों से अनुभव साझा,Teacher Benefit
+CLSS,Participant,87.4,Q87: Boosts professional confidence,व्यावसायिक आत्मविश्वास में वृद्धि,Teacher Benefit
+CLSS,Participant,87.5,Q87: Not very helpful,विशेष लाभ नहीं हुआ,Teacher Benefit
+CLSS,Participant,88_Yes,Q88: 2-Year Clarity on Role (Yes),2 वर्षों में भूमिका पर समझ विकसित हुई (हाँ),Perception
+CLSS,Participant,88_No,Q88: 2-Year Clarity on Role (No),2 वर्षों में भूमिका पर समझ विकसित हुई (नहीं),Perception
+CLSS,Participant,89_Yes,Q89: Satisfied with Academic Focus (Yes),अकादमिक केंद्रन से संतुष्ट (हाँ),Satisfaction
+CLSS,Participant,89_No,Q89: Satisfied with Academic Focus (No),अकादमिक केंद्रन से संतुष्ट (नहीं),Satisfaction
+CLSS,Participant,90_Yes,Q90: Resolves Classroom Issues (Yes),कक्षा चुनौतियों के समाधान में सक्षम (हाँ),Satisfaction
+CLSS,Participant,90_No,Q90: Resolves Classroom Issues (No),कक्षा चुनौतियों के समाधान में सक्षम (नहीं),Satisfaction
+CLSS,Participant,91.1,Q91: High Trust in Shikshak Samvad,शैक्षिक संवाद पर पूर्ण भरोसा है,Trust Level
+CLSS,Participant,91.2,Q91: Moderate Trust,मध्यम भरोसा है,Trust Level
+CLSS,Participant,91.3,Q91: Low Trust,कम भरोसा है,Trust Level
+CLSS,Participant,95_Correct,Q95: Student Active Engagement MCQ (Correct),छात्र सक्रिय जुड़ाव अवधारणा (सही),Pedagogy MCQ
+CLSS,Participant,96_Correct,Q96: Psychological Safety & Timid Student MCQ (Correct),मनोवैज्ञानिक सुरक्षा व सहभागिता (सही),Pedagogy MCQ
+CLSS,Participant,97_Correct,Q97: Deep Belongingness MCQ (Correct),कक्षा में अपनेपन (Belongingness) की अवधारणा (सही),Pedagogy MCQ
+DO,Observer,25_Correct,DO Q25: District Orientation Objective (Correct),DO उद्देश्य समझ (सही),MCQ Correct
+DO,Facilitator,26_Correct,DO Q26: District Orientation Objective (Correct),DO उद्देश्य समझ (सही),MCQ Correct
+DO,Participant,34_Correct,DO Q34: Received Print Guide (Yes),DO मार्गदर्शिका का प्रिंट प्राप्त हुआ,Resource Access
+DO,Participant,35_Correct,DO Q35: Dialogue Objective (Correct),DO उद्देश्य समझ (सही),MCQ Correct
+DO,Participant,43_Correct,DO Q43: Student Engagement MCQ (Correct),DO छात्र सहभागिता प्रश्न (सही),Pedagogy MCQ
+DO,Participant,44_Correct,DO Q44: Psychological Safety MCQ (Correct),DO मनोवैज्ञानिक सुरक्षा प्रश्न (सही),Pedagogy MCQ
+DO,Participant,45_Correct,DO Q45: Student Belongingness MCQ (Correct),DO अपनापन (Belongingness) प्रश्न (सही),Pedagogy MCQ
