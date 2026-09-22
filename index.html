@@ -333,25 +333,7 @@
     .lang-btn.active {
       background: var(--peepul-teal) !important;
       color: #ffffff !important;
-      box-shadow: 0 2px 10px rgba(0, 138, 171, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-      transform: translateY(-0.5px);
-    }
-
-    /* Page-Wide Smooth Language Morph Animation */
-    @keyframes langCrossfade {
-      0% {
-        opacity: 0.65;
-        transform: translateY(4px);
-        filter: blur(1.2px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-      }
-    }
-    .lang-morph-active {
-      animation: langCrossfade 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 0 2px 8px rgba(0, 138, 171, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     /* Navigation Tabs */
@@ -2150,25 +2132,16 @@
       if (btnEn) btnEn.classList.toggle('active', lang === 'en');
       if (btnHi) btnHi.classList.toggle('active', lang === 'hi');
 
-      // Generative UI & Taste Skill: Spring Fluid Crossfade Micro-Animation
+      // Taste Skill: Pure GPU-Accelerated Opacity Crossfade (Zero vertical jitter / Zero layout shifts)
       if (window.Motion && window.Motion.animate) {
-        window.Motion.animate(
-          '.title-group h1, .title-group p, .slicer-ribbon, .studio-nav, .bento-kpi-grid, .panel-head, .table-viewport',
-          {
-            opacity: [0.65, 1],
-            transform: ['translateY(3px)', 'translateY(0px)'],
-            filter: ['blur(1.2px)', 'blur(0px)']
-          },
-          {
-            duration: 0.28,
-            ease: [0.16, 1, 0.3, 1]
-          }
-        );
+        const activeSection = document.querySelector('.tab-section.active');
+        if (activeSection) {
+          window.Motion.animate(activeSection, { opacity: [0.88, 1] }, { duration: 0.18, ease: 'easeOut' });
+        }
       }
 
       const t = translations[lang] || translations.en;
 
-      // Update KPI labels
       // Update KPI labels
       const kpiCovLblEl = document.getElementById('kpiCoverageLabel');
       if (kpiCovLblEl) kpiCovLblEl.innerText = t.kpiCoverageLbl;
