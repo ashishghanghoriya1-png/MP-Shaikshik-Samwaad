@@ -2523,254 +2523,237 @@
     }
 
     // 2. Overview Tab Charts
+    // 2. Overview Tab Charts - Original Power BI / Studio ProMax Visual Aesthetics Restored
     function initOverviewCharts() {
       const theme = getChartTheme();
       const isHi = (currentLang === 'hi');
 
-      // Sort districts according to current slicer
-      let sortedDistricts = [...dataPackage.districtSummary];
+      let sortedList = [...dataPackage.districtSummary];
       if (activeProgram === 'DO') {
-        sortedDistricts.sort((a, b) => b.do_participants - a.do_participants);
+        sortedList.sort((a,b) => (b.do_participants || 0) - (a.do_participants || 0));
       } else if (activeProgram === 'CLSS') {
-        sortedDistricts.sort((a, b) => b.attendees - a.attendees);
+        sortedList.sort((a,b) => b.attendees - a.attendees);
       } else {
-        sortedDistricts.sort((a, b) => (b.attendees + b.do_participants) - (a.attendees + a.do_participants));
+        sortedList.sort((a,b) => b.combined_total - a.combined_total);
       }
 
+      let displayList = sortedList;
       if (overviewScope === 'TOP15') {
-        sortedDistricts = sortedDistricts.slice(0, 15);
+        displayList = sortedList.slice(0, 15);
       } else if (overviewScope === 'BOTTOM15') {
-        sortedDistricts = sortedDistricts.slice(-15);
+        displayList = sortedList.slice(-15);
       }
-
-      const labels = sortedDistricts.map(d => getDistName(d.district));
-
-      // 1. Leaderboard Chart
+      
+      // 1. Top Districts Column/Bar Chart (Original Grouped / Multi-Cadre Design)
       if (chartInstances.ovTopDistricts) chartInstances.ovTopDistricts.destroy();
-      const ctxTop = document.getElementById('ovTopDistricts')?.getContext('2d');
-      if (ctxTop) {
+      const ctx1 = document.getElementById('ovTopDistricts')?.getContext('2d');
+      if (ctx1) {
+        let chartLabels = displayList.map(d => getDistName(d.district));
         let datasets = [];
+
         if (activeProgram === 'DO') {
-          datasets = [{
-            label: isHi ? 'DO जिला अधिकारी' : 'DO District Officers',
-            data: sortedDistricts.map(d => d.do_participants),
-            backgroundColor: '#4f46e5',
-            borderRadius: 4
-          }];
+          if (activeRole === 'Participant') {
+            datasets.push({ label: isHi ? 'DO जिला अधिकारी' : 'DO Participants', data: displayList.map(d => d.do_participants), backgroundColor: '#008aab', borderRadius: 4 });
+          } else if (activeRole === 'Facilitator') {
+            datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators), backgroundColor: '#63d0df', borderRadius: 4 });
+          } else if (activeRole === 'Observer') {
+            datasets.push({ label: isHi ? 'DO पर्यवेक्षक / मॉनिटर' : 'DO Observers', data: displayList.map(d => d.do_monitors), backgroundColor: '#4f46e5', borderRadius: 4 });
+          } else {
+            datasets.push({ label: isHi ? 'DO जिला अधिकारी' : 'DO Participants', data: displayList.map(d => d.do_participants), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators), backgroundColor: '#63d0df', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO पर्यवेक्षक' : 'DO Observers', data: displayList.map(d => d.do_monitors), backgroundColor: '#4f46e5', borderRadius: 4 });
+          }
         } else if (activeProgram === 'CLSS') {
-          datasets = [{
-            label: isHi ? 'शिक्षक भागीदारी (CLSS)' : 'Teacher Turnout (CLSS)',
-            data: sortedDistricts.map(d => d.attendees),
-            backgroundColor: '#008aab',
-            borderRadius: 4
-          }];
+          if (activeRole === 'Participant') {
+            datasets.push({ label: isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees', data: displayList.map(d => d.attendees), backgroundColor: '#1d4ed8', borderRadius: 4 });
+          } else if (activeRole === 'Facilitator') {
+            datasets.push({ label: isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators), backgroundColor: '#008aab', borderRadius: 4 });
+          } else if (activeRole === 'Observer') {
+            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors), backgroundColor: '#4f46e5', borderRadius: 4 });
+          } else {
+            datasets.push({ label: isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees', data: displayList.map(d => d.attendees), backgroundColor: '#1d4ed8', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators), backgroundColor: '#008aab', borderRadius: 4 });
+          }
         } else {
-          datasets = [
-            {
-              label: isHi ? 'शिक्षक भागीदारी (CLSS)' : 'Teachers (CLSS)',
-              data: sortedDistricts.map(d => d.attendees),
-              backgroundColor: '#008aab',
-              borderRadius: 4
-            },
-            {
-              label: isHi ? 'DO जिला अधिकारी' : 'DO Officers',
-              data: sortedDistricts.map(d => d.do_participants),
-              backgroundColor: '#4f46e5',
-              borderRadius: 4
-            }
-          ];
+          // Consolidated - Original 2-Tone Visual Structure
+          datasets.push({ label: isHi ? 'शैक्षिक संवाद सहभागिता (CLSS)' : 'CLSS Turnout', data: displayList.map(d => d.total), backgroundColor: '#1d4ed8', borderRadius: 4 });
+          datasets.push({ label: isHi ? 'जिला अभिमुखीकरण सहभागिता (DO)' : 'DO Turnout', data: displayList.map(d => d.do_total), backgroundColor: '#008aab', borderRadius: 4 });
         }
 
-        chartInstances.ovTopDistricts = new Chart(ctxTop, {
+        chartInstances.ovTopDistricts = new Chart(ctx1, {
           type: 'bar',
-          data: { labels, datasets },
+          data: { labels: chartLabels, datasets: datasets },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              legend: {
+            plugins: { 
+              legend: { 
                 display: true,
-                position: 'top',
-                labels: { color: theme.textColor, font: { family: theme.fontFamily, size: 11 } }
+                labels: { color: theme.textColor, font: { family: theme.fontFamily, size: 11 } } 
               },
               tooltip: {
                 callbacks: {
-                  label: function(ctx) {
-                    return ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}`;
+                  title: items => `${getDistName(displayList[items[0].dataIndex].district)} (${isHi ? 'रैंक' : 'Rank'} #${sortedList.findIndex(x => x.district === displayList[items[0].dataIndex].district) + 1})`,
+                  afterBody: items => {
+                    const d = displayList[items[0].dataIndex];
+                    return [
+                      `${isHi ? 'ब्लॉक' : 'Blocks'}: ${d.totalBlocks} | ${isHi ? 'संकुल' : 'Clusters'}: ${d.totalClusters}`,
+                      `${isHi ? 'शिक्षक' : 'CLSS Teachers'}: ${d.attendees.toLocaleString()}`,
+                      `${isHi ? 'DO अधिकारी' : 'DO Participants'}: ${d.do_participants.toLocaleString()}`,
+                      `${isHi ? 'कुल सहभागिता' : 'Total Combined'}: ${d.combined_total.toLocaleString()}`
+                    ];
                   }
                 }
               }
             },
             scales: {
-              x: {
-                stacked: true,
-                grid: { display: false },
-                ticks: { color: theme.textColor, font: { family: theme.fontFamily, size: 10 }, maxRotation: 45, minRotation: 45 }
+              x: { 
+                grid: { color: theme.gridColor }, 
+                ticks: { 
+                  color: theme.textColor, 
+                  font: { size: displayList.length > 20 ? 9 : 10 },
+                  maxRotation: 65,
+                  minRotation: 45
+                } 
               },
-              y: {
-                stacked: true,
-                grid: { color: theme.gridColor },
-                ticks: { color: theme.textColor, font: { family: theme.fontFamily, size: 10 } }
-              }
+              y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
             }
           }
         });
       }
 
-      // 2. Stakeholder Donut Chart
+      // 2. Stakeholder Donut / Pie Chart (Original ProMax Aesthetic)
       if (chartInstances.ovDonutStakeholder) chartInstances.ovDonutStakeholder.destroy();
-      const ctxDonut = document.getElementById('ovDonutStakeholder')?.getContext('2d');
-      if (ctxDonut) {
-        const donutLabels = isHi ? 
-          ['कक्षा 6-8 शिक्षक (CLSS)', 'प्रशिक्षक एवं मेंटर (Cadre)', 'डीओ जिला अधिकारी (DO)'] :
-          ['Classroom Teachers (CLSS)', 'Trainers & Monitors (Cadre)', 'DO District Officers'];
+      const ctx2 = document.getElementById('ovDonutStakeholder')?.getContext('2d');
+      if (ctx2) {
+        let donutData, donutLabels;
+        if (activeProgram === 'DO') {
+          donutData = [4454, 77, 56];
+          donutLabels = isHi ? 
+            ['DO जिला अधिकारी (97.1%)', 'DO फैसिलिटेटर (1.7%)', 'DO पर्यवेक्षक (1.2%)'] :
+            ['DO Participants (97.1%)', 'DO Facilitators (1.7%)', 'DO Observers (1.2%)'];
+        } else if (activeProgram === 'CLSS') {
+          donutData = [23785, 4841, 518];
+          donutLabels = isHi ? 
+            ['शिक्षक (81.6%)', 'फैसिलिटेटर (16.6%)', 'मॉनिटर (1.8%)'] :
+            ['Teachers (81.6%)', 'Facilitators (16.6%)', 'Monitors (1.8%)'];
+        } else {
+          donutData = [23785, 5492, 4454];
+          donutLabels = isHi ? 
+            ['सहभागी शिक्षक (70.5%)', 'प्रशिक्षक एवं मेंटर (16.3%)', 'DO जिला अधिकारी (13.2%)'] :
+            ['Classroom Teachers (70.5%)', 'Trainers & Monitors (16.3%)', 'DO District Officers (13.2%)'];
+        }
 
-        chartInstances.ovDonutStakeholder = new Chart(ctxDonut, {
+        chartInstances.ovDonutStakeholder = new Chart(ctx2, {
           type: 'doughnut',
           data: {
             labels: donutLabels,
             datasets: [{
-              data: [23785, 5492, 4454],
-              backgroundColor: ['#008aab', '#7c3aed', '#4f46e5'],
-              borderWidth: 2,
-              borderColor: document.documentElement.classList.contains('dark') ? '#0f172a' : '#ffffff'
+              data: donutData,
+              backgroundColor: ['#1d4ed8', '#008aab', '#4f46e5'],
+              borderWidth: 0
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: { color: theme.textColor, font: { family: theme.fontFamily, size: 11 } }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(ctx) {
-                    const total = 33731;
-                    const pct = ((ctx.raw / total) * 100).toFixed(1);
-                    return ` ${ctx.label}: ${ctx.raw.toLocaleString()} (${pct}%)`;
-                  }
-                }
-              }
-            },
-            cutout: '68%'
+            plugins: { 
+              legend: { 
+                position: 'bottom', 
+                labels: { color: theme.textColor, font: { family: theme.fontFamily, size: 11 } } 
+              } 
+            }
           }
         });
       }
 
-      // 3. Pedagogy Bar Chart
+      // 3. Pedagogy Benchmark Bar Chart (Original 4-Dimension Diagnostic Design)
       if (chartInstances.ovPedagogyBar) chartInstances.ovPedagogyBar.destroy();
-      const ctxPed = document.getElementById('ovPedagogyBar')?.getContext('2d');
-      if (ctxPed) {
+      const ctx3 = document.getElementById('ovPedagogyBar')?.getContext('2d');
+      if (ctx3) {
         const pedLabels = isHi ? 
-          ['FLN एवं पूर्व-प्राथमिक', 'कक्षा प्रबंधन', 'उपचारात्मक शिक्षण', 'गणित शिक्षण', 'भाषा एवं साक्षरता'] :
-          ['FLN & Foundational', 'Classroom Mgmt', 'Remediation Pedagogies', 'Math Competencies', 'Language & Literacy'];
+          ['विषय पुनरावृत्ति (Topic Recall)', 'मनोवैज्ञानिक सुरक्षा (Psychological Safety)', 'सक्रिय सहभागिता (Active Engagement)', 'गहन अपनापन (Deep Belongingness)'] :
+          ['Topic Recall', 'Psychological Safety', 'Active Engagement', 'Deep Belongingness'];
 
-        chartInstances.ovPedagogyBar = new Chart(ctxPed, {
+        chartInstances.ovPedagogyBar = new Chart(ctx3, {
           type: 'bar',
           data: {
             labels: pedLabels,
             datasets: [
               {
                 label: isHi ? 'शैक्षिक संवाद शिक्षक शुद्धता %' : 'CLSS Teacher Accuracy %',
-                data: [68.4, 62.1, 54.3, 58.7, 64.9],
-                backgroundColor: '#008aab',
-                borderRadius: 4
+                data: [93.8, 68.7, 41.5, 38.2],
+                backgroundColor: '#0284c7',
+                borderRadius: 6
               },
               {
-                label: isHi ? 'जिला अधिकारी (DO) शुद्धता %' : 'DO Officer Accuracy %',
-                data: [74.2, 69.8, 61.5, 66.0, 71.3],
-                backgroundColor: '#4f46e5',
-                borderRadius: 4
+                label: isHi ? 'DO फैसिलिटेटर बेसलाइन %' : 'DO Facilitator Baseline %',
+                data: [96.0, 74.5, 58.0, 49.0],
+                backgroundColor: '#008aab',
+                borderRadius: 6
               }
             ]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'top',
-                labels: { color: theme.textColor, font: { family: theme.fontFamily, size: 11 } }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(ctx) {
-                    return ` ${ctx.dataset.label}: ${ctx.raw}%`;
-                  }
-                }
-              }
+            plugins: { 
+              legend: { 
+                labels: { color: theme.textColor, font: { family: theme.fontFamily, size: 11 } } 
+              } 
             },
             scales: {
-              x: {
-                grid: { display: false },
-                ticks: { color: theme.textColor, font: { family: theme.fontFamily, size: 10 } }
-              },
-              y: {
-                max: 100,
-                grid: { color: theme.gridColor },
-                ticks: {
-                  color: theme.textColor,
-                  font: { family: theme.fontFamily, size: 10 },
-                  callback: val => val + '%'
-                }
-              }
+              y: { min: 0, max: 100, grid: { color: theme.gridColor }, ticks: { color: theme.textColor, callback: v => v + '%' } },
+              x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
             }
           }
         });
       }
 
-      // 4. Trust Bar Chart
+      // 4. Teacher Trust & Perception Index (Original Gradient Horizontal Bar Chart)
       if (chartInstances.ovTrustBar) chartInstances.ovTrustBar.destroy();
-      const ctxTrust = document.getElementById('ovTrustBar')?.getContext('2d');
-      if (ctxTrust) {
-        const trustLabels = isHi ? 
-          ['मनोवैज्ञानिक सुरक्षा (Q91.1)', 'अकादमिक फोकस (Q89)', 'समस्या समाधान (Q90)', 'भूमिका स्पष्टता एवं वृद्धि (Q88)'] :
-          ['Psychological Safety (Q91.1)', 'Academic Focus (Q89)', 'Problem Solving (Q90)', 'Role Clarity & Growth (Q88)'];
+      const ctx4 = document.getElementById('ovTrustBar')?.getContext('2d');
+      if (ctx4) {
+        const gradTrust = ctx4.createLinearGradient(0, 0, 480, 0);
+        gradTrust.addColorStop(0, '#008aab');
+        gradTrust.addColorStop(1, '#63d0df');
 
-        chartInstances.ovTrustBar = new Chart(ctxTrust, {
+        const trustLabels = isHi ? 
+          ['🛡️ संवाद में उच्च विश्वास', '🎯 अकादमिक फोकस से संतुष्टि', '💡 कक्षा की समस्याओं का समाधान', '📈 2-वर्षीय सतत भूमिका स्पष्टता'] :
+          ['🛡️ High Trust in Samwad', '🎯 Satisfied w/ Academic Focus', '💡 Resolves Classroom Issues', '📈 2-Yr Sustained Role Clarity'];
+
+        chartInstances.ovTrustBar = new Chart(ctx4, {
           type: 'bar',
           data: {
             labels: trustLabels,
             datasets: [{
-              label: isHi ? 'सहमति एवं सकारात्मक दर %' : 'Agreement & Positive Rating %',
-              data: [93.8, 91.4, 88.7, 92.5],
-              backgroundColor: ['#059669', '#008aab', '#4f46e5', '#7c3aed'],
-              borderRadius: 4
+              data: [94.2, 99.4, 98.9, 99.2],
+              backgroundColor: gradTrust,
+              borderRadius: 8,
+              borderSkipped: false,
+              barThickness: 22
             }]
           },
           options: {
+            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
               legend: { display: false },
               tooltip: {
                 callbacks: {
-                  label: function(ctx) {
-                    return ` ${ctx.raw}% Positive Response`;
-                  }
+                  label: ctx => ` ${ctx.raw}% ${isHi ? 'सकारात्मक प्रतिक्रिया' : 'positive affirmation'} (${Math.round(ctx.raw * 237.85).toLocaleString()} ${isHi ? 'शिक्षक' : 'teachers'})`
                 }
               }
             },
             scales: {
-              x: {
-                grid: { display: false },
-                ticks: { color: theme.textColor, font: { family: theme.fontFamily, size: 10 } }
-              },
-              y: {
-                max: 100,
-                grid: { color: theme.gridColor },
-                ticks: {
-                  color: theme.textColor,
-                  font: { family: theme.fontFamily, size: 10 },
-                  callback: val => val + '%'
-                }
-              }
+              x: { min: 0, max: 100, grid: { color: theme.gridColor }, ticks: { color: theme.textColor, callback: v => v + '%' } },
+              y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { weight: 600 } } }
             }
           }
         });
       }
+      if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
     }
 
     function initDistrict360() {
