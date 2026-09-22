@@ -432,11 +432,53 @@
       overflow: hidden;
     }
 
-    .bento-kpi-grid .bento-card:nth-child(1) { border-top: 3.5px solid var(--accent-emerald); }
-    .bento-kpi-grid .bento-card:nth-child(2) { border-top: 3.5px solid var(--peepul-teal); }
-    .bento-kpi-grid .bento-card:nth-child(3) { border-top: 3.5px solid #1d4ed8; }
-    .bento-kpi-grid .bento-card:nth-child(4) { border-top: 3.5px solid var(--accent-indigo); }
-    .bento-kpi-grid .bento-card:nth-child(5) { border-top: 3.5px solid #7c3aed; }
+    /* Distinct Multi-Color KPI Cards System */
+    .bento-kpi-grid .bento-card:nth-child(1) {
+      background: linear-gradient(145deg, #ecfdf5 0%, #ffffff 75%);
+      border-color: rgba(16, 185, 129, 0.28);
+      border-top: 4px solid #059669;
+    }
+    .bento-kpi-grid .bento-card:nth-child(2) {
+      background: linear-gradient(145deg, #f0fdfa 0%, #ffffff 75%);
+      border-color: rgba(0, 138, 171, 0.28);
+      border-top: 4px solid #008aab;
+    }
+    .bento-kpi-grid .bento-card:nth-child(3) {
+      background: linear-gradient(145deg, #eff6ff 0%, #ffffff 75%);
+      border-color: rgba(37, 99, 235, 0.28);
+      border-top: 4px solid #2563eb;
+    }
+    .bento-kpi-grid .bento-card:nth-child(4) {
+      background: linear-gradient(145deg, #eef2ff 0%, #ffffff 75%);
+      border-color: rgba(79, 70, 229, 0.28);
+      border-top: 4px solid #4f46e5;
+    }
+    .bento-kpi-grid .bento-card:nth-child(5) {
+      background: linear-gradient(145deg, #faf5ff 0%, #ffffff 75%);
+      border-color: rgba(124, 58, 237, 0.28);
+      border-top: 4px solid #7c3aed;
+    }
+
+    html.dark .bento-kpi-grid .bento-card:nth-child(1) {
+      background: linear-gradient(145deg, rgba(5, 150, 105, 0.14) 0%, rgba(15, 23, 42, 0.9) 75%);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    html.dark .bento-kpi-grid .bento-card:nth-child(2) {
+      background: linear-gradient(145deg, rgba(0, 138, 171, 0.14) 0%, rgba(15, 23, 42, 0.9) 75%);
+      border-color: rgba(0, 138, 171, 0.35);
+    }
+    html.dark .bento-kpi-grid .bento-card:nth-child(3) {
+      background: linear-gradient(145deg, rgba(37, 99, 235, 0.14) 0%, rgba(15, 23, 42, 0.9) 75%);
+      border-color: rgba(37, 99, 235, 0.35);
+    }
+    html.dark .bento-kpi-grid .bento-card:nth-child(4) {
+      background: linear-gradient(145deg, rgba(79, 70, 229, 0.14) 0%, rgba(15, 23, 42, 0.9) 75%);
+      border-color: rgba(79, 70, 229, 0.35);
+    }
+    html.dark .bento-kpi-grid .bento-card:nth-child(5) {
+      background: linear-gradient(145deg, rgba(124, 58, 237, 0.14) 0%, rgba(15, 23, 42, 0.9) 75%);
+      border-color: rgba(124, 58, 237, 0.35);
+    }
 
     .bento-card:hover {
       transform: translateY(-4px);
@@ -2644,13 +2686,23 @@
             ['Classroom Teachers (70.5%)', 'Trainers & Monitors (16.3%)', 'District Participants (13.2%)'];
         }
 
+        let donutColors;
+        if (activeProgram === 'DO') {
+          donutColors = ['#10b981', '#8b5cf6', '#f59e0b']; // Emerald DO Participants, Purple Facilitators, Amber Observers
+        } else if (activeProgram === 'CLSS') {
+          donutColors = ['#2563eb', '#8b5cf6', '#f59e0b']; // Blue Teachers, Purple Facilitators, Amber Monitors
+        } else {
+          donutColors = ['#2563eb', '#8b5cf6', '#10b981']; // Blue Teachers, Purple Trainers/Monitors, Emerald DO Participants
+        }
+
         chartInstances.ovDonutStakeholder = new Chart(ctx2, {
           type: 'doughnut',
           data: {
             labels: donutLabels,
             datasets: [{
               data: donutData,
-              backgroundColor: ['#1d4ed8', '#008aab', '#4f46e5'],
+              backgroundColor: donutColors,
+              hoverOffset: 6,
               borderWidth: 0
             }]
           },
