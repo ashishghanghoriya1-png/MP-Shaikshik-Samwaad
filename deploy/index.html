@@ -2989,65 +2989,66 @@
     function initDistrictLeague() {
       const table = document.getElementById('leagueGrid');
       const heading = document.getElementById('leagueTableHeading');
+      const isHi = (currentLang === 'hi');
       
       let headerHtml = '';
       let rowsHtml = '';
 
       if (activeProgram === 'DO') {
-        heading.innerText = '🗺️ District Orientation (DO) State League Matrix';
+        heading.innerText = isHi ? '🗺️ जिला अभिमुखीकरण (DO) राज्य स्तरीय लीग मैट्रिक्स' : '🗺️ District Orientation (DO) State League Matrix';
         headerHtml = `
           <thead>
             <tr>
-              <th>S.No</th>
-              <th>District Name</th>
-              <th>DO Observers</th>
-              <th>DO Facilitators</th>
-              <th>DO Participants Trained</th>
-              <th>Total DO Mobilized</th>
-              <th>Status</th>
-              <th>Drill-Down Actions</th>
+              <th>${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'DO मॉनिटर' : 'DO Observers'}</th>
+              <th>${isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators'}</th>
+              <th>${isHi ? 'DO जिला अधिकारी' : 'DO District Officers'}</th>
+              <th>${isHi ? 'कुल DO सहभागिता' : 'Total DO Mobilized'}</th>
+              <th>${isHi ? 'स्थिति' : 'Status'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
             </tr>
           </thead>
         `;
         dataPackage.districtSummary.forEach((d, idx) => {
-          const status = d.do_participants > 0 ? '<span style="color:#10b981; font-weight:600;">Conducted</span>' : '<span style="color:#1d4ed8; font-weight:600;">Pending/Combined</span>';
+          const status = d.do_participants > 0 ? `<span style="color:#10b981; font-weight:600;">${isHi ? 'सम्पन्न' : 'Conducted'}</span>` : `<span style="color:#1d4ed8; font-weight:600;">${isHi ? 'समेकित / लंबित' : 'Pending/Combined'}</span>`;
           rowsHtml += `
             <tr>
               <td class="font-mono">${idx + 1}</td>
               <td>
                 <strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')" title="Click to view 360° Profile">
-                  📍 ${d.district}
+                  📍 ${getDistName(d.district)}
                 </strong>
               </td>
               <td class="font-mono">${d.do_monitors}</td>
               <td class="font-mono">${d.do_facilitators}</td>
-              <td class="font-mono" style="color: #1d4ed8; font-weight: 700;">${d.do_participants.toLocaleString()}</td>
+              <td class="font-mono" style="color: #4f46e5; font-weight: 700;">${d.do_participants.toLocaleString()}</td>
               <td class="font-mono" style="font-weight: 700;">${d.do_total.toLocaleString()}</td>
               <td>${status}</td>
               <td>
                 <div style="display: flex; gap: 6px;">
-                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 360° Profile</button>
-                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 ${d.totalBlocks} Blocks</button>
+                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 ${isHi ? '360° प्रोफाइल' : '360° Profile'}</button>
+                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 ${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}</button>
                 </div>
               </td>
             </tr>
           `;
         });
       } else if (activeProgram === 'CLSS') {
-        heading.innerText = '🗺️ Cluster Level Shaikshik Samwaad (CLSS) League Matrix';
+        heading.innerText = isHi ? '🗺️ संकुल स्तरीय शैक्षिक संवाद (CLSS) लीग मैट्रिक्स' : '🗺️ Cluster Level Shaikshik Samwaad (CLSS) League Matrix';
         headerHtml = `
           <thead>
             <tr>
-              <th>S.No</th>
-              <th>District Name</th>
-              <th>Blocks</th>
-              <th>Clusters</th>
-              <th>Monitors</th>
-              <th>Facilitators</th>
-              <th>Teacher Attendees</th>
-              <th>Total Turnout</th>
-              <th>Avg / Cluster</th>
-              <th>Drill-Down Actions</th>
+              <th>${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'ब्लॉक' : 'Blocks'}</th>
+              <th>${isHi ? 'संकुल' : 'Clusters'}</th>
+              <th>${isHi ? 'मॉनिटर' : 'Monitors'}</th>
+              <th>${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
+              <th>${isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees'}</th>
+              <th>${isHi ? 'कुल सहभागिता' : 'Total Turnout'}</th>
+              <th>${isHi ? 'औसत / संकुल' : 'Avg / Cluster'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
             </tr>
           </thead>
         `;
@@ -3058,12 +3059,12 @@
               <td class="font-mono">${d.sno}</td>
               <td>
                 <strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')" title="Click to view 360° Profile">
-                  📍 ${d.district}
+                  📍 ${getDistName(d.district)}
                 </strong>
               </td>
               <td>
                 <span class="status-chip" style="background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700; cursor: pointer;" onclick="openDistrictInBlocks('${d.district}')" title="Filter Block Directory for ${d.district}">
-                  🏢 ${d.totalBlocks} Blocks
+                  🏢 ${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}
                 </span>
               </td>
               <td class="font-mono">${d.totalClusters}</td>
@@ -3074,8 +3075,8 @@
               <td class="font-mono">${avg}</td>
               <td>
                 <div style="display: flex; gap: 6px;">
-                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 360° Profile</button>
-                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 Blocks</button>
+                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 ${isHi ? '360° प्रोफाइल' : '360° Profile'}</button>
+                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 ${isHi ? 'ब्लॉक' : 'Blocks'}</button>
                 </div>
               </td>
             </tr>
@@ -3083,19 +3084,19 @@
         });
       } else {
         // Consolidated
-        heading.innerText = '🗺️ Consolidated State League (CLSS + DO Side-by-Side)';
+        heading.innerText = isHi ? '🗺️ समेकित राज्य स्तरीय लीग (CLSS + DO तुलनात्मक)' : '🗺️ Consolidated State League (CLSS + DO Side-by-Side)';
         headerHtml = `
           <thead>
             <tr>
-              <th>S.No</th>
-              <th>District Name</th>
-              <th>Blocks</th>
-              <th>Clusters</th>
-              <th>CLSS Teachers</th>
-              <th>CLSS Facilitators</th>
-              <th>DO Participants</th>
-              <th>Total Combined Turnout</th>
-              <th>Drill-Down Actions</th>
+              <th>${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'ब्लॉक' : 'Blocks'}</th>
+              <th>${isHi ? 'संकुल' : 'Clusters'}</th>
+              <th>${isHi ? 'CLSS शिक्षक' : 'CLSS Teachers'}</th>
+              <th>${isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators'}</th>
+              <th>${isHi ? 'DO जिला अधिकारी' : 'DO District Officers'}</th>
+              <th>${isHi ? 'कुल संयुक्त सहभागिता' : 'Total Combined Turnout'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
             </tr>
           </thead>
         `;
@@ -3105,23 +3106,23 @@
               <td class="font-mono">${d.sno}</td>
               <td>
                 <strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')" title="Click to view 360° Profile">
-                  📍 ${d.district}
+                  📍 ${getDistName(d.district)}
                 </strong>
               </td>
               <td>
                 <span class="status-chip" style="background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700; cursor: pointer;" onclick="openDistrictInBlocks('${d.district}')" title="Filter Block Directory for ${d.district}">
-                  🏢 ${d.totalBlocks} Blocks
+                  🏢 ${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}
                 </span>
               </td>
               <td class="font-mono">${d.totalClusters}</td>
               <td class="font-mono" style="color: #1d4ed8; font-weight: 700;">${d.attendees.toLocaleString()}</td>
               <td class="font-mono">${d.facilitators}</td>
-              <td class="font-mono" style="color: var(--peepul-teal); font-weight: 700;">${d.do_participants.toLocaleString()}</td>
+              <td class="font-mono" style="color: #4f46e5; font-weight: 700;">${d.do_participants.toLocaleString()}</td>
               <td class="font-mono" style="color: #10b981; font-weight: 800;">${d.combined_total.toLocaleString()}</td>
               <td>
                 <div style="display: flex; gap: 6px;">
-                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 360° Profile</button>
-                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 Blocks</button>
+                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 ${isHi ? '360° प्रोफाइल' : '360° Profile'}</button>
+                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 ${isHi ? 'ब्लॉक' : 'Blocks'}</button>
                 </div>
               </td>
             </tr>
@@ -3142,18 +3143,7 @@
     
     // 4. Block Directory
     function initBlockDirectory() {
-      // 1. Populate District dropdown in Block Directory
-      const distSelect = document.getElementById('blockDistrictSelect');
-      if (distSelect) {
-        distSelect.innerHTML = '<option value="ALL">All 50 Districts (309 Blocks)</option>';
-        dataPackage.districtSummary.forEach(d => {
-          const opt = document.createElement('option');
-          opt.value = d.district;
-          opt.innerText = `${d.district} (${d.totalBlocks} Blocks)`;
-          distSelect.appendChild(opt);
-        });
-      }
-
+      refreshDistrictDropdownsHindi();
       filterBlockDirectory();
     }
 
@@ -3161,12 +3151,28 @@
       const distSelect = document.getElementById('blockDistrictSelect');
       const selectedDist = distSelect ? distSelect.value : 'ALL';
       const q = (document.getElementById('blockFilter').value || '').toLowerCase().trim();
+      const isHi = (currentLang === 'hi');
+
+      const thead = document.querySelector('#blockGrid thead');
+      if (thead) {
+        thead.innerHTML = `
+          <tr>
+            <th style="width: 50px;">#</th>
+            <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+            <th>${isHi ? 'ब्लॉक का नाम' : 'Block Name'}</th>
+            <th>${isHi ? 'मॉनिटर' : 'Monitors'}</th>
+            <th>${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
+            <th>${isHi ? 'सहभागी शिक्षक' : 'Teacher Participants'}</th>
+            <th>${isHi ? 'कुल सहभागिता' : 'Total Mobilized'}</th>
+            <th>${isHi ? 'जिले में योगदान %' : '% of District Mobilization'}</th>
+          </tr>
+        `;
+      }
 
       const tbody = document.querySelector('#blockGrid tbody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      // Compute district totals map for percentage calculation
       const distTotalsMap = {};
       dataPackage.blockSummary.forEach(b => {
         const d = b.district || 'Other';
@@ -3179,7 +3185,8 @@
 
       dataPackage.blockSummary.forEach(b => {
         const distMatch = (selectedDist === 'ALL' || b.district === selectedDist);
-        const searchMatch = !q || (b.block.toLowerCase().includes(q) || (b.district && b.district.toLowerCase().includes(q)));
+        const distHi = getDistName(b.district);
+        const searchMatch = !q || (b.block.toLowerCase().includes(q) || b.district.toLowerCase().includes(q) || distHi.toLowerCase().includes(q));
 
         if (distMatch && searchMatch) {
           matchCount++;
@@ -3197,7 +3204,7 @@
             <td class="font-mono">${matchCount}</td>
             <td>
               <span class="status-chip" style="background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700; cursor: pointer;" onclick="openDistrictIn360('${b.district}')" title="Click to view 360° Profile for ${b.district}">
-                📍 ${getDistName(b.district)}
+                📍 ${distHi}
               </span>
             </td>
             <td><strong style="color: var(--text-primary);">${b.block}</strong></td>
@@ -3219,10 +3226,9 @@
       });
 
       if (matchCount === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">No blocks matched "${q}" in selected district scope.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">${isHi ? 'कोई ब्लॉक नहीं मिला' : 'No blocks matched search criteria.'}</td></tr>`;
       }
 
-      // Update KPI Metric summary chips in Block Directory
       const countEl = document.getElementById('blockScopeCount');
       const labelEl = document.getElementById('blockScopeLabel');
       const badgeEl = document.getElementById('blockScopeBadge');
@@ -3232,8 +3238,8 @@
       const totEl = document.getElementById('blockTotalMobilized');
 
       if (countEl) countEl.innerText = matchCount.toLocaleString();
-      if (labelEl) labelEl.innerText = selectedDist === 'ALL' ? 'Blocks in 50 Districts' : `Blocks in ${selectedDist}`;
-      if (badgeEl) badgeEl.innerText = selectedDist === 'ALL' ? '50 Dist.' : selectedDist;
+      if (labelEl) labelEl.innerText = selectedDist === 'ALL' ? (isHi ? '50 जिलों में कुल ब्लॉक' : 'Blocks in 50 Districts') : (isHi ? `${getDistName(selectedDist)} के कुल ब्लॉक` : `Blocks in ${selectedDist}`);
+      if (badgeEl) badgeEl.innerText = selectedDist === 'ALL' ? (isHi ? '50 जिले' : '50 Dist.') : getDistName(selectedDist);
       if (monEl) monEl.innerText = sumMon.toLocaleString();
       if (facEl) facEl.innerText = sumFac.toLocaleString();
       if (partEl) partEl.innerText = sumPart.toLocaleString();
