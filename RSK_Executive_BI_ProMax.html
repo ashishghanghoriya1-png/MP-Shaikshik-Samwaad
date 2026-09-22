@@ -405,7 +405,7 @@
     /* Bento Grid System */
     .bento-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -415,6 +415,9 @@
     }
     @media (max-width: 850px) {
       .bento-kpi-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 580px) {
+      .bento-kpi-grid { grid-template-columns: 1fr; }
     }
 
     .bento-card {
@@ -432,10 +435,8 @@
     .bento-kpi-grid .bento-card:nth-child(1) { border-top: 3.5px solid var(--accent-emerald); }
     .bento-kpi-grid .bento-card:nth-child(2) { border-top: 3.5px solid var(--peepul-teal); }
     .bento-kpi-grid .bento-card:nth-child(3) { border-top: 3.5px solid #1d4ed8; }
-    .bento-kpi-grid .bento-card:nth-child(4) { border-top: 3.5px solid #7c3aed; }
     .bento-kpi-grid .bento-card:nth-child(4) { border-top: 3.5px solid var(--accent-indigo); }
     .bento-kpi-grid .bento-card:nth-child(5) { border-top: 3.5px solid #7c3aed; }
-    .bento-kpi-grid .bento-card:nth-child(6) { border-top: 3.5px solid var(--peepul-teal); }
 
     .bento-card:hover {
       transform: translateY(-4px);
@@ -1015,33 +1016,23 @@
           </div>
         </div>
 
-        <!-- 4. District Officers (DO) - Separate Dedicated KPI -->
+        <!-- 4. District Participants (DO) - Dedicated KPI -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span>DISTRICT OFFICERS</span> <span style="color: var(--accent-indigo);">DO</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT PARTICIPANTS</span></span> <span style="color: var(--accent-indigo);">DO</span></div>
           <div class="kpi-huge-val font-mono" id="kpiDoOfficers" style="color: var(--accent-indigo);">4,454</div>
-          <div class="kpi-sub-desc" id="kpiDoOfficersDesc">District Officers & CAC Cadre</div>
+          <div class="kpi-sub-desc" id="kpiDoOfficersDesc">District Participants (DO)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>Output_DO_participant_Aug_26.xlsx</em> | Summary]
           </div>
         </div>
 
-        <!-- 5. Trainers & Monitors (Leadership Cadre) - Separate Dedicated KPI -->
+        <!-- 5. Trainers & Monitors (Leadership Cadre) - Dedicated KPI -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span>TRAINERS & MONITORS</span> <span style="color: var(--accent-purple);">CADRE</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS & MONITORS</span></span> <span style="color: var(--accent-purple);">CADRE</span></div>
           <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,492</div>
           <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 574 Monitors</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>Output_CLSS_facilitator_Aug_26.xlsx</em> & Observers]
-          </div>
-        </div>
-
-        <!-- 6. State Mobilization (Consolidated Grand Total) -->
-        <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--peepul-teal); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0.7);"></span>STATE MOBILIZATION</span> <span style="color: var(--peepul-teal);">TOTAL</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiTotal" style="color: var(--peepul-teal);">33,731</div>
-          <div class="kpi-sub-desc" id="kpiTotalDesc">23,785 Teachers + 4,454 DO + 5,492 Cadre</div>
-          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: Consolidated Telemetry across 50 Active Districts]
           </div>
         </div>
       </div>
@@ -1901,8 +1892,9 @@
         kpiReachDesc: 'CRC Clusters (312 Blocks)',
         kpiTeachLbl: 'TEACHERS',
         kpiTeachDesc: 'Participating Teachers (CLSS)',
-        kpiDoLbl: 'DISTRICT OFFICERS',
-        kpiDoDesc: 'District Officers & CAC Cadre',
+        kpiDoLbl: 'DISTRICT PARTICIPANTS',
+        kpiDoDesc: 'District Participants (DO)',
+        kpiCadreLbl: 'TRAINERS & MONITORS',
         kpiCadreLbl: 'TRAINERS & MONITORS',
         kpiCadreDesc: '4,918 Fac. + 574 Monitors',
         kpiTotLbl: 'STATE MOBILIZATION',
@@ -2003,8 +1995,9 @@
         kpiReachDesc: 'संकुल केंद्र (312 ब्लॉक)',
         kpiTeachLbl: 'सहभागी शिक्षक',
         kpiTeachDesc: 'सहभागी शिक्षक (शैक्षिक संवाद)',
-        kpiDoLbl: 'जिला अधिकारी संवर्ग',
-        kpiDoDesc: 'जिला अधिकारी एवं सीएसी संवर्ग',
+        kpiDoLbl: 'जिला प्रतिभागी',
+        kpiDoDesc: 'जिला प्रतिभागी (DO)',
+        kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
         kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
         kpiCadreDesc: '4,918 फैसिलिटेटर + 574 मॉनिटर',
         kpiTotLbl: 'कुल राज्य सहभागिता',
@@ -2087,6 +2080,13 @@
       if (btnHi) btnHi.classList.toggle('active', lang === 'hi');
 
       const t = translations[lang] || translations.en;
+
+      // Update KPI labels
+      // Update KPI labels
+      const kpiDoLblEl = document.getElementById('kpiDoLabel');
+      if (kpiDoLblEl) kpiDoLblEl.innerText = t.kpiDoLbl;
+      const kpiCadreLblEl = document.getElementById('kpiCadreLabel');
+      if (kpiCadreLblEl) kpiCadreLblEl.innerText = t.kpiCadreLbl;
 
       // 1. Header Title & Subtitle
       const titleEl = document.querySelector('.title-group h1');
@@ -2293,6 +2293,8 @@
     }
 
     // 1. Update Executive KPIs
+    // 1. Update Executive KPIs
+    // 1. Update Executive KPIs
     function updateKPIs() {
       const isHi = (currentLang === 'hi');
       const t = translations[currentLang] || translations.en;
@@ -2309,8 +2311,6 @@
       const kDoOffDesc = document.getElementById('kpiDoOfficersDesc');
       const kCadre = document.getElementById('kpiCadre');
       const kCadreDesc = document.getElementById('kpiCadreDesc');
-      const kTot = document.getElementById('kpiTotal');
-      const kTotDesc = document.getElementById('kpiTotalDesc');
 
       if (kDistDesc) kDistDesc.innerText = t.kpiDistDesc;
 
@@ -2323,38 +2323,30 @@
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
           animateValue('kpiDoOfficers', 0, 4454);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'सक्रिय डीओ जिला अधिकारी' : 'Active DO District Officers';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'सक्रिय डीओ प्रतिभागी (4,454)' : 'Active DO Participants (4,454)';
           animateValue('kpiCadre', 0, 0);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? 'कैडर बाहर किया गया' : 'Trainers Sliced Out';
-          animateValue('kpiTotal', 0, 4454);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'सक्रिय डीओ जिला अधिकारी' : 'Active DO District Officers';
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? 'प्रशिक्षक बाहर किए गए' : 'Trainers Sliced Out';
         } else if (activeRole === 'Facilitator') {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
           animateValue('kpiDoOfficers', 0, 0);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'अधिकारी बाहर किए गए' : 'Officers Sliced Out';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
           animateValue('kpiCadre', 0, 77);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'डीओ मास्टर फैसिलिटेटर' : 'DO Master Facilitators';
-          animateValue('kpiTotal', 0, 77);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'सक्रिय डीओ फैसिलिटेटर' : 'Active DO Facilitators';
         } else if (activeRole === 'Observer') {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
           animateValue('kpiDoOfficers', 0, 0);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'अधिकारी बाहर किए गए' : 'Officers Sliced Out';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
           animateValue('kpiCadre', 0, 56);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'डीओ पर्यवेक्षक / मॉनिटर' : 'DO Observers / Monitors';
-          animateValue('kpiTotal', 0, 56);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'सक्रिय डीओ पर्यवेक्षक' : 'Active DO Observers';
         } else {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
           animateValue('kpiDoOfficers', 0, 4454);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'जिला अधिकारी एवं सीएसी संवर्ग' : 'DO District Officers & CACs';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'जिला प्रतिभागी (DO)' : 'District Participants (DO)';
           animateValue('kpiCadre', 0, 133);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? '77 फैसिलिटेटर + 56 मॉनिटर' : '77 Fac. + 56 Observers';
-          animateValue('kpiTotal', 0, 4587);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'कुल डीओ सहभागिता' : 'Total DO Mobilized';
         }
         const topTitle = document.getElementById('overviewTopChartTitle');
         if (topTitle) topTitle.innerText = t.ovTopTitleDO;
@@ -2370,8 +2362,6 @@
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 0);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'कैडर बाहर किया गया' : 'Cadre Sliced Out';
-          animateValue('kpiTotal', 0, 23785);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'शिक्षक सहभागिता' : 'Teacher Mobilization';
         } else if (activeRole === 'Facilitator') {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
@@ -2379,8 +2369,6 @@
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 4841);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'शैक्षिक संवाद मास्टर फैसिलिटेटर' : 'CLSS Master Facilitators';
-          animateValue('kpiTotal', 0, 4841);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'फैसिलिटेटर सहभागिता' : 'Facilitator Turnout';
         } else if (activeRole === 'Observer') {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
@@ -2388,8 +2376,6 @@
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 518);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'शैक्षिक संवाद पर्यवेक्षक' : 'CLSS Field Observers';
-          animateValue('kpiTotal', 0, 518);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'मॉनिटर सहभागिता' : 'Monitor Turnout';
         } else {
           animateValue('kpiTeachers', 0, 23785);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'सहभागी शिक्षक (शैक्षिक संवाद)' : 'Participating Teachers (CLSS)';
@@ -2397,8 +2383,6 @@
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 5359);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,841 फैसिलिटेटर + 518 मॉनिटर' : '4,841 Fac. + 518 Observers';
-          animateValue('kpiTotal', 0, 29144);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'कुल शैक्षिक संवाद सहभागिता' : 'Total CLSS Mobilization';
         }
         const topTitle = document.getElementById('overviewTopChartTitle');
         if (topTitle) topTitle.innerText = t.ovTopTitleCLSS;
@@ -2412,38 +2396,30 @@
           animateValue('kpiTeachers', 0, 23785);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 शिक्षक (शैक्षिक संवाद)' : '23,785 Teachers (CLSS)';
           animateValue('kpiDoOfficers', 0, 4454);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? '4,454 जिला अधिकारी (DO)' : '4,454 District Officers (DO)';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? '4,454 जिला प्रतिभागी (DO)' : '4,454 District Participants (DO)';
           animateValue('kpiCadre', 0, 0);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'प्रशिक्षक बाहर किए गए' : 'Trainers Sliced Out';
-          animateValue('kpiTotal', 0, 28239);
-          if (kTotDesc) kTotDesc.innerText = isHi ? '23,785 शिक्षक + 4,454 डीओ अधिकारी' : '23,785 Teachers + 4,454 DO Officers';
         } else if (activeRole === 'Facilitator') {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
           animateValue('kpiDoOfficers', 0, 0);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'अधिकारी बाहर किए गए' : 'Officers Sliced Out';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
           animateValue('kpiCadre', 0, 4918);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,841 शैक्षिक संवाद + 77 डीओ फैसिलिटेटर' : '4,841 CLSS + 77 DO Facilitators';
-          animateValue('kpiTotal', 0, 4918);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'कुल फैसिलिटेटर' : 'Total Facilitators';
         } else if (activeRole === 'Observer') {
           animateValue('kpiTeachers', 0, 0);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
           animateValue('kpiDoOfficers', 0, 0);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'अधिकारी बाहर किए गए' : 'Officers Sliced Out';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
           animateValue('kpiCadre', 0, 574);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? '518 शैक्षिक संवाद + 56 डीओ मॉनिटर' : '518 CLSS + 56 DO Observers';
-          animateValue('kpiTotal', 0, 574);
-          if (kTotDesc) kTotDesc.innerText = isHi ? 'कुल पर्यवेक्षक / मॉनिटर' : 'Total Monitors';
         } else {
           animateValue('kpiTeachers', 0, 23785);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? 'सहभागी शिक्षक (शैक्षिक संवाद)' : 'Participating Teachers (CLSS)';
           animateValue('kpiDoOfficers', 0, 4454);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ जिला अधिकारी एवं सीएसी' : 'DO District Officers & CACs';
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'जिला प्रतिभागी (DO)' : 'District Participants (DO)';
           animateValue('kpiCadre', 0, 5492);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,918 फैसिलिटेटर + 574 मॉनिटर' : '4,918 Fac. + 574 Monitors';
-          animateValue('kpiTotal', 0, 33731);
-          if (kTotDesc) kTotDesc.innerText = isHi ? '23,785 शिक्षक + 4,454 डीओ + 5,492 कैडर' : '23,785 Teachers + 4,454 DO + 5,492 Cadre';
         }
         const topTitle = document.getElementById('overviewTopChartTitle');
         if (topTitle) topTitle.innerText = t.ovTopTitleALL;
@@ -2553,13 +2529,13 @@
 
         if (activeProgram === 'DO') {
           if (activeRole === 'Participant') {
-            datasets.push({ label: isHi ? 'DO जिला अधिकारी' : 'DO Participants', data: displayList.map(d => d.do_participants), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO जिला प्रतिभागी' : 'DO Participants', data: displayList.map(d => d.do_participants), backgroundColor: '#008aab', borderRadius: 4 });
           } else if (activeRole === 'Facilitator') {
             datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators), backgroundColor: '#63d0df', borderRadius: 4 });
           } else if (activeRole === 'Observer') {
             datasets.push({ label: isHi ? 'DO पर्यवेक्षक / मॉनिटर' : 'DO Observers', data: displayList.map(d => d.do_monitors), backgroundColor: '#4f46e5', borderRadius: 4 });
           } else {
-            datasets.push({ label: isHi ? 'DO जिला अधिकारी' : 'DO Participants', data: displayList.map(d => d.do_participants), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO जिला प्रतिभागी' : 'DO Participants', data: displayList.map(d => d.do_participants), backgroundColor: '#008aab', borderRadius: 4 });
             datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators), backgroundColor: '#63d0df', borderRadius: 4 });
             datasets.push({ label: isHi ? 'DO पर्यवेक्षक' : 'DO Observers', data: displayList.map(d => d.do_monitors), backgroundColor: '#4f46e5', borderRadius: 4 });
           }
@@ -2630,7 +2606,7 @@
         if (activeProgram === 'DO') {
           donutData = [4454, 77, 56];
           donutLabels = isHi ? 
-            ['DO जिला अधिकारी (97.1%)', 'DO फैसिलिटेटर (1.7%)', 'DO पर्यवेक्षक (1.2%)'] :
+            ['DO जिला प्रतिभागी (97.1%)', 'DO फैसिलिटेटर (1.7%)', 'DO पर्यवेक्षक (1.2%)'] :
             ['DO Participants (97.1%)', 'DO Facilitators (1.7%)', 'DO Observers (1.2%)'];
         } else if (activeProgram === 'CLSS') {
           donutData = [23785, 4841, 518];
@@ -2640,8 +2616,8 @@
         } else {
           donutData = [23785, 5492, 4454];
           donutLabels = isHi ? 
-            ['सहभागी शिक्षक (70.5%)', 'प्रशिक्षक एवं मेंटर (16.3%)', 'DO जिला अधिकारी (13.2%)'] :
-            ['Classroom Teachers (70.5%)', 'Trainers & Monitors (16.3%)', 'DO District Officers (13.2%)'];
+            ['सहभागी शिक्षक (70.5%)', 'प्रशिक्षक एवं मेंटर (16.3%)', 'DO जिला प्रतिभागी (13.2%)'] :
+            ['Classroom Teachers (70.5%)', 'Trainers & Monitors (16.3%)', 'District Participants (13.2%)'];
         }
 
         chartInstances.ovDonutStakeholder = new Chart(ctx2, {
@@ -2908,7 +2884,7 @@
           <div class="d360-metric-box"><div class="val">${dinfo.monitors + dinfo.do_monitors}</div><div class="lbl">Total Monitors</div></div>
           <div class="d360-metric-box"><div class="val">${dinfo.facilitators + dinfo.do_facilitators}</div><div class="lbl">Total Facilitators</div></div>
           <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.attendees.toLocaleString()}</div><div class="lbl">CLSS Teachers</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: var(--accent-indigo);">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">DO District Officers</div></div>
+          <div class="d360-metric-box"><div class="val" style="color: var(--accent-indigo);">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">District Participants (DO)</div></div>
           <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.combined_total.toLocaleString()}</div><div class="lbl">Combined Turnout</div></div>
         `;
       }
@@ -3161,7 +3137,7 @@
               <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
               <th>${isHi ? 'DO मॉनिटर' : 'DO Observers'}</th>
               <th>${isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators'}</th>
-              <th>${isHi ? 'DO जिला अधिकारी' : 'DO District Officers'}</th>
+              <th>${isHi ? 'DO जिला प्रतिभागी' : 'District Participants (DO)'}</th>
               <th>${isHi ? 'कुल DO सहभागिता' : 'Total DO Mobilized'}</th>
               <th>${isHi ? 'स्थिति' : 'Status'}</th>
               <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
@@ -3252,7 +3228,7 @@
               <th>${isHi ? 'संकुल' : 'Clusters'}</th>
               <th>${isHi ? 'CLSS शिक्षक' : 'CLSS Teachers'}</th>
               <th>${isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators'}</th>
-              <th>${isHi ? 'DO जिला अधिकारी' : 'DO District Officers'}</th>
+              <th>${isHi ? 'DO जिला प्रतिभागी' : 'District Participants (DO)'}</th>
               <th>${isHi ? 'कुल संयुक्त सहभागिता' : 'Total Combined Turnout'}</th>
               <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
             </tr>
