@@ -673,12 +673,54 @@
 
     /* Tables */
     .table-viewport {
-      overflow-x: auto;
+      overflow-x: auto !important;
+      overflow-y: auto;
       max-height: 520px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-hairline);
       background: var(--bg-surface-1);
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
     }
+    .table-viewport::-webkit-scrollbar {
+      height: 9px !important;
+      width: 9px !important;
+      display: block !important;
+    }
+    .table-viewport::-webkit-scrollbar-track {
+      background: var(--bg-surface-2);
+      border-radius: 4px;
+    }
+    .table-viewport::-webkit-scrollbar-thumb {
+      background: rgba(0, 138, 171, 0.5) !important;
+      border-radius: 4px;
+    }
+    .table-viewport::-webkit-scrollbar-thumb:hover {
+      background: var(--peepul-teal) !important;
+    }
+    #trustHeatmapTable {
+      min-width: 780px !important;
+      width: 100%;
+      table-layout: fixed;
+    }
+    #trustHeatmapTable th:nth-child(1), #trustHeatmapTable td:nth-child(1) { width: 45px; text-align: center; }
+    #trustHeatmapTable th:nth-child(2), #trustHeatmapTable td:nth-child(2) { 
+      width: 130px; 
+      position: sticky; 
+      left: 0; 
+      background: var(--bg-surface-1); 
+      z-index: 5; 
+      box-shadow: 2px 0 5px rgba(0,0,0,0.05); 
+    }
+    #trustHeatmapTable th:nth-child(2) { background: var(--bg-surface-2); z-index: 25; }
+    #trustHeatmapTable tr:hover td:nth-child(2) { background: var(--bg-surface-2); }
+    #trustHeatmapTable th:nth-child(3), #trustHeatmapTable td:nth-child(3) { width: 75px; text-align: right; }
+    #trustHeatmapTable th:nth-child(4), #trustHeatmapTable td:nth-child(4) { width: 110px; text-align: center; }
+    #trustHeatmapTable th:nth-child(5), #trustHeatmapTable td:nth-child(5) { width: 115px; text-align: center; }
+    #trustHeatmapTable th:nth-child(6), #trustHeatmapTable td:nth-child(6) { width: 115px; text-align: center; }
+    #trustHeatmapTable th:nth-child(7), #trustHeatmapTable td:nth-child(7) { width: 110px; text-align: center; }
+    #trustHeatmapTable th:nth-child(8), #trustHeatmapTable td:nth-child(8) { width: 125px; text-align: center; }
 
     table.kowalski-table {
       width: 100%;
