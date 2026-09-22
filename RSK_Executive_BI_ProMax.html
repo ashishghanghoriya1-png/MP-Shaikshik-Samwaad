@@ -980,9 +980,9 @@
       <div class="bento-kpi-grid">
         <!-- 1. Coverage Rate -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot"></span>COVERAGE RATE</span> <span id="kpiCoverageBadge" style="color: var(--accent-emerald); font-weight: 700;">96.2%</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot"></span><span id="kpiCoverageLabel">COVERAGE RATE</span></span> <span id="kpiCoverageBadge" style="color: var(--accent-emerald); font-weight: 700;">96.2%</span></div>
           <div class="kpi-huge-val font-mono" id="kpiDistricts">50 <span style="font-size: 14px; color: var(--text-dim);">Active</span></div>
-          <div class="kpi-sub-desc" id="kpiDistDesc">Active Reporting Districts</div>
+          <div class="kpi-sub-desc" id="kpiDistDesc">50 / 52 Active Reporting Districts</div>
           
           <div style="font-size: 10px; line-height: 1.35; color: var(--text-secondary); margin-top: 8px; background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.2); border-left: 3px solid var(--peepul-teal); border-radius: 6px; padding: 6px 8px;">
             <strong style="color: var(--peepul-teal); font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">📌 COVERAGE BIFURCATION (50 + 2 = 52):</strong>
@@ -996,44 +996,44 @@
           </div>
         </div>
 
-        <!-- 2. Program Reach -->
+        <!-- 2. Program Reach & Cluster Density -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span>PROGRAM REACH</span> <span id="kpiReachBadge" style="color: var(--accent-cyan);">92.0%</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span><span id="kpiReachLabel">PROGRAM REACH</span></span> <span id="kpiReachBadge" style="color: var(--accent-cyan); font-weight: 700;">92.0%</span></div>
           <div class="kpi-huge-val font-mono" id="kpiReach">2,851</div>
-          <div class="kpi-sub-desc" id="kpiReachDesc">CRC Clusters (312 Blocks)</div>
+          <div class="kpi-sub-desc" id="kpiReachDesc">CRC Clusters in 312 Blocks (~8.3 Teachers / Cluster)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>CLSS - Cluster Level Summary.xlsx</em> | Sheet1]
           </div>
         </div>
 
-        <!-- 3. Teacher Participation (Classroom Teachers) -->
+        <!-- 3. Teacher Participation (Actual vs Expected) -->
         <div class="bento-card">
           <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span><span id="kpiTeachersLabel">TEACHERS</span></span> <span id="kpiTeacherTurnoutBadge" style="color: var(--peepul-teal); font-weight: 700;">67.2%</span></div>
           <div class="kpi-huge-val font-mono" style="color: var(--accent-cyan); display: flex; align-items: baseline; gap: 4px;">
             <span id="kpiTeachers">23,785</span>
             <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;">/ 35,374</span>
           </div>
-          <div class="kpi-sub-desc" id="kpiTeachersDesc">23,785 Actual / 35,374 Expected Teachers</div>
+          <div class="kpi-sub-desc" id="kpiTeachersDesc">23,785 Actual / 35,374 Expected Teachers (67.2%)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>Output_CLSS_Participant_Aug_26.xlsx</em> | Summary]
           </div>
         </div>
 
-        <!-- 4. District Participants<!-- 4. District Participants (DO) - Dedicated KPI -->
+        <!-- 4. District Participants (DO Cascade Source) -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT PARTICIPANTS</span></span> <span style="color: var(--accent-indigo);">DO</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT PARTICIPANTS</span></span> <span id="kpiDoBadge" style="color: var(--accent-indigo); font-weight: 700;">DO Cascade</span></div>
           <div class="kpi-huge-val font-mono" id="kpiDoOfficers" style="color: var(--accent-indigo);">4,454</div>
-          <div class="kpi-sub-desc" id="kpiDoOfficersDesc">District Participants (DO)</div>
+          <div class="kpi-sub-desc" id="kpiDoOfficersDesc">4,454 CACs & Lead Teachers → CLSS Facilitators</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>Output_DO_participant_Aug_26.xlsx</em> | Summary]
+            [Ref: <em>Output_DO_participant_Aug_26.xlsx</em> • DIET Orientation]
           </div>
         </div>
 
-        <!-- 5. Trainers & Monitors (Leadership Cadre) - Dedicated KPI -->
+        <!-- 5. Leadership Cadre (Trainers & Monitors) -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS & MONITORS</span></span> <span style="color: var(--accent-purple);">CADRE</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS & MONITORS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">1.7 Fac/Cluster</span></div>
           <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,490</div>
-          <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 572 Monitors</div>
+          <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 572 Monitors (5.5 Clusters/Mon)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>Output_CLSS_facilitator_Aug_26.xlsx</em> & Observers]
           </div>
@@ -1896,7 +1896,7 @@
         kpiTeachLbl: 'TEACHERS',
         kpiTeachDesc: '23,785 Actual / 35,374 Expected Teachers',
         kpiDoLbl: 'DISTRICT PARTICIPANTS',
-        kpiDoDesc: 'District Participants (DO)',
+        kpiDoDesc: 'District Participants (CACs / Teachers oriented to facilitate CLSS)',
         kpiCadreLbl: 'TRAINERS & MONITORS',
         kpiCadreLbl: 'TRAINERS & MONITORS',
         kpiCadreDesc: '4,918 Fac. + 572 Monitors',
@@ -1999,7 +1999,7 @@
         kpiTeachLbl: 'सहभागी शिक्षक',
         kpiTeachDesc: '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक',
         kpiDoLbl: 'जिला प्रतिभागी',
-        kpiDoDesc: 'जिला प्रतिभागी (DO)',
+        kpiDoDesc: 'जिला प्रतिभागी (सीएसी/शिक्षक — शैक्षिक संवाद फैसिलिटेटर)',
         kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
         kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
         kpiCadreDesc: '4,918 फैसिलिटेटर + 572 मॉनिटर',
@@ -2086,12 +2086,20 @@
 
       // Update KPI labels
       // Update KPI labels
+      const kpiCovLblEl = document.getElementById('kpiCoverageLabel');
+      if (kpiCovLblEl) kpiCovLblEl.innerText = t.kpiCoverageLbl;
+      const kpiRchLblEl = document.getElementById('kpiReachLabel');
+      if (kpiRchLblEl) kpiRchLblEl.innerText = t.kpiReachLbl;
       const kpiTeachLblEl = document.getElementById('kpiTeachersLabel');
       if (kpiTeachLblEl) kpiTeachLblEl.innerText = t.kpiTeachLbl;
       const kpiDoLblEl = document.getElementById('kpiDoLabel');
       if (kpiDoLblEl) kpiDoLblEl.innerText = t.kpiDoLbl;
       const kpiCadreLblEl = document.getElementById('kpiCadreLabel');
       if (kpiCadreLblEl) kpiCadreLblEl.innerText = t.kpiCadreLbl;
+      const kpiDoBdgEl = document.getElementById('kpiDoBadge');
+      if (kpiDoBdgEl && t.kpiDoBadge) kpiDoBdgEl.innerText = t.kpiDoBadge;
+      const kpiCadreBdgEl = document.getElementById('kpiCadreBadge');
+      if (kpiCadreBdgEl && t.kpiCadreBadge) kpiCadreBdgEl.innerText = t.kpiCadreBadge;
 
       // 1. Header Title & Subtitle
       const titleEl = document.querySelector('.title-group h1');
