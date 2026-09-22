@@ -372,7 +372,7 @@
     /* Bento Grid System */
     .bento-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -400,7 +400,9 @@
     .bento-kpi-grid .bento-card:nth-child(2) { border-top: 3.5px solid var(--peepul-teal); }
     .bento-kpi-grid .bento-card:nth-child(3) { border-top: 3.5px solid #1d4ed8; }
     .bento-kpi-grid .bento-card:nth-child(4) { border-top: 3.5px solid #7c3aed; }
-    .bento-kpi-grid .bento-card:nth-child(5) { border-top: 3.5px solid #008aab; }
+    .bento-kpi-grid .bento-card:nth-child(4) { border-top: 3.5px solid var(--accent-indigo); }
+    .bento-kpi-grid .bento-card:nth-child(5) { border-top: 3.5px solid #7c3aed; }
+    .bento-kpi-grid .bento-card:nth-child(6) { border-top: 3.5px solid var(--peepul-teal); }
 
     .bento-card:hover {
       transform: translateY(-4px);
@@ -937,53 +939,71 @@
     <!-- 1. EXECUTIVE INTELLIGENCE -->
     <section id="tab-overview" class="tab-section active">
       <div class="bento-kpi-grid">
-        <div class="bento-card" style="grid-column: span 1;">
+        <!-- 1. Coverage Rate -->
+        <div class="bento-card">
           <div class="kpi-micro-label"><span><span class="pulse-dot"></span>COVERAGE RATE</span> <span id="kpiCoverageBadge" style="color: var(--accent-emerald); font-weight: 700;">96.2%</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiDistricts">50 <span style="font-size: 16px; color: var(--text-dim);">Active</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiDistricts">50 <span style="font-size: 14px; color: var(--text-dim);">Active</span></div>
           <div class="kpi-sub-desc" id="kpiDistDesc">Active Reporting Districts</div>
           
-          <!-- Coverage Rate Bifurcation Breakdown -->
-          <div style="font-size: 10.5px; line-height: 1.4; color: var(--text-secondary); margin-top: 8px; background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.2); border-left: 3px solid var(--peepul-teal); border-radius: 6px; padding: 6px 8px;">
-            <strong style="color: var(--peepul-teal); font-family: var(--font-mono); font-size: 10px; display: block; margin-bottom: 2px;">📌 COVERAGE BIFURCATION (50 + 2 = 52):</strong>
-            <div>• <strong style="color: var(--accent-emerald);">50 Active Districts (96.2%):</strong> Executed full online samwad.</div>
-            <div>• <strong style="color: var(--accent-rose);">Remaining 2 Non-Reporting (3.8%):</strong> <em>Sehore (3 part.)</em> & <em>Dewas (1 part.)</em> stalled due to vacant CAC positions (<em>Sheet2 Item 4</em>).</div>
-            <div>• <strong style="color: var(--peepul-blue);">3 New Districts:</strong> <em>Mauganj, Maihar, Pandhurna</em> conducted joint DO with mother DIETs (<em>Rewa, Satna, Chhindwara</em>).</div>
+          <div style="font-size: 10px; line-height: 1.35; color: var(--text-secondary); margin-top: 8px; background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.2); border-left: 3px solid var(--peepul-teal); border-radius: 6px; padding: 6px 8px;">
+            <strong style="color: var(--peepul-teal); font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">📌 COVERAGE BIFURCATION (50 + 2 = 52):</strong>
+            <div>• <strong style="color: var(--accent-emerald);">50 Active (96.2%):</strong> Full samwad executed.</div>
+            <div>• <strong style="color: var(--accent-rose);">2 Non-Reporting (3.8%):</strong> <em>Sehore</em> & <em>Dewas</em> (vacant CAC).</div>
+            <div>• <strong style="color: var(--peepul-blue);">3 Mother DIETs:</strong> <em>Mauganj, Maihar, Pandhurna</em>.</div>
           </div>
 
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>CLSS - Cluster Level Summary.xlsx</em> | Sheet1 (Rows 1-50 active) & Sheet2 (Items 4-7)]
+            [Ref: <em>CLSS - Cluster Level Summary.xlsx</em>]
           </div>
         </div>
+
+        <!-- 2. Program Reach -->
         <div class="bento-card">
           <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span>PROGRAM REACH</span> <span id="kpiReachBadge" style="color: var(--accent-cyan);">92.0%</span></div>
           <div class="kpi-huge-val font-mono" id="kpiReach">2,851</div>
           <div class="kpi-sub-desc" id="kpiReachDesc">CRC Clusters (314 Blocks)</div>
-          <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>CLSS - Cluster Level Summary.xlsx</em> | Sheet: <strong>Sheet1</strong>, Cols: <strong>Total Block (313), Total Cluster (2,851)</strong>]
+          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
+            [Ref: <em>CLSS - Cluster Level Summary.xlsx</em> | Sheet1]
           </div>
         </div>
+
+        <!-- 3. Teacher Participation (Classroom Teachers) -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span>TEACHER PARTICIPATION</span> <span style="color: var(--peepul-teal);">CORE</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span>TEACHERS</span> <span style="color: var(--peepul-teal);">CLSS</span></div>
           <div class="kpi-huge-val font-mono" id="kpiTeachers" style="color: var(--accent-cyan);">23,785</div>
           <div class="kpi-sub-desc" id="kpiTeachersDesc">Participating Teachers (CLSS)</div>
-          <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>Output_CLSS_Participant_Aug_26.xlsx</em> | Sheet: <strong>Summary</strong>, Row 3: <strong>Participants (23,785)</strong> & Sheet1 Col: <strong>Total Attendees (23,785)</strong>]
+          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
+            [Ref: <em>Output_CLSS_Participant_Aug_26.xlsx</em> | Summary]
           </div>
         </div>
+
+        <!-- 4. District Officers (DO) - Separate Dedicated KPI -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span>LEADERSHIP CADRE</span> <span style="color: var(--accent-purple);">CADRE</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">9,946</div>
-          <div class="kpi-sub-desc" id="kpiCadreDesc">4,454 DO Officers + 5,492 Trainers</div>
-          <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>Output_CLSS_facilitator_Aug_26.xlsx</em> (Sheet: <strong>Summary</strong>, Row: <strong>Facilitator: 4,814</strong>) + <em>Observer</em> (Row: <strong>Monitor: 516</strong>)]
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span>DISTRICT OFFICERS</span> <span style="color: var(--accent-indigo);">DO</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiDoOfficers" style="color: var(--accent-indigo);">4,454</div>
+          <div class="kpi-sub-desc" id="kpiDoOfficersDesc">District Officers & CAC Cadre</div>
+          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
+            [Ref: <em>Output_DO_participant_Aug_26.xlsx</em> | Summary]
           </div>
         </div>
+
+        <!-- 5. Trainers & Monitors (Leadership Cadre) - Separate Dedicated KPI -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--peepul-teal); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0.7);"></span>STATE MOBILIZATION</span> <span style="color: var(--accent-rose);">ALL</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiTotal" style="color: var(--peepul-teal);">33,872</div>
-          <div class="kpi-sub-desc" id="kpiTotalDesc">23,785 Teachers + 9,946 Officers/Cadre</div>
-          <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <strong>7 Consolidated Telemetry Files</strong> | Sum of 29,285 Verified Survey Responses across 50 Districts]
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span>TRAINERS & MONITORS</span> <span style="color: var(--accent-purple);">CADRE</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,492</div>
+          <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 574 Monitors</div>
+          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
+            [Ref: <em>Output_CLSS_facilitator_Aug_26.xlsx</em> & Observers]
+          </div>
+        </div>
+
+        <!-- 6. State Mobilization (Consolidated Grand Total) -->
+        <div class="bento-card">
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--peepul-teal); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0.7);"></span>STATE MOBILIZATION</span> <span style="color: var(--peepul-teal);">TOTAL</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiTotal" style="color: var(--peepul-teal);">33,731</div>
+          <div class="kpi-sub-desc" id="kpiTotalDesc">23,785 Teachers + 4,454 DO + 5,492 Cadre</div>
+          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
+            [Ref: Consolidated Telemetry across 50 Active Districts]
           </div>
         </div>
       </div>
@@ -1824,123 +1844,155 @@
       updateBlockView();
     }
 
-        function updateKPIs() {
-      if (activeProgram === 'DO') {
-        document.getElementById('kpiCoverageBadge').innerText = '96.0%';
-        document.getElementById('kpiDistricts').innerHTML = '48 <span style="font-size: 16px; color: var(--text-dim);">/ 50</span>';
-        document.getElementById('kpiDistDesc').innerText = 'Districts Conducted DO';
+            function updateKPIs() {
+      const kDist = document.getElementById('kpiDistricts');
+      const kDistDesc = document.getElementById('kpiDistDesc');
+      const kReach = document.getElementById('kpiReach');
+      const kReachDesc = document.getElementById('kpiReachDesc');
+      const kReachBadge = document.getElementById('kpiReachBadge');
 
-        document.getElementById('kpiReachBadge').innerText = 'DIET';
-        document.getElementById('kpiReach').innerText = '48 DIETs';
-        document.getElementById('kpiReachDesc').innerText = 'District Resource Centers';
+      const kTeach = document.getElementById('kpiTeachers');
+      const kTeachDesc = document.getElementById('kpiTeachersDesc');
+      const kDoOff = document.getElementById('kpiDoOfficers');
+      const kDoOffDesc = document.getElementById('kpiDoOfficersDesc');
+      const kCadre = document.getElementById('kpiCadre');
+      const kCadreDesc = document.getElementById('kpiCadreDesc');
+      const kTot = document.getElementById('kpiTotal');
+      const kTotDesc = document.getElementById('kpiTotalDesc');
+
+      if (activeProgram === 'DO') {
+        if (kReachBadge) kReachBadge.innerText = '48 DIETs';
+        if (kReach) kReach.innerText = '48 DIETs';
+        if (kReachDesc) kReachDesc.innerText = 'District Resource Centers';
 
         if (activeRole === 'Participant') {
-          animateValue('kpiTeachers', 0, 4454);
-          document.getElementById('kpiTeachersDesc').innerText = 'DO District Officers (4,454)';
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = 'No Classroom Teachers in DO';
+          animateValue('kpiDoOfficers', 0, 4454);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'Active DO District Officers';
           animateValue('kpiCadre', 0, 0);
-          document.getElementById('kpiCadreDesc').innerText = 'Trainers Sliced Out';
+          if (kCadreDesc) kCadreDesc.innerText = 'Trainers Sliced Out';
           animateValue('kpiTotal', 0, 4454);
+          if (kTotDesc) kTotDesc.innerText = 'Active DO District Officers';
         } else if (activeRole === 'Facilitator') {
           animateValue('kpiTeachers', 0, 0);
-          document.getElementById('kpiTeachersDesc').innerText = 'Officers Sliced Out';
+          if (kTeachDesc) kTeachDesc.innerText = 'No Classroom Teachers in DO';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'Officers Sliced Out';
           animateValue('kpiCadre', 0, 77);
-          document.getElementById('kpiCadreDesc').innerText = 'DO Facilitators';
+          if (kCadreDesc) kCadreDesc.innerText = 'DO Master Facilitators';
           animateValue('kpiTotal', 0, 77);
+          if (kTotDesc) kTotDesc.innerText = 'Active DO Facilitators';
         } else if (activeRole === 'Observer') {
           animateValue('kpiTeachers', 0, 0);
-          document.getElementById('kpiTeachersDesc').innerText = 'Officers Sliced Out';
+          if (kTeachDesc) kTeachDesc.innerText = 'No Classroom Teachers in DO';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'Officers Sliced Out';
           animateValue('kpiCadre', 0, 56);
-          document.getElementById('kpiCadreDesc').innerText = 'DO Observers';
+          if (kCadreDesc) kCadreDesc.innerText = 'DO Observers / Monitors';
           animateValue('kpiTotal', 0, 56);
+          if (kTotDesc) kTotDesc.innerText = 'Active DO Observers';
         } else {
-          animateValue('kpiTeachers', 0, 4454);
-          document.getElementById('kpiTeachersDesc').innerText = 'DO District Officers';
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = 'No Classroom Teachers in DO';
+          animateValue('kpiDoOfficers', 0, 4454);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'DO District Officers & CACs';
           animateValue('kpiCadre', 0, 133);
-          document.getElementById('kpiCadreDesc').innerText = '77 Fac. + 56 Observers';
+          if (kCadreDesc) kCadreDesc.innerText = '77 Fac. + 56 Observers';
           animateValue('kpiTotal', 0, 4587);
+          if (kTotDesc) kTotDesc.innerText = 'Total DO Mobilized';
         }
-        document.getElementById('kpiTotalDesc').innerText = 'Total DO Mobilization';
         document.getElementById('overviewTopChartTitle').innerText = '🏆 District Orientation Participation Matrix';
       } else if (activeProgram === 'CLSS') {
-        document.getElementById('kpiCoverageBadge').innerText = '96.2%';
-        document.getElementById('kpiDistricts').innerHTML = '50 <span style="font-size: 16px; color: var(--text-dim);">/ 52</span>';
-        document.getElementById('kpiDistDesc').innerText = 'Active Districts in MP';
-
-        document.getElementById('kpiReachBadge').innerText = '92.0%';
+        if (kReachBadge) kReachBadge.innerText = '92.0%';
         animateValue('kpiReach', 0, 2851);
-        document.getElementById('kpiReachDesc').innerText = 'CRC Clusters (314 Blocks)';
+        if (kReachDesc) kReachDesc.innerText = 'CRC Clusters (314 Blocks)';
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
-          document.getElementById('kpiTeachersDesc').innerText = 'Participating Teachers';
+          if (kTeachDesc) kTeachDesc.innerText = 'Active Teachers (23,785)';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 0);
-          document.getElementById('kpiCadreDesc').innerText = 'Filtered to Teachers';
+          if (kCadreDesc) kCadreDesc.innerText = 'Cadre Sliced Out';
           animateValue('kpiTotal', 0, 23785);
+          if (kTotDesc) kTotDesc.innerText = 'Teacher Mobilization';
         } else if (activeRole === 'Facilitator') {
           animateValue('kpiTeachers', 0, 0);
-          document.getElementById('kpiTeachersDesc').innerText = 'Filtered to Facilitators';
+          if (kTeachDesc) kTeachDesc.innerText = 'Teachers Sliced Out';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 4841);
-          document.getElementById('kpiCadreDesc').innerText = 'CLSS Facilitators';
+          if (kCadreDesc) kCadreDesc.innerText = 'CLSS Master Facilitators';
           animateValue('kpiTotal', 0, 4841);
+          if (kTotDesc) kTotDesc.innerText = 'Facilitator Turnout';
         } else if (activeRole === 'Observer') {
           animateValue('kpiTeachers', 0, 0);
-          document.getElementById('kpiTeachersDesc').innerText = 'Filtered to Monitors';
+          if (kTeachDesc) kTeachDesc.innerText = 'Teachers Sliced Out';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 518);
-          document.getElementById('kpiCadreDesc').innerText = 'CLSS Observers';
+          if (kCadreDesc) kCadreDesc.innerText = 'CLSS Field Observers';
           animateValue('kpiTotal', 0, 518);
+          if (kTotDesc) kTotDesc.innerText = 'Monitor Turnout';
         } else {
           animateValue('kpiTeachers', 0, 23785);
-          document.getElementById('kpiTeachersDesc').innerText = 'Participating Teachers (CLSS)';
+          if (kTeachDesc) kTeachDesc.innerText = 'Participating Teachers (CLSS)';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 5359);
-          document.getElementById('kpiCadreDesc').innerText = '4,841 Fac. + 518 Observers';
-          animateValue('kpiTotal', 0, 29285);
+          if (kCadreDesc) kCadreDesc.innerText = '4,841 Fac. + 518 Observers';
+          animateValue('kpiTotal', 0, 29144);
+          if (kTotDesc) kTotDesc.innerText = 'Total CLSS Mobilization';
         }
-        document.getElementById('kpiTotalDesc').innerText = 'Total CLSS Turnout';
         document.getElementById('overviewTopChartTitle').innerText = '🏆 Top Districts by Teacher Turnout (CLSS)';
       } else {
-        // Consolidated ('ALL') Program View - Teachers strictly CLSS (23,785), DO is in Cadre
-        document.getElementById('kpiCoverageBadge').innerText = '96.2%';
-        document.getElementById('kpiDistricts').innerHTML = '50 <span style="font-size: 16px; color: var(--text-dim);">/ 52</span>';
-        document.getElementById('kpiDistDesc').innerText = 'Active Districts in MP';
-
-        document.getElementById('kpiReachBadge').innerText = '92.0%';
-        document.getElementById('kpiReach').innerText = '2,851 CRC';
-        document.getElementById('kpiReachDesc').innerText = 'Clusters + 48 DIET Venues';
+        // Consolidated ('ALL') Program View - Teachers, DO Officers, Trainers fully separated
+        if (kReachBadge) kReachBadge.innerText = 'State Total';
+        if (kReach) kReach.innerText = '2,851 CRC';
+        if (kReachDesc) kReachDesc.innerText = 'Clusters + 48 DIET Venues';
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
-          document.getElementById('kpiTeachersDesc').innerText = '23,785 Teachers (CLSS)';
-          animateValue('kpiCadre', 0, 4454);
-          document.getElementById('kpiCadreDesc').innerText = '4,454 DO District Officers';
-          animateValue('kpiTotal', 0, 28380);
-          document.getElementById('kpiTotalDesc').innerText = '23,785 Teachers + 4,454 Officers';
+          if (kTeachDesc) kTeachDesc.innerText = '23,785 Teachers (CLSS)';
+          animateValue('kpiDoOfficers', 0, 4454);
+          if (kDoOffDesc) kDoOffDesc.innerText = '4,454 District Officers (DO)';
+          animateValue('kpiCadre', 0, 0);
+          if (kCadreDesc) kCadreDesc.innerText = 'Trainers Sliced Out';
+          animateValue('kpiTotal', 0, 28239);
+          if (kTotDesc) kTotDesc.innerText = '23,785 Teachers + 4,454 DO Officers';
         } else if (activeRole === 'Facilitator') {
           animateValue('kpiTeachers', 0, 0);
-          document.getElementById('kpiTeachersDesc').innerText = 'Teachers Sliced Out';
+          if (kTeachDesc) kTeachDesc.innerText = 'Teachers Sliced Out';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'Officers Sliced Out';
           animateValue('kpiCadre', 0, 4918);
-          document.getElementById('kpiCadreDesc').innerText = '4,841 CLSS + 77 DO Facilitators';
+          if (kCadreDesc) kCadreDesc.innerText = '4,841 CLSS + 77 DO Facilitators';
           animateValue('kpiTotal', 0, 4918);
-          document.getElementById('kpiTotalDesc').innerText = 'Total Facilitators';
+          if (kTotDesc) kTotDesc.innerText = 'Total Facilitators';
         } else if (activeRole === 'Observer') {
           animateValue('kpiTeachers', 0, 0);
-          document.getElementById('kpiTeachersDesc').innerText = 'Teachers Sliced Out';
+          if (kTeachDesc) kTeachDesc.innerText = 'Teachers Sliced Out';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'Officers Sliced Out';
           animateValue('kpiCadre', 0, 574);
-          document.getElementById('kpiCadreDesc').innerText = '518 CLSS + 56 DO Observers';
+          if (kCadreDesc) kCadreDesc.innerText = '518 CLSS + 56 DO Observers';
           animateValue('kpiTotal', 0, 574);
-          document.getElementById('kpiTotalDesc').innerText = 'Total Monitors';
+          if (kTotDesc) kTotDesc.innerText = 'Total Monitors';
         } else {
-          // Default: Teacher Participation is strictly 23,785 Teachers (NO DO added)
+          // Default ALL view: 3 distinct groups
           animateValue('kpiTeachers', 0, 23785);
-          document.getElementById('kpiTeachersDesc').innerText = 'Participating Teachers (CLSS)';
-
-          animateValue('kpiCadre', 0, 9946);
-          document.getElementById('kpiCadreDesc').innerText = '4,454 DO Officers + 5,492 Trainers';
-
-          animateValue('kpiTotal', 0, 33872);
-          document.getElementById('kpiTotalDesc').innerText = '23,785 Teachers + 9,946 Cadre';
+          if (kTeachDesc) kTeachDesc.innerText = 'Participating Teachers (CLSS)';
+          animateValue('kpiDoOfficers', 0, 4454);
+          if (kDoOffDesc) kDoOffDesc.innerText = 'DO District Officers & CACs';
+          animateValue('kpiCadre', 0, 5492);
+          if (kCadreDesc) kCadreDesc.innerText = '4,918 Fac. + 574 Monitors';
+          animateValue('kpiTotal', 0, 33731);
+          if (kTotDesc) kTotDesc.innerText = '23,785 Teachers + 4,454 DO + 5,492 Cadre';
         }
         document.getElementById('overviewTopChartTitle').innerText = '🏆 Top Districts by Total Mobilization (CLSS + DO)';
       }
+    }
     }
 
     function updateBlockView() {
