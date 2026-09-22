@@ -362,6 +362,13 @@
     .lang-btn:hover {
       color: var(--text-primary);
     }
+    
+    .lang-fade-target {
+      transition: opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .lang-fading {
+      opacity: 0.75 !important;
+    }
     .lang-btn.active {
       background: var(--peepul-teal) !important;
       color: #ffffff !important;
@@ -1023,7 +1030,7 @@
   <div id="scrollProgressBar" style="position: fixed; top: 0; left: 0; right: 0; height: 3.5px; background: linear-gradient(90deg, #008aab 0%, #63d0df 100%); transform-origin: 0%; z-index: 9999; transform: scaleX(0);"></div>
 
   <!-- Top Studio Bar -->
-  <header class="studio-header">
+  <header class="studio-header lang-fade-target">
     <div class="brand-cluster">
       <div class="lang-switcher">
         <span style="font-size: 12px; margin: 0 4px 0 6px; color: var(--text-muted);">🌐</span>
@@ -1051,7 +1058,7 @@
   </header>
 
   <!-- Global Multi-Program Slicer Ribbon -->
-  <div class="slicer-ribbon">
+  <div class="slicer-ribbon lang-fade-target">
     <div class="slicer-group">
       <span class="slicer-label">PROGRAM SLICER:</span>
       <div class="slicer-pills" id="programSlicer">
@@ -1073,7 +1080,7 @@
   </div>
 
   <!-- Navigation Ribbon -->
-  <nav class="studio-nav">
+  <nav class="studio-nav lang-fade-target">
     <button class="nav-item active" onclick="activateTab('tab-overview', this)"><span class="nav-dot"></span> 📊 1. Executive BI</button>
     <button class="nav-item" onclick="activateTab('tab-rf', this)"><span class="nav-dot"></span> 📋 2. Results Framework</button>
     <button class="nav-item" onclick="activateTab('tab-d360', this)"><span class="nav-dot"></span> 🔍 3. District 360°</button>
@@ -1087,8 +1094,8 @@
   <main class="studio-canvas">
 
     <!-- 1. EXECUTIVE INTELLIGENCE -->
-    <section id="tab-overview" class="tab-section active">
-      <div class="bento-kpi-grid">
+    <section id="tab-overview" class="tab-section active lang-fade-target">
+      <div class="bento-kpi-grid lang-fade-target">
         <!-- 1. Coverage Rate -->
         <div class="bento-card">
           <div class="kpi-micro-label"><span><span class="pulse-dot"></span><span id="kpiCoverageLabel">COVERAGE RATE</span></span> <span id="kpiCoverageBadge" style="color: var(--accent-emerald); font-weight: 700;">96.2%</span></div>
@@ -1498,7 +1505,7 @@
             <span>🔀 BLOCK-WISE CADRE BIFURCATION FOR <span id="d360BifurcateDistName" style="color: var(--peepul-teal); font-weight: 800; text-decoration: underline;">DISTRICT</span>:</span>
             <span id="d360BifurcateBlockCount" class="status-chip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-size: 11.5px; padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(0, 138, 171, 0.2);">0 Blocks</span>
           </div>
-          <div class="bento-kpi-grid" id="d360BlockBentoGrid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
+          <div class="bento-kpi-grid lang-fade-target" id="d360BlockBentoGrid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
             <!-- Populated via JS with individual card per block -->
           </div>
         </div>
@@ -1675,7 +1682,7 @@
         </div>
 
         <!-- Dynamic Block Metric Summary Chips -->
-        <div class="bento-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0;">
+        <div class="bento-kpi-grid lang-fade-target" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0;">
           <div class="bento-card" style="padding: 12px 16px;">
             <div class="kpi-micro-label"><span><span class="pulse-dot"></span>ACTIVE SCOPE</span> <span id="blockScopeBadge" style="color: var(--accent-emerald); font-weight: 700;">50 Dist.</span></div>
             <div class="kpi-huge-val font-mono" id="blockScopeCount" style="font-size: 26px;">309</div>
@@ -2187,191 +2194,237 @@
     };
 
     function setLanguage(lang) {
+      if (currentLang === lang) return;
       currentLang = lang;
+
       const btnEn = document.getElementById('langBtnEn');
       const btnHi = document.getElementById('langBtnHi');
       if (btnEn) btnEn.classList.toggle('active', lang === 'en');
       if (btnHi) btnHi.classList.toggle('active', lang === 'hi');
 
-      // Taste Skill: Pure GPU-Accelerated Opacity Crossfade (Zero vertical jitter / Zero layout shifts)
-      if (window.Motion && window.Motion.animate) {
-        const activeSection = document.querySelector('.tab-section.active');
-        if (activeSection) {
-          window.Motion.animate(activeSection, { opacity: [0.88, 1] }, { duration: 0.18, ease: 'easeOut' });
+      const fadeTargets = document.querySelectorAll('.title-group, .studio-nav, .slicer-ribbon, .bento-kpi-grid, .tab-section.active');
+      fadeTargets.forEach(el => el.classList.add('lang-fading'));
+
+      requestAnimationFrame(() => {
+        const t = translations[lang] || translations.en;
+
+        // 1. Update KPI labels
+        const kpiCovLblEl = document.getElementById('kpiCoverageLabel');
+        if (kpiCovLblEl) kpiCovLblEl.innerText = t.kpiCoverageLbl;
+        const kpiRchLblEl = document.getElementById('kpiReachLabel');
+        if (kpiRchLblEl) kpiRchLblEl.innerText = t.kpiReachLbl;
+        const kpiTeachLblEl = document.getElementById('kpiTeachersLabel');
+        if (kpiTeachLblEl) kpiTeachLblEl.innerText = t.kpiTeachLbl;
+        const kpiDoLblEl = document.getElementById('kpiDoLabel');
+        if (kpiDoLblEl) kpiDoLblEl.innerText = t.kpiDoLbl;
+        const kpiCadreLblEl = document.getElementById('kpiCadreLabel');
+        if (kpiCadreLblEl) kpiCadreLblEl.innerText = t.kpiCadreLbl;
+        const kpiDoBdgEl = document.getElementById('kpiDoBadge');
+        if (kpiDoBdgEl && t.kpiDoBadge) kpiDoBdgEl.innerText = t.kpiDoBadge;
+        const kpiCadreBdgEl = document.getElementById('kpiCadreBadge');
+        if (kpiCadreBdgEl && t.kpiCadreBadge) kpiCadreBdgEl.innerText = t.kpiCadreBadge;
+
+        // 2. Header Title & Subtitle
+        const titleEl = document.querySelector('.title-group h1');
+        if (titleEl) titleEl.innerHTML = t.title;
+        const subEl = document.querySelector('.title-group p');
+        if (subEl) {
+          subEl.innerHTML = `${t.subtitle} <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
         }
-      }
 
-      const t = translations[lang] || translations.en;
+        // 3. Program & Role Slicers
+        const pSlicerLbl = document.querySelector('.slicer-group:nth-child(1) .slicer-label');
+        if (pSlicerLbl) pSlicerLbl.innerText = t.progSlicerLabel;
+        const pBtns = document.querySelectorAll('#programSlicer .slicer-btn');
+        if (pBtns.length >= 3) {
+          pBtns[0].innerText = t.progAll;
+          pBtns[1].innerText = t.progClss;
+          pBtns[2].innerText = t.progDo;
+        }
 
-      // Update KPI labels
-      const kpiCovLblEl = document.getElementById('kpiCoverageLabel');
-      if (kpiCovLblEl) kpiCovLblEl.innerText = t.kpiCoverageLbl;
-      const kpiRchLblEl = document.getElementById('kpiReachLabel');
-      if (kpiRchLblEl) kpiRchLblEl.innerText = t.kpiReachLbl;
-      const kpiTeachLblEl = document.getElementById('kpiTeachersLabel');
-      if (kpiTeachLblEl) kpiTeachLblEl.innerText = t.kpiTeachLbl;
-      const kpiDoLblEl = document.getElementById('kpiDoLabel');
-      if (kpiDoLblEl) kpiDoLblEl.innerText = t.kpiDoLbl;
-      const kpiCadreLblEl = document.getElementById('kpiCadreLabel');
-      if (kpiCadreLblEl) kpiCadreLblEl.innerText = t.kpiCadreLbl;
-      const kpiDoBdgEl = document.getElementById('kpiDoBadge');
-      if (kpiDoBdgEl && t.kpiDoBadge) kpiDoBdgEl.innerText = t.kpiDoBadge;
-      const kpiCadreBdgEl = document.getElementById('kpiCadreBadge');
-      if (kpiCadreBdgEl && t.kpiCadreBadge) kpiCadreBdgEl.innerText = t.kpiCadreBadge;
+        const rSlicerLbl = document.querySelector('.slicer-group:nth-child(2) .slicer-label');
+        if (rSlicerLbl) rSlicerLbl.innerText = t.cadreLabel;
+        const rBtns = document.querySelectorAll('#roleSlicer .slicer-btn');
+        if (rBtns.length >= 4) {
+          rBtns[0].innerText = t.cadreAll;
+          rBtns[1].innerText = t.cadreTeach;
+          rBtns[2].innerText = t.cadreFac;
+          rBtns[3].innerText = t.cadreMon;
+        }
 
-      // 1. Header Title & Subtitle
-      const titleEl = document.querySelector('.title-group h1');
-      if (titleEl) titleEl.innerHTML = t.title;
-      const subEl = document.querySelector('.title-group p');
-      if (subEl) {
-        subEl.innerHTML = `${t.subtitle} <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
-      }
+        // 4. Navigation Ribbon (All 8 Tabs)
+        const navItems = document.querySelectorAll('.studio-nav .nav-item');
+        if (navItems.length >= 8) {
+          navItems[0].innerHTML = `<span class="nav-dot"></span> ${t.navOverview}`;
+          navItems[1].innerHTML = `<span class="nav-dot"></span> ${t.navRf}`;
+          navItems[2].innerHTML = `<span class="nav-dot"></span> ${t.navD360}`;
+          navItems[3].innerHTML = `<span class="nav-dot"></span> ${t.navLeague}`;
+          navItems[4].innerHTML = `<span class="nav-dot"></span> ${t.navBlocks}`;
+          navItems[5].innerHTML = `<span class="nav-dot"></span> ${t.navQuestions}`;
+          navItems[6].innerHTML = `<span class="nav-dot"></span> ${t.navPedagogy}`;
+          navItems[7].innerHTML = `<span class="nav-dot"></span> ${t.navGov}`;
+        }
 
-      // 2. Program & Role Slicers
-      const pSlicerLbl = document.querySelector('.slicer-group:nth-child(1) .slicer-label');
-      if (pSlicerLbl) pSlicerLbl.innerText = t.progSlicerLabel;
-      const pBtns = document.querySelectorAll('#programSlicer .slicer-btn');
-      if (pBtns.length >= 3) {
-        pBtns[0].innerText = t.progAll;
-        pBtns[1].innerText = t.progClss;
-        pBtns[2].innerText = t.progDo;
-      }
+        // 5. Tab 1: Overview Panel Titles & Scope Buttons
+        const ovCadreEl = document.getElementById('ovCadreBreakdownTitle');
+        if (ovCadreEl) ovCadreEl.innerText = t.ovCadreBreakdownTitle;
+        const ovPedEl = document.getElementById('ovPedagogyBenchmarkTitle');
+        if (ovPedEl) ovPedEl.innerText = t.ovPedagogyBenchmarkTitle;
+        const ovTrustEl = document.getElementById('ovTrustIndexTitle');
+        if (ovTrustEl) ovTrustEl.innerText = t.ovTrustIndexTitle;
+        const ovTrustBadgeEl = document.getElementById('ovTrustBadge');
+        if (ovTrustBadgeEl) ovTrustBadgeEl.innerText = t.ovTrustBadge;
+        const ovQuadEl = document.getElementById('ovQuadrantMatrixTitle');
+        if (ovQuadEl) ovQuadEl.innerText = t.ovQuadrantMatrixTitle;
 
-      const rSlicerLbl = document.querySelector('.slicer-group:nth-child(2) .slicer-label');
-      if (rSlicerLbl) rSlicerLbl.innerText = t.cadreLabel;
-      const rBtns = document.querySelectorAll('#roleSlicer .slicer-btn');
-      if (rBtns.length >= 4) {
-        rBtns[0].innerText = t.cadreAll;
-        rBtns[1].innerText = t.cadreTeach;
-        rBtns[2].innerText = t.cadreFac;
-        rBtns[3].innerText = t.cadreMon;
-      }
+        const btnAll = document.getElementById('btnScopeAll');
+        if (btnAll) btnAll.innerText = t.btnScopeAll;
+        const btnT15 = document.getElementById('btnScopeTop15');
+        if (btnT15) btnT15.innerText = t.btnScopeTop15;
+        const btnB15 = document.getElementById('btnScopeBottom15');
+        if (btnB15) btnB15.innerText = t.btnScopeBottom15;
 
-      // 3. Navigation Ribbon (All 8 Tabs)
-      const navItems = document.querySelectorAll('.studio-nav .nav-item');
-      if (navItems.length >= 8) {
-        navItems[0].innerHTML = `<span class="nav-dot"></span> ${t.navOverview}`;
-        navItems[1].innerHTML = `<span class="nav-dot"></span> ${t.navRf}`;
-        navItems[2].innerHTML = `<span class="nav-dot"></span> ${t.navD360}`;
-        navItems[3].innerHTML = `<span class="nav-dot"></span> ${t.navLeague}`;
-        navItems[4].innerHTML = `<span class="nav-dot"></span> ${t.navBlocks}`;
-        navItems[5].innerHTML = `<span class="nav-dot"></span> ${t.navQuestions}`;
-        navItems[6].innerHTML = `<span class="nav-dot"></span> ${t.navPedagogy}`;
-        navItems[7].innerHTML = `<span class="nav-dot"></span> ${t.navGov}`;
-      }
+        const btnTrustCh = document.getElementById('btnTrustChart');
+        if (btnTrustCh) btnTrustCh.innerText = t.btnTrustChart;
+        const btnTrustHm = document.getElementById('btnTrustHeatmap');
+        if (btnTrustHm) btnTrustHm.innerText = t.btnTrustHeatmap;
 
-      // 4. Tab 1: Overview Panel Titles & Scope Buttons
-      const ovCadreEl = document.getElementById('ovCadreBreakdownTitle');
-      if (ovCadreEl) ovCadreEl.innerText = t.ovCadreBreakdownTitle;
-      const ovPedEl = document.getElementById('ovPedagogyBenchmarkTitle');
-      if (ovPedEl) ovPedEl.innerText = t.ovPedagogyBenchmarkTitle;
-      const ovTrustEl = document.getElementById('ovTrustIndexTitle');
-      if (ovTrustEl) ovTrustEl.innerText = t.ovTrustIndexTitle;
-      const ovTrustBadgeEl = document.getElementById('ovTrustBadge');
-      if (ovTrustBadgeEl) ovTrustBadgeEl.innerText = t.ovTrustBadge;
-      const ovQuadEl = document.getElementById('ovQuadrantMatrixTitle');
-      if (ovQuadEl) ovQuadEl.innerText = t.ovQuadrantMatrixTitle;
+        // 6. Tab 2: Results Framework
+        const rfHead = document.getElementById('rfScorecardHeading');
+        if (rfHead) rfHead.innerText = t.rfScorecardHeading;
+        const rfSub = document.querySelector('#tab-rf p');
+        if (rfSub) rfSub.innerText = t.rfScorecardSub;
+        const rfDetChart = document.getElementById('rfDetailChartTitle');
+        if (rfDetChart) rfDetChart.innerText = t.rfDetailChartTitle;
+        const rfSubMetHead = document.getElementById('rfSubMetricsHeading');
+        if (rfSubMetHead) rfSubMetHead.innerText = t.rfSubMetricsHeading;
+        const rfMatHead = document.getElementById('rfMatrixHeading');
+        if (rfMatHead) rfMatHead.innerText = t.rfMatrixHeading;
+        const rfMatSearch = document.getElementById('rfMatrixSearch');
+        if (rfMatSearch) rfMatSearch.placeholder = t.rfMatrixSearchPl;
 
-      const btnAll = document.getElementById('btnScopeAll');
-      if (btnAll) btnAll.innerText = t.btnScopeAll;
-      const btnT15 = document.getElementById('btnScopeTop15');
-      if (btnT15) btnT15.innerText = t.btnScopeTop15;
-      const btnB15 = document.getElementById('btnScopeBottom15');
-      if (btnB15) btnB15.innerText = t.btnScopeBottom15;
+        // 7. Tab 3: District 360
+        const d360Head = document.getElementById('d360MainHeading') || document.querySelector('#tab-d360 h2');
+        if (d360Head) d360Head.innerText = t.d360Title;
+        const d360P = document.querySelector('#tab-d360 p');
+        if (d360P) d360P.innerText = t.d360Sub;
+        const d360DistLbl = document.querySelector('label[for="d360Dropdown"]');
+        if (d360DistLbl) d360DistLbl.innerText = t.d360LblDist;
+        const d360ModeLbl = document.querySelector('#tab-d360 .slicer-pills')?.previousElementSibling;
+        if (d360ModeLbl) d360ModeLbl.innerText = t.d360LblMode;
+        const btnSum = document.getElementById('d360BtnSum');
+        if (btnSum) btnSum.innerText = t.d360BtnSum;
+        const btnBif = document.getElementById('d360BtnBifurcate');
+        if (btnBif) btnBif.innerText = t.d360BtnBif;
+        const d360BlockLbl = document.querySelector('label[for="d360BlockDropdown"]');
+        if (d360BlockLbl) d360BlockLbl.innerText = t.d360LblBlock;
 
-      const btnTrustCh = document.getElementById('btnTrustChart');
-      if (btnTrustCh) btnTrustCh.innerText = t.btnTrustChart;
-      const btnTrustHm = document.getElementById('btnTrustHeatmap');
-      if (btnTrustHm) btnTrustHm.innerText = t.btnTrustHeatmap;
+        const d360PedH = document.getElementById('d360PedHeading');
+        if (d360PedH) d360PedH.innerText = t.d360PedHead;
+        const d360GenH = document.getElementById('d360GenderHeading');
+        if (d360GenH) d360GenH.innerText = t.d360GenderHead;
+        const d360CmpH = document.getElementById('d360CompHeading');
+        if (d360CmpH) d360CmpH.innerText = t.d360CompHead;
 
-      // 5. Tab 2: Results Framework
-      const rfHead = document.getElementById('rfScorecardHeading');
-      if (rfHead) rfHead.innerText = t.rfScorecardHeading;
-      const rfSub = document.querySelector('#tab-rf p');
-      if (rfSub) rfSub.innerText = t.rfScorecardSub;
-      const rfDetChart = document.getElementById('rfDetailChartTitle');
-      if (rfDetChart) rfDetChart.innerText = t.rfDetailChartTitle;
-      const rfSubMetHead = document.getElementById('rfSubMetricsHeading');
-      if (rfSubMetHead) rfSubMetHead.innerText = t.rfSubMetricsHeading;
-      const rfMatHead = document.getElementById('rfMatrixHeading');
-      if (rfMatHead) rfMatHead.innerText = t.rfMatrixHeading;
-      const rfMatSearch = document.getElementById('rfMatrixSearch');
-      if (rfMatSearch) rfMatSearch.placeholder = t.rfMatrixSearchPl;
+        // 8. Tab 4: District League
+        const leagueHeadEl = document.getElementById('leagueTableHeading');
+        if (leagueHeadEl) leagueHeadEl.innerText = t.leagueHead;
+        const leagueInput = document.getElementById('leagueFilter');
+        if (leagueInput) leagueInput.placeholder = t.leagueSearchPl;
 
-      // 6. Tab 3: District 360
-      const d360Head = document.getElementById('d360MainHeading') || document.querySelector('#tab-d360 h2');
-      if (d360Head) d360Head.innerText = t.d360Title;
-      const d360P = document.querySelector('#tab-d360 p');
-      if (d360P) d360P.innerText = t.d360Sub;
-      const d360DistLbl = document.querySelector('label[for="d360Dropdown"]');
-      if (d360DistLbl) d360DistLbl.innerText = t.d360LblDist;
-      const d360ModeLbl = document.querySelector('#tab-d360 .slicer-pills')?.previousElementSibling;
-      if (d360ModeLbl) d360ModeLbl.innerText = t.d360LblMode;
-      const btnSum = document.getElementById('d360BtnSum');
-      if (btnSum) btnSum.innerText = t.d360BtnSum;
-      const btnBif = document.getElementById('d360BtnBifurcate');
-      if (btnBif) btnBif.innerText = t.d360BtnBif;
-      const d360BlockLbl = document.querySelector('label[for="d360BlockDropdown"]');
-      if (d360BlockLbl) d360BlockLbl.innerText = t.d360LblBlock;
+        // 9. Tab 5: Block Directory
+        const blockHeadEl = document.getElementById('blockTableHeading');
+        if (blockHeadEl) blockHeadEl.innerText = t.blockDirHead;
+        const blockDistLbl = document.querySelector('label[for="blockDistrictSelect"]');
+        if (blockDistLbl) blockDistLbl.innerText = t.blockFilterDist;
+        const blockInput = document.getElementById('blockFilter');
+        if (blockInput) blockInput.placeholder = t.blockSearchPl;
 
-      const d360PedH = document.getElementById('d360PedHeading');
-      if (d360PedH) d360PedH.innerText = t.d360PedHead;
-      const d360GenH = document.getElementById('d360GenderHeading');
-      if (d360GenH) d360GenH.innerText = t.d360GenderHead;
-      const d360CmpH = document.getElementById('d360CompHeading');
-      if (d360CmpH) d360CmpH.innerText = t.d360CompHead;
+        // 10. Tab 6: Question Bank
+        const qBankH = document.getElementById('qBankHeading');
+        if (qBankH) qBankH.innerText = t.qBankHead;
+        const qRespH = document.getElementById('qRespDistHeading');
+        if (qRespH) qRespH.innerText = t.qRespDistHead;
+        const qMetaH = document.getElementById('qMetaHeading');
+        if (qMetaH) qMetaH.innerText = t.qMetaHead;
+        const qHeatH = document.getElementById('qDistHeatmapHeading');
+        if (qHeatH) qHeatH.innerText = t.qDistHeatmapHead;
 
-      // 7. Tab 4: District League
-      const leagueHeadEl = document.getElementById('leagueTableHeading');
-      if (leagueHeadEl) leagueHeadEl.innerText = t.leagueHead;
-      const leagueInput = document.getElementById('leagueFilter');
-      if (leagueInput) leagueInput.placeholder = t.leagueSearchPl;
+        // 11. Tab 7: Pedagogy Radar & Misconception Engine
+        const pedRadH = document.getElementById('pedRadarHeading');
+        if (pedRadH) pedRadH.innerText = t.pedRadarHead;
+        const pedDiagH = document.getElementById('pedDiagHeading');
+        if (pedDiagH) pedDiagH.innerText = t.pedDiagHead;
+        const pedMisH = document.getElementById('pedMisconHeading');
+        if (pedMisH) pedMisH.innerText = t.pedMisconHead;
 
-      // 8. Tab 5: Block Directory
-      const blockHeadEl = document.getElementById('blockTableHeading');
-      if (blockHeadEl) blockHeadEl.innerText = t.blockDirHead;
-      const blockDistLbl = document.querySelector('label[for="blockDistrictSelect"]');
-      if (blockDistLbl) blockDistLbl.innerText = t.blockFilterDist;
-      const blockInput = document.getElementById('blockFilter');
-      if (blockInput) blockInput.placeholder = t.blockSearchPl;
+        // 12. Tab 8: Governance
+        const govH = document.getElementById('govHeading');
+        if (govH) govH.innerText = t.govHead;
 
-      // 9. Tab 6: Question Bank
-      const qBankH = document.getElementById('qBankHeading');
-      if (qBankH) qBankH.innerText = t.qBankHead;
-      const qRespH = document.getElementById('qRespDistHeading');
-      if (qRespH) qRespH.innerText = t.qRespDistHead;
-      const qMetaH = document.getElementById('qMetaHeading');
-      if (qMetaH) qMetaH.innerText = t.qMetaHead;
-      const qHeatH = document.getElementById('qDistHeatmapHeading');
-      if (qHeatH) qHeatH.innerText = t.qDistHeatmapHead;
+        // Active Tab First Update (Immediate 60fps)
+        refreshDistrictDropdownsHindi();
+        updateKPIs();
 
-      // 10. Tab 7: Pedagogy Radar & Misconception Engine
-      const pedRadH = document.getElementById('pedRadarHeading');
-      if (pedRadH) pedRadH.innerText = t.pedRadarHead;
-      const pedDiagH = document.getElementById('pedDiagHeading');
-      if (pedDiagH) pedDiagH.innerText = t.pedDiagHead;
-      const pedMisH = document.getElementById('pedMisconHeading');
-      if (pedMisH) pedMisH.innerText = t.pedMisconHead;
+        const activeSec = document.querySelector('.tab-section.active');
+        const activeTabId = activeSec ? activeSec.id : 'tab-overview';
 
-      // 11. Tab 8: Governance
-      const govH = document.getElementById('govHeading');
-      if (govH) govH.innerText = t.govHead;
+        if (activeTabId === 'tab-overview') {
+          initOverviewCharts();
+          populateQuadrantBentoCards();
+          initQuadrantTable();
+          if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
+        } else if (activeTabId === 'tab-rf') {
+          if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+          if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
+          selectRFIndicator(activeRFIndicatorId);
+        } else if (activeTabId === 'tab-d360') {
+          updateDistrict360View();
+          updateDistrictComparison();
+        } else if (activeTabId === 'tab-league') {
+          initDistrictLeague();
+        } else if (activeTabId === 'tab-blocks') {
+          filterBlockDirectory();
+        } else if (activeTabId === 'tab-questions') {
+          refreshQuestionBankDropdown();
+          renderQuestionBankActive();
+        } else if (activeTabId === 'tab-pedagogy') {
+          initPedagogyRadar();
+        }
 
-      // Refresh dropdowns and dynamic components
-      refreshDistrictDropdownsHindi();
-      updateKPIs();
-      initOverviewCharts();
-      populateQuadrantBentoCards();
-      initQuadrantTable();
-      initDistrictLeague();
-      filterBlockDirectory();
-      updateDistrict360View();
-      updateDistrictComparison();
-      initPedagogyRadar();
-      refreshQuestionBankDropdown();
-      if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
-      if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
-      if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
+        // Staggered background refresh for inactive tabs to eliminate frame drops
+        setTimeout(() => {
+          if (activeTabId !== 'tab-overview') {
+            initOverviewCharts();
+            populateQuadrantBentoCards();
+            initQuadrantTable();
+          }
+          if (activeTabId !== 'tab-league') initDistrictLeague();
+        }, 60);
+
+        setTimeout(() => {
+          if (activeTabId !== 'tab-blocks') filterBlockDirectory();
+          if (activeTabId !== 'tab-rf') {
+            if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+            if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
+          }
+        }, 120);
+
+        setTimeout(() => {
+          if (activeTabId !== 'tab-d360') {
+            updateDistrict360View();
+            updateDistrictComparison();
+          }
+          if (activeTabId !== 'tab-questions') refreshQuestionBankDropdown();
+          if (activeTabId !== 'tab-pedagogy') initPedagogyRadar();
+          if (activeTabId !== 'tab-overview' && typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
+        }, 180);
+
+        // Smoothly restore opacity
+        setTimeout(() => {
+          fadeTargets.forEach(el => el.classList.remove('lang-fading'));
+        }, 70);
+      });
     }
 
     function refreshDistrictDropdownsHindi() {
@@ -2601,14 +2654,17 @@
       if (window.Motion && window.Motion.animate && activeSec) {
         const targets = activeSec.querySelectorAll('.bento-card, .chart-card, .panel-box, .ind-card');
         if (targets.length > 0) {
-          window.Motion.animate(targets, { opacity: [0, 1], transform: ['translateY(12px)', 'translateY(0px)'] }, { duration: 0.35, ease: [0.16, 1, 0.3, 1] });
+          window.Motion.animate(targets, { opacity: [0.75, 1] }, { duration: 0.22, ease: [0.16, 1, 0.3, 1] });
         }
       }
 
       if (tabId === 'tab-rf') {
         selectRFIndicator(activeRFIndicatorId);
+        if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+        if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
       } else if (tabId === 'tab-d360') {
         updateDistrict360View();
+        updateDistrictComparison();
       } else if (tabId === 'tab-questions') {
         renderQuestionBankActive();
       } else if (tabId === 'tab-league') {
@@ -2617,8 +2673,9 @@
         filterBlockDirectory();
       } else if (tabId === 'tab-pedagogy') {
         initPedagogyRadar();
-      } else if (tabId === 'tab-governance') {
-        initGovernance();
+      } else if (tabId === 'tab-overview') {
+        initOverviewCharts();
+        populateQuadrantBentoCards();
       }
     }
 
