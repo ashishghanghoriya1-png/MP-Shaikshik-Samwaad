@@ -647,10 +647,15 @@
     .panel-head {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border-hairline);
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .panel-head-title {
@@ -1266,7 +1271,7 @@
         <div class="panel-box">
           <div class="panel-head">
             <div>
-              <div class="panel-head-title" id="ovPedagogyBenchmarkTitle">🎯 Pedagogy Assessment Benchmark (CLSS vs DO)</div>
+              <div class="panel-head-title" id="ovPedagogyBenchmarkTitle">🎯 Pedagogy Benchmark</div>
               <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
                 [Ref: <em>Output_CLSS_Participant_Aug_26.xlsx</em> (Sheets: <strong>Q84, Q96, Q95, Q97</strong>, Cols: <strong>84_Correct, 96_Correct, 95_Correct, 97_Correct</strong>) vs <em>Output_DO_participant_Aug_26.xlsx</em> (Sheets: <strong>Q35, Q44, Q43, Q45</strong>)]
               </div>
@@ -1279,14 +1284,14 @@
         <div class="panel-box">
           <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
             <div>
-              <div class="panel-head-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span id="ovTrustIndexTitle">✨ Teacher Trust & Perception Index</span><span id="ovTrustBadge" style="font-size: 11px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); background: rgba(0, 138, 171, 0.08); border: 1px solid rgba(0, 138, 171, 0.25); padding: 2px 8px; border-radius: 6px;">🛡️ Net Trust Score (NTS): +93.8%</span></div>
+              <div class="panel-head-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span id="ovTrustIndexTitle">✨ Teacher Trust Index</span><span id="ovTrustBadge" style="font-size: 11px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); background: rgba(0, 138, 171, 0.08); border: 1px solid rgba(0, 138, 171, 0.25); padding: 2px 8px; border-radius: 6px;">🛡️ Net Trust Score (NTS): +93.8%</span></div>
               <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
                 [Ref: <em>Output_CLSS_Participant_Aug_26.xlsx</em> | Sheets: <strong>Q91, Q89, Q90, Q88</strong>, Cols: <strong>91.1 (Trust), 89_Yes (Academic Focus), 90_Yes (Problem Solving), 88_Yes (Role Clarity)</strong>]
               </div>
             </div>
             <div style="display: flex; gap: 6px;">
-              <button class="slicer-btn active" id="btnTrustChart" onclick="toggleTrustView('CHART')">📊 State Overview Chart</button>
-              <button class="slicer-btn" id="btnTrustHeatmap" onclick="toggleTrustView('HEATMAP')">🗺️ 50-District Trust Heatmap</button>
+              <button class="slicer-btn active" id="btnTrustChart" onclick="toggleTrustView('CHART')">📊 State Chart</button>
+              <button class="slicer-btn" id="btnTrustHeatmap" onclick="toggleTrustView('HEATMAP')">🗺️ 50-District Heatmap</button>
             </div>
           </div>
           
@@ -2077,16 +2082,16 @@
         ovTopTitleDO: '🏆 District Orientation Participation Matrix',
         ovTopTitleALL: '🏆 Top Districts by Total Mobilization (CLSS + DO)',
         ovCadreBreakdownTitle: '👥 Stakeholder Cadre Breakdown',
-        ovPedagogyBenchmarkTitle: '🎯 Pedagogy Assessment Benchmark (CLSS vs DO)',
-        ovTrustIndexTitle: '✨ Teacher Trust & Perception Index',
+        ovPedagogyBenchmarkTitle: '🎯 Pedagogy Benchmark',
+        ovTrustIndexTitle: '✨ Teacher Trust Index',
         ovTrustBadge: '🛡️ Net Trust Score (NTS): +93.8%',
         ovQuadrantMatrixTitle: '🎯 Statewide 4-Quadrant District Priority Matrix (Turnout vs. Pedagogy Accuracy)',
 
         btnScopeAll: 'All 50 Districts',
         btnScopeTop15: 'Top 15',
         btnScopeBottom15: 'Bottom 15',
-        btnTrustChart: '📊 State Overview Chart',
-        btnTrustHeatmap: '🗺️ 50-District Trust Heatmap',
+        btnTrustChart: '📊 State Chart',
+        btnTrustHeatmap: '🗺️ 50-District Heatmap',
 
         // Quadrant Buttons & Badges
         btnQuadAll: 'All 50 Districts',
@@ -2180,16 +2185,16 @@
         ovTopTitleDO: '🏆 जिला अभिमुखीकरण (DO) सहभागिता मैट्रिक्स',
         ovTopTitleALL: '🏆 कुल सहभागिता अनुसार शीर्ष जिले (शैक्षिक संवाद + DO)',
         ovCadreBreakdownTitle: '👥 हितधारक संवर्ग विभाजन (Cadre Breakdown)',
-        ovPedagogyBenchmarkTitle: '🎯 शिक्षाशास्त्र मूल्यांकन बेंचमार्क (शैक्षिक संवाद बनाम DO)',
-        ovTrustIndexTitle: '✨ शिक्षक विश्वास एवं धारणा सूचकांक',
+        ovPedagogyBenchmarkTitle: '🎯 शिक्षाशास्त्र बेंचमार्क',
+        ovTrustIndexTitle: '✨ शिक्षक विश्वास सूचकांक',
         ovTrustBadge: '🛡️ शुद्ध विश्वास स्कोर (NTS): +93.8%',
         ovQuadrantMatrixTitle: '🎯 राज्य स्तरीय 4-चतुर्भुज जिला प्राथमिकता मैट्रिक्स (सहभागिता बनाम शिक्षाशास्त्र शुद्धता)',
 
         btnScopeAll: 'सभी 50 जिले',
         btnScopeTop15: 'शीर्ष 15',
         btnScopeBottom15: 'निचले 15',
-        btnTrustChart: '📊 राज्य सारांश चार्ट',
-        btnTrustHeatmap: '🗺️ 50-जिला विश्वास हीटमैप',
+        btnTrustChart: '📊 राज्य चार्ट',
+        btnTrustHeatmap: '🗺️ 50-जिला हीटमैप',
 
         // Quadrant Buttons & Badges
         btnQuadAll: 'सभी 50 जिले',
