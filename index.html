@@ -2296,9 +2296,32 @@
     
     
     // ==========================================
-    // MULTI-LANGUAGE (HINDI / ENGLISH) SYSTEM
+    // DEEP MULTI-LANGUAGE (HINDI / ENGLISH) ENGINE
     // ==========================================
     let currentLang = 'en';
+
+    const hindiDistricts = {
+      "Agar Malwa": "आगर मालवा", "Alirajpur": "आलीराजपुर", "Anuppur": "अनूपपुर", "Ashoknagar": "अशोकनगर",
+      "Balaghat": "बालाघाट", "Barwani": "बड़वानी", "Betul": "बैतूल", "Bhind": "भिंड",
+      "Bhopal": "भोपाल", "Burhanpur": "बुरहानपुर", "Chhatarpur": "छतरपुर", "Chhindwara": "छिंदवाड़ा",
+      "Damoh": "दमोह", "Datia": "दतिया", "Dhar": "धार", "Dindori": "डिंडोरी",
+      "Guna": "गुना", "Gwalior": "ग्वालियर", "Harda": "हरदा", "Indore": "इंदौर",
+      "Jabalpur": "जबलपुर", "Jhabua": "झाबुआ", "Katni": "कटनी", "Khandwa": "खंडवा",
+      "Khargone": "खरगोन", "Mandla": "मंडला", "Mandsaur": "मंदसौर", "Morena": "मुरैना",
+      "Narmadapuram": "नर्मदापुरम", "Narsinghpur": "नरसिंहपुर", "Neemuch": "नीमच", "Niwari": "निवाड़ी",
+      "Panna": "पन्ना", "Raisen": "रायसेन", "Rajgarh": "राजगढ़", "Ratlam": "रतलाम",
+      "Rewa": "रीवा", "Sagar": "सागर", "Satna": "सतना", "Seoni": "सिवनी",
+      "Shahdol": "शहडोल", "Shajapur": "शाजापुर", "Sheopur": "श्योपुर", "Shivpuri": "शिवपुरी",
+      "Sidhi": "सीधी", "Singrauli": "सिंगरौली", "Tikamgarh": "टीकमगढ़", "Ujjain": "उज्जैन",
+      "Umaria": "उमरिया", "Vidisha": "विदिशा", "Dewas": "देवास", "Sehore": "सीहोर"
+    };
+
+    function getDistName(enName) {
+      if (currentLang === 'hi' && hindiDistricts[enName]) {
+        return hindiDistricts[enName];
+      }
+      return enName;
+    }
 
     const translations = {
       en: {
@@ -2327,6 +2350,12 @@
         kpiDoDesc: 'District Officers & CAC Cadre',
         kpiCadreDesc: '4,918 Fac. + 574 Monitors',
         kpiTotDesc: '23,785 Teachers + 4,454 DO + 5,492 Cadre',
+        ovTopTitle: '🗺️ Statewide District Teacher Turnout Ranking (All 50 Districts)',
+        ovCadreTitle: '👥 Stakeholder Cadre Breakdown',
+        ovQuadTitle: '🎯 4-Quadrant Priority District Matrix (50 Active Districts)',
+        btnScopeAll: 'All 50 Districts',
+        btnScopeTop15: 'Top 15',
+        btnScopeBottom15: 'Bottom 15',
         d360Title: 'District 360° Comprehensive Profile & Block Bifurcation',
         d360Sub: 'Inspect aggregate district totals or toggle block-wise bifurcation to view individual block telemetry.',
         d360LblDist: 'SELECT DISTRICT:',
@@ -2336,11 +2365,21 @@
         d360LblBlock: 'BLOCK FOCUS:',
         d360ChartHead: '📊 Block-Level Cadre Comparison Chart',
         d360TableHead: '🏢 Block-Level Cadre Roster & Contribution Table',
+        d360PedHead: '📊 District Pedagogy Assessment Scores',
+        d360GenderHead: '🚻 Attendance Gender Split (Female vs Male)',
+        d360CompHead: '⚖️ Side-by-Side District Comparator (Benchmark Any 2 Districts)',
+        d360CompDistA: 'SELECT DISTRICT A:',
+        d360CompDistB: 'SELECT DISTRICT B:',
+        leagueHead: '🗺️ State League Performance Matrix',
+        leagueSearchPl: '🔍 Search district...',
         blockDirHead: '🏢 Madhya Pradesh Block Directory (312 Blocks)',
         blockFilterDist: 'Filter District:',
         blockSearchPl: '🔍 Search block name...',
         printBtn: '🖨️ Print Briefing',
-        exportBtn: 'Export CSV'
+        exportBtn: 'Export CSV',
+        qBankHead: '📋 Universal Survey & Question Explorer (All 52 Sheets)',
+        pedRadarHead: '🧠 5-Dimensional Teacher Experience & Pedagogy Radar',
+        govHead: '⚠️ Strategic Field Bottlenecks & Operational Escalations'
       },
       hi: {
         title: 'राज्य शिक्षा केंद्र मध्य प्रदेश — <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">शैक्षिक संवाद</span> एवं डीओ कार्यकारी डैशबोर्ड',
@@ -2368,6 +2407,12 @@
         kpiDoDesc: 'जिला अधिकारी एवं सीएसी संवर्ग',
         kpiCadreDesc: '4,918 फैसिलिटेटर + 574 मॉनिटर',
         kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,492 कैडर',
+        ovTopTitle: '🗺️ राज्य स्तरीय जिला शिक्षक सहभागिता रैंकिंग (सभी 50 जिले)',
+        ovCadreTitle: '👥 हितधारक संवर्ग विभाजन (Cadre Breakdown)',
+        ovQuadTitle: '🎯 4-चतुर्भुज प्राथमिकता जिला मैट्रिक्स (सभी 50 सक्रिय जिले)',
+        btnScopeAll: 'सभी 50 जिले',
+        btnScopeTop15: 'शीर्ष 15',
+        btnScopeBottom15: 'निचले 15',
         d360Title: 'जिला 360° व्यापक प्रोफाइल एवं ब्लॉक-वार विभाजन',
         d360Sub: 'जिले के कुल आंकड़े देखें अथवा ब्लॉक-वार विभाजन टॉगल कर प्रत्येक ब्लॉक का विवरण देखें।',
         d360LblDist: 'जिला चुनें:',
@@ -2377,11 +2422,21 @@
         d360LblBlock: 'ब्लॉक फोकस:',
         d360ChartHead: '📊 ब्लॉक-स्तरीय संवर्ग तुलना चार्ट',
         d360TableHead: '🏢 ब्लॉक-स्तरीय संवर्ग रोस्टर एवं योगदान तालिका',
+        d360PedHead: '📊 जिला शिक्षाशास्त्र मूल्यांकन प्राप्तांक',
+        d360GenderHead: '🚻 उपस्थिति लिंग विभाजन (महिला बनाम पुरुष)',
+        d360CompHead: '⚖️ जिला तुलना स्टूडियो (किन्हीं भी 2 जिलों की तुलना करें)',
+        d360CompDistA: 'जिला A चुनें:',
+        d360CompDistB: 'जिला B चुनें:',
+        leagueHead: '🗺️ राज्य स्तरीय लीग प्रदर्शन मैट्रिक्स',
+        leagueSearchPl: '🔍 जिला खोजें...',
         blockDirHead: '🏢 मध्य प्रदेश ब्लॉक डायरेक्टरी (312 ब्लॉक)',
         blockFilterDist: 'जिला फिल्टर:',
         blockSearchPl: '🔍 ब्लॉक का नाम खोजें...',
-        printBtn: '🖨️ प्रिंट रिपोर्ट',
-        exportBtn: 'सीएसवी डाउनलोड'
+        printBtn: '🖨️ रिपोर्ट प्रिंट करें',
+        exportBtn: 'सीएसवी डाउनलोड करें',
+        qBankHead: '📋 सार्वभौमिक सर्वेक्षण एवं प्रश्न बैंक एक्सप्लोरर (सभी 52 शीट्स)',
+        pedRadarHead: '🧠 5-आयामी शिक्षक अनुभव एवं शिक्षाशास्त्र रडार',
+        govHead: '⚠️ रणनीतिक मैदानी चुनौतियाँ एवं प्रशासनिक मुद्दे'
       }
     };
 
@@ -2397,6 +2452,10 @@
       // Update Header Title & Subtitle
       const titleEl = document.querySelector('.title-group h1');
       if (titleEl) titleEl.innerHTML = t.title;
+      const subEl = document.querySelector('.title-group p');
+      if (subEl) {
+        subEl.innerHTML = `${t.subtitle} <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
+      }
 
       // Update Slicers
       const pSlicerLbl = document.querySelector('.slicer-group:nth-child(1) .slicer-label');
@@ -2431,9 +2490,19 @@
         navItems[7].innerHTML = `<span class="nav-dot"></span> ${t.navGov}`;
       }
 
+      // Update Overview Headings & Scope buttons
+      const ovTopChart = document.getElementById('overviewTopChartTitle');
+      if (ovTopChart) ovTopChart.innerText = t.ovTopTitle;
+      const btnAll = document.getElementById('btnScopeAll');
+      if (btnAll) btnAll.innerText = t.btnScopeAll;
+      const btnT15 = document.getElementById('btnScopeTop15');
+      if (btnT15) btnT15.innerText = t.btnScopeTop15;
+      const btnB15 = document.getElementById('btnScopeBottom15');
+      if (btnB15) btnB15.innerText = t.btnScopeBottom15;
+
       // Update Tab 3 Labels & Headings
       const d360Head = document.querySelector('#tab-d360 h2');
-      if (d360Head) d360Head.innerText = lang === 'hi' ? 'जिला 360° व्यापक प्रोफाइल एवं ब्लॉक विभाजन' : 'District 360° Comprehensive Profile & Block Bifurcation';
+      if (d360Head) d360Head.innerText = t.d360Title;
       const d360P = document.querySelector('#tab-d360 p');
       if (d360P) d360P.innerText = t.d360Sub;
 
@@ -2451,6 +2520,12 @@
       const d360BlockLbl = document.querySelector('label[for="d360BlockDropdown"]');
       if (d360BlockLbl) d360BlockLbl.innerText = t.d360LblBlock;
 
+      // Update Tab 4 (District League) Headings
+      const leagueHeading = document.getElementById('leagueTableHeading');
+      if (leagueHeading) leagueHeading.innerText = t.leagueHead;
+      const leagueInput = document.getElementById('leagueFilter');
+      if (leagueInput) leagueInput.placeholder = t.leagueSearchPl;
+
       // Update Tab 5 (Block Directory) Headings
       const blockHeading = document.getElementById('blockTableHeading');
       if (blockHeading) blockHeading.innerText = t.blockDirHead;
@@ -2459,13 +2534,67 @@
       const blockInput = document.getElementById('blockFilter');
       if (blockInput) blockInput.placeholder = t.blockSearchPl;
 
-      // Re-run dynamic KPI text updates
+      // Update dropdown lists with Hindi district names
+      refreshDistrictDropdownsHindi();
+
+      // Re-run dynamic table renders and KPI updates
       updateKPIs();
+      initOverviewCharts();
+      populateQuadrantBentoCards();
+      initQuadrantTable();
+      initDistrictLeague();
+      filterBlockDirectory();
       updateDistrict360View();
+      updateDistrictComparison();
     }
 
-    // 2. District 360 & Block Bifurcation Logic
-    let d360ViewMode = 'SUM'; // 'SUM' or 'BIFURCATE'
+    function refreshDistrictDropdownsHindi() {
+      // 1. d360Dropdown
+      const dd = document.getElementById('d360Dropdown');
+      if (dd) {
+        const curVal = dd.value;
+        dd.innerHTML = '';
+        dataPackage.districtSummary.forEach(d => {
+          const opt = document.createElement('option');
+          opt.value = d.district;
+          const name = getDistName(d.district);
+          opt.innerText = currentLang === 'hi' ? `${name} (${d.totalBlocks} ब्लॉक)` : `${d.district} (${d.totalBlocks} Blocks)`;
+          dd.appendChild(opt);
+        });
+        if (curVal) dd.value = curVal;
+      }
+
+      // 2. compDistA & compDistB
+      ['compDistA', 'compDistB'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (sel) {
+          const cur = sel.value;
+          sel.innerHTML = '';
+          dataPackage.districtSummary.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d.district;
+            opt.innerText = getDistName(d.district);
+            sel.appendChild(opt);
+          });
+          if (cur) sel.value = cur;
+        }
+      });
+
+      // 3. blockDistrictSelect
+      const distSelect = document.getElementById('blockDistrictSelect');
+      if (distSelect) {
+        const cur = distSelect.value;
+        distSelect.innerHTML = currentLang === 'hi' ? '<option value="ALL">सभी 50 जिले (309 सक्रिय ब्लॉक)</option>' : '<option value="ALL">All 50 Districts (309 Blocks)</option>';
+        dataPackage.districtSummary.forEach(d => {
+          const opt = document.createElement('option');
+          opt.value = d.district;
+          const name = getDistName(d.district);
+          opt.innerText = currentLang === 'hi' ? `${name} (${d.totalBlocks} ब्लॉक)` : `${d.district} (${d.totalBlocks} Blocks)`;
+          distSelect.appendChild(opt);
+        });
+        if (cur) distSelect.value = cur;
+      }
+    }
 
     function initDistrict360() {
       const dd = document.getElementById('d360Dropdown');
@@ -3066,7 +3195,7 @@
             <td class="font-mono">${matchCount}</td>
             <td>
               <span class="status-chip" style="background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700; cursor: pointer;" onclick="openDistrictIn360('${b.district}')" title="Click to view 360° Profile for ${b.district}">
-                📍 ${b.district}
+                📍 ${getDistName(b.district)}
               </span>
             </td>
             <td><strong style="color: var(--text-primary);">${b.block}</strong></td>
