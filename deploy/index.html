@@ -128,11 +128,15 @@
     .font-serif { font-family: var(--font-brand); }
 
     /* Studio Header */
+    
     .studio-header {
       background: var(--bg-surface-1);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-hairline);
-      padding: 12px 32px;
+      padding: 10px 32px;
+      min-height: 64px;
+      max-height: 64px;
+      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -149,9 +153,11 @@
       flex: 1;
       min-width: 0;
     }
+    
     .title-group {
       min-width: 0;
       flex: 1;
+      overflow: hidden;
     }
 
     .brand-mark {
@@ -169,11 +175,17 @@
       box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 138, 171, 0.35);
     }
 
+    
     .title-group h1 {
-      font-size: 17px;
+      font-size: 16px;
+      line-height: 1.25;
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
     }
 
     .title-group h1 span.serif-accent {
@@ -184,9 +196,15 @@
       color: var(--peepul-teal);
     }
 
+    
     .title-group p {
       font-size: 11px;
+      line-height: 1.3;
       color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 2px 0 0 0;
     }
 
     /* Global Slicer Ribbon */
@@ -446,16 +464,22 @@
       .bento-kpi-grid { grid-template-columns: 1fr; }
     }
 
+    
     .bento-card {
       background: var(--bg-surface-card);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-hairline);
       border-radius: var(--radius-md);
-      padding: 18px 20px;
+      padding: 16px 18px;
+      min-height: 124px;
+      box-sizing: border-box;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px -4px rgba(0, 138, 171, 0.06);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+      transition: box-shadow 0.28s ease, border-color 0.28s ease;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     /* Distinct Multi-Color KPI Cards System */
@@ -533,29 +557,46 @@
       transform: scale(0.95) !important;
     }
 
+    
     .kpi-micro-label {
       font-size: 10px;
       font-family: var(--font-mono);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      height: 16px;
+      line-height: 16px;
+      margin-bottom: 4px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      white-space: nowrap;
     }
 
+    
     .kpi-huge-val {
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 800;
       color: var(--text-primary);
       letter-spacing: -0.03em;
-      line-height: 1.1;
+      line-height: 1.15;
+      height: 34px;
+      display: flex;
+      align-items: baseline;
       margin-bottom: 4px;
     }
 
+    
     .kpi-sub-desc {
       font-size: 11px;
+      line-height: 1.3;
       color: var(--text-secondary);
+      height: 32px;
+      min-height: 32px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     /* Grid Layouts */
@@ -606,10 +647,12 @@
       gap: 8px;
     }
 
+    
     .chart-stage {
       position: relative;
       flex: 1;
-      min-height: 300px;
+      min-height: 380px;
+      height: 380px;
       width: 100%;
     }
 
@@ -5277,7 +5320,7 @@
 
   <!-- Motion Library Integration (Framer Motion / Motion One) -->
   <script type="module">
-    import { animate, scroll, inView } from "https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm";
+    import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm";
 
     // 1. Scroll-linked Executive Progress Bar
     const progressBar = document.getElementById("scrollProgressBar");
@@ -5285,17 +5328,8 @@
       scroll(animate(progressBar, { transform: ["scaleX(0)", "scaleX(1)"] }, { ease: "linear" }));
     }
 
-    // 2. High-Taste Spring Viewport Entrance for Cards
-    inView(".bento-card", (info) => {
-      animate(info.target, { opacity: [0.3, 1], transform: ["translateY(12px)", "translateY(0px)"] }, { duration: 0.4, ease: [0.16, 1, 0.3, 1] });
-    });
-
-    inView(".chart-card, .panel-box", (info) => {
-      animate(info.target, { opacity: [0.4, 1], transform: ["translateY(16px)", "translateY(0px)"] }, { duration: 0.45, ease: [0.16, 1, 0.3, 1] });
-    });
-
-    // Expose for interactive micro-motion
-    window.Motion = { animate, scroll, inView };
+    // Expose for interactive micro-motion without layout-disrupting translateY
+    window.Motion = { animate, scroll };
   </script>
 </body>
 </html>
