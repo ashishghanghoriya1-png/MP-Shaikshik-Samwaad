@@ -1032,8 +1032,8 @@
         <!-- 5. Trainers & Monitors (Leadership Cadre) - Dedicated KPI -->
         <div class="bento-card">
           <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS & MONITORS</span></span> <span style="color: var(--accent-purple);">CADRE</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,492</div>
-          <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 574 Monitors</div>
+          <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,490</div>
+          <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 572 Monitors</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>Output_CLSS_facilitator_Aug_26.xlsx</em> & Observers]
           </div>
@@ -1899,9 +1899,9 @@
         kpiDoDesc: 'District Participants (DO)',
         kpiCadreLbl: 'TRAINERS & MONITORS',
         kpiCadreLbl: 'TRAINERS & MONITORS',
-        kpiCadreDesc: '4,918 Fac. + 574 Monitors',
+        kpiCadreDesc: '4,918 Fac. + 572 Monitors',
         kpiTotLbl: 'STATE MOBILIZATION',
-        kpiTotDesc: '23,785 Teachers + 4,454 DO + 5,492 Cadre',
+        kpiTotDesc: '23,785 Teachers + 4,454 DO + 5,490 Cadre',
 
         // Overview Panel Titles
         ovTopTitleCLSS: '🏆 Top Districts by Teacher Turnout (CLSS)',
@@ -2002,9 +2002,9 @@
         kpiDoDesc: 'जिला प्रतिभागी (DO)',
         kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
         kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
-        kpiCadreDesc: '4,918 फैसिलिटेटर + 574 मॉनिटर',
+        kpiCadreDesc: '4,918 फैसिलिटेटर + 572 मॉनिटर',
         kpiTotLbl: 'कुल राज्य सहभागिता',
-        kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,492 कैडर',
+        kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,490 कैडर',
 
         // Overview Panel Titles
         ovTopTitleCLSS: '🏆 शिक्षक सहभागिता अनुसार शीर्ष जिले (शैक्षिक संवाद)',
@@ -2385,7 +2385,7 @@
           if (kTeachBadge) kTeachBadge.innerText = '-';
           animateValue('kpiDoOfficers', 0, 0);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
-          animateValue('kpiCadre', 0, 518);
+          animateValue('kpiCadre', 0, 516);
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'शैक्षिक संवाद पर्यवेक्षक' : 'CLSS Field Observers';
         } else {
           animateValue('kpiTeachers', 0, 23785);
@@ -2393,8 +2393,8 @@
           if (kTeachBadge) kTeachBadge.innerText = '67.2%';
           animateValue('kpiDoOfficers', 0, 0);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
-          animateValue('kpiCadre', 0, 5359);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,841 फैसिलिटेटर + 518 मॉनिटर' : '4,841 Fac. + 518 Observers';
+          animateValue('kpiCadre', 0, 5357);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,841 फैसिलिटेटर + 516 मॉनिटर' : '4,841 Fac. + 516 Observers';
         }
         const topTitle = document.getElementById('overviewTopChartTitle');
         if (topTitle) topTitle.innerText = t.ovTopTitleCLSS;
@@ -2426,16 +2426,16 @@
           if (kTeachBadge) kTeachBadge.innerText = '-';
           animateValue('kpiDoOfficers', 0, 0);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
-          animateValue('kpiCadre', 0, 574);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? '518 शैक्षिक संवाद + 56 डीओ मॉनिटर' : '518 CLSS + 56 DO Observers';
+          animateValue('kpiCadre', 0, 572);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? '516 शैक्षिक संवाद + 56 डीओ मॉनिटर' : '516 CLSS + 56 DO Observers';
         } else {
           animateValue('kpiTeachers', 0, 23785);
           if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक' : '23,785 Actual / 35,374 Expected Teachers';
           if (kTeachBadge) kTeachBadge.innerText = '67.2%';
           animateValue('kpiDoOfficers', 0, 4454);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'जिला प्रतिभागी (DO)' : 'District Participants (DO)';
-          animateValue('kpiCadre', 0, 5492);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,918 फैसिलिटेटर + 574 मॉनिटर' : '4,918 Fac. + 574 Monitors';
+          animateValue('kpiCadre', 0, 5490);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? '4,918 फैसिलिटेटर + 572 मॉनिटर' : '4,918 Fac. + 572 Monitors';
         }
         const topTitle = document.getElementById('overviewTopChartTitle');
         if (topTitle) topTitle.innerText = t.ovTopTitleALL;
@@ -2625,12 +2625,12 @@
             ['DO जिला प्रतिभागी (97.1%)', 'DO फैसिलिटेटर (1.7%)', 'DO पर्यवेक्षक (1.2%)'] :
             ['DO Participants (97.1%)', 'DO Facilitators (1.7%)', 'DO Observers (1.2%)'];
         } else if (activeProgram === 'CLSS') {
-          donutData = [23785, 4841, 518];
+          donutData = [23785, 4841, 516];
           donutLabels = isHi ? 
             ['शिक्षक (81.6%)', 'फैसिलिटेटर (16.6%)', 'मॉनिटर (1.8%)'] :
             ['Teachers (81.6%)', 'Facilitators (16.6%)', 'Monitors (1.8%)'];
         } else {
-          donutData = [23785, 5492, 4454];
+          donutData = [23785, 5490, 4454];
           donutLabels = isHi ? 
             ['सहभागी शिक्षक (70.5%)', 'प्रशिक्षक एवं मेंटर (16.3%)', 'DO जिला प्रतिभागी (13.2%)'] :
             ['Classroom Teachers (70.5%)', 'Trainers & Monitors (16.3%)', 'District Participants (13.2%)'];
@@ -5012,7 +5012,7 @@
         category: "FIELD",
         priority: "FIELD",
         owner: "State Pedagogy Stream",
-        desc: "Mobilized 23,785 teacher participants, 4,814 cluster facilitators, and 518 cluster monitors.",
+        desc: "Mobilized 23,785 teacher participants, 4,814 cluster facilitators, and 516 cluster monitors.",
         action: "Maintain monthly cadence and monitor peer practice sharing in every cluster."
       },
       {
