@@ -295,6 +295,39 @@
       background: var(--bg-surface-2);
     }
 
+    
+    /* Language Switcher Styling */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface-2);
+      padding: 3px 4px;
+      border-radius: 9999px;
+      border: 1px solid var(--border-subtle);
+      margin-right: 14px;
+      box-shadow: var(--shadow-tactile);
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 9999px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: var(--font-sans);
+    }
+    .lang-btn:hover {
+      color: var(--text-primary);
+    }
+    .lang-btn.active {
+      background: var(--peepul-teal) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(0, 138, 171, 0.3);
+    }
+
     /* Navigation Tabs */
     .studio-nav {
       background: var(--bg-surface-1);
@@ -880,6 +913,11 @@
   <!-- Top Studio Bar -->
   <header class="studio-header">
     <div class="brand-cluster">
+      <div class="lang-switcher">
+        <button id="langBtnEn" class="lang-btn active" onclick="setLanguage('en')">🇬🇧 English</button>
+        <button id="langBtnHi" class="lang-btn" onclick="setLanguage('hi')">🇮🇳 हिन्दी</button>
+      </div>
+      <div class="brand-mark">RSK</div>
       <div class="brand-mark">RSK</div>
       <div class="title-group">
         <h1 style="font-family: var(--font-brand); letter-spacing: -0.01em;">Madhya Pradesh <span class="serif-accent" style="font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">Shaikshik Samwaad</span> Intelligence Studio</h1>
@@ -2256,6 +2294,176 @@
     }
 
     
+    
+    // ==========================================
+    // MULTI-LANGUAGE (HINDI / ENGLISH) SYSTEM
+    // ==========================================
+    let currentLang = 'en';
+
+    const translations = {
+      en: {
+        title: 'Madhya Pradesh <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">Shaikshik Samwaad</span> Intelligence Studio',
+        subtitle: 'Decentralized Academic Dialogues & District Orientation (DO) • Grades 6–8 Cycle • Peepul × RSK Madhya Pradesh',
+        progSlicerLabel: 'PROGRAM SLICER:',
+        progAll: '🌐 Consolidated (All)',
+        progClss: '🏫 CLSS (Cluster Level)',
+        progDo: '🏛️ DO (District Orientation)',
+        cadreLabel: 'CADRE / ROLE:',
+        cadreAll: 'All Stakeholders',
+        cadreTeach: '👨‍🏫 Teachers',
+        cadreFac: '🤝 Facilitators',
+        cadreMon: '👁️ Monitors',
+        navOverview: '📊 1. Executive Intelligence',
+        navRf: '📋 2. Results Framework (RF 7–18)',
+        navD360: '🔍 3. District 360° Explorer',
+        navLeague: '🗺️ 4. 50-District League',
+        navBlocks: '🏢 5. 312-Block Directory',
+        navQuestions: '📋 6. Universal Question Bank',
+        navPedagogy: '🧠 7. Pedagogy & Assessment',
+        navGov: '⚠️ 8. Field Bottlenecks',
+        kpiDistDesc: 'Active Reporting Districts',
+        kpiReachDesc: 'CRC Clusters (312 Blocks)',
+        kpiTeachDesc: 'Participating Teachers (CLSS)',
+        kpiDoDesc: 'District Officers & CAC Cadre',
+        kpiCadreDesc: '4,918 Fac. + 574 Monitors',
+        kpiTotDesc: '23,785 Teachers + 4,454 DO + 5,492 Cadre',
+        d360Title: 'District 360° Comprehensive Profile & Block Bifurcation',
+        d360Sub: 'Inspect aggregate district totals or toggle block-wise bifurcation to view individual block telemetry.',
+        d360LblDist: 'SELECT DISTRICT:',
+        d360LblMode: 'VIEW MODE:',
+        d360BtnSum: '📊 District Sum',
+        d360BtnBif: '🔀 Block Bifurcation',
+        d360LblBlock: 'BLOCK FOCUS:',
+        d360ChartHead: '📊 Block-Level Cadre Comparison Chart',
+        d360TableHead: '🏢 Block-Level Cadre Roster & Contribution Table',
+        blockDirHead: '🏢 Madhya Pradesh Block Directory (312 Blocks)',
+        blockFilterDist: 'Filter District:',
+        blockSearchPl: '🔍 Search block name...',
+        printBtn: '🖨️ Print Briefing',
+        exportBtn: 'Export CSV'
+      },
+      hi: {
+        title: 'राज्य शिक्षा केंद्र मध्य प्रदेश — <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">शैक्षिक संवाद</span> एवं डीओ कार्यकारी डैशबोर्ड',
+        subtitle: 'विकेंद्रीकृत शैक्षणिक संवाद एवं जिला अभिमुखीकरण (DO) • कक्षा 6–8 चक्र • पीपुल × राज्य शिक्षा केंद्र मध्य प्रदेश',
+        progSlicerLabel: 'कार्यक्रम चयन:',
+        progAll: '🌐 समेकित (सभी)',
+        progClss: '🏫 संकुल शैक्षिक संवाद (CLSS)',
+        progDo: '🏛️ जिला अभिमुखीकरण (DO)',
+        cadreLabel: 'संवर्ग / भूमिका:',
+        cadreAll: 'सभी हितधारक',
+        cadreTeach: '👨‍🏫 शिक्षक',
+        cadreFac: '🤝 फैसिलिटेटर (प्रशिक्षक)',
+        cadreMon: '👁️ मॉनिटर (पर्यवेक्षक)',
+        navOverview: '📊 1. कार्यकारी सूचना (Executive BI)',
+        navRf: '📋 2. परिणाम ढांचा (RF 7–18)',
+        navD360: '🔍 3. जिला 360° एवं ब्लॉक विभाजन',
+        navLeague: '🗺️ 4. 50-जिला लीग तालिका',
+        navBlocks: '🏢 5. 312-ब्लॉक डायरेक्टरी',
+        navQuestions: '📋 6. सार्वभौमिक प्रश्न बैंक',
+        navPedagogy: '🧠 7. शिक्षाशास्त्र एवं मूल्यांकन',
+        navGov: '⚠️ 8. मैदानी चुनौतियाँ एवं बाधाएं',
+        kpiDistDesc: 'सक्रिय रिपोर्टिंग जिले',
+        kpiReachDesc: 'संकुल केंद्र (312 ब्लॉक)',
+        kpiTeachDesc: 'सहभागी शिक्षक (शैक्षिक संवाद)',
+        kpiDoDesc: 'जिला अधिकारी एवं सीएसी संवर्ग',
+        kpiCadreDesc: '4,918 फैसिलिटेटर + 574 मॉनिटर',
+        kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,492 कैडर',
+        d360Title: 'जिला 360° व्यापक प्रोफाइल एवं ब्लॉक-वार विभाजन',
+        d360Sub: 'जिले के कुल आंकड़े देखें अथवा ब्लॉक-वार विभाजन टॉगल कर प्रत्येक ब्लॉक का विवरण देखें।',
+        d360LblDist: 'जिला चुनें:',
+        d360LblMode: 'दृश्य मोड:',
+        d360BtnSum: '📊 जिला कुल सारांश',
+        d360BtnBif: '🔀 ब्लॉक विभाजन',
+        d360LblBlock: 'ब्लॉक फोकस:',
+        d360ChartHead: '📊 ब्लॉक-स्तरीय संवर्ग तुलना चार्ट',
+        d360TableHead: '🏢 ब्लॉक-स्तरीय संवर्ग रोस्टर एवं योगदान तालिका',
+        blockDirHead: '🏢 मध्य प्रदेश ब्लॉक डायरेक्टरी (312 ब्लॉक)',
+        blockFilterDist: 'जिला फिल्टर:',
+        blockSearchPl: '🔍 ब्लॉक का नाम खोजें...',
+        printBtn: '🖨️ प्रिंट रिपोर्ट',
+        exportBtn: 'सीएसवी डाउनलोड'
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const btnEn = document.getElementById('langBtnEn');
+      const btnHi = document.getElementById('langBtnHi');
+      if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+      if (btnHi) btnHi.classList.toggle('active', lang === 'hi');
+
+      const t = translations[lang] || translations.en;
+
+      // Update Header Title & Subtitle
+      const titleEl = document.querySelector('.title-group h1');
+      if (titleEl) titleEl.innerHTML = t.title;
+
+      // Update Slicers
+      const pSlicerLbl = document.querySelector('.slicer-group:nth-child(1) .slicer-label');
+      if (pSlicerLbl) pSlicerLbl.innerText = t.progSlicerLabel;
+      const pBtns = document.querySelectorAll('#programSlicer .slicer-btn');
+      if (pBtns.length >= 3) {
+        pBtns[0].innerText = t.progAll;
+        pBtns[1].innerText = t.progClss;
+        pBtns[2].innerText = t.progDo;
+      }
+
+      const rSlicerLbl = document.querySelector('.slicer-group:nth-child(2) .slicer-label');
+      if (rSlicerLbl) rSlicerLbl.innerText = t.cadreLabel;
+      const rBtns = document.querySelectorAll('#roleSlicer .slicer-btn');
+      if (rBtns.length >= 4) {
+        rBtns[0].innerText = t.cadreAll;
+        rBtns[1].innerText = t.cadreTeach;
+        rBtns[2].innerText = t.cadreFac;
+        rBtns[3].innerText = t.cadreMon;
+      }
+
+      // Update Navigation
+      const navItems = document.querySelectorAll('.studio-nav .nav-item');
+      if (navItems.length >= 8) {
+        navItems[0].innerHTML = `<span class="nav-dot"></span> ${t.navOverview}`;
+        navItems[1].innerHTML = `<span class="nav-dot"></span> ${t.navRf}`;
+        navItems[2].innerHTML = `<span class="nav-dot"></span> ${t.navD360}`;
+        navItems[3].innerHTML = `<span class="nav-dot"></span> ${t.navLeague}`;
+        navItems[4].innerHTML = `<span class="nav-dot"></span> ${t.navBlocks}`;
+        navItems[5].innerHTML = `<span class="nav-dot"></span> ${t.navQuestions}`;
+        navItems[6].innerHTML = `<span class="nav-dot"></span> ${t.navPedagogy}`;
+        navItems[7].innerHTML = `<span class="nav-dot"></span> ${t.navGov}`;
+      }
+
+      // Update Tab 3 Labels & Headings
+      const d360Head = document.querySelector('#tab-d360 h2');
+      if (d360Head) d360Head.innerText = lang === 'hi' ? 'जिला 360° व्यापक प्रोफाइल एवं ब्लॉक विभाजन' : 'District 360° Comprehensive Profile & Block Bifurcation';
+      const d360P = document.querySelector('#tab-d360 p');
+      if (d360P) d360P.innerText = t.d360Sub;
+
+      const d360DistLbl = document.querySelector('label[for="d360Dropdown"]');
+      if (d360DistLbl) d360DistLbl.innerText = t.d360LblDist;
+
+      const d360ModeLbl = document.querySelector('#tab-d360 .slicer-pills')?.previousElementSibling;
+      if (d360ModeLbl) d360ModeLbl.innerText = t.d360LblMode;
+
+      const btnSum = document.getElementById('d360BtnSum');
+      if (btnSum) btnSum.innerText = t.d360BtnSum;
+      const btnBif = document.getElementById('d360BtnBifurcate');
+      if (btnBif) btnBif.innerText = t.d360BtnBif;
+
+      const d360BlockLbl = document.querySelector('label[for="d360BlockDropdown"]');
+      if (d360BlockLbl) d360BlockLbl.innerText = t.d360LblBlock;
+
+      // Update Tab 5 (Block Directory) Headings
+      const blockHeading = document.getElementById('blockTableHeading');
+      if (blockHeading) blockHeading.innerText = t.blockDirHead;
+      const blockDistLbl = document.querySelector('label[for="blockDistrictSelect"]');
+      if (blockDistLbl) blockDistLbl.innerText = t.blockFilterDist;
+      const blockInput = document.getElementById('blockFilter');
+      if (blockInput) blockInput.placeholder = t.blockSearchPl;
+
+      // Re-run dynamic KPI text updates
+      updateKPIs();
+      updateDistrict360View();
+    }
+
     // 2. District 360 & Block Bifurcation Logic
     let d360ViewMode = 'SUM'; // 'SUM' or 'BIFURCATE'
 
