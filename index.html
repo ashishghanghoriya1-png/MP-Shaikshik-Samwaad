@@ -1241,12 +1241,7 @@
           <div class="kpi-huge-val font-mono" id="kpiDistricts">50 <span style="font-size: 14px; color: var(--text-dim);">Active</span></div>
           <div class="kpi-sub-desc" id="kpiDistDesc">50 / 52 Active Reporting Districts</div>
           
-          <div style="font-size: 10px; line-height: 1.35; color: var(--text-secondary); margin-top: 8px; background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.2); border-left: 3px solid var(--peepul-teal); border-radius: 6px; padding: 6px 8px;">
-            <strong style="color: var(--peepul-teal); font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">📌 COVERAGE BIFURCATION (50 + 2 = 52):</strong>
-            <div>• <strong style="color: var(--accent-emerald);">50 Active (96.2%):</strong> Full samwad executed.</div>
-            <div>• <strong style="color: var(--accent-rose);">2 Non-Reporting (3.8%):</strong> <em>Sehore</em> & <em>Dewas</em> (vacant CAC).</div>
-            <div>• <strong style="color: var(--peepul-blue);">3 Mother DIETs:</strong> <em>Mauganj, Maihar, Pandhurna</em>.</div>
-          </div>
+          <div id="kpiCoverageBifurcation" style="display: none; font-size: 10px; line-height: 1.35; color: var(--text-secondary); margin-top: 8px; background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.2); border-left: 3px solid var(--peepul-teal); border-radius: 6px; padding: 6px 8px;"></div>
 
           <div id="kpiCoverageRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em>]
@@ -1420,7 +1415,7 @@
             <div>
               <div style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
                 <span>Field Data Deficit & Governance Blind Spot Monitor</span>
-                <span class="pill-badge" style="background: rgba(225, 29, 72, 0.12); color: var(--accent-rose); font-weight: 700; font-size: 10.5px;">18 Action Focus Districts</span>
+                <span class="pill-badge" id="deficitFocusBadge" style="background: rgba(225, 29, 72, 0.12); color: var(--accent-rose); font-weight: 700; font-size: 10.5px;">18 Action Focus Districts</span>
               </div>
               <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px;">
                 Statewide Audit • Click any category chip below to dynamically isolate those districts on the Leaderboard chart:
@@ -2727,8 +2722,13 @@
       const leagueRef = document.getElementById('leagueTableRef');
       const leagueHeading = document.getElementById('leagueTableHeading');
 
+      const kBif = document.getElementById('kpiCoverageBifurcation');
       const hasSep = dataPackage && dataPackage.cycles && dataPackage.cycles.hasSeptember;
       if (currentCycle === 'SEP' && !hasSep) {
+        if (kBif) {
+          kBif.style.display = 'block';
+          kBif.innerHTML = '<strong style="color: #d97706; font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">⏳ ' + (isHi ? 'सितंबर चक्र प्रतीक्षा में' : 'SEPTEMBER 2026 CYCLE PENDING') + ':</strong><div>• ' + (isHi ? 'डेटा अपलोड 28 सितंबर 2026 को निर्धारित है।' : 'State data synchronization scheduled for September 28th drop.') + '</div>';
+        }
         if (kDistBadge) kDistBadge.innerText = 'Pending (Sept 28)';
         if (kDist) kDist.innerHTML = '0 <span style="font-size: 14px; color: var(--text-dim);">' + (isHi ? 'प्रतीक्षारत' : 'Pending') + '</span>';
         if (kDistDesc) kDistDesc.innerText = '0 / 52 ' + (isHi ? 'सितंबर डेटा 28 सितंबर को प्रतीक्षित' : 'September Data Pending Sept 28 Ingestion');
@@ -2768,13 +2768,33 @@
       const doFacilitators = distList.reduce((acc, d) => acc + (d.do_facilitators || 0), 0);
       const doMonitors = distList.reduce((acc, d) => acc + (d.do_monitors || 0), 0);
 
-      // District card: Dewas and Sehore were vacant/stalled in August (reflect 50/52 operational, 96.2%)
-      const operationalDistCount = distList.filter(d => (d.attendees || 0) >= 10).length; // 50
-      const covPct = ((operationalDistCount / 52) * 100).toFixed(1) + '%'; // 96.2%
+      // District card: dynamically compute operational and non-reporting counts
+      const kBif = document.getElementById('kpiCoverageBifurcation');
+      const operationalDistCount = distList.filter(d => (d.attendees || 0) >= 10).length;
+      const nonReportingDists = distList.filter(d => (d.attendees || 0) < 10).map(d => d.district);
+      const totalTarget = 52;
+      const covPct = ((operationalDistCount / totalTarget) * 100).toFixed(1) + '%';
 
       if (kDistBadge) kDistBadge.innerText = covPct;
       if (kDist) kDist.innerHTML = operationalDistCount + ' <span style="font-size: 14px; color: var(--text-dim);">' + (isHi ? 'सक्रिय' : 'Active') + '</span>';
-      if (kDistDesc) kDistDesc.innerText = operationalDistCount + ' / 52 ' + (isHi ? 'सक्रिय जिले (देवास व सीहोर रिक्त)' : 'Active Districts (Dewas & Sehore Vacant)');
+      
+      if (nonReportingDists.length > 0) {
+        if (kDistDesc) kDistDesc.innerText = operationalDistCount + ' / ' + totalTarget + ' ' + (isHi ? ('सक्रिय जिले (' + nonReportingDists.join(', ') + ' रिक्त/कम उपस्थिति)') : ('Active Districts (' + nonReportingDists.join(', ') + ' Vacant/Stalled)'));
+        if (kBif) {
+          kBif.style.display = 'block';
+          const activePct = ((operationalDistCount / totalTarget) * 100).toFixed(1);
+          const nonRepPct = ((nonReportingDists.length / totalTarget) * 100).toFixed(1);
+          kBif.innerHTML = '<strong style="color: var(--peepul-teal); font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">📌 ' + (isHi ? ('कवरेज विभाजन (' + operationalDistCount + ' + ' + nonReportingDists.length + ' = ' + totalTarget + ')') : ('COVERAGE BIFURCATION (' + operationalDistCount + ' + ' + nonReportingDists.length + ' = ' + totalTarget + ')')) + ':</strong>' +
+            '<div>• <strong style="color: var(--accent-emerald);">' + operationalDistCount + ' ' + (isHi ? 'सक्रिय' : 'Active') + ' (' + activePct + '%):</strong> ' + (isHi ? 'संवाद पूर्ण' : 'Full samwad executed') + '.</div>' +
+            '<div>• <strong style="color: var(--accent-rose);">' + nonReportingDists.length + ' ' + (isHi ? 'गैर-रिपोर्टिंग' : 'Non-Reporting') + ' (' + nonRepPct + '%):</strong> <em>' + nonReportingDists.join(', ') + '</em>.</div>';
+        }
+      } else {
+        if (kDistDesc) kDistDesc.innerText = operationalDistCount + ' / ' + totalTarget + ' ' + (isHi ? 'सक्रिय जिले (100% पूर्ण कवरेज)' : 'Active Districts (100% Full Coverage)');
+        if (kBif) {
+          kBif.style.display = 'block';
+          kBif.innerHTML = '<strong style="color: var(--accent-emerald); font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">✅ ' + (isHi ? '100% पूर्ण राज्य कवरेज' : '100% COMPLETE STATE COVERAGE') + ':</strong><div>• ' + (isHi ? 'सभी 52 जिलों ने सफलतापूर्वक रिपोर्ट किया।' : 'All 52 districts active and reporting.') + '</div>';
+        }
+      }
 
       if (activeProgram === 'DO') {
         if (kDistRef) kDistRef.innerHTML = '[Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx</em>]';
@@ -3037,7 +3057,23 @@
     }
 
     function showUnsurveyedInfo() {
-      alert("ℹ️ STATE ADMINISTRATIVE REORGANIZATION NOTICE:\n\n• Maihar (Bifurcated from Satna)\n• Mauganj (Bifurcated from Rewa)\n• Pandhurna (Bifurcated from Chhindwara)\n\nThese 3 newly constituted districts currently have 0 separate survey records in the August dataset. Their cluster sessions and teacher feedback were submitted under their mother DIET districts (Satna, Rewa, and Chhindwara). RSK MIS integration is underway.");
+      const isHi = (currentLang === 'hi');
+      const msg = isHi ?
+        "ℹ️ मध्य प्रदेश प्रशासनिक पुनर्गठन सूचना:
+
+• मैहर (सतना से पुनर्गठित)
+• मऊगंज (रीवा से पुनर्गठित)
+• पांढुर्णा (छिंदवाड़ा से पुनर्गठित)
+
+ये 3 नवीन जिले अपनी मूल मातृ डायट (सतना, रीवा, छिंदवाड़ा) के माध्यम से शैक्षिक संवाद में सम्मिलित हैं। राज्य MIS में अलग डायट कोड मैपिंग प्रक्रियाधीन है।" :
+        "ℹ️ MP STATE ADMINISTRATIVE REORGANIZATION NOTICE:
+
+• Maihar (Bifurcated from Satna)
+• Mauganj (Bifurcated from Rewa)
+• Pandhurna (Bifurcated from Chhindwara)
+
+These 3 newly constituted administrative districts participate in Shaikshik Samwaad under their parent Mother DIETs (Satna, Rewa, and Chhindwara). RSK MIS separate code integration is underway.";
+      alert(msg);
     }
     
 
@@ -3129,19 +3165,67 @@
         sortedList.sort((a,b) => b.combined_total - a.combined_total);
       }
 
+      const criticalStalls = sortedList.filter(d => (d.attendees || 0) < 10);
+      const zeroDO = sortedList.filter(d => (d.do_participants || 0) === 0);
+      const zeroMon = sortedList.filter(d => (d.monitors || 0) === 0);
+      const deficit18 = sortedList.filter(d => (d.attendees || 0) < 10 || (d.do_participants || 0) === 0 || (d.monitors || 0) === 0 || (d.pedagogy_composite || 0) < 50);
+
+      // Dynamically update alert chips
+      const cStallBtn = document.getElementById('chipCriticalStalls');
+      const cDoBtn = document.getElementById('chipZeroDO');
+      const cMonBtn = document.getElementById('chipZeroMon');
+      const cResetBtn = document.getElementById('chipResetAll');
+      const btnScopeAllEl = document.getElementById('btnScopeAll');
+      const chipFocusBadge = document.getElementById('deficitFocusBadge');
+
+      if (chipFocusBadge) {
+        chipFocusBadge.innerText = deficit18.length + (isHi ? ' प्राथमिकता जिले' : ' Action Focus Districts');
+      }
+
+      if (cStallBtn) {
+        if (criticalStalls.length > 0) {
+          cStallBtn.style.display = 'inline-block';
+          cStallBtn.innerHTML = '🟠 ' + criticalStalls.length + ' ' + (isHi ? 'महत्वपूर्ण रुकावटें: ' : 'Critical Stalls: ') + criticalStalls.map(d => `${d.district} (${d.attendees || 0})`).join(', ');
+        } else {
+          cStallBtn.style.display = 'none';
+        }
+      }
+      if (cDoBtn) {
+        if (zeroDO.length > 0) {
+          cDoBtn.style.display = 'inline-block';
+          cDoBtn.innerHTML = '🟡 ' + zeroDO.length + ' ' + (isHi ? 'शून्य DO: ' : 'Zero DO: ') + zeroDO.map(d => d.district).slice(0, 4).join(', ') + (zeroDO.length > 4 ? '...' : '');
+        } else {
+          cDoBtn.style.display = 'none';
+        }
+      }
+      if (cMonBtn) {
+        if (zeroMon.length > 0) {
+          cMonBtn.style.display = 'inline-block';
+          cMonBtn.innerHTML = '🔵 ' + zeroMon.length + ' ' + (isHi ? 'शून्य मॉनिटर: ' : 'Zero Monitors: ') + zeroMon.map(d => d.district).slice(0, 4).join(', ') + (zeroMon.length > 4 ? '...' : '');
+        } else {
+          cMonBtn.style.display = 'none';
+        }
+      }
+      if (cResetBtn) {
+        cResetBtn.innerHTML = '🔄 ' + (isHi ? ('रीसेट दृश्य (सभी ' + dSummary.length + ')') : ('Reset View (All ' + dSummary.length + ')'));
+      }
+      if (btnScopeAllEl) {
+        btnScopeAllEl.innerText = isHi ? ('सभी ' + dSummary.length + ' जिले') : ('All ' + dSummary.length + ' Districts');
+      }
+
       let displayList = sortedList;
       if (overviewScope === 'TOP15') {
         displayList = sortedList.slice(0, 15);
       } else if (overviewScope === 'BOTTOM15') {
         displayList = sortedList.slice(-15);
       } else if (overviewScope === 'CRITICAL_STALLS') {
-        displayList = sortedList.filter(d => d.district === 'Dewas' || d.district === 'Sehore');
+        displayList = criticalStalls;
       } else if (overviewScope === 'ZERO_DO') {
-        displayList = sortedList.filter(d => ['Anuppur', 'Khandwa', 'Dewas', 'Sehore'].includes(d.district));
+        displayList = zeroDO;
       } else if (overviewScope === 'ZERO_MONITORS') {
-        displayList = sortedList.filter(d => ['Dewas', 'Sehore', 'Dindori', 'Gwalior'].includes(d.district));
+        displayList = zeroMon;
       } else if (overviewScope === 'DEFICIT_18') {
-        displayList = sortedList.filter(d => ['Dewas', 'Sehore', 'Anuppur', 'Khandwa', 'Dindori', 'Gwalior', 'Bhind', 'Chhatarpur', 'Burhanpur', 'Harda', 'Mandsaur', 'Raisen', 'Rajgarh', 'Shahdol', 'Sidhi', 'Singrauli', 'Ujjain', 'Vidisha'].includes(d.district));
+        displayList = deficit18;
       }
       
       // 1. Top Districts Column/Bar Chart
