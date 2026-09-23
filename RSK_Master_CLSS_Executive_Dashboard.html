@@ -2653,15 +2653,25 @@
     // Slicer Handlers
     function setProgramSlicer(prog, btn) {
       activeProgram = prog;
-      document.querySelectorAll('#programSlicer .slicer-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelectorAll('#programSlicer .slicer-btn').forEach(b => {
+        b.classList.remove('active');
+        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + prog + "'")) {
+          b.classList.add('active');
+        }
+      });
+      if (btn && btn.classList) btn.classList.add('active');
       applySlicers();
     }
 
     function setRoleSlicer(role, btn) {
       activeRole = role;
-      document.querySelectorAll('#roleSlicer .slicer-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelectorAll('#roleSlicer .slicer-btn').forEach(b => {
+        b.classList.remove('active');
+        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + role + "'")) {
+          b.classList.add('active');
+        }
+      });
+      if (btn && btn.classList) btn.classList.add('active');
       applySlicers();
     }
 
@@ -3760,36 +3770,31 @@
       }
 
       // Pedagogy & Gender Split Charts
-      let q82 = getDistrictSurveyVal("CLSS", "Participant", "Q82", "82_Correct", dname);
-      let q84 = getDistrictSurveyVal("CLSS", "Participant", "Q84", "84_Correct", dname);
-      let q95 = getDistrictSurveyVal("CLSS", "Participant", "Q95", "95_Correct", dname);
-      let q96 = getDistrictSurveyVal("CLSS", "Participant", "Q96", "96_Correct", dname);
-      let q97 = getDistrictSurveyVal("CLSS", "Participant", "Q97", "97_Correct", dname);
-      let totResp = dinfo.attendees || 1;
+      let q84 = getDistrictSurveyVal("CLSS", "84", dname);
+      let q82 = getDistrictSurveyVal("CLSS", "82", dname);
+      let q96 = getDistrictSurveyVal("CLSS", "96", dname);
+      let q95 = getDistrictSurveyVal("CLSS", "95", dname);
+      let q97 = getDistrictSurveyVal("CLSS", "97", dname);
+
+      let pLabels = ['Topic Recall', 'Objective Check', 'Psycho Safety', 'Active Engag.', 'Belongingness'];
+      let scores = [q84.pct, q82.pct, q96.pct, q95.pct, q97.pct];
 
       if (activeProgram === 'DO') {
-        q82 = getDistrictSurveyVal("DO", "Participant", "Q35", "35_Correct", dname);
-        q84 = getDistrictSurveyVal("DO", "Participant", "Q35", "35_Correct", dname);
-        q95 = getDistrictSurveyVal("DO", "Participant", "Q43", "43_Correct", dname);
-        q96 = getDistrictSurveyVal("DO", "Participant", "Q44", "44_Correct", dname);
-        q97 = getDistrictSurveyVal("DO", "Participant", "Q45", "45_Correct", dname);
-        totResp = dinfo.do_participants || 1;
+        let do_q35 = getDistrictSurveyVal("DO", "35", dname);
+        let do_q44 = getDistrictSurveyVal("DO", "44", dname);
+        let do_q43 = getDistrictSurveyVal("DO", "43", dname);
+        let do_q45 = getDistrictSurveyVal("DO", "45", dname);
+        
+        pLabels = ['Objective Clarity', 'Psycho Safety', 'Student Agency', 'Belongingness'];
+        scores = [do_q35.pct, do_q44.pct, do_q43.pct, do_q45.pct];
       }
-
-      const scores = [
-        Math.min(100, Math.round(q84 / totResp * 100)),
-        Math.min(100, Math.round(q82 / totResp * 100)),
-        Math.min(100, Math.round(q96 / totResp * 100)),
-        Math.min(100, Math.round(q95 / totResp * 100)),
-        Math.min(100, Math.round(q97 / totResp * 100))
-      ];
 
       if (chartInstances.d360Ped) chartInstances.d360Ped.destroy();
       const ctx1 = document.getElementById('d360PedChart').getContext('2d');
       chartInstances.d360Ped = new Chart(ctx1, {
         type: 'bar',
         data: {
-          labels: ['Topic Recall', 'Objective Check', 'Psycho Safety', 'Active Engag.', 'Belongingness'],
+          labels: pLabels,
           datasets: [{
             data: scores,
             backgroundColor: ['#059669', '#0284c7', '#7c3aed', '#008aab', '#1d4ed8'],
@@ -3799,7 +3804,14 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `Score: ${ctx.parsed.y}%`
+              }
+            }
+          },
           scales: {
             y: { min: 0, max: 100, grid: { color: theme.gridColor }, ticks: { color: theme.textColor, callback: v => v + '%' } },
             x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
@@ -3827,15 +3839,22 @@
       });
     }
 
-    function getDistrictSurveyVal(prog, role, sheet, col, district) {
+    function getDistrictSurveyVal(prog, qid, district) {
+      if (!dataPackage || !dataPackage.surveys) return { count: 0, pct: 0, total: 0 };
       const s = dataPackage.surveys.find(x => 
-        x.program === prog && 
-        x.role === role && 
-        (x.sheet === sheet || x.sheet.split(',').map(k => k.trim()).includes(sheet) || x.sheet.includes(sheet))
+        (prog === 'ALL' || x.program === prog) && 
+        String(x.questionId) === String(qid)
       );
-      if (!s) return 0;
+      if (!s || !s.districtData || s.districtData.length === 0) return { count: 0, pct: 0, total: 0 };
+      
       const row = s.districtData.find(d => d.district === district);
-      return row ? (row[col] || 0) : 0;
+      if (!row) return { count: 0, pct: 0, total: 0 };
+
+      const colCode = (s.columns && s.columns.length > 0) ? s.columns[0].code : (qid + '_Correct');
+      const val = row[colCode] !== undefined ? row[colCode] : (row[qid + '.1'] !== undefined ? row[qid + '.1'] : (row[qid + '_Correct'] || 0));
+      const tot = row.totalRespondents || 1;
+      const pct = Math.min(100, Math.round((val / tot) * 100));
+      return { count: val, pct: pct, total: tot };
     }
 
     // 3. District League
