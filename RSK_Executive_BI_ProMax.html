@@ -1987,6 +1987,7 @@
           <!-- Populated via JS -->
         </div>
       </div>
+    </section>
   </main>
 
   <!-- Global Footer & Provenance -->
@@ -5419,6 +5420,7 @@
     }
 
     window.onload = function() {
+      if (typeof updateKPIs === 'function') updateKPIs();
       initOverviewCharts();
       initQuadrantTable();
       renderRFIndicatorCards();

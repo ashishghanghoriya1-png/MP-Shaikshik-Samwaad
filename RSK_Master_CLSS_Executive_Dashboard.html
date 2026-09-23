@@ -2129,6 +2129,7 @@
           <!-- Populated via JS -->
         </div>
       </div>
+    </section>
   </main>
 
   <!-- Global Footer & Provenance -->
@@ -2769,7 +2770,6 @@
       const doMonitors = distList.reduce((acc, d) => acc + (d.do_monitors || 0), 0);
 
       // District card: dynamically compute operational and non-reporting counts
-      const kBif = document.getElementById('kpiCoverageBifurcation');
       const operationalDistCount = distList.filter(d => (d.attendees || 0) >= 10).length;
       const nonReportingDists = distList.filter(d => (d.attendees || 0) < 10).map(d => d.district);
       const totalTarget = 52;
@@ -3059,20 +3059,8 @@
     function showUnsurveyedInfo() {
       const isHi = (currentLang === 'hi');
       const msg = isHi ?
-        "ℹ️ मध्य प्रदेश प्रशासनिक पुनर्गठन सूचना:
-
-• मैहर (सतना से पुनर्गठित)
-• मऊगंज (रीवा से पुनर्गठित)
-• पांढुर्णा (छिंदवाड़ा से पुनर्गठित)
-
-ये 3 नवीन जिले अपनी मूल मातृ डायट (सतना, रीवा, छिंदवाड़ा) के माध्यम से शैक्षिक संवाद में सम्मिलित हैं। राज्य MIS में अलग डायट कोड मैपिंग प्रक्रियाधीन है।" :
-        "ℹ️ MP STATE ADMINISTRATIVE REORGANIZATION NOTICE:
-
-• Maihar (Bifurcated from Satna)
-• Mauganj (Bifurcated from Rewa)
-• Pandhurna (Bifurcated from Chhindwara)
-
-These 3 newly constituted administrative districts participate in Shaikshik Samwaad under their parent Mother DIETs (Satna, Rewa, and Chhindwara). RSK MIS separate code integration is underway.";
+        "ℹ️ मध्य प्रदेश प्रशासनिक पुनर्गठन सूचना:\n\n• मैहर (सतना से पुनर्गठित)\n• मऊगंज (रीवा से पुनर्गठित)\n• पांढुर्णा (छिंदवाड़ा से पुनर्गठित)\n\nये 3 नवीन जिले अपनी मूल मातृ डायट (सतना, रीवा, छिंदवाड़ा) के माध्यम से शैक्षिक संवाद में सम्मिलित हैं। राज्य MIS में अलग डायट कोड मैपिंग प्रक्रियाधीन है।" :
+        "ℹ️ MP STATE ADMINISTRATIVE REORGANIZATION NOTICE:\n\n• Maihar (Bifurcated from Satna)\n• Mauganj (Bifurcated from Rewa)\n• Pandhurna (Bifurcated from Chhindwara)\n\nThese 3 newly constituted administrative districts participate in Shaikshik Samwaad under their parent Mother DIETs (Satna, Rewa, and Chhindwara). RSK MIS separate code integration is underway.";
       alert(msg);
     }
     
@@ -6117,6 +6105,7 @@ These 3 newly constituted administrative districts participate in Shaikshik Samw
     }
 
     window.onload = function() {
+      if (typeof updateKPIs === 'function') updateKPIs();
       initOverviewCharts();
       initQuadrantTable();
       renderRFIndicatorCards();
