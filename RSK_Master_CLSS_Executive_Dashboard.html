@@ -1237,13 +1237,13 @@
       <div class="bento-kpi-grid lang-fade-target">
         <!-- 1. Coverage Rate -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot"></span><span id="kpiCoverageLabel">COVERAGE RATE</span></span> <span id="kpiCoverageBadge" style="color: var(--accent-emerald); font-weight: 700;">100.0%</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiDistricts">52 <span style="font-size: 14px; color: var(--text-dim);">Active</span></div>
-          <div class="kpi-sub-desc" id="kpiDistDesc">52 / 52 Active Reporting Districts</div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot"></span><span id="kpiCoverageLabel">COVERAGE RATE</span></span> <span id="kpiCoverageBadge" style="color: var(--accent-emerald); font-weight: 700;">96.2%</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiDistricts">50 <span style="font-size: 14px; color: var(--text-dim);">Active</span></div>
+          <div class="kpi-sub-desc" id="kpiDistDesc">50 / 52 Active Reporting Districts</div>
           
           <div style="font-size: 10px; line-height: 1.35; color: var(--text-secondary); margin-top: 8px; background: rgba(0, 138, 171, 0.05); border: 1px solid rgba(0, 138, 171, 0.2); border-left: 3px solid var(--peepul-teal); border-radius: 6px; padding: 6px 8px;">
             <strong style="color: var(--peepul-teal); font-family: var(--font-mono); font-size: 9.5px; display: block; margin-bottom: 2px;">📌 COVERAGE BIFURCATION (50 + 2 = 52):</strong>
-            <div>• <strong style="color: var(--accent-emerald);">50 Active (100.0%):</strong> Full samwad executed.</div>
+            <div>• <strong style="color: var(--accent-emerald);">50 Active (96.2%):</strong> Full samwad executed.</div>
             <div>• <strong style="color: var(--accent-rose);">2 Non-Reporting (3.8%):</strong> <em>Sehore</em> & <em>Dewas</em> (vacant CAC).</div>
             <div>• <strong style="color: var(--peepul-blue);">3 Mother DIETs:</strong> <em>Mauganj, Maihar, Pandhurna</em>.</div>
           </div>
@@ -2768,10 +2768,13 @@
       const doFacilitators = distList.reduce((acc, d) => acc + (d.do_facilitators || 0), 0);
       const doMonitors = distList.reduce((acc, d) => acc + (d.do_monitors || 0), 0);
 
-      // District card
-      if (kDistBadge) kDistBadge.innerText = (distCount >= 52 ? '100.0%' : ((distCount/52)*100).toFixed(1) + '%');
-      if (kDist) kDist.innerHTML = distCount + ' <span style="font-size: 14px; color: var(--text-dim);">' + (isHi ? 'सक्रिय' : 'Active') + '</span>';
-      if (kDistDesc) kDistDesc.innerText = distCount + ' / 52 ' + (isHi ? 'सक्रिय रिपोर्टिंग जिले' : 'Active Reporting Districts');
+      // District card: Dewas and Sehore were vacant/stalled in August (reflect 50/52 operational, 96.2%)
+      const operationalDistCount = distList.filter(d => (d.attendees || 0) >= 10).length; // 50
+      const covPct = ((operationalDistCount / 52) * 100).toFixed(1) + '%'; // 96.2%
+
+      if (kDistBadge) kDistBadge.innerText = covPct;
+      if (kDist) kDist.innerHTML = operationalDistCount + ' <span style="font-size: 14px; color: var(--text-dim);">' + (isHi ? 'सक्रिय' : 'Active') + '</span>';
+      if (kDistDesc) kDistDesc.innerText = operationalDistCount + ' / 52 ' + (isHi ? 'सक्रिय जिले (देवास व सीहोर रिक्त)' : 'Active Districts (Dewas & Sehore Vacant)');
 
       if (activeProgram === 'DO') {
         if (kDistRef) kDistRef.innerHTML = '[Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx</em>]';
@@ -3678,7 +3681,7 @@
               <td class="font-mono" style="font-weight: 800;">${sumFac.toLocaleString()}</td>
               <td class="font-mono" style="font-weight: 800; color: #1d4ed8;">${sumPart.toLocaleString()}</td>
               <td class="font-mono" style="font-weight: 800; color: var(--peepul-teal);">${sumTot.toLocaleString()}</td>
-              <td class="font-mono" style="font-weight: 800;">100.0%</td>
+              <td class="font-mono" style="font-weight: 800;">96.2%</td>
             </tr>
           `;
         }
