@@ -1207,6 +1207,16 @@
             [Ref: <em>Output_CLSS_facilitator_Aug_26.xlsx</em> & Observers]
           </div>
         </div>
+
+        <!-- 6. Middle School (Varg-2) Cadre Mobilization Funnel -->
+        <div class="bento-card" style="border-left: 3px solid #0284c7;">
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #0284c7;"></span><span id="kpiVarg2Label">VARG-2 CADRE FUNNEL</span></span> <span id="kpiVarg2Badge" style="color: #0284c7; font-weight: 700;">34.8% Saturation</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiVarg2Total" style="color: #0284c7;">68,427</div>
+          <div class="kpi-sub-desc" id="kpiVarg2Desc">68,427 State Varg-2 Universe → 35,374 Target (51.7%) → 23,785 Attended (67.2%)</div>
+          <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
+            [Ref: <em>Varg Wise Teacher Count.xlsx</em> | Col D: Madhymik Shikshak Varg -2 (Total)]
+          </div>
+        </div>
       </div>
 
       <div class="bento-2-1">
@@ -1728,7 +1738,8 @@
                 <option value="ALL">All 50 Districts (309 Blocks)</option>
               </select>
             </div>
-            <input type="text" id="blockFilter" placeholder="🔍 Search block name..." class="search-input" style="width: 200px;" onkeyup="filterBlockDirectory()">
+            <button class="btn-tactile" id="btnFilterDarkBlocks" style="font-size: 11px; padding: 5px 10px; background: rgba(225, 29, 72, 0.08); color: var(--accent-rose); border: 1px solid rgba(225, 29, 72, 0.25);" onclick="toggleDarkBlocksFilter()">🚨 Low Saturation (&lt;40%)</button>
+            <input type="text" id="blockFilter" placeholder="🔍 Search block name..." class="search-input" style="width: 180px;" onkeyup="filterBlockDirectory()">
           </div>
         </div>
 
@@ -1753,6 +1764,11 @@
             <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8;"></span>TEACHERS</span></div>
             <div class="kpi-huge-val font-mono" id="blockTotalTeachers" style="font-size: 26px; color: #1d4ed8;">23,785</div>
             <div class="kpi-sub-desc">Participating Teachers</div>
+          </div>
+          <div class="bento-card" style="padding: 12px 16px;">
+            <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #0284c7;"></span>VARG-2 CADRE</span> <span id="blockVarg2SatBadge" style="color: #0284c7; font-weight: 700;">34.8% Sat.</span></div>
+            <div class="kpi-huge-val font-mono" id="blockTotalVarg2" style="font-size: 26px; color: #0284c7;">68,427</div>
+            <div class="kpi-sub-desc">Total Cadre Base</div>
           </div>
           <div class="bento-card" style="padding: 12px 16px;">
             <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--peepul-teal);"></span>TOTAL MOBILIZED</span></div>
@@ -3133,6 +3149,10 @@
       const chartDistEl = document.getElementById('d360BlockChartDistName');
       if (chartDistEl) chartDistEl.innerText = dname;
 
+      const vargU = dinfo.varg2Universe || 0;
+      const vargSat = dinfo.varg2Saturation || (vargU > 0 ? ((dinfo.attendees / vargU) * 100).toFixed(1) : 0);
+      const vargBox = `<div class="d360-metric-box"><div class="val" style="color: #0284c7;">${vargU.toLocaleString()}</div><div class="lbl">Varg-2 Base (${vargU > 0 ? vargSat + '%' : '-'})</div></div>`;
+
       // 1. Populate District Aggregate Sum Hero Stats
       if (activeProgram === 'DO') {
         document.getElementById('d360HeroStats').innerHTML = `
@@ -3142,6 +3162,7 @@
           <div class="d360-metric-box"><div class="val">${dinfo.do_facilitators}</div><div class="lbl">DO Facilitators</div></div>
           <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">DO Participants</div></div>
           <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.do_total.toLocaleString()}</div><div class="lbl">Total DO Turnout</div></div>
+          ${vargBox}
         `;
       } else if (activeProgram === 'CLSS') {
         document.getElementById('d360HeroStats').innerHTML = `
@@ -3151,6 +3172,7 @@
           <div class="d360-metric-box"><div class="val">${dinfo.facilitators}</div><div class="lbl">CLSS Facilitators</div></div>
           <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.attendees.toLocaleString()}</div><div class="lbl">CLSS Teachers</div></div>
           <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.total.toLocaleString()}</div><div class="lbl">Total CLSS Turnout</div></div>
+          ${vargBox}
         `;
       } else {
         document.getElementById('d360HeroStats').innerHTML = `
@@ -3161,6 +3183,7 @@
           <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.attendees.toLocaleString()}</div><div class="lbl">CLSS Teachers</div></div>
           <div class="d360-metric-box"><div class="val" style="color: var(--accent-indigo);">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">District Participants (DO)</div></div>
           <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.combined_total.toLocaleString()}</div><div class="lbl">Combined Turnout</div></div>
+          ${vargBox}
         `;
       }
 
@@ -3197,10 +3220,14 @@
             <div class="kpi-huge-val font-mono" style="font-size: 26px; color: var(--peepul-teal); margin-top: 4px;">
               ${bTot.toLocaleString()} <span style="font-size: 12px; color: var(--text-dim);">Total</span>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 10px; font-size: 11px; font-family: var(--font-mono); text-align: center;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-top: 10px; font-size: 11px; font-family: var(--font-mono); text-align: center;">
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
                 <div style="color: var(--text-muted); font-size: 9.5px;">TEACHERS</div>
                 <div style="font-weight: 700; color: #1d4ed8;">${b.participants}</div>
+              </div>
+              <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
+                <div style="color: var(--text-muted); font-size: 9.5px;">VARG-2</div>
+                <div style="font-weight: 700; color: #0284c7;">${(b.varg2Universe || 0).toLocaleString()}</div>
               </div>
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
                 <div style="color: var(--text-muted); font-size: 9.5px;">FACIL.</div>
@@ -3564,6 +3591,25 @@
 
     
     // 4. Block Directory
+    let darkBlocksOnly = false;
+
+    function toggleDarkBlocksFilter() {
+      darkBlocksOnly = !darkBlocksOnly;
+      const btn = document.getElementById('btnFilterDarkBlocks');
+      if (btn) {
+        if (darkBlocksOnly) {
+          btn.style.background = 'var(--accent-rose)';
+          btn.style.color = '#ffffff';
+          btn.innerText = '🚨 Active: Low Saturation (<40%)';
+        } else {
+          btn.style.background = 'rgba(225, 29, 72, 0.08)';
+          btn.style.color = 'var(--accent-rose)';
+          btn.innerText = '🚨 Low Saturation (<40%)';
+        }
+      }
+      filterBlockDirectory();
+    }
+
     function initBlockDirectory() {
       refreshDistrictDropdownsHindi();
       filterBlockDirectory();
@@ -3584,7 +3630,9 @@
             <th>${isHi ? 'ब्लॉक का नाम' : 'Block Name'}</th>
             <th>${isHi ? 'मॉनिटर' : 'Monitors'}</th>
             <th>${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
+            <th>${isHi ? 'वर्ग-2 संवर्ग' : 'Varg-2 Cadre'}</th>
             <th>${isHi ? 'सहभागी शिक्षक' : 'Teacher Participants'}</th>
+            <th>${isHi ? 'संतृप्ति %' : 'Saturation %'}</th>
             <th>${isHi ? 'कुल सहभागिता' : 'Total Mobilized'}</th>
             <th>${isHi ? 'जिले में योगदान %' : '% of District Mobilization'}</th>
           </tr>
@@ -3603,20 +3651,24 @@
       });
 
       let matchCount = 0;
-      let sumMon = 0, sumFac = 0, sumPart = 0, sumTot = 0;
+      let sumMon = 0, sumFac = 0, sumPart = 0, sumTot = 0, sumVarg2 = 0;
 
       dataPackage.blockSummary.forEach(b => {
         const distMatch = (selectedDist === 'ALL' || b.district === selectedDist);
         const distHi = getDistName(b.district);
         const searchMatch = !q || (b.block.toLowerCase().includes(q) || b.district.toLowerCase().includes(q) || distHi.toLowerCase().includes(q));
+        const vargU = b.varg2Universe || 0;
+        const vargSat = b.varg2Saturation || (vargU > 0 ? ((b.participants / vargU) * 100).toFixed(1) : 0);
+        const darkMatch = !darkBlocksOnly || (vargU > 0 && vargSat < 40);
 
-        if (distMatch && searchMatch) {
+        if (distMatch && searchMatch && darkMatch) {
           matchCount++;
           const bTot = b.total || (b.monitors + b.facilitators + b.participants);
           sumMon += b.monitors;
           sumFac += b.facilitators;
           sumPart += b.participants;
           sumTot += bTot;
+          sumVarg2 += vargU;
 
           const distGrandTot = distTotalsMap[b.district] || 1;
           const pct = ((bTot / distGrandTot) * 100).toFixed(1);
@@ -3632,7 +3684,9 @@
             <td><strong style="color: var(--text-primary);">${b.block}</strong></td>
             <td class="font-mono">${b.monitors}</td>
             <td class="font-mono">${b.facilitators}</td>
+            <td class="font-mono" style="color: #0284c7; font-weight: 700;">${vargU.toLocaleString()}</td>
             <td class="font-mono" style="color: #1d4ed8; font-weight: 700;">${b.participants.toLocaleString()}</td>
+            <td class="font-mono" style="font-weight: 700; color: ${vargSat >= 50 ? 'var(--accent-emerald)' : (vargSat < 40 ? 'var(--accent-rose)' : '#d97706')};">${vargU > 0 ? vargSat + '%' : '-'}</td>
             <td class="font-mono" style="font-weight: 700; color: var(--peepul-teal);">${bTot.toLocaleString()}</td>
             <td>
               <div style="display: flex; align-items: center; gap: 8px;">
@@ -3648,7 +3702,7 @@
       });
 
       if (matchCount === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">${isHi ? 'कोई ब्लॉक नहीं मिला' : 'No blocks matched search criteria.'}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: var(--text-muted); padding: 24px;">${isHi ? 'कोई ब्लॉक नहीं मिला' : 'No blocks matched search criteria.'}</td></tr>`;
       }
 
       const countEl = document.getElementById('blockScopeCount');
@@ -3657,6 +3711,8 @@
       const monEl = document.getElementById('blockTotalMonitors');
       const facEl = document.getElementById('blockTotalFacilitators');
       const partEl = document.getElementById('blockTotalTeachers');
+      const vargEl = document.getElementById('blockTotalVarg2');
+      const vargSatEl = document.getElementById('blockVarg2SatBadge');
       const totEl = document.getElementById('blockTotalMobilized');
 
       if (countEl) countEl.innerText = matchCount.toLocaleString();
@@ -3665,6 +3721,11 @@
       if (monEl) monEl.innerText = sumMon.toLocaleString();
       if (facEl) facEl.innerText = sumFac.toLocaleString();
       if (partEl) partEl.innerText = sumPart.toLocaleString();
+      if (vargEl) vargEl.innerText = sumVarg2.toLocaleString();
+      if (vargSatEl) {
+        const overallSat = sumVarg2 > 0 ? ((sumPart / sumVarg2) * 100).toFixed(1) : 0;
+        vargSatEl.innerText = `${overallSat}% Sat.`;
+      }
       if (totEl) totEl.innerText = sumTot.toLocaleString();
     }
 
