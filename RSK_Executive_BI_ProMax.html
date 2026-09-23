@@ -1208,13 +1208,13 @@
           </div>
         </div>
 
-        <!-- 6. Middle School (Varg-2) Cadre Mobilization Funnel -->
+        <!-- 6. Statewide Teacher Universe Mobilization Funnel -->
         <div class="bento-card" style="border-left: 3px solid #0284c7;">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #0284c7;"></span><span id="kpiVarg2Label">VARG-2 CADRE FUNNEL</span></span> <span id="kpiVarg2Badge" style="color: #0284c7; font-weight: 700;">34.8% Saturation</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #0284c7;"></span><span id="kpiVarg2Label">TEACHER UNIVERSE</span></span> <span id="kpiVarg2Badge" style="color: #0284c7; font-weight: 700;">34.8% Universe Saturation</span></div>
           <div class="kpi-huge-val font-mono" id="kpiVarg2Total" style="color: #0284c7;">68,427</div>
-          <div class="kpi-sub-desc" id="kpiVarg2Desc">68,427 State Varg-2 Universe → 35,374 Target (51.7%) → 23,785 Attended (67.2%)</div>
+          <div class="kpi-sub-desc" id="kpiVarg2Desc">68,427 Total Teacher Universe → 35,374 Target (51.7%) → 23,785 Attended (67.2%)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>Varg Wise Teacher Count.xlsx</em> | Col D: Madhymik Shikshak Varg -2 (Total)]
+            [Ref: <em>Varg Wise Teacher Count.xlsx</em> | Teacher Cadre Universe (Col D)]
           </div>
         </div>
       </div>
@@ -1738,7 +1738,7 @@
                 <option value="ALL">All 50 Districts (309 Blocks)</option>
               </select>
             </div>
-            <button class="btn-tactile" id="btnFilterDarkBlocks" style="font-size: 11px; padding: 5px 10px; background: rgba(225, 29, 72, 0.08); color: var(--accent-rose); border: 1px solid rgba(225, 29, 72, 0.25);" onclick="toggleDarkBlocksFilter()">🚨 Low Saturation (&lt;40%)</button>
+            <button class="btn-tactile" id="btnFilterDarkBlocks" style="font-size: 11px; padding: 5px 10px; background: rgba(225, 29, 72, 0.08); color: var(--accent-rose); border: 1px solid rgba(225, 29, 72, 0.25);" onclick="toggleDarkBlocksFilter()">🚨 Low Universe Saturation (&lt;40%)</button>
             <input type="text" id="blockFilter" placeholder="🔍 Search block name..." class="search-input" style="width: 180px;" onkeyup="filterBlockDirectory()">
           </div>
         </div>
@@ -1766,9 +1766,9 @@
             <div class="kpi-sub-desc">Participating Teachers</div>
           </div>
           <div class="bento-card" style="padding: 12px 16px;">
-            <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #0284c7;"></span>VARG-2 CADRE</span> <span id="blockVarg2SatBadge" style="color: #0284c7; font-weight: 700;">34.8% Sat.</span></div>
+            <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #0284c7;"></span>TEACHER UNIVERSE</span> <span id="blockVarg2SatBadge" style="color: #0284c7; font-weight: 700;">34.8% Sat.</span></div>
             <div class="kpi-huge-val font-mono" id="blockTotalVarg2" style="font-size: 26px; color: #0284c7;">68,427</div>
-            <div class="kpi-sub-desc">Total Cadre Base</div>
+            <div class="kpi-sub-desc">Total Teacher Universe</div>
           </div>
           <div class="bento-card" style="padding: 12px 16px;">
             <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--peepul-teal);"></span>TOTAL MOBILIZED</span></div>
@@ -3151,7 +3151,7 @@
 
       const vargU = dinfo.varg2Universe || 0;
       const vargSat = dinfo.varg2Saturation || (vargU > 0 ? ((dinfo.attendees / vargU) * 100).toFixed(1) : 0);
-      const vargBox = `<div class="d360-metric-box"><div class="val" style="color: #0284c7;">${vargU.toLocaleString()}</div><div class="lbl">Varg-2 Base (${vargU > 0 ? vargSat + '%' : '-'})</div></div>`;
+      const vargBox = `<div class="d360-metric-box"><div class="val" style="color: #0284c7;">${vargU.toLocaleString()}</div><div class="lbl">Teacher Universe (${vargU > 0 ? vargSat + '%' : '-'})</div></div>`;
 
       // 1. Populate District Aggregate Sum Hero Stats
       if (activeProgram === 'DO') {
@@ -3226,7 +3226,7 @@
                 <div style="font-weight: 700; color: #1d4ed8;">${b.participants}</div>
               </div>
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
-                <div style="color: var(--text-muted); font-size: 9.5px;">VARG-2</div>
+                <div style="color: var(--text-muted); font-size: 9.5px;">UNIVERSE</div>
                 <div style="font-weight: 700; color: #0284c7;">${(b.varg2Universe || 0).toLocaleString()}</div>
               </div>
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
@@ -3600,11 +3600,11 @@
         if (darkBlocksOnly) {
           btn.style.background = 'var(--accent-rose)';
           btn.style.color = '#ffffff';
-          btn.innerText = '🚨 Active: Low Saturation (<40%)';
+          btn.innerText = '🚨 Active: Low Universe Saturation (<40%)';
         } else {
           btn.style.background = 'rgba(225, 29, 72, 0.08)';
           btn.style.color = 'var(--accent-rose)';
-          btn.innerText = '🚨 Low Saturation (<40%)';
+          btn.innerText = '🚨 Low Universe Saturation (<40%)';
         }
       }
       filterBlockDirectory();
@@ -3630,9 +3630,9 @@
             <th>${isHi ? 'ब्लॉक का नाम' : 'Block Name'}</th>
             <th>${isHi ? 'मॉनिटर' : 'Monitors'}</th>
             <th>${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
-            <th>${isHi ? 'वर्ग-2 संवर्ग' : 'Varg-2 Cadre'}</th>
+            <th>${isHi ? 'शिक्षक यूनिवर्स' : 'Teacher Universe'}</th>
             <th>${isHi ? 'सहभागी शिक्षक' : 'Teacher Participants'}</th>
-            <th>${isHi ? 'संतृप्ति %' : 'Saturation %'}</th>
+            <th>${isHi ? 'यूनिवर्स संतृप्ति %' : 'Universe Saturation %'}</th>
             <th>${isHi ? 'कुल सहभागिता' : 'Total Mobilized'}</th>
             <th>${isHi ? 'जिले में योगदान %' : '% of District Mobilization'}</th>
           </tr>
