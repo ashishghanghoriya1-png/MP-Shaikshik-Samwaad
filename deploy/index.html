@@ -1736,7 +1736,9 @@
                 <th>Block Name</th>
                 <th>Monitors</th>
                 <th>Facilitators</th>
+                <th>Teacher Universe</th>
                 <th>Teacher Participants</th>
+                <th>Saturation %</th>
                 <th>Total Mobilized</th>
                 <th>% of District Mobilization</th>
               </tr>
@@ -3708,6 +3710,12 @@
           labels: distBlocks.map(b => b.block),
           datasets: [
             {
+              label: 'Teacher Universe',
+              data: distBlocks.map(b => b.varg2Universe || 0),
+              backgroundColor: '#0284c7',
+              borderRadius: 4
+            },
+            {
               label: 'Teacher Participants',
               data: distBlocks.map(b => b.participants),
               backgroundColor: '#1d4ed8',
@@ -3746,17 +3754,20 @@
       // Render Block Detail Table
       if (blockTbody) {
         blockTbody.innerHTML = '';
-        let sumMon = 0, sumFac = 0, sumPart = 0, sumTot = 0;
+        let sumMon = 0, sumFac = 0, sumPart = 0, sumTot = 0, sumUniverse = 0;
 
         if (distBlocks.length === 0) {
-          blockTbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">No block-level data found for ${dname}.</td></tr>`;
+          blockTbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 24px;">No block-level data found for ${dname}.</td></tr>`;
         } else {
           distBlocks.forEach((b, idx) => {
             const bTot = b.total || (b.monitors + b.facilitators + b.participants);
+            const vargU = b.varg2Universe || 0;
+            const vargSat = b.varg2Saturation || (vargU > 0 ? ((b.participants / vargU) * 100).toFixed(1) : 0);
             sumMon += b.monitors;
             sumFac += b.facilitators;
             sumPart += b.participants;
             sumTot += bTot;
+            sumUniverse += vargU;
             const pct = ((bTot / distGrandTotal) * 100).toFixed(1);
             const isRowFocused = (focusedBlock !== 'ALL' && focusedBlock === b.block);
             const rowHighlight = isRowFocused ? 'background: rgba(0, 138, 171, 0.08); font-weight: 700;' : '';
@@ -3772,7 +3783,9 @@
               </td>
               <td class="font-mono">${b.monitors}</td>
               <td class="font-mono">${b.facilitators}</td>
+              <td class="font-mono" style="color: #0284c7; font-weight: 700;">${vargU.toLocaleString()}</td>
               <td class="font-mono" style="color: #1d4ed8; font-weight: 700;">${b.participants.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 700; color: ${vargSat >= 50 ? 'var(--accent-emerald)' : (vargSat < 40 ? 'var(--accent-rose)' : '#d97706')};">${vargU > 0 ? vargSat + '%' : '-'}</td>
               <td class="font-mono" style="font-weight: 700; color: var(--peepul-teal);">${bTot.toLocaleString()}</td>
               <td>
                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -3788,12 +3801,15 @@
         }
 
         if (blockTfoot) {
+          const overallSat = sumUniverse > 0 ? ((sumPart / sumUniverse) * 100).toFixed(1) : 0;
           blockTfoot.innerHTML = `
             <tr>
               <td colspan="2" style="text-align: right; font-weight: 800; color: var(--text-primary);">Total for ${dname} (${distBlocks.length} Blocks):</td>
               <td class="font-mono" style="font-weight: 800;">${sumMon.toLocaleString()}</td>
               <td class="font-mono" style="font-weight: 800;">${sumFac.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: #0284c7;">${sumUniverse.toLocaleString()}</td>
               <td class="font-mono" style="font-weight: 800; color: #1d4ed8;">${sumPart.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: ${overallSat >= 50 ? 'var(--accent-emerald)' : '#d97706'};">${sumUniverse > 0 ? overallSat + '%' : '-'}</td>
               <td class="font-mono" style="font-weight: 800; color: var(--peepul-teal);">${sumTot.toLocaleString()}</td>
               <td class="font-mono" style="font-weight: 800;">96.2%</td>
             </tr>
