@@ -2465,6 +2465,8 @@
         const govH = document.getElementById('govHeading');
         if (govH) govH.innerText = t.govHead;
 
+        if (typeof updateBriefingDrawerLanguage === 'function') updateBriefingDrawerLanguage(lang);
+
         // Active Tab First Update (Immediate 60fps)
         refreshDistrictDropdownsHindi();
         updateKPIs();

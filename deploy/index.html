@@ -1219,10 +1219,10 @@
             <span style="font-size: 22px;">⚡</span>
             <div>
               <div style="font-size: 14px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-                <span>Executive Strategic Briefing & State Directives</span>
-                <span class="pill-badge" style="background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); font-weight: 800; font-size: 10.5px;">August 2026 Cycle</span>
+                <span id="briefingTitleText">Executive Strategic Briefing & State Directives</span>
+                <span class="pill-badge" id="briefingCycleBadge" style="background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); font-weight: 800; font-size: 10.5px;">August 2026 Cycle</span>
               </div>
-              <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px;">
+              <div id="briefingSubtitleText" style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px;">
                 Priority Actionable Intelligence for Rajya Shiksha Kendra (RSK) & State Leadership
               </div>
             </div>
@@ -1235,30 +1235,30 @@
         <div id="briefingDrawerContent" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 10px;">
           <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px; border-top: 3px solid #0284c7;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 12px; font-weight: 700; color: #0284c7;">🧠 Pedagogical Focus (Q95)</span>
-              <span class="status-chip" style="font-size: 10px; background: rgba(2, 132, 199, 0.1); color: #0284c7;">52.1% Mastery</span>
+              <span id="briefingCard1Head" style="font-size: 12px; font-weight: 700; color: #0284c7;">🧠 Pedagogical Focus (Q95)</span>
+              <span class="status-chip" id="briefingCard1Badge" style="font-size: 10px; background: rgba(2, 132, 199, 0.1); color: #0284c7;">52.1% Mastery</span>
             </div>
-            <p style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            <p id="briefingCard1Body" style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
               <strong>Student Agency vs. Busywork:</strong> 47.9% of teachers require targeted reinforcement to distinguish authentic classroom agency from procedural activities. Recommend RSK pedagogical circular before next cycle.
             </p>
           </div>
 
           <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px; border-top: 3px solid #d97706;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 12px; font-weight: 700; color: #d97706;">👁️ Observer Presence (Q76)</span>
-              <span class="status-chip" style="font-size: 10px; background: rgba(245, 158, 11, 0.1); color: #d97706;">73.9% Monitored</span>
+              <span id="briefingCard2Head" style="font-size: 12px; font-weight: 700; color: #d97706;">👁️ Observer Presence (Q76)</span>
+              <span class="status-chip" id="briefingCard2Badge" style="font-size: 10px; background: rgba(245, 158, 11, 0.1); color: #d97706;">73.9% Monitored</span>
             </div>
-            <p style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            <p id="briefingCard2Body" style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
               <strong>Monitoring Blind Spot:</strong> 26.1% of cluster samwaad sessions operated without a dedicated observer present. Direct BRCs and BACs to mandate 100% monitor deployment across all clusters.
             </p>
           </div>
 
           <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px; border-top: 3px solid var(--accent-rose);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 12px; font-weight: 700; color: var(--accent-rose);">🚨 Field Data Stalls (4 Districts)</span>
-              <span class="status-chip" style="font-size: 10px; background: rgba(225, 29, 72, 0.1); color: var(--accent-rose);">Urgent Action</span>
+              <span id="briefingCard3Head" style="font-size: 12px; font-weight: 700; color: var(--accent-rose);">🚨 Field Data Stalls (4 Districts)</span>
+              <span class="status-chip" id="briefingCard3Badge" style="font-size: 10px; background: rgba(225, 29, 72, 0.1); color: var(--accent-rose);">Urgent Action</span>
             </div>
-            <p style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            <p id="briefingCard3Body" style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
               <strong>Administrative Escalation:</strong> <em>Dewas</em> (1) and <em>Sehore</em> (3) experienced CAC vacancy blackouts; <em>Anuppur</em> & <em>Khandwa</em> recorded 0 DO sync. Immediate officiating appointments required.
             </p>
           </div>
@@ -2617,6 +2617,8 @@
         const govH = document.getElementById('govHeading');
         if (govH) govH.innerText = t.govHead;
 
+        if (typeof updateBriefingDrawerLanguage === 'function') updateBriefingDrawerLanguage(lang);
+
         // Active Tab First Update (Immediate 60fps)
         refreshDistrictDropdownsHindi();
         updateKPIs();
@@ -3171,19 +3173,66 @@
       applySlicers();
     }
 
+    function updateBriefingDrawerLanguage(lang) {
+      const isHi = (lang === 'hi');
+      const bTitle = document.getElementById('briefingTitleText');
+      if (bTitle) bTitle.innerText = isHi ? 'कार्यकारी रणनीतिक सारांश एवं राज्य निर्देश' : 'Executive Strategic Briefing & State Directives';
+
+      const bCycle = document.getElementById('briefingCycleBadge');
+      if (bCycle) bCycle.innerText = isHi ? 'अगस्त 2026 चक्र' : 'August 2026 Cycle';
+
+      const bSub = document.getElementById('briefingSubtitleText');
+      if (bSub) bSub.innerText = isHi ? 'राज्य शिक्षा केंद्र (RSK) एवं राज्य नेतृत्व हेतु प्राथमिकता रणनीतिक निष्कर्ष' : 'Priority Actionable Intelligence for Rajya Shiksha Kendra (RSK) & State Leadership';
+
+      const bToggle = document.getElementById('briefingToggleText');
+      if (bToggle) {
+        const content = document.getElementById('briefingDrawerContent');
+        const isCollapsed = content && content.style.display === 'none';
+        bToggle.innerText = isHi ? (isCollapsed ? 'विस्तार करें' : 'संक्षिप्त करें') : (isCollapsed ? 'Expand' : 'Collapse');
+      }
+
+      const c1H = document.getElementById('briefingCard1Head');
+      if (c1H) c1H.innerText = isHi ? '🧠 शिक्षण गुणवत्ता एवं संप्रत्यय (Q95)' : '🧠 Pedagogical Focus (Q95)';
+      const c1Bdg = document.getElementById('briefingCard1Badge');
+      if (c1Bdg) c1Bdg.innerText = isHi ? '52.1% समझ' : '52.1% Mastery';
+      const c1B = document.getElementById('briefingCard1Body');
+      if (c1B) c1B.innerHTML = isHi ? 
+        '<strong>सक्रिय सहभागिता बनाम सामान्य गतिविधियां:</strong> 48% शिक्षकों को बच्चों को केवल गतिविधियों में व्यस्त रखने के बजाय कक्षा में सार्थक भूमिका देने के अंतर को स्पष्ट करने हेतु अतिरिक्त मार्गदर्शन की आवश्यकता है।' :
+        '<strong>Student Agency vs. Busywork:</strong> 47.9% of teachers require targeted reinforcement to distinguish authentic classroom agency from procedural activities. Recommend RSK pedagogical circular before next cycle.';
+
+      const c2H = document.getElementById('briefingCard2Head');
+      if (c2H) c2H.innerText = isHi ? '👁️ पर्यवेक्षक उपस्थिति (Q76)' : '👁️ Observer Presence (Q76)';
+      const c2Bdg = document.getElementById('briefingCard2Badge');
+      if (c2Bdg) c2Bdg.innerText = isHi ? '73.9% मॉनिटर' : '73.9% Monitored';
+      const c2B = document.getElementById('briefingCard2Body');
+      if (c2B) c2B.innerHTML = isHi ? 
+        '<strong>पर्यवेक्षण कवरेज:</strong> 26.1% संकुल बैठकों में कोई बाहरी पर्यवेक्षक उपस्थित नहीं था। बीआरसी एवं बीएसी को अग्रिम ड्यूटी रोस्टर जारी कर शत-प्रतिशत संकुल उपस्थिति सुनिश्चित करने के निर्देश दें।' :
+        '<strong>Monitoring Coverage:</strong> 26.1% of cluster meetings operated without a dedicated observer present. Direct BRCs and BACs to mandate 100% monitor deployment across all clusters.';
+
+      const c3H = document.getElementById('briefingCard3Head');
+      if (c3H) c3H.innerText = isHi ? '🚨 मैदानी डेटा रुकावट (4 जिले)' : '🚨 Field Data Stalls (4 Districts)';
+      const c3Bdg = document.getElementById('briefingCard3Badge');
+      if (c3Bdg) c3Bdg.innerText = isHi ? 'तत्काल कार्रवाई' : 'Urgent Action';
+      const c3B = document.getElementById('briefingCard3Body');
+      if (c3B) c3B.innerHTML = isHi ? 
+        '<strong>प्रशासनिक संज्ञान:</strong> देवास एवं सीहोर में सीएसी पद रिक्त होने से संवाद प्रभावित रहा; अनूपपुर व खंडवा में गूगल फॉर्म से डेटा लिया गया। पोर्टल पर तुरंत डेटा सिंक सुनिश्चित कराएं।' :
+        '<strong>Administrative Escalation:</strong> Dewas and Sehore experienced CAC vacancy blackouts; Anuppur & Khandwa recorded 0 DO sync. Immediate officiating appointments required.';
+    }
+
     function toggleBriefingDrawer() {
       const c = document.getElementById('briefingDrawerContent');
       const icon = document.getElementById('briefingToggleIcon');
       const text = document.getElementById('briefingToggleText');
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       if (!c) return;
       if (c.style.display === 'none') {
         c.style.display = 'grid';
         if (icon) icon.innerText = '🔼';
-        if (text) text.innerText = 'Collapse';
+        if (text) text.innerText = isHi ? 'संक्षिप्त करें' : 'Collapse';
       } else {
         c.style.display = 'none';
         if (icon) icon.innerText = '🔽';
-        if (text) text.innerText = 'Expand';
+        if (text) text.innerText = isHi ? 'विस्तार करें' : 'Expand';
       }
     }
 
