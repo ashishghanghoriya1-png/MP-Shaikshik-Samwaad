@@ -1778,7 +1778,7 @@
         </div>
 
         <div id="blockNotice" style="display:none; padding: 12px 16px; margin-bottom: 12px; background: rgba(0, 138, 171, 0.08); border-left: 4px solid var(--peepul-teal); border-radius: 6px; font-size: 12.5px; color: var(--text-primary);">
-          <strong>ℹ️ District Orientation (DO) Scope Note:</strong> District Orientation sessions are conducted centrally at the District DIET level across all 50 districts. The table below represents cluster-level teacher block mobilization.
+          <strong>ℹ️ District Orientation (DO) Scope Note:</strong> District Orientation sessions are conducted centrally at the District DIET level across 50 functional DIET districts (Sehore & Dewas vacant). The table below represents cluster-level teacher block mobilization.
         </div>
 
         <div class="table-viewport">
@@ -2580,9 +2580,9 @@
       if (kDistDesc) kDistDesc.innerText = t.kpiDistDesc;
 
       if (activeProgram === 'DO') {
-        if (kReachBadge) kReachBadge.innerText = '48 DIETs';
-        animateValue('kpiReach', 0, 48);
-        if (kReachDesc) kReachDesc.innerText = isHi ? 'जिला संसाधन केंद्र (48 डायट)' : 'District Resource Centers (48 DIETs)';
+        if (kReachBadge) kReachBadge.innerText = '50 DIETs';
+        animateValue('kpiReach', 0, 50);
+        if (kReachDesc) kReachDesc.innerText = isHi ? 'जिला संसाधन केंद्र (50 डायट स्थल • सीहोर एवं देवास रिक्त)' : 'District Resource Centers (50 DIET Venues • Sehore & Dewas Vacant)';
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 0);
@@ -2663,7 +2663,7 @@
         // Consolidated ('ALL') Program View
         if (kReachBadge) kReachBadge.innerText = isHi ? 'राज्य कुल' : 'State Total';
         animateValue('kpiReach', 0, 2851);
-        if (kReachDesc) kReachDesc.innerText = isHi ? 'संकुल केंद्र + 48 डायट स्थल' : 'Clusters + 48 DIET Venues';
+        if (kReachDesc) kReachDesc.innerText = isHi ? 'संकुल केंद्र + 50 डायट स्थल' : 'Clusters + 50 DIET Venues';
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
@@ -3155,9 +3155,14 @@
 
       // 1. Populate District Aggregate Sum Hero Stats
       if (activeProgram === 'DO') {
+        const isVacantDiet = (dname.toUpperCase() === 'SEHORE' || dname.toUpperCase() === 'DEWAS');
+        const dietBox = isVacantDiet
+          ? `<div class="d360-metric-box" style="border: 1px dashed var(--accent-rose); background: rgba(225, 29, 72, 0.05);"><div class="val" style="color: var(--accent-rose);">0 DIET</div><div class="lbl">DIET (Vacant)</div></div>`
+          : `<div class="d360-metric-box"><div class="val">1 DIET</div><div class="lbl">DIET Venue</div></div>`;
+
         document.getElementById('d360HeroStats').innerHTML = `
           <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">Total Blocks</div></div>
-          <div class="d360-metric-box"><div class="val">1 DIET</div><div class="lbl">DIET Venue</div></div>
+          ${dietBox}
           <div class="d360-metric-box"><div class="val">${dinfo.do_monitors}</div><div class="lbl">DO Observers</div></div>
           <div class="d360-metric-box"><div class="val">${dinfo.do_facilitators}</div><div class="lbl">DO Facilitators</div></div>
           <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">DO Participants</div></div>
