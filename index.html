@@ -1250,11 +1250,11 @@
 
         <!-- 2. Program Reach & Cluster Density -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span><span id="kpiReachLabel">TRAINING CENTERS / VENUES</span></span> <span id="kpiReachBadge" style="color: var(--accent-cyan); font-weight: 700;">92.0%</span></div>
-          <div class="kpi-huge-val font-mono" id="kpiReach">2,851</div>
-          <div class="kpi-sub-desc" id="kpiReachDesc">CRC Clusters in 312 Blocks (~8.3 Teachers / Cluster)</div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span><span id="kpiReachLabel">TRAINING CENTERS / VENUES</span></span> <span id="kpiReachBadge" style="color: var(--accent-cyan); font-weight: 700;">State Total</span></div>
+          <div class="kpi-huge-val font-mono" id="kpiReach">2,901</div>
+          <div class="kpi-sub-desc" id="kpiReachDesc">2,822 CRC Clusters + 50 DIET Venues (Sehore & Dewas Vacant)</div>
           <div id="kpiReachRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheet1]
+            [Ref: <em>Both Workbooks</em> (2,822 CRC Clusters + 50 DIET Venues = 2,872 Total Venues)]
           </div>
         </div>
 
@@ -2883,8 +2883,8 @@
         if (leagueHeading) leagueHeading.innerText = isHi ? '🗺️ राज्य प्रदर्शन तालिका (संकुल शैक्षिक संवाद - CLSS)' : '🗺️ State League Performance Matrix (Cluster Level - CLSS View)';
         if (leagueRef) leagueRef.innerHTML = '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheets: <strong>Participants, Facilitator, Monitor</strong>]';
 
-        const clssCov = ((totalClusters / 2851) * 100).toFixed(1) + '%';
-        if (kReachBadge) kReachBadge.innerText = clssCov;
+        if (kReachRef) kReachRef.innerHTML = '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> (2,822 Active Clusters with Teacher Turnout)]';
+        if (kReachBadge) kReachBadge.innerText = '2,822 ' + (isHi ? 'संकुल' : 'Clusters');
         animateValue('kpiReach', 0, totalClusters);
         if (kReachDesc) kReachDesc.innerText = isHi ? ('संकुल केंद्र (' + totalBlocks + ' ब्लॉक)') : ('CRC Clusters (' + totalBlocks + ' Blocks)');
 
@@ -2926,7 +2926,8 @@
       } else {
         // Consolidated ('ALL') Program View
         if (kDistRef) kDistRef.innerHTML = '[Ref: <em>Both Workbooks: SS_ResponseDetail_Cluster Level & District Level_Grades 6-8_August.xlsx</em>]';
-        if (kReachRef) kReachRef.innerHTML = '[Ref: <em>Both Workbooks</em> (2,822 CRC Clusters + 50 DIET Venues)]';
+        const totalVenues = totalClusters + operationalDistCount;
+        if (kReachRef) kReachRef.innerHTML = '[Ref: <em>Both Workbooks</em> (2,822 CRC Clusters + 50 DIET Venues = 2,872 Total Venues)]';
         if (kTeachRef) kTeachRef.innerHTML = '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em>]';
         if (kDoOffRef) kDoOffRef.innerHTML = '[Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx [Sheet: Participants]</em>]';
         if (kCadreRef) kCadreRef.innerHTML = '[Ref: <em>Both Workbooks</em> [Cluster & District Sheets: Facilitator & Monitor]]';
@@ -2936,8 +2937,8 @@
         if (leagueRef) leagueRef.innerHTML = '[Ref: <em>Both Workbooks: Cluster & District Level Workbooks</em> (All 52 Districts)]';
 
         if (kReachBadge) kReachBadge.innerText = isHi ? 'राज्य कुल' : 'State Total';
-        animateValue('kpiReach', 0, totalClusters);
-        if (kReachDesc) kReachDesc.innerText = isHi ? ('संकुल केंद्र (' + totalClusters.toLocaleString() + ') + 50 डायट स्थल (सीहोर एवं देवास रिक्त)') : ('Clusters (' + totalClusters.toLocaleString() + ') + 50 DIET Venues (Sehore & Dewas Vacant)');
+        animateValue('kpiReach', 0, totalVenues);
+        if (kReachDesc) kReachDesc.innerText = isHi ? ('2,822 संकुल केंद्र + 50 डायट स्थल (सीहोर एवं देवास रिक्त)') : ('2,822 CRC Clusters + 50 DIET Venues (Sehore & Dewas Vacant)');
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, clssTeachers);
