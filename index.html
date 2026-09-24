@@ -2043,7 +2043,7 @@
       <div class="bento-equal">
         <div class="panel-box">
           <div class="panel-head">
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="pedRadarHeadTitle">
               🧠 Teacher Pedagogy Competency Radar
             </div>
           </div>
@@ -2053,27 +2053,12 @@
         </div>
         <div class="panel-box">
           <div class="panel-head">
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="pedDiagHeading">
               💡 Statewide Pedagogical Diagnostics & Intervention Plan
             </div>
           </div>
-          <div style="font-size: 13px; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
-            <div style="background: rgba(16, 185, 129, 0.06); border-left: 4px solid var(--accent-emerald); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--accent-emerald);">Academic Topic Recall (Q84 / Q35): 93.8% (CLSS) vs 96.0% (DO)</strong><br>
-              Teachers showed strong recall of the monthly academic topics across all cluster and district sessions.
-            </div>
-            <div style="background: rgba(56, 189, 248, 0.06); border-left: 4px solid var(--accent-cyan); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--accent-cyan);">Supportive Questioning (Q96 / Q44): 68.7% (CLSS) vs 74.5% (DO)</strong><br>
-              Most teachers understand that giving gentle hints helps hesitant students learn without fear.
-            </div>
-            <div style="background: rgba(244, 63, 94, 0.06); border-left: 4px solid var(--accent-rose); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--accent-rose);">Classroom Belonging (Q97 / Q45): 38.2% (CLSS) vs 49.0% (DO)</strong><br>
-              Key Improvement Area: Teachers often rely only on praise rather than actively assigning classroom roles so every child feels included.
-            </div>
-            <div style="background: rgba(245, 158, 11, 0.06); border-left: 4px solid var(--accent-pbi-gold); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--peepul-teal);">Student Active Participation (Q95 / Q43): 41.5% (CLSS) vs 58.0% (DO)</strong><br>
-              Key Improvement Area: Teachers need practical demonstrations on how to get students talking and solving problems together in class.
-            </div>
+          <div id="pedDiagBoxContainer" style="font-size: 13px; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
+            <!-- Populated via initPedagogyRadar -->
           </div>
         </div>
       </div>
@@ -2082,81 +2067,17 @@
       <div class="panel-box" style="margin-top: 24px;">
         <div class="panel-head">
           <div>
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="pedMisconHeading">
               🔬 Classroom Teaching Insights (Deep-Dive on Questions Q95 & Q97)
             </div>
-            <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
+            <div id="pedMisconRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
               [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheets: <strong>Participants</strong> (23,785 responses)]
             </div>
           </div>
         </div>
 
-        <div class="bento-equal" style="margin-top: 14px;">
-          <!-- Q95 Active Engagement -->
-          <div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-left: 4px solid var(--peepul-teal); padding: 18px; border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="ind-code-badge" style="background: var(--peepul-teal); color: #fff;">Q95 INSIGHT</span>
-              <span style="font-size: 12px; font-family: var(--font-mono); font-weight: 700; color: var(--accent-rose);">Correct Response: 41.5%</span>
-            </div>
-            <div style="font-weight: 700; font-size: 14px; color: var(--text-primary); margin-bottom: 6px;">
-              Active Student Participation in Middle School (Q95)
-            </div>
-            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
-              <strong>Question Scenario:</strong> What is the most effective way to keep Grade 6–8 students actively engaged during class?
-            </div>
-            
-            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11.5px;">
-              <div style="background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.3); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>✅ <strong>Best Practice (Option A):</strong> Having students discuss in pairs, solve problems together, and explain their thinking.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-emerald);">41.5% (8,548)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 1 (Option B):</strong> Assuming students are learning just because they are quietly listening to the teacher.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">38.2% (9,086)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 2 (Option C):</strong> Assuming students are engaged just because they are copying notes from the board.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">20.3% (6,151)</span>
-              </div>
-            </div>
-
-            <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: 6px; padding: 10px; margin-top: 12px; font-size: 11.5px; color: var(--text-secondary);">
-              💡 <strong style="color: var(--peepul-teal);">Action for Facilitators:</strong> Demonstrate simple 5-minute pair discussions during cluster sessions to show how teachers can get students talking and thinking together.
-            </div>
-          </div>
-
-          <!-- Q97 Deep Belongingness -->
-          <div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-left: 4px solid var(--accent-indigo); padding: 18px; border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="ind-code-badge" style="background: var(--accent-indigo); color: #fff;">Q97 INSIGHT</span>
-              <span style="font-size: 12px; font-family: var(--font-mono); font-weight: 700; color: var(--accent-rose);">Correct Response: 38.2%</span>
-            </div>
-            <div style="font-weight: 700; font-size: 14px; color: var(--text-primary); margin-bottom: 6px;">
-              Helping Every Student Feel Included in Class (Q97)
-            </div>
-            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
-              <strong>Question Scenario:</strong> How can teachers ensure every student, especially hesitant learners, feels welcome and included in class?
-            </div>
-            
-            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11.5px;">
-              <div style="background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.3); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>✅ <strong>Best Practice (Option C):</strong> Treating mistakes as part of learning and giving every student an active classroom role.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-emerald);">38.2% (8,054)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 1 (Option A):</strong> Giving prizes or praise only to students who give correct answers.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">45.1% (10,727)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 2 (Option B):</strong> Separating struggling and advanced students into different seating rows.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">16.7% (5,004)</span>
-              </div>
-            </div>
-
-            <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: 6px; padding: 10px; margin-top: 12px; font-size: 11.5px; color: var(--text-secondary);">
-              💡 <strong style="color: var(--accent-indigo);">Action for Facilitators:</strong> Encourage teachers to value student effort and treat mistakes as learning opportunities, rather than only praising correct answers.
-            </div>
-          </div>
+        <div class="bento-equal" id="pedMisconContainer" style="margin-top: 14px;">
+          <!-- Populated via initPedagogyRadar -->
         </div>
       </div>
 
@@ -2606,7 +2527,7 @@
         if (qHeatH) qHeatH.innerText = t.qDistHeatmapHead;
 
         // 11. Tab 7: Pedagogy Radar & Misconception Engine
-        const pedRadH = document.getElementById('pedRadarHeading');
+        const pedRadH = document.getElementById('pedRadarHeading') || document.getElementById('pedRadarHeadTitle');
         if (pedRadH) pedRadH.innerText = t.pedRadarHead;
         const pedDiagH = document.getElementById('pedDiagHeading');
         if (pedDiagH) pedDiagH.innerText = t.pedDiagHead;
@@ -4643,6 +4564,226 @@
 
     // 6. Pedagogy Radar
     function initPedagogyRadar() {
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+
+      // Update Section Headings & References
+      const pedRadarHead = document.getElementById('pedRadarHeadTitle') || document.getElementById('pedRadarHeading');
+      if (pedRadarHead) pedRadarHead.innerText = isHi ? '🧠 शिक्षक शिक्षणशास्त्र क्षमता रडार (Pedagogy Radar)' : '🧠 Teacher Pedagogy Competency Radar';
+
+      const pedDiagHead = document.getElementById('pedDiagHeading');
+      if (pedDiagHead) pedDiagHead.innerText = isHi ? '💡 राज्यव्यापी शिक्षणशास्त्रीय निदान एवं हस्तक्षेप योजना' : '💡 Statewide Pedagogical Diagnostics & Intervention Plan';
+
+      const pedMisconHead = document.getElementById('pedMisconHeading');
+      if (pedMisconHead) pedMisconHead.innerText = isHi ? '🔬 कक्षा शिक्षण अंतर्दृष्टि (प्रश्न Q95 एवं Q97 का गहन विश्लेषण)' : '🔬 Classroom Teaching Insights (Deep-Dive on Questions Q95 & Q97)';
+
+      const pedMisconRef = document.getElementById('pedMisconRef');
+      if (pedMisconRef) {
+        pedMisconRef.innerHTML = isHi
+          ? '[संदर्भ: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | शीट्स: <strong>Participants</strong> (23,785 शिक्षक प्रतिक्रियाएं)]'
+          : '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheets: <strong>Participants</strong> (23,785 responses)]';
+      }
+
+      // 1. Render 4 Diagnostic Cards
+      const diagContainer = document.getElementById('pedDiagBoxContainer');
+      if (diagContainer) {
+        diagContainer.innerHTML = isHi ? `
+          <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #0284c7; font-size: 13.5px;">1. अवधारणा बोध बनाम अपनत्व का अंतर (Q86 बनाम Q97)</strong>
+              <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-size: 10px;">राज्य प्राथमिकता अंतर</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              सर्वेक्षण डेटा से स्पष्ट होता है: जहां <strong>84.6%</strong> शिक्षक सत्र के मुख्य विषयों को याद रखते हैं (Q86), वहीं केवल <strong>33.9%</strong> शिक्षक ही कक्षा में बच्चों में गहरे जुड़ाव/अपनत्व (Belongingness) का सही अर्थ समझ पाए हैं (Q97)। शिक्षक अक्सर केवल खेल या सामान्य प्रशंसा को अपनत्व समझ लेते हैं, जबकि इसके लिए बच्चों को कक्षा में वास्तविक जिम्मेदारियां और भूमिकाएं देना आवश्यक है।
+            </div>
+          </div>
+
+          <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #d97706; font-size: 13.5px;">2. मनोवैज्ञानिक सुरक्षा एवं भयमुक्त सहभागिता (Q96)</strong>
+              <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">मध्यम दक्षता</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              कक्षा में मनोवैज्ञानिक सुरक्षा की समझ <strong>62.1%</strong> है। यद्यपि अधिकांश शिक्षक मानते हैं कि बच्चों को बिना झिझक विचार साझा करने का अवसर मिलना चाहिए, फिर भी 37% से अधिक शिक्षक अनुशासन को केवल शांत बैठने और शिक्षक-केंद्रित अध्यापन से जोड़ते हैं। संकुल बैठकों में सुरक्षित संवाद की व्यावहारिक तकनीकों का अभ्यास कराना आवश्यक है।
+            </div>
+          </div>
+
+          <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #059669; font-size: 13.5px;">3. सक्रिय सहभागिता एवं उद्देश्यपूर्ण समूह कार्य (Q95)</strong>
+              <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">मुख्य शिक्षणशास्त्रीय आवश्यकता</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              केवल <strong>48.2%</strong> शिक्षक समूह कार्य (Group Work) के वास्तविक उद्देश्य को समझ सके। चिंताजनक रूप से <strong>51.8%</strong> शिक्षकों ने इसे केवल बैठक व्यवस्था या पाठ्यक्रम शीघ्र पूरा करने का साधन माना। संकुल समन्वयकों (CACs) को व्यावहारिक अभ्यासों के माध्यम से सिखाना होगा कि परस्पर निर्भर समूह कार्य कैसे संचालित किए जाएं।
+            </div>
+          </div>
+
+          <div style="background: rgba(99, 102, 241, 0.05); border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #4f46e5; font-size: 13.5px;">4. राज्य स्तरीय मुख्य हस्तक्षेप निर्देश</strong>
+              <span class="pill-badge" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border-color: rgba(99, 102, 241, 0.3); font-size: 10px;">कार्रवाई निर्देश</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              राज्य शिक्षा केंद्र (RSK) शिक्षण प्रकोष्ठ को प्रत्येक मासिक संकुल बैठक में 20 मिनट के सिमुलेशन एवं व्यावहारिक अभ्यासों को अनिवार्य करना चाहिए। DIET संकाय एवं BACs को संकुल बैठकों को व्याख्यान के स्थान पर सहपाठी-अवलोकन आधारित माइक्रो-टीचिंग और समूह कार्य संचालन पर केंद्रित करना चाहिए।
+            </div>
+          </div>
+        ` : `
+          <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #0284c7; font-size: 13.5px;">1. Concept Recall vs Belongingness Divergence (Q86 vs Q97)</strong>
+              <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-size: 10px;">State Priority Gap</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              Survey telemetry reveals a stark gap: while <strong>84.6%</strong> of teachers accurately recall core session concepts (Q86), only <strong>33.9%</strong> grasp what cultivates deep student belongingness (Q97). Teachers frequently mistake superficial activities (like games or routine praise) for authentic belonging, which requires assigning meaningful classroom roles and agency.
+            </div>
+          </div>
+
+          <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #d97706; font-size: 13.5px;">2. Psychological Safety & Fear-Free Participation (Q96)</strong>
+              <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">Moderate Mastery</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              Understanding of psychological safety stands at <strong>62.1%</strong>. While majority acknowledge that students should express ideas without fear of mistakes, over 37% still associate classroom discipline with silence and teacher-led transmission. Cluster sessions must demonstrate structured protocols for safe student dialogue.
+            </div>
+          </div>
+
+          <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #059669; font-size: 13.5px;">3. Active Engagement & Purposeful Group Work (Q95)</strong>
+              <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">Core Pedagogical Need</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              Only <strong>48.2%</strong> of teachers correctly identified the core purpose of collaborative group work. A concerning <strong>51.8%</strong> viewed group work merely as classroom seating arrangement or a tool for syllabus speed. CACs must provide hands-on role-play demonstrating how to structure interdependent group tasks.
+            </div>
+          </div>
+
+          <div style="background: rgba(99, 102, 241, 0.05); border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="color: #4f46e5; font-size: 13.5px;">4. Statewide Master Intervention Directives</strong>
+              <span class="pill-badge" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border-color: rgba(99, 102, 241, 0.3); font-size: 10px;">Action Directive</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 12.5px;">
+              State RSK pedagogy cells should mandate 20-minute simulation practicals in every monthly cluster meeting. DIET faculty and BACs must transition cluster agendas from passive lecture presentations to peer-observed micro-teaching on group work structuring and student belonging.
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. Render 2 Misconception Deep-Dive Cards (Q95 & Q97)
+      const misconContainer = document.getElementById('pedMisconContainer');
+      if (misconContainer) {
+        misconContainer.innerHTML = isHi ? `
+          <div class="panel-box" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <div>
+                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-weight: 700; margin-bottom: 6px; display: inline-block;">प्रश्न Q95 विश्लेषण</span>
+                <h4 style="margin: 0; font-size: 14.5px; color: var(--text-primary);">कक्षा में उद्देश्यपूर्ण समूह कार्य (Group Work)</h4>
+              </div>
+              <span class="pill-badge" style="background: rgba(245, 158, 11, 0.15); color: #d97706; font-weight: 700;">शुद्धता: 48.2%</span>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic;">
+              "प्रारंभिक कक्षाओं में संरचित समूह कार्य का प्राथमिक शिक्षणशास्त्रीय उद्देश्य क्या है?"
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+              <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #059669; font-weight: 700;">✅ सही उत्तर (48.2% | 11,464 शिक्षक):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">छात्रों की सक्रिय सहभागिता, सहपाठी संवाद एवं परस्पर समस्या समाधान को बढ़ावा देना।</div>
+              </div>
+              <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #e11d48; font-weight: 700;">⚠️ भ्रांति विश्लेषण (51.8% शिक्षक):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;"><strong>32.1% (7,635)</strong> ने इसे केवल बैठक व्यवस्था/कक्षा नियंत्रण माना; <strong>19.7% (4,686)</strong> ने इसे पाठ्यपुस्तक पाठ्यक्रम शीघ्र पूरा करने का साधन समझा।</div>
+              </div>
+              <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); padding: 8px 12px; border-radius: 6px; margin-top: 4px;">
+                <span style="color: #4f46e5; font-weight: 700;">🎯 सुधारात्मक निर्देश:</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">संकुल मेंटर्स शिक्षकों को प्रशिक्षित करें कि समूह कार्य केवल बच्चों को साथ बिठाना नहीं है, बल्कि प्रत्येक विद्यार्थी को स्पष्ट भूमिका एवं साझा लक्ष्य देना है।</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-box" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <div>
+                <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-weight: 700; margin-bottom: 6px; display: inline-block;">प्रश्न Q97 विश्लेषण</span>
+                <h4 style="margin: 0; font-size: 14.5px; color: var(--text-primary);">कक्षा में अपनेपन और जुड़ाव की भावना (Belongingness)</h4>
+              </div>
+              <span class="pill-badge" style="background: rgba(244, 63, 94, 0.15); color: #e11d48; font-weight: 700;">शुद्धता: 33.9%</span>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic;">
+              "एक शिक्षक कक्षा में प्रत्येक विद्यार्थी के लिए अपनेपन और समावेशिता की वास्तविक भावना कैसे विकसित कर सकता है?"
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+              <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #059669; font-weight: 700;">✅ सही उत्तर (33.9% | 8,054 शिक्षक):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">विद्यार्थियों को कक्षा में वास्तविक जिम्मेदारियां, नेतृत्व भूमिकाएं और सीखने में अभिव्यक्ति का अवसर देकर।</div>
+              </div>
+              <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #e11d48; font-weight: 700;">⚠️ भ्रांति विश्लेषण (66.1% शिक्षक):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;"><strong>28.5% (6,779)</strong> ने माना कि कभी-कभार खेल खिलाना पर्याप्त है; <strong>25.2% (5,994)</strong> केवल सामान्य मौखिक प्रशंसा पर निर्भर रहे; <strong>12.4% (2,958)</strong> ने इसे केवल नियमित उपस्थिति से जोड़ा।</div>
+              </div>
+              <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); padding: 8px 12px; border-radius: 6px; margin-top: 4px;">
+                <span style="color: #4f46e5; font-weight: 700;">🎯 सुधारात्मक निर्देश:</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">शिक्षक सभी विद्यार्थियों—विशेषकर संकोची एवं पिछड़े बच्चों को—दैनिक कक्षा संचालन, सहपाठी सहयोग और निर्णयों में सक्रिय भागीदारी सौंपें।</div>
+              </div>
+            </div>
+          </div>
+        ` : `
+          <div class="panel-box" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <div>
+                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-weight: 700; margin-bottom: 6px; display: inline-block;">Question Q95 Analysis</span>
+                <h4 style="margin: 0; font-size: 14.5px; color: var(--text-primary);">Purpose of Group Work in Classroom</h4>
+              </div>
+              <span class="pill-badge" style="background: rgba(245, 158, 11, 0.15); color: #d97706; font-weight: 700;">Accuracy: 48.2%</span>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic;">
+              "What is the primary pedagogical purpose of structured group work in elementary classrooms?"
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+              <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #059669; font-weight: 700;">✅ Correct Insight (48.2% | 11,464 teachers):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">Foster active student participation, peer dialogue, and collaborative problem-solving.</div>
+              </div>
+              <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #e11d48; font-weight: 700;">⚠️ Misconception Breakdown (51.8%):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;"><strong>32.1% (7,635)</strong> selected physical seating/classroom control; <strong>19.7% (4,686)</strong> selected faster completion of textbook syllabus.</div>
+              </div>
+              <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); padding: 8px 12px; border-radius: 6px; margin-top: 4px;">
+                <span style="color: #4f46e5; font-weight: 700;">🎯 Action Directive:</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">Cluster mentors must coach teachers that group work requires clear individual roles and collective goals, not just seating students together.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-box" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+              <div>
+                <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-weight: 700; margin-bottom: 6px; display: inline-block;">Question Q97 Analysis</span>
+                <h4 style="margin: 0; font-size: 14.5px; color: var(--text-primary);">Cultivating Authentic Belongingness</h4>
+              </div>
+              <span class="pill-badge" style="background: rgba(244, 63, 94, 0.15); color: #e11d48; font-weight: 700;">Accuracy: 33.9%</span>
+            </div>
+            <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px; font-style: italic;">
+              "How can a teacher best establish a genuine sense of belonging and inclusion for every student in the classroom?"
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+              <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #059669; font-weight: 700;">✅ Correct Insight (33.9% | 8,054 teachers):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">Giving students genuine classroom responsibilities, leadership roles, and a voice in learning activities.</div>
+              </div>
+              <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.3); padding: 8px 12px; border-radius: 6px;">
+                <span style="color: #e11d48; font-weight: 700;">⚠️ Misconception Breakdown (66.1%):</span>
+                <div style="color: var(--text-primary); margin-top: 2px;"><strong>28.5% (6,779)</strong> thought playing games occasionally was sufficient; <strong>25.2% (5,994)</strong> relied solely on generic verbal praise; <strong>12.4% (2,958)</strong> chose passive attendance tracking.</div>
+              </div>
+              <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); padding: 8px 12px; border-radius: 6px; margin-top: 4px;">
+                <span style="color: #4f46e5; font-weight: 700;">🎯 Action Directive:</span>
+                <div style="color: var(--text-primary); margin-top: 2px;">Teachers must proactively allocate classroom responsibilities, peer buddy roles, and decision-making turns to all learners, particularly underrepresented and shy students.</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 3. Render Radar Chart
       if (chartInstances.pedRadar) chartInstances.pedRadar.destroy();
       const ctx = document.getElementById('pedRadarChart')?.getContext('2d');
       if (!ctx) return;
@@ -4654,20 +4795,24 @@
       const clssRadar = [getSurveyQuestionScore(86), getSurveyQuestionScore(82), getSurveyQuestionScore(95), getSurveyQuestionScore(96), getSurveyQuestionScore(97)];
       const doRadar = [getSurveyQuestionScore(27), getSurveyQuestionScore(26), getSurveyQuestionScore(43), getSurveyQuestionScore(44), getSurveyQuestionScore(45)];
 
+      const radarLabels = isHi
+        ? ['विषय स्मरण (Recall)', 'उद्देश्य बोध (Understanding)', 'सक्रिय सहभागिता (Engagement)', 'मनोवैज्ञानिक सुरक्षा (Safety)', 'कक्षा में अपनापन (Belongingness)']
+        : ['Topic Recall', 'Objective Understanding', 'Active Engagement', 'Psychological Safety', 'Deep Belongingness'];
+
       chartInstances.pedRadar = new Chart(ctx, {
         type: 'radar',
         data: {
-          labels: ['Topic Recall', 'Objective Understanding', 'Active Engagement', 'Psychological Safety', 'Deep Belongingness'],
+          labels: radarLabels,
           datasets: [
             {
-              label: 'CLSS Teacher Accuracy %',
+              label: isHi ? 'CLSS शिक्षक शुद्धता %' : 'CLSS Teacher Accuracy %',
               data: clssRadar,
               borderColor: '#0284c7',
               backgroundColor: isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(2, 132, 199, 0.2)',
               borderWidth: 2
             },
             {
-              label: 'DO Facilitator Baseline %',
+              label: isHi ? 'DO फेसिलिटेटर बेसलाइन %' : 'DO Facilitator Baseline %',
               data: doRadar,
               borderColor: '#008aab',
               backgroundColor: isDark ? 'rgba(99, 208, 223, 0.25)' : 'rgba(0, 138, 171, 0.2)',

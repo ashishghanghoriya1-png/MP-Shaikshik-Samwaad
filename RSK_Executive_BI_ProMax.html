@@ -1901,7 +1901,7 @@
       <div class="bento-equal">
         <div class="panel-box">
           <div class="panel-head">
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="pedRadarHeadTitle">
               🧠 Teacher Pedagogy Competency Radar
             </div>
           </div>
@@ -1911,27 +1911,12 @@
         </div>
         <div class="panel-box">
           <div class="panel-head">
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="pedDiagHeading">
               💡 Statewide Pedagogical Diagnostics & Intervention Plan
             </div>
           </div>
-          <div style="font-size: 13px; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
-            <div style="background: rgba(16, 185, 129, 0.06); border-left: 4px solid var(--accent-emerald); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--accent-emerald);">Academic Topic Recall (Q84 / Q35): 93.8% (CLSS) vs 96.0% (DO)</strong><br>
-              Teachers showed strong recall of the monthly academic topics across all cluster and district sessions.
-            </div>
-            <div style="background: rgba(56, 189, 248, 0.06); border-left: 4px solid var(--accent-cyan); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--accent-cyan);">Supportive Questioning (Q96 / Q44): 68.7% (CLSS) vs 74.5% (DO)</strong><br>
-              Most teachers understand that giving gentle hints helps hesitant students learn without fear.
-            </div>
-            <div style="background: rgba(244, 63, 94, 0.06); border-left: 4px solid var(--accent-rose); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--accent-rose);">Classroom Belonging (Q97 / Q45): 38.2% (CLSS) vs 49.0% (DO)</strong><br>
-              Key Improvement Area: Teachers often rely only on praise rather than actively assigning classroom roles so every child feels included.
-            </div>
-            <div style="background: rgba(245, 158, 11, 0.06); border-left: 4px solid var(--accent-pbi-gold); padding: 12px 16px; border-radius: var(--radius-sm);">
-              <strong style="color: var(--peepul-teal);">Student Active Participation (Q95 / Q43): 41.5% (CLSS) vs 58.0% (DO)</strong><br>
-              Key Improvement Area: Teachers need practical demonstrations on how to get students talking and solving problems together in class.
-            </div>
+          <div id="pedDiagBoxContainer" style="font-size: 13px; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
+            <!-- Populated via initPedagogyRadar -->
           </div>
         </div>
       </div>
@@ -1940,81 +1925,17 @@
       <div class="panel-box" style="margin-top: 24px;">
         <div class="panel-head">
           <div>
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="pedMisconHeading">
               🔬 Classroom Teaching Insights (Deep-Dive on Questions Q95 & Q97)
             </div>
-            <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
+            <div id="pedMisconRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
               [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheets: <strong>Participants</strong> (23,785 responses)]
             </div>
           </div>
         </div>
 
-        <div class="bento-equal" style="margin-top: 14px;">
-          <!-- Q95 Active Engagement -->
-          <div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-left: 4px solid var(--peepul-teal); padding: 18px; border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="ind-code-badge" style="background: var(--peepul-teal); color: #fff;">Q95 INSIGHT</span>
-              <span style="font-size: 12px; font-family: var(--font-mono); font-weight: 700; color: var(--accent-rose);">Correct Response: 41.5%</span>
-            </div>
-            <div style="font-weight: 700; font-size: 14px; color: var(--text-primary); margin-bottom: 6px;">
-              Active Student Participation in Middle School (Q95)
-            </div>
-            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
-              <strong>Question Scenario:</strong> What is the most effective way to keep Grade 6–8 students actively engaged during class?
-            </div>
-            
-            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11.5px;">
-              <div style="background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.3); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>✅ <strong>Best Practice (Option A):</strong> Having students discuss in pairs, solve problems together, and explain their thinking.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-emerald);">41.5% (8,548)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 1 (Option B):</strong> Assuming students are learning just because they are quietly listening to the teacher.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">38.2% (9,086)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 2 (Option C):</strong> Assuming students are engaged just because they are copying notes from the board.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">20.3% (6,151)</span>
-              </div>
-            </div>
-
-            <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: 6px; padding: 10px; margin-top: 12px; font-size: 11.5px; color: var(--text-secondary);">
-              💡 <strong style="color: var(--peepul-teal);">Action for Facilitators:</strong> Demonstrate simple 5-minute pair discussions during cluster sessions to show how teachers can get students talking and thinking together.
-            </div>
-          </div>
-
-          <!-- Q97 Deep Belongingness -->
-          <div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-left: 4px solid var(--accent-indigo); padding: 18px; border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="ind-code-badge" style="background: var(--accent-indigo); color: #fff;">Q97 INSIGHT</span>
-              <span style="font-size: 12px; font-family: var(--font-mono); font-weight: 700; color: var(--accent-rose);">Correct Response: 38.2%</span>
-            </div>
-            <div style="font-weight: 700; font-size: 14px; color: var(--text-primary); margin-bottom: 6px;">
-              Helping Every Student Feel Included in Class (Q97)
-            </div>
-            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
-              <strong>Question Scenario:</strong> How can teachers ensure every student, especially hesitant learners, feels welcome and included in class?
-            </div>
-            
-            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11.5px;">
-              <div style="background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.3); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>✅ <strong>Best Practice (Option C):</strong> Treating mistakes as part of learning and giving every student an active classroom role.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-emerald);">38.2% (8,054)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 1 (Option A):</strong> Giving prizes or praise only to students who give correct answers.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">45.1% (10,727)</span>
-              </div>
-              <div style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.2); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between;">
-                <span>❌ <strong>Common Misunderstanding 2 (Option B):</strong> Separating struggling and advanced students into different seating rows.</span>
-                <span class="font-mono" style="font-weight: 700; color: var(--accent-rose);">16.7% (5,004)</span>
-              </div>
-            </div>
-
-            <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: 6px; padding: 10px; margin-top: 12px; font-size: 11.5px; color: var(--text-secondary);">
-              💡 <strong style="color: var(--accent-indigo);">Action for Facilitators:</strong> Encourage teachers to value student effort and treat mistakes as learning opportunities, rather than only praising correct answers.
-            </div>
-          </div>
+        <div class="bento-equal" id="pedMisconContainer" style="margin-top: 14px;">
+          <!-- Populated via initPedagogyRadar -->
         </div>
       </div>
 
@@ -2454,7 +2375,7 @@
         if (qHeatH) qHeatH.innerText = t.qDistHeatmapHead;
 
         // 11. Tab 7: Pedagogy Radar & Misconception Engine
-        const pedRadH = document.getElementById('pedRadarHeading');
+        const pedRadH = document.getElementById('pedRadarHeading') || document.getElementById('pedRadarHeadTitle');
         if (pedRadH) pedRadH.innerText = t.pedRadarHead;
         const pedDiagH = document.getElementById('pedDiagHeading');
         if (pedDiagH) pedDiagH.innerText = t.pedDiagHead;
