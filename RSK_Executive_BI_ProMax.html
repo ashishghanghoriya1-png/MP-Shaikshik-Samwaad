@@ -1994,12 +1994,12 @@
       <div class="panel-box">
         <div class="panel-head">
           <div>
-            <div class="panel-head-title" id="govHeading">⚠️ RSK Field Operations & Portal Governance Action Items (Sheet 2)</div>
-            <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-              [Ref: <em>CLSS - Cluster Level Summary.xlsx</em> | Sheet: <strong>Sheet2</strong>, Rows: <strong>1 through 10 (Operational Governance & Field Issues Log)</strong>]
+            <div class="panel-head-title" id="govHeading">⚠️ Key Actions & Directives for Field Operations</div>
+            <div id="govRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
+              [Ref: <em>Master Survey Telemetry</em> (23,785 Teacher Responses)]
             </div>
           </div>
-          <span class="pill-badge" style="background: rgba(29, 78, 216, 0.1); color: #2563eb; border-color: rgba(29, 78, 216, 0.3);">10 Recorded Field Items</span>
+          <span class="pill-badge" id="govHeaderBadge" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); border-color: rgba(0, 138, 171, 0.3);">9 Action Directives</span>
         </div>
         <div id="governanceList">
           <!-- Populated via JS -->
@@ -2462,6 +2462,8 @@
           renderQuestionBankActive();
         } else if (activeTabId === 'tab-pedagogy') {
           initPedagogyRadar();
+        } else if (activeTabId === 'tab-governance') {
+          initGovernance();
         }
 
         // Staggered background refresh for inactive tabs to eliminate frame drops
@@ -2472,6 +2474,7 @@
             initQuadrantTable();
           }
           if (activeTabId !== 'tab-league') initDistrictLeague();
+          if (activeTabId !== 'tab-governance') initGovernance();
         }, 60);
 
         setTimeout(() => {
