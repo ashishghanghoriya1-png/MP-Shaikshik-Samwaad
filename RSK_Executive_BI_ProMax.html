@@ -1137,14 +1137,14 @@
 
   <!-- Navigation Ribbon -->
   <nav class="studio-nav lang-fade-target">
-    <button class="nav-item active" onclick="activateTab('tab-overview', this)"><span class="nav-dot"></span> 📊 1. Executive BI</button>
-    <button class="nav-item" onclick="activateTab('tab-rf', this)"><span class="nav-dot"></span> 📋 2. Results Framework</button>
-    <button class="nav-item" onclick="activateTab('tab-d360', this)"><span class="nav-dot"></span> 🔍 3. District 360°</button>
-    <button class="nav-item" onclick="activateTab('tab-league', this)"><span class="nav-dot"></span> 🗺️ 4. 50-District League</button>
-    <button class="nav-item" onclick="activateTab('tab-blocks', this)"><span class="nav-dot"></span> 🏢 5. 312-Block Directory</button>
-    <button class="nav-item" onclick="activateTab('tab-questions', this)"><span class="nav-dot"></span> 📋 6. Question Bank</button>
-    <button class="nav-item" onclick="activateTab('tab-pedagogy', this)"><span class="nav-dot"></span> 🧠 7. Pedagogy Benchmark</button>
-    <button class="nav-item" onclick="activateTab('tab-governance', this)"><span class="nav-dot"></span> ⚠️ 8. Field Bottlenecks</button>
+    <button class="nav-item active" onclick="activateTab('tab-overview', this)"><span class="nav-dot"></span> 📊 1. Overview & Summary</button>
+    <button class="nav-item" onclick="activateTab('tab-rf', this)"><span class="nav-dot"></span> 📋 2. Key Goals & Indicators</button>
+    <button class="nav-item" onclick="activateTab('tab-d360', this)"><span class="nav-dot"></span> 🔍 3. District Profile</button>
+    <button class="nav-item" onclick="activateTab('tab-league', this)"><span class="nav-dot"></span> 🗺️ 4. District Rankings</button>
+    <button class="nav-item" onclick="activateTab('tab-blocks', this)"><span class="nav-dot"></span> 🏢 5. Block Directory</button>
+    <button class="nav-item" onclick="activateTab('tab-questions', this)"><span class="nav-dot"></span> 📋 6. Survey Questions & Data</button>
+    <button class="nav-item" onclick="activateTab('tab-pedagogy', this)"><span class="nav-dot"></span> 🧠 7. Teaching & Learning Quality</button>
+    <button class="nav-item" onclick="activateTab('tab-governance', this)"><span class="nav-dot"></span> ⚠️ 8. Key Actions & Directives</button>
   </nav>
 
   <main class="studio-canvas">
@@ -1167,7 +1167,7 @@
 
         <!-- 2. Program Reach & Cluster Density -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span><span id="kpiReachLabel">PROGRAM REACH</span></span> <span id="kpiReachBadge" style="color: var(--accent-cyan); font-weight: 700;">92.0%</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-cyan); box-shadow: 0 0 0 0 rgba(99, 208, 223, 0.7);"></span><span id="kpiReachLabel">TRAINING CENTERS / VENUES</span></span> <span id="kpiReachBadge" style="color: var(--accent-cyan); font-weight: 700;">92.0%</span></div>
           <div class="kpi-huge-val font-mono" id="kpiReach">2,851</div>
           <div class="kpi-sub-desc" id="kpiReachDesc">CRC Clusters in 312 Blocks (~8.3 Teachers / Cluster)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
@@ -1177,7 +1177,7 @@
 
         <!-- 3. Teacher Participation (Actual vs Expected) -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span><span id="kpiTeachersLabel">TEACHERS</span></span> <span id="kpiTeacherTurnoutBadge" style="color: var(--peepul-teal); font-weight: 700;">67.2%</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span><span id="kpiTeachersLabel">ATTENDING TEACHERS</span></span> <span id="kpiTeacherTurnoutBadge" style="color: var(--peepul-teal); font-weight: 700;">67.2%</span></div>
           <div class="kpi-huge-val font-mono" style="color: var(--accent-cyan); display: flex; align-items: baseline; gap: 4px;">
             <span id="kpiTeachers">23,785</span>
             <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;">/ 35,374</span>
@@ -1190,7 +1190,7 @@
 
         <!-- 4. District Participants (DO Cascade Source) -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT PARTICIPANTS</span></span> <span id="kpiDoBadge" style="color: var(--accent-indigo); font-weight: 700;">DO Cascade</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT ORIENTATION PARTICIPANTS</span></span> <span id="kpiDoBadge" style="color: var(--accent-indigo); font-weight: 700;">DO Cascade</span></div>
           <div class="kpi-huge-val font-mono" id="kpiDoOfficers" style="color: var(--accent-indigo);">4,454</div>
           <div class="kpi-sub-desc" id="kpiDoOfficersDesc">4,454 CACs & Lead Teachers → CLSS Facilitators</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
@@ -1200,7 +1200,7 @@
 
         <!-- 5. Leadership Cadre (Trainers & Monitors) -->
         <div class="bento-card">
-          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS & MONITORS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">1.7 Fac/Cluster</span></div>
+          <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS & OBSERVERS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">1.7 Fac/Cluster</span></div>
           <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,490</div>
           <div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 572 Monitors (5.5 Clusters/Mon)</div>
           <div style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
@@ -1345,10 +1345,10 @@
           </div>
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             <button class="slicer-btn active" id="btnQuadAll" onclick="filterQuadrant('ALL')">All 50 Districts</button>
-            <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 Q1: Champions (<span id="q1BtnCount">14</span>)</button>
-            <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ Q2: Scale, Pedagogy Gap (<span id="q2BtnCount">11</span>)</button>
-            <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">📈 Q3: Mobilization Need (<span id="q3BtnCount">12</span>)</button>
-            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">⚠️ Q4: Targeted Support Zone (<span id="q4BtnCount">13</span>)</button>
+            <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 High Attendance & Score (<span id="q1BtnCount">14</span>)</button>
+            <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ High Att., Needs Pedagogy (<span id="q2BtnCount">11</span>)</button>
+            <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">📈 High Score, Needs Att. (<span id="q3BtnCount">12</span>)</button>
+            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">🎯 Priority Support (<span id="q4BtnCount">13</span>)</button>
           </div>
         </div>
 
@@ -1356,37 +1356,37 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px;">
           <div id="cardQuad1" style="background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q1')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: BENCHMARK CHAMPIONS</div>
+              <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH ATTENDANCE & HIGH SCORE</div>
               <span class="pill-badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;" id="q1Badge">14 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Turnout (≥450) + High Pedagogy (≥56%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥350) + High Teaching Score (≥58%)</div>
             <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad2" style="background: rgba(0, 138, 171, 0.06); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q2')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: SCALE / PEDAGOGY GAP</div>
+              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: HIGH ATTENDANCE, NEEDS PEDAGOGY FOCUS</div>
               <span class="pill-badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;" id="q2Badge">11 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Turnout (≥450) + Pedagogy Gap (&lt;56%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥350) + Teaching Score Gap (&lt;58%)</div>
             <div id="q2Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad3" style="background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.25); border-left: 4px solid var(--accent-indigo); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q3')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">📈 Q3: MOBILIZATION NEED</div>
+              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">📈 Q3: HIGH SCORE, NEEDS ATTENDANCE BOOST</div>
               <span class="pill-badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;" id="q3Badge">12 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Pedagogy (≥56%) + Turnout &lt;450</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Teaching Score (≥58%) + Attendance &lt;350</div>
             <div id="q3Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad4" style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.25); border-left: 4px solid var(--accent-rose); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q4')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">🎯 Q4: TARGETED SUPPORT ZONE</div>
+              <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">🎯 Q4: PRIORITY SUPPORT NEEDED</div>
               <span class="pill-badge" style="background: rgba(29, 78, 216, 0.18); color: var(--accent-rose); font-weight: 700;" id="q4Badge">13 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Turnout &lt;450 + Pedagogy Gap (&lt;56%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance &lt;350 + Teaching Score Gap (&lt;58%)</div>
             <div id="q3Chips_replace" style="display:none"></div>
             <div id="q4Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
@@ -2067,39 +2067,38 @@
         cadreTeach: '👨‍🏫 Teachers',
         cadreFac: '🤝 Facilitators',
         cadreMon: '👁️ Monitors',
-        navOverview: '📊 1. Executive BI',
-        navRf: '📋 2. Results Framework',
-        navD360: '🔍 3. District 360°',
-        navLeague: '🗺️ 4. 50-District League',
-        navBlocks: '🏢 5. 312-Block Directory',
-        navQuestions: '📋 6. Question Bank',
-        navPedagogy: '🧠 7. Pedagogy Benchmark',
-        navGov: '⚠️ 8. Field Bottlenecks',
+        navOverview: '📊 1. Overview & Summary',
+        navRf: '📋 2. Key Goals & Indicators',
+        navD360: '🔍 3. District Profile',
+        navLeague: '🗺️ 4. District Rankings',
+        navBlocks: '🏢 5. Block Directory',
+        navQuestions: '📋 6. Survey Questions & Data',
+        navPedagogy: '🧠 7. Teaching & Learning Quality',
+        navGov: '⚠️ 8. Key Actions & Directives',
         
         // KPI Micro Labels & Descs
         kpiCoverageLbl: 'COVERAGE RATE',
         kpiDistDesc: 'Active Reporting Districts',
-        kpiReachLbl: 'PROGRAM REACH',
-        kpiReachDesc: 'CRC Clusters (312 Blocks)',
-        kpiTeachLbl: 'TEACHERS',
+        kpiReachLbl: 'TRAINING CENTERS / VENUES',
+        kpiReachDesc: 'CRC Clusters & DIET Venues',
+        kpiTeachLbl: 'ATTENDING TEACHERS',
         kpiTeachDesc: '23,785 Actual / 35,374 Expected Teachers',
-        kpiDoLbl: 'DISTRICT PARTICIPANTS',
+        kpiDoLbl: 'DISTRICT ORIENTATION PARTICIPANTS',
         kpiDoDesc: 'District Participants (CACs / Teachers oriented to facilitate CLSS)',
-        kpiCadreLbl: 'TRAINERS & MONITORS',
-        kpiCadreLbl: 'TRAINERS & MONITORS',
+        kpiCadreLbl: 'TRAINERS & OBSERVERS',
         kpiCadreDesc: '4,918 Fac. + 572 Monitors',
         kpiTotLbl: 'STATE MOBILIZATION',
         kpiTotDesc: '23,785 Teachers + 4,454 DO + 5,490 Cadre',
 
         // Overview Panel Titles
-        ovTopTitleCLSS: '🏆 Top Districts by Teacher Turnout (CLSS)',
+        ovTopTitleCLSS: '🏆 Top Districts by Teacher Attendance (CLSS)',
         ovTopTitleDO: '🏆 District Orientation Participation Matrix',
-        ovTopTitleALL: '🏆 Top Districts by Total Mobilization (CLSS + DO)',
-        ovCadreBreakdownTitle: '👥 Stakeholder Cadre Breakdown',
-        ovPedagogyBenchmarkTitle: '🎯 Pedagogy Benchmark',
+        ovTopTitleALL: '🏆 Top Districts by Total Attendance (CLSS + DO)',
+        ovCadreBreakdownTitle: '👥 Attendance Breakdown by Role',
+        ovPedagogyBenchmarkTitle: '🎯 Teaching Quality Benchmark',
         ovTrustIndexTitle: '✨ Teacher Trust Index',
         ovTrustBadge: '🛡️ Net Trust Score (NTS): +93.8%',
-        ovQuadrantMatrixTitle: '🎯 Statewide 4-Quadrant District Priority Matrix (Turnout vs. Pedagogy Accuracy)',
+        ovQuadrantMatrixTitle: '🎯 Statewide District Performance Groups (Attendance vs. Teaching Score)',
 
         btnScopeAll: 'All 50 Districts',
         btnScopeTop15: 'Top 15',
@@ -2109,38 +2108,38 @@
 
         // Quadrant Buttons & Badges
         btnQuadAll: 'All 50 Districts',
-        btnQuad1: '🏆 Q1: Champions',
-        btnQuad2: '⚡ Q2: Scale, Pedagogy Gap',
-        btnQuad3: '📈 Q3: Mobilization Need',
-        btnQuad4: '⚠️ Q4: Targeted Support Zone',
+        btnQuad1: '🏆 High Attendance & High Score',
+        btnQuad2: '⚡ High Attendance, Needs Pedagogy Focus',
+        btnQuad3: '📈 High Score, Needs Attendance Boost',
+        btnQuad4: '🎯 Priority Support Needed',
         quadSearchPl: '🔍 Search district in matrix...',
 
         // Results Framework
-        rfScorecardHeading: 'Program Results Framework (RF) Indicator Scorecard',
-        rfScorecardSub: 'Click on any indicator below (7 through 18) to inspect its full diagnostic breakdown, data provenance, and district distribution.',
-        rfDetailChartTitle: 'Sub-Indicator Performance Breakdown',
-        rfSubMetricsHeading: 'Sub-Indicators & Data Source Verification',
-        rfMatrixHeading: '🗺️ Statewide 50-District Results Framework Matrix',
+        rfScorecardHeading: 'Program Key Indicators (RF) Scorecard',
+        rfScorecardSub: 'Click on any indicator below (7 through 18) to inspect its detailed breakdown, data source, and district performance.',
+        rfDetailChartTitle: 'Indicator Performance Breakdown',
+        rfSubMetricsHeading: 'Indicator Summary & Data Source Verification',
+        rfMatrixHeading: '🗺️ Statewide 50-District Indicator Matrix',
         rfMatrixSearchPl: 'Search district...',
 
         // District 360
-        d360Title: 'District 360° Comprehensive Profile & Block Bifurcation',
-        d360Sub: 'Inspect aggregate district totals or toggle block-wise bifurcation to view individual block telemetry.',
+        d360Title: 'District Profile & Block-by-Block Breakdown',
+        d360Sub: 'View overall district totals or select a block to inspect block-level attendance and metrics.',
         d360LblDist: 'SELECT DISTRICT:',
         d360LblMode: 'VIEW MODE:',
-        d360BtnSum: '📊 District Sum',
-        d360BtnBif: '🔀 Block Bifurcation',
+        d360BtnSum: '📊 District Overview',
+        d360BtnBif: '🔀 Block Breakdown',
         d360LblBlock: 'BLOCK FOCUS:',
-        d360BlockChartHead: '📊 Block-Level Cadre Comparison Chart',
-        d360TableHead: '🏢 Block-Level Cadre Roster & Contribution Table',
-        d360PedHead: '📊 District Pedagogy Assessment Scores',
+        d360BlockChartHead: '📊 Block Attendance & Teacher Count Chart',
+        d360TableHead: '🏢 Block Attendance Summary Table',
+        d360PedHead: '📊 District Teaching & Pedagogy Scores',
         d360GenderHead: '🚻 Attendance Gender Split (Female vs Male)',
-        d360CompHead: '⚖️ Side-by-Side District Comparator (Benchmark Any 2 Districts)',
+        d360CompHead: '⚖️ Compare Any 2 Districts',
         d360CompDistA: 'SELECT DISTRICT A:',
         d360CompDistB: 'SELECT DISTRICT B:',
 
         // League & Blocks
-        leagueHead: '🗺️ State League Performance Matrix',
+        leagueHead: '🗺️ District Rankings & Performance Matrix',
         leagueSearchPl: '🔍 Search district...',
         blockDirHead: '🏢 Madhya Pradesh Block Directory (312 Blocks)',
         blockFilterDist: 'Filter District:',
@@ -2149,14 +2148,14 @@
         exportBtn: 'Export CSV',
 
         // Questions, Pedagogy, Governance
-        qBankHead: '📋 Universal Survey & Question Explorer (All 52 Sheets)',
+        qBankHead: '📋 Survey Questions & Response Explorer (All 74 Questions)',
         qRespDistHead: 'Statewide Response Distribution',
-        qMetaHead: 'Option Metadata & Categories',
-        qDistHeatmapHead: 'District-by-District Distribution Heatmap',
-        pedRadarHead: '🧠 Teacher Pedagogy Competency Radar',
-        pedDiagHead: '💡 Statewide Pedagogical Diagnostics & Intervention Plan',
-        pedMisconHead: '🔬 Priority Pedagogical Misconception Engine (Deep-Dive on Q95 & Q97 Gaps)',
-        govHead: '⚠️ RSK Field Operations & Portal Governance Action Items (Sheet 2)'
+        qMetaHead: 'Option Details & Categories',
+        qDistHeatmapHead: 'District-by-District Response Heatmap',
+        pedRadarHead: '🧠 Teaching Quality & Pedagogy Competencies',
+        pedDiagHead: '💡 Statewide Teaching Quality Diagnostics & Action Plan',
+        pedMisconHead: '🔬 Classroom Understanding Analysis (Questions Q95 & Q97)',
+        govHead: '⚠️ Key Actions & Directives for Field Operations'
       },
       hi: {
         title: 'राज्य शिक्षा केंद्र मध्य प्रदेश — <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">शैक्षिक संवाद</span> एवं डीओ कार्यकारी डैशबोर्ड',
@@ -2170,39 +2169,38 @@
         cadreTeach: '👨‍🏫 शिक्षक',
         cadreFac: '🤝 फैसिलिटेटर (प्रशिक्षक)',
         cadreMon: '👁️ मॉनिटर (पर्यवेक्षक)',
-        navOverview: '📊 1. कार्यकारी सूचना',
-        navRf: '📋 2. परिणाम ढांचा',
-        navD360: '🔍 3. जिला 360°',
-        navLeague: '🗺️ 4. 50-जिला लीग',
-        navBlocks: '🏢 5. 312-ब्लॉक डायरेक्टरी',
-        navQuestions: '📋 6. प्रश्न बैंक',
-        navPedagogy: '🧠 7. शिक्षाशास्त्र बेंचमार्क',
-        navGov: '⚠️ 8. मैदानी चुनौतियाँ',
+        navOverview: '📊 1. मुख्य सारांश एवं अवलोकन',
+        navRf: '📋 2. मुख्य लक्ष्य एवं संकेतक',
+        navD360: '🔍 3. जिला प्रोफाइल एवं विवरण',
+        navLeague: '🗺️ 4. जिला रैंकिंग एवं प्रदर्शन',
+        navBlocks: '🏢 5. ब्लॉक डायरेक्टरी',
+        navQuestions: '📋 6. सर्वेक्षण प्रश्न एवं डेटा',
+        navPedagogy: '🧠 7. शिक्षण गुणवत्ता एवं मूल्यांकन',
+        navGov: '⚠️ 8. मुख्य निष्कर्ष एवं निर्देश',
 
         // KPI Micro Labels & Descs
         kpiCoverageLbl: 'कवरेज दर',
         kpiDistDesc: 'सक्रिय रिपोर्टिंग जिले',
-        kpiReachLbl: 'कार्यक्रम पहुंच',
-        kpiReachDesc: 'संकुल केंद्र (312 ब्लॉक)',
-        kpiTeachLbl: 'सहभागी शिक्षक',
+        kpiReachLbl: 'प्रशिक्षण केंद्र',
+        kpiReachDesc: 'संकुल केंद्र एवं डायट स्थल',
+        kpiTeachLbl: 'उपस्थित शिक्षक',
         kpiTeachDesc: '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक',
-        kpiDoLbl: 'जिला प्रतिभागी',
+        kpiDoLbl: 'जिला उन्मुखीकरण प्रतिभागी',
         kpiDoDesc: 'जिला प्रतिभागी (सीएसी/शिक्षक — शैक्षिक संवाद फैसिलिटेटर)',
-        kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
-        kpiCadreLbl: 'प्रशिक्षक एवं मेंटर',
+        kpiCadreLbl: 'प्रशिक्षक एवं पर्यवेक्षक',
         kpiCadreDesc: '4,918 फैसिलिटेटर + 572 मॉनिटर',
         kpiTotLbl: 'कुल राज्य सहभागिता',
         kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,490 कैडर',
 
         // Overview Panel Titles
-        ovTopTitleCLSS: '🏆 शिक्षक सहभागिता अनुसार शीर्ष जिले (शैक्षिक संवाद)',
-        ovTopTitleDO: '🏆 जिला अभिमुखीकरण (DO) सहभागिता मैट्रिक्स',
-        ovTopTitleALL: '🏆 कुल सहभागिता अनुसार शीर्ष जिले (शैक्षिक संवाद + DO)',
-        ovCadreBreakdownTitle: '👥 हितधारक संवर्ग विभाजन (Cadre Breakdown)',
-        ovPedagogyBenchmarkTitle: '🎯 शिक्षाशास्त्र बेंचमार्क',
+        ovTopTitleCLSS: '🏆 शिक्षक उपस्थिति अनुसार शीर्ष जिले (शैक्षिक संवाद)',
+        ovTopTitleDO: '🏆 जिला अभिमुखीकरण (DO) उपस्थिति मैट्रिक्स',
+        ovTopTitleALL: '🏆 कुल उपस्थिति अनुसार शीर्ष जिले (शैक्षिक संवाद + DO)',
+        ovCadreBreakdownTitle: '👥 भूमिका अनुसार उपस्थिति विभाजन',
+        ovPedagogyBenchmarkTitle: '🎯 शिक्षण गुणवत्ता बेंचमार्क',
         ovTrustIndexTitle: '✨ शिक्षक विश्वास सूचकांक',
         ovTrustBadge: '🛡️ शुद्ध विश्वास स्कोर (NTS): +93.8%',
-        ovQuadrantMatrixTitle: '🎯 राज्य स्तरीय 4-चतुर्भुज जिला प्राथमिकता मैट्रिक्स (सहभागिता बनाम शिक्षाशास्त्र शुद्धता)',
+        ovQuadrantMatrixTitle: '🎯 जिला प्रदर्शन वर्गीकरण (उपस्थिति बनाम शिक्षण गुणवत्ता)',
 
         btnScopeAll: 'सभी 50 जिले',
         btnScopeTop15: 'शीर्ष 15',
@@ -2212,38 +2210,38 @@
 
         // Quadrant Buttons & Badges
         btnQuadAll: 'सभी 50 जिले',
-        btnQuad1: '🏆 Q1: मानक चैंपियंस',
-        btnQuad2: '⚡ Q2: उच्च प्रसार, पेडागोजी अंतर',
-        btnQuad3: '📈 Q3: सहभागिता वृद्धि आवश्यकता',
-        btnQuad4: '⚠️ Q4: लक्षित संबलन क्षेत्र',
+        btnQuad1: '🏆 उच्च उपस्थिति एवं उच्च प्राप्तांक',
+        btnQuad2: '⚡ उच्च उपस्थिति, शिक्षण सुधार की आवश्यकता',
+        btnQuad3: '📈 उच्च प्राप्तांक, उपस्थिति वृद्धि की आवश्यकता',
+        btnQuad4: '🎯 प्राथमिकता संबलन क्षेत्र',
         quadSearchPl: '🔍 मैट्रिक्स में जिला खोजें...',
 
         // Results Framework
-        rfScorecardHeading: 'कार्यक्रम परिणाम ढांचा (Results Framework) स्कोरकार्ड',
-        rfScorecardSub: 'विस्तृत नैदानिक विवरण, डेटा स्रोत एवं जिलावार स्थिति देखने हेतु नीचे किसी भी संकेतक (7 से 18) पर क्लिक करें।',
+        rfScorecardHeading: 'कार्यक्रम मुख्य संकेतक (RF) स्कोरकार्ड',
+        rfScorecardSub: 'विस्तृत विवरण, डेटा स्रोत एवं जिलावार स्थिति देखने हेतु नीचे किसी भी संकेतक (7 से 18) पर क्लिक करें।',
         rfDetailChartTitle: 'उप-संकेतक प्रदर्शन विश्लेषण',
         rfSubMetricsHeading: 'उप-संकेतक एवं डेटा स्रोत सत्यापन तालिका',
-        rfMatrixHeading: '🗺️ राज्य स्तरीय 50-जिला परिणाम ढांचा मैट्रिक्स',
+        rfMatrixHeading: '🗺️ राज्य स्तरीय 50-जिला परिणाम मैट्रिक्स',
         rfMatrixSearchPl: 'जिला खोजें...',
 
         // District 360
-        d360Title: 'जिला 360° व्यापक प्रोफाइल एवं ब्लॉक-वार विभाजन',
-        d360Sub: 'जिले के कुल आंकड़े देखें अथवा ब्लॉक-वार विभाजन टॉगल कर प्रत्येक ब्लॉक का विवरण देखें।',
+        d360Title: 'जिला प्रोफाइल एवं ब्लॉक-वार विवरण',
+        d360Sub: 'जिले के कुल आंकड़े देखें अथवा ब्लॉक-वार विवरण टॉगल कर प्रत्येक ब्लॉक का विवरण देखें।',
         d360LblDist: 'जिला चुनें:',
         d360LblMode: 'दृश्य मोड:',
         d360BtnSum: '📊 जिला कुल सारांश',
-        d360BtnBif: '🔀 ब्लॉक विभाजन',
+        d360BtnBif: '🔀 ब्लॉक विवरण',
         d360LblBlock: 'ब्लॉक फोकस:',
-        d360BlockChartHead: '📊 ब्लॉक-स्तरीय संवर्ग तुलना चार्ट',
-        d360TableHead: '🏢 ब्लॉक-स्तरीय संवर्ग रोस्टर एवं योगदान तालिका',
-        d360PedHead: '📊 जिला शिक्षाशास्त्र मूल्यांकन प्राप्तांक',
+        d360BlockChartHead: '📊 ब्लॉक-वार उपस्थिति तुलना चार्ट',
+        d360TableHead: '🏢 ब्लॉक-वार उपस्थिति तालिका',
+        d360PedHead: '📊 जिला शिक्षण गुणवत्ता मूल्यांकन प्राप्तांक',
         d360GenderHead: '🚻 उपस्थिति लिंग विभाजन (महिला बनाम पुरुष)',
-        d360CompHead: '⚖️ जिला तुलना स्टूडियो (किन्हीं भी 2 जिलों की तुलना करें)',
+        d360CompHead: '⚖️ दो जिलों की तुलना करें',
         d360CompDistA: 'जिला A चुनें:',
         d360CompDistB: 'जिला B चुनें:',
 
         // League & Blocks
-        leagueHead: '🗺️ राज्य स्तरीय लीग प्रदर्शन मैट्रिक्स',
+        leagueHead: '🗺️ राज्य स्तरीय जिला रैंकिंग एवं प्रदर्शन मैट्रिक्स',
         leagueSearchPl: '🔍 जिला खोजें...',
         blockDirHead: '🏢 मध्य प्रदेश ब्लॉक डायरेक्टरी (312 ब्लॉक)',
         blockFilterDist: 'जिला फिल्टर:',
@@ -2252,12 +2250,12 @@
         exportBtn: 'सीएसवी डाउनलोड करें',
 
         // Questions, Pedagogy, Governance
-        qBankHead: '📋 सार्वभौमिक सर्वेक्षण एवं प्रश्न बैंक एक्सप्लोरर (सभी 52 शीट्स)',
+        qBankHead: '📋 सर्वेक्षण प्रश्न एवं उत्तर (सभी 74 प्रश्न)',
         qRespDistHead: 'राज्य स्तरीय प्रतिक्रिया वितरण',
-        qMetaHead: 'विकल्प मेटाडेटा एवं श्रेणियां',
+        qMetaHead: 'विकल्प विवरण एवं श्रेणियां',
         qDistHeatmapHead: 'जिलावार प्रतिक्रिया वितरण हीटमैप',
-        pedRadarHead: '🧠 शिक्षक शिक्षाशास्त्र दक्षता रडार',
-        pedDiagHead: '💡 राज्य स्तरीय शैक्षणिक निदान एवं हस्तक्षेप योजना',
+        pedRadarHead: '🧠 शिक्षण गुणवत्ता एवं मूल्यांकन रडार',
+        pedDiagHead: '💡 राज्य स्तरीय शिक्षण गुणवत्ता एवं कार्य योजना',
         pedMisconHead: '🔬 प्राथमिकता शैक्षणिक भ्रांति विश्लेषण इंजन (Q95 एवं Q97 गैप्स)',
         govHead: '⚠️ रणनीतिक मैदानी चुनौतियाँ एवं प्रशासनिक मुद्दे (शीट 2)'
       }
