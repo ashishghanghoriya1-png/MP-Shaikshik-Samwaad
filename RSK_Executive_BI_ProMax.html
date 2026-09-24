@@ -2623,9 +2623,9 @@
         const topTitle = document.getElementById('overviewTopChartTitle');
         if (topTitle) topTitle.innerText = t.ovTopTitleDO;
       } else if (activeProgram === 'CLSS') {
-        if (kReachBadge) kReachBadge.innerText = '92.0%';
-        animateValue('kpiReach', 0, 2851);
-        if (kReachDesc) kReachDesc.innerText = isHi ? 'संकुल केंद्र (312 ब्लॉक)' : 'CRC Clusters (312 Blocks)';
+        if (kReachBadge) kReachBadge.innerText = '2,822 ' + (isHi ? 'संकुल' : 'Clusters');
+        animateValue('kpiReach', 0, 2822);
+        if (kReachDesc) kReachDesc.innerText = isHi ? '2,822 संकुल केंद्र (314 ब्लॉक)' : '2,822 CRC Clusters (314 Blocks)';
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
@@ -2665,8 +2665,8 @@
       } else {
         // Consolidated ('ALL') Program View
         if (kReachBadge) kReachBadge.innerText = isHi ? 'राज्य कुल' : 'State Total';
-        animateValue('kpiReach', 0, 2851);
-        if (kReachDesc) kReachDesc.innerText = isHi ? 'संकुल केंद्र + 50 डायट स्थल' : 'Clusters + 50 DIET Venues';
+        animateValue('kpiReach', 0, 2872);
+        if (kReachDesc) kReachDesc.innerText = isHi ? '2,822 संकुल केंद्र + 50 डायट स्थल' : '2,822 CRC Clusters + 50 DIET Venues';
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
@@ -5358,7 +5358,7 @@
         category: "POLICY",
         priority: "POLICY",
         owner: "State Leadership",
-        desc: "Shaikshik Samwaad achieved 96.2% district footprint (50 districts), 98% block footprint (312 blocks), and 92% cluster footprint (2,851 clusters).",
+        desc: "Shaikshik Samwaad achieved 96.2% district footprint (50 districts), 98% block footprint (314 blocks), and 2,822 active reporting clusters + 50 DIET venues (2,872 total venues).",
         action: "Target 100% cluster activation (3,099 clusters) in September cycle."
       },
       {
