@@ -3221,31 +3221,33 @@
       const theme = getChartTheme();
       if (chartInstances.d360BlockComp) chartInstances.d360BlockComp.destroy();
       const ctxBlock = document.getElementById('d360BlockCompChart').getContext('2d');
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+
       chartInstances.d360BlockComp = new Chart(ctxBlock, {
         type: 'bar',
         data: {
           labels: distBlocks.map(b => b.block),
           datasets: [
             {
-              label: 'Teacher Universe',
+              label: isHi ? 'शिक्षक यूनिवर्स' : 'Teacher Universe',
               data: distBlocks.map(b => b.varg2Universe || 0),
               backgroundColor: '#0284c7',
               borderRadius: 4
             },
             {
-              label: 'Teacher Participants',
+              label: isHi ? 'उपस्थित शिक्षक' : 'Teacher Participants',
               data: distBlocks.map(b => b.participants),
               backgroundColor: '#1d4ed8',
               borderRadius: 4
             },
             {
-              label: 'Facilitators',
+              label: isHi ? 'फैसिलिटेटर' : 'Facilitators',
               data: distBlocks.map(b => b.facilitators),
               backgroundColor: '#7c3aed',
               borderRadius: 4
             },
             {
-              label: 'Monitors',
+              label: isHi ? 'पर्यवेक्षक / मॉनिटर' : 'Monitors',
               data: distBlocks.map(b => b.monitors),
               backgroundColor: '#008aab',
               borderRadius: 4
@@ -3255,17 +3257,112 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: {
+            padding: {
+              top: 30,
+              bottom: 8
+            }
+          },
           plugins: {
             legend: {
               position: 'top',
-              labels: { color: theme.textColor, font: { family: theme.fontMono, size: 11 } }
+              labels: { color: theme.textColor, font: { family: theme.fontMono, size: 11, weight: 600 } }
+            },
+            tooltip: {
+              callbacks: {
+                afterBody(context) {
+                  const bIdx = context[0].dataIndex;
+                  const b = distBlocks[bIdx];
+                  if (!b) return [];
+                  const u = b.varg2Universe || 0;
+                  const p = b.participants || 0;
+                  const gap = u - p;
+                  const sat = u > 0 ? ((p / u) * 100).toFixed(1) : '0.0';
+                  return isHi ? [
+                    '',
+                    '─────────────────────────────',
+                    `🎯 शिक्षक यूनिवर्स: ${u.toLocaleString()}`,
+                    `👥 उपस्थित शिक्षक: ${p.toLocaleString()}`,
+                    `⚠️ पहुंच अंतर (Gap): ${gap > 0 ? '-' + gap.toLocaleString() : '0'} शिक्षक`,
+                    `📊 यूनिवर्स संतृप्ति: ${sat}%`,
+                    '─────────────────────────────'
+                  ] : [
+                    '',
+                    '─────────────────────────────',
+                    `🎯 Teacher Universe:   ${u.toLocaleString()}`,
+                    `👥 Attending Teachers:  ${p.toLocaleString()}`,
+                    `⚠️ Mobilization Gap:   ${gap > 0 ? '-' + gap.toLocaleString() : '0'} teachers`,
+                    `📊 Universe Saturation: ${sat}%`,
+                    '─────────────────────────────'
+                  ];
+                }
+              }
             }
           },
           scales: {
-            x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { family: theme.fontMono } } },
-            y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+            x: {
+              grid: { color: theme.gridColor },
+              ticks: { color: theme.textColor, font: { family: theme.fontMono, weight: 600 } }
+            },
+            y: {
+              grace: '25%',
+              grid: { color: theme.gridColor },
+              ticks: { color: theme.textColor }
+            }
           }
-        }
+        },
+        plugins: [
+          {
+            id: 'd360BlockCompDataLabels',
+            afterDatasetsDraw(chart) {
+              const { ctx } = chart;
+              ctx.save();
+              ctx.font = '700 10.5px "JetBrains Mono", monospace';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+
+              // 1. Draw direct numbers above each column
+              chart.data.datasets.forEach((dataset, dIdx) => {
+                const meta = chart.getDatasetMeta(dIdx);
+                if (meta.hidden) return;
+
+                meta.data.forEach((bar, bIdx) => {
+                  const val = dataset.data[bIdx];
+                  if (val === null || val === undefined || val <= 0) return;
+
+                  ctx.fillStyle = dataset.backgroundColor;
+                  ctx.fillText(val.toLocaleString(), bar.x, bar.y - 4);
+                });
+              });
+
+              // 2. Draw direct difference / gap badge above the Teacher Universe & Participants pair
+              distBlocks.forEach((b, bIdx) => {
+                const u = b.varg2Universe || 0;
+                const p = b.participants || 0;
+                if (u > 0) {
+                  const metaU = chart.getDatasetMeta(0);
+                  const metaP = chart.getDatasetMeta(1);
+                  if (metaU && metaP && metaU.data[bIdx] && metaP.data[bIdx]) {
+                    const barU = metaU.data[bIdx];
+                    const barP = metaP.data[bIdx];
+                    const midX = (barU.x + barP.x) / 2;
+                    const topY = Math.min(barU.y, barP.y) - 18;
+                    const sat = ((p / u) * 100).toFixed(0);
+                    const gap = u - p;
+                    const satPct = p / u;
+
+                    ctx.font = '700 9.5px "JetBrains Mono", monospace';
+                    ctx.fillStyle = satPct >= 0.7 ? '#10b981' : (satPct >= 0.4 ? '#f59e0b' : '#f43f5e');
+                    const gapText = isHi ? `अंतर: -${gap} (${sat}%)` : `Gap: -${gap} (${sat}%)`;
+                    ctx.fillText(gapText, midX, topY);
+                  }
+                }
+              });
+
+              ctx.restore();
+            }
+          }
+        ]
       });
 
       // Render Block Detail Table
