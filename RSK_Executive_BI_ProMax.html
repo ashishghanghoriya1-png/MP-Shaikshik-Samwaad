@@ -2041,6 +2041,9 @@
         kpiCadreDesc: '4,918 Fac. + 572 Monitors',
         kpiTotLbl: 'STATE MOBILIZATION',
         kpiTotDesc: '23,785 Teachers + 4,454 DO + 5,490 Cadre',
+        kpiVarg2Lbl: 'TEACHER UNIVERSE',
+        kpiVarg2Badge: '34.8% Universe Saturation',
+        kpiVarg2Desc: '68,427 Total Teacher Universe → 35,374 Target (51.7%) → 23,785 Attended (67.2%)',
 
         // Overview Panel Titles
         ovTopTitleCLSS: '🏆 Top Districts by Teacher Attendance (CLSS)',
@@ -2143,6 +2146,9 @@
         kpiCadreDesc: '4,918 फैसिलिटेटर + 572 मॉनिटर',
         kpiTotLbl: 'कुल राज्य सहभागिता',
         kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,490 कैडर',
+        kpiVarg2Lbl: 'शिक्षक यूनिवर्स',
+        kpiVarg2Badge: '34.8% यूनिवर्स संतृप्ति',
+        kpiVarg2Desc: '68,427 कुल शिक्षक यूनिवर्स → 35,374 लक्षित (51.7%) → 23,785 उपस्थित (67.2%)',
 
         // Overview Panel Titles
         ovTopTitleCLSS: '🏆 शिक्षक उपस्थिति अनुसार शीर्ष जिले (शैक्षिक संवाद)',
@@ -2247,6 +2253,12 @@
         if (kpiDoBdgEl && t.kpiDoBadge) kpiDoBdgEl.innerText = t.kpiDoBadge;
         const kpiCadreBdgEl = document.getElementById('kpiCadreBadge');
         if (kpiCadreBdgEl && t.kpiCadreBadge) kpiCadreBdgEl.innerText = t.kpiCadreBadge;
+        const kpiVarg2LblEl = document.getElementById('kpiVarg2Label');
+        if (kpiVarg2LblEl && t.kpiVarg2Lbl) kpiVarg2LblEl.innerText = t.kpiVarg2Lbl;
+        const kpiVarg2BdgEl = document.getElementById('kpiVarg2Badge');
+        if (kpiVarg2BdgEl && t.kpiVarg2Badge) kpiVarg2BdgEl.innerText = t.kpiVarg2Badge;
+        const kpiVarg2DescEl = document.getElementById('kpiVarg2Desc');
+        if (kpiVarg2DescEl && t.kpiVarg2Desc) kpiVarg2DescEl.innerText = t.kpiVarg2Desc;
 
         // 2. Header Title & Subtitle
         const titleEl = document.querySelector('.title-group h1');
