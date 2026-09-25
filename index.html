@@ -3636,45 +3636,68 @@
       const chartDistEl = document.getElementById('d360BlockChartDistName');
       if (chartDistEl) chartDistEl.innerText = dname;
 
+      // STRICT RULE: Teacher Universe Saturation % = (CLSS Teachers / Teacher Universe) * 100
+      // Strictly includes ONLY CLSS Teachers (dinfo.attendees) and Teacher Universe (dinfo.varg2Universe). No other cadre is included.
       const vargU = dinfo.varg2Universe || 0;
-      const vargSat = dinfo.varg2Saturation || (vargU > 0 ? ((dinfo.attendees / vargU) * 100).toFixed(1) : 0);
-      const vargBox = `<div class="d360-metric-box"><div class="val" style="color: #0284c7;">${vargU.toLocaleString()}</div><div class="lbl">Teacher Universe (${vargU > 0 ? vargSat + '%' : '-'})</div></div>`;
+      const clssTeachers = dinfo.attendees || 0;
+      const vargSat = (vargU > 0) ? ((clssTeachers / vargU) * 100).toFixed(1) : '0.0';
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+
+      const clssTeacherBox = `
+        <div class="d360-metric-box">
+          <div class="val" style="color: #1d4ed8;">${clssTeachers.toLocaleString()}</div>
+          <div class="lbl">${isHi ? 'CLSS शिक्षक' : 'CLSS Teachers'}</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${vargSat >= 50 ? 'var(--accent-emerald)' : (vargSat >= 35 ? '#d97706' : 'var(--accent-rose)')}; margin-top: 3px;">
+            ${vargU > 0 ? (isHi ? `${vargSat}% यूनिवर्स संतृप्ति` : `${vargSat}% of Universe`) : '-'}
+          </div>
+        </div>
+      `;
+
+      const vargBox = `
+        <div class="d360-metric-box">
+          <div class="val" style="color: #0284c7;">${vargU.toLocaleString()}</div>
+          <div class="lbl">${isHi ? 'शिक्षक यूनिवर्स (माध्यमिक)' : 'Teacher Universe'}</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${vargSat >= 50 ? 'var(--accent-emerald)' : '#d97706'}; margin-top: 3px;">
+            ${vargU > 0 ? (isHi ? `${vargSat}% संतृप्ति (${clssTeachers.toLocaleString()}/${vargU.toLocaleString()})` : `${vargSat}% Saturation (${clssTeachers.toLocaleString()}/${vargU.toLocaleString()})`) : '-'}
+          </div>
+        </div>
+      `;
 
       // 1. Populate District Aggregate Sum Hero Stats
       if (activeProgram === 'DO') {
         const isVacantDiet = (dname.toUpperCase() === 'SEHORE' || dname.toUpperCase() === 'DEWAS');
         const dietBox = isVacantDiet
-          ? `<div class="d360-metric-box" style="border: 1px dashed var(--accent-rose); background: rgba(225, 29, 72, 0.05);"><div class="val" style="color: var(--accent-rose);">0 DIET</div><div class="lbl">DIET (Vacant)</div></div>`
-          : `<div class="d360-metric-box"><div class="val">1 DIET</div><div class="lbl">DIET Venue</div></div>`;
+          ? `<div class="d360-metric-box" style="border: 1px dashed var(--accent-rose); background: rgba(225, 29, 72, 0.05);"><div class="val" style="color: var(--accent-rose);">0 DIET</div><div class="lbl">${isHi ? 'डाइट (रिक्त)' : 'DIET (Vacant)'}</div></div>`
+          : `<div class="d360-metric-box"><div class="val">1 DIET</div><div class="lbl">${isHi ? 'डाइट केंद्र' : 'DIET Venue'}</div></div>`;
 
         document.getElementById('d360HeroStats').innerHTML = `
-          <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">Total Blocks</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">${isHi ? 'कुल ब्लॉक' : 'Total Blocks'}</div></div>
           ${dietBox}
-          <div class="d360-metric-box"><div class="val">${dinfo.do_monitors}</div><div class="lbl">DO Observers</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.do_facilitators}</div><div class="lbl">DO Facilitators</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">DO Participants</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.do_total.toLocaleString()}</div><div class="lbl">Total DO Turnout</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.do_monitors}</div><div class="lbl">${isHi ? 'DO पर्यवेक्षक' : 'DO Observers'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.do_facilitators}</div><div class="lbl">${isHi ? 'DO सहजकर्ता' : 'DO Facilitators'}</div></div>
+          <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">${isHi ? 'DO प्रतिभागी' : 'DO Participants'}</div></div>
+          <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.do_total.toLocaleString()}</div><div class="lbl">${isHi ? 'कुल DO उपस्थिति' : 'Total DO Turnout'}</div></div>
           ${vargBox}
         `;
       } else if (activeProgram === 'CLSS') {
         document.getElementById('d360HeroStats').innerHTML = `
-          <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">Total Blocks</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.totalClusters}</div><div class="lbl">Total Clusters</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.monitors}</div><div class="lbl">CLSS Monitors</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.facilitators}</div><div class="lbl">CLSS Facilitators</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.attendees.toLocaleString()}</div><div class="lbl">CLSS Teachers</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.total.toLocaleString()}</div><div class="lbl">Total CLSS Turnout</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">${isHi ? 'कुल ब्लॉक' : 'Total Blocks'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.totalClusters}</div><div class="lbl">${isHi ? 'कुल संकुल' : 'Total Clusters'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.monitors}</div><div class="lbl">${isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.facilitators}</div><div class="lbl">${isHi ? 'CLSS सहजकर्ता' : 'CLSS Facilitators'}</div></div>
+          ${clssTeacherBox}
+          <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.total.toLocaleString()}</div><div class="lbl">${isHi ? 'कुल CLSS सहभागिता' : 'Total CLSS Turnout'}</div></div>
           ${vargBox}
         `;
       } else {
         document.getElementById('d360HeroStats').innerHTML = `
-          <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">Total Blocks</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.totalClusters}</div><div class="lbl">Total Clusters</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.monitors + dinfo.do_monitors}</div><div class="lbl">Total Monitors</div></div>
-          <div class="d360-metric-box"><div class="val">${dinfo.facilitators + dinfo.do_facilitators}</div><div class="lbl">Total Facilitators</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: #1d4ed8;">${dinfo.attendees.toLocaleString()}</div><div class="lbl">CLSS Teachers</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: var(--accent-indigo);">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">District Participants (DO)</div></div>
-          <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.combined_total.toLocaleString()}</div><div class="lbl">Combined Turnout</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.totalBlocks}</div><div class="lbl">${isHi ? 'कुल ब्लॉक' : 'Total Blocks'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.totalClusters}</div><div class="lbl">${isHi ? 'कुल संकुल' : 'Total Clusters'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.monitors + dinfo.do_monitors}</div><div class="lbl">${isHi ? 'कुल मॉनिटर' : 'Total Monitors'}</div></div>
+          <div class="d360-metric-box"><div class="val">${dinfo.facilitators + dinfo.do_facilitators}</div><div class="lbl">${isHi ? 'कुल सहजकर्ता' : 'Total Facilitators'}</div></div>
+          ${clssTeacherBox}
+          <div class="d360-metric-box"><div class="val" style="color: var(--accent-indigo);">${dinfo.do_participants.toLocaleString()}</div><div class="lbl">${isHi ? 'DO प्रतिभागी' : 'District Participants (DO)'}</div></div>
+          <div class="d360-metric-box"><div class="val" style="color: var(--peepul-teal);">${dinfo.combined_total.toLocaleString()}</div><div class="lbl">${isHi ? 'समेकित सहभागिता' : 'Combined Turnout'}</div></div>
           ${vargBox}
         `;
       }
@@ -3697,6 +3720,10 @@
         bifGrid.innerHTML = '';
         distBlocks.forEach(b => {
           const bTot = b.total || (b.monitors + b.facilitators + b.participants);
+          const bU = b.varg2Universe || 0;
+          const bPart = b.participants || 0;
+          // STRICT RULE: Block saturation % is strictly (b.participants / b.varg2Universe) * 100
+          const bSat = (bU > 0) ? ((bPart / bU) * 100).toFixed(1) : '0.0';
           const pct = ((bTot / distGrandTotal) * 100).toFixed(1);
           const isFocused = (focusedBlock === b.block);
           const highlightStyle = isFocused ? 'border: 2px solid var(--peepul-teal); background: rgba(0, 138, 171, 0.04);' : '';
@@ -3714,19 +3741,20 @@
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-top: 10px; font-size: 11px; font-family: var(--font-mono); text-align: center;">
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
-                <div style="color: var(--text-muted); font-size: 9.5px;">TEACHERS</div>
-                <div style="font-weight: 700; color: #1d4ed8;">${b.participants}</div>
+                <div style="color: var(--text-muted); font-size: 9.5px;">${isHi ? 'शिक्षक' : 'TEACHERS'}</div>
+                <div style="font-weight: 700; color: #1d4ed8;">${bPart.toLocaleString()}</div>
+                <div style="font-size: 9px; font-weight: 700; color: ${bSat >= 50 ? 'var(--accent-emerald)' : '#d97706'}; margin-top: 1px;">${bU > 0 ? bSat + '%' : '-'}</div>
               </div>
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
-                <div style="color: var(--text-muted); font-size: 9.5px;">UNIVERSE</div>
-                <div style="font-weight: 700; color: #0284c7;">${(b.varg2Universe || 0).toLocaleString()}</div>
+                <div style="color: var(--text-muted); font-size: 9.5px;">${isHi ? 'यूनिवर्स' : 'UNIVERSE'}</div>
+                <div style="font-weight: 700; color: #0284c7;">${bU.toLocaleString()}</div>
               </div>
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
-                <div style="color: var(--text-muted); font-size: 9.5px;">FACIL.</div>
+                <div style="color: var(--text-muted); font-size: 9.5px;">${isHi ? 'सहजकर्ता' : 'FACIL.'}</div>
                 <div style="font-weight: 700; color: var(--accent-purple);">${b.facilitators}</div>
               </div>
               <div style="background: var(--bg-surface-2); padding: 4px; border-radius: 4px;">
-                <div style="color: var(--text-muted); font-size: 9.5px;">MONITORS</div>
+                <div style="color: var(--text-muted); font-size: 9.5px;">${isHi ? 'मॉनिटर' : 'MONITORS'}</div>
                 <div style="font-weight: 700; color: var(--accent-indigo);">${b.monitors}</div>
               </div>
             </div>
@@ -3739,7 +3767,6 @@
       const theme = getChartTheme();
       if (chartInstances.d360BlockComp) chartInstances.d360BlockComp.destroy();
       const ctxBlock = document.getElementById('d360BlockCompChart').getContext('2d');
-      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
 
       chartInstances.d360BlockComp = new Chart(ctxBlock, {
         type: 'bar',
