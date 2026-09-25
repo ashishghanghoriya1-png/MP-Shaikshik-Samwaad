@@ -1388,36 +1388,36 @@
           <div id="cardQuad1" style="background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q1')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH ATTENDANCE & HIGH SCORE</div>
-              <span class="pill-badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;" id="q1Badge">14 Districts</span>
+              <span class="pill-badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;" id="q1Badge">25 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥350) + High Teaching Score (≥58%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥400) + High Teaching Score (≥58%)</div>
             <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad2" style="background: rgba(0, 138, 171, 0.06); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q2')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: HIGH ATTENDANCE, NEEDS PEDAGOGY FOCUS</div>
-              <span class="pill-badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;" id="q2Badge">11 Districts</span>
+              <span class="pill-badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;" id="q2Badge">6 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥350) + Teaching Score Gap (&lt;58%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥400) + Teaching Score Gap (&lt;58%)</div>
             <div id="q2Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad3" style="background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.25); border-left: 4px solid var(--accent-indigo); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q3')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">📈 Q3: HIGH SCORE, NEEDS ATTENDANCE BOOST</div>
-              <span class="pill-badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;" id="q3Badge">12 Districts</span>
+              <span class="pill-badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;" id="q3Badge">11 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Teaching Score (≥58%) + Attendance &lt;350</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Teaching Score (≥58%) + Attendance &lt;400</div>
             <div id="q3Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad4" style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.25); border-left: 4px solid var(--accent-rose); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q4')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">🎯 Q4: PRIORITY SUPPORT NEEDED</div>
-              <span class="pill-badge" style="background: rgba(29, 78, 216, 0.18); color: var(--accent-rose); font-weight: 700;" id="q4Badge">13 Districts</span>
+              <span class="pill-badge" style="background: rgba(29, 78, 216, 0.18); color: var(--accent-rose); font-weight: 700;" id="q4Badge">10 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance &lt;350 + Teaching Score Gap (&lt;58%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance &lt;400 + Teaching Score Gap (&lt;58%)</div>
             <div id="q3Chips_replace" style="display:none"></div>
             <div id="q4Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
@@ -1886,6 +1886,9 @@
             <tbody>
               <!-- Populated via JS -->
             </tbody>
+            <tfoot id="blockGridFoot" style="font-weight: 800; background: var(--bg-surface-2); border-top: 2px solid var(--border-subtle);">
+              <!-- Populated via JS -->
+            </tfoot>
           </table>
         </div>
       </div>
@@ -2653,8 +2656,8 @@
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक' : '23,785 Actual / 35,374 Expected Teachers';
-          if (kTeachBadge) kTeachBadge.innerText = '67.2%';
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 लक्षित (34.8% कुल यूनिवर्स)' : '23,785 Actual / 35,374 Target (34.8% of Total Universe)';
+          if (kTeachBadge) kTeachBadge.innerText = '34.8% of Universe';
           animateValue('kpiDoOfficers', 0, 0);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 0);
@@ -2677,8 +2680,8 @@
           if (kCadreDesc) kCadreDesc.innerText = isHi ? 'शैक्षिक संवाद पर्यवेक्षक' : 'CLSS Field Observers';
         } else {
           animateValue('kpiTeachers', 0, 23785);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक' : '23,785 Actual / 35,374 Expected Teachers';
-          if (kTeachBadge) kTeachBadge.innerText = '67.2%';
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 लक्षित (34.8% कुल यूनिवर्स)' : '23,785 Actual / 35,374 Target (34.8% of Total Universe)';
+          if (kTeachBadge) kTeachBadge.innerText = '34.8% of Universe';
           animateValue('kpiDoOfficers', 0, 0);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
           animateValue('kpiCadre', 0, 5357);
@@ -2694,8 +2697,8 @@
 
         if (activeRole === 'Participant') {
           animateValue('kpiTeachers', 0, 23785);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक' : '23,785 Actual / 35,374 Expected Teachers';
-          if (kTeachBadge) kTeachBadge.innerText = '67.2%';
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 लक्षित (34.8% कुल यूनिवर्स)' : '23,785 Actual / 35,374 Target (34.8% of Total Universe)';
+          if (kTeachBadge) kTeachBadge.innerText = '34.8% of Universe';
           animateValue('kpiDoOfficers', 0, 4454);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? '4,454 जिला प्रतिभागी (DO)' : '4,454 District Participants (DO)';
           animateValue('kpiCadre', 0, 0);
@@ -2718,8 +2721,8 @@
           if (kCadreDesc) kCadreDesc.innerText = isHi ? '516 शैक्षिक संवाद + 56 डीओ मॉनिटर' : '516 CLSS + 56 DO Observers';
         } else {
           animateValue('kpiTeachers', 0, 23785);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 अपेक्षित शिक्षक' : '23,785 Actual / 35,374 Expected Teachers';
-          if (kTeachBadge) kTeachBadge.innerText = '67.2%';
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? '23,785 वास्तविक / 35,374 लक्षित (34.8% कुल यूनिवर्स)' : '23,785 Actual / 35,374 Target (34.8% of Total Universe)';
+          if (kTeachBadge) kTeachBadge.innerText = '34.8% of Universe';
           animateValue('kpiDoOfficers', 0, 4454);
           if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'जिला प्रतिभागी (DO)' : 'District Participants (DO)';
           animateValue('kpiCadre', 0, 5490);
@@ -3613,13 +3616,14 @@
       
       let headerHtml = '';
       let rowsHtml = '';
+      let footHtml = '';
 
       if (activeProgram === 'DO') {
         heading.innerText = isHi ? '🗺️ जिला अभिमुखीकरण (DO) राज्य स्तरीय लीग मैट्रिक्स' : '🗺️ District Orientation (DO) State League Matrix';
         headerHtml = `
           <thead>
             <tr>
-              <th>${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
               <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
               <th>${isHi ? 'DO मॉनिटर' : 'DO Observers'}</th>
               <th>${isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators'}</th>
@@ -3630,7 +3634,12 @@
             </tr>
           </thead>
         `;
+        let sumDoMon = 0, sumDoFac = 0, sumDoPart = 0, sumDoTot = 0;
         dataPackage.districtSummary.forEach((d, idx) => {
+          sumDoMon += (d.do_monitors || 0);
+          sumDoFac += (d.do_facilitators || 0);
+          sumDoPart += (d.do_participants || 0);
+          sumDoTot += (d.do_total || 0);
           const status = d.do_participants > 0 ? `<span style="color:#10b981; font-weight:600;">${isHi ? 'सम्पन्न' : 'Conducted'}</span>` : `<span style="color:#1d4ed8; font-weight:600;">${isHi ? 'समेकित / लंबित' : 'Pending/Combined'}</span>`;
           rowsHtml += `
             <tr>
@@ -3654,26 +3663,122 @@
             </tr>
           `;
         });
+        footHtml = `
+          <tfoot id="leagueGridFoot">
+            <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800; border-top: 2px solid var(--border-medium); border-bottom: 2px solid var(--border-medium);">
+              <td style="padding: 12px 10px;">-</td>
+              <td style="padding: 12px 10px; color: var(--peepul-teal);"><strong>${isHi ? 'राज्य कुल सारांश (50 सक्रिय जिले)' : 'Total Summary (50 Reporting Districts)'}</strong></td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumDoMon}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumDoFac}</td>
+              <td class="font-mono" style="font-weight: 800; color: #4f46e5; padding: 12px 10px;">${sumDoPart.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumDoTot.toLocaleString()}</td>
+              <td style="padding: 12px 10px; color: var(--accent-emerald); font-weight: 700;">100.0%</td>
+              <td style="padding: 12px 10px; color: var(--text-muted); font-size: 11px;">${isHi ? '50 डायट स्थल' : '50 DIET Centers'}</td>
+            </tr>
+          </tfoot>
+        `;
+      } else if (activeRole === 'Participant') {
+        heading.innerText = isHi ? '🗺️ शिक्षक सहभागिता एवं यूनिवर्स संतृप्ति लीग (कक्षा 6-8)' : '🗺️ Teacher Turnout & Universe Saturation League (Grades 6-8)';
+        headerHtml = `
+          <thead>
+            <tr>
+              <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'ब्लॉक' : 'Blocks'}</th>
+              <th>${isHi ? 'संकुल' : 'Clusters'}</th>
+              <th>${isHi ? 'शिक्षक यूनिवर्स' : 'Teacher Universe'}</th>
+              <th>${isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees'}</th>
+              <th>${isHi ? 'यूनिवर्स संतृप्ति %' : 'Universe Saturation %'}</th>
+              <th>${isHi ? 'औसत शिक्षक / संकुल' : 'Avg Teachers / Cluster'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
+            </tr>
+          </thead>
+        `;
+        let sumBlocks = 0, sumClusters = 0, sumUniverse = 0, sumAttendees = 0;
+        dataPackage.districtSummary.forEach((d, idx) => {
+          const avg = d.totalClusters > 0 ? (d.attendees / d.totalClusters).toFixed(1) : '-';
+          const vargU = d.varg2Universe || 0;
+          const vargSat = d.varg2Saturation || (vargU > 0 ? ((d.attendees / vargU) * 100).toFixed(1) : 0);
+          sumBlocks += (d.totalBlocks || 0);
+          sumClusters += (d.totalClusters || 0);
+          sumUniverse += vargU;
+          sumAttendees += (d.attendees || 0);
+
+          rowsHtml += `
+            <tr>
+              <td class="font-mono">${idx + 1}</td>
+              <td>
+                <strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')" title="Click to view 360° Profile">
+                  📍 ${getDistName(d.district)}
+                </strong>
+              </td>
+              <td>
+                <span class="status-chip" style="background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700; cursor: pointer;" onclick="openDistrictInBlocks('${d.district}')" title="Filter Block Directory for ${d.district}">
+                  🏢 ${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}
+                </span>
+              </td>
+              <td class="font-mono">${d.totalClusters}</td>
+              <td class="font-mono" style="color: #0284c7; font-weight: 700;">${vargU.toLocaleString()}</td>
+              <td class="font-mono" style="color: #1d4ed8; font-weight: 700;">${d.attendees.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 700; color: ${vargSat >= 50 ? 'var(--accent-emerald)' : (vargSat < 30 ? 'var(--accent-rose)' : '#d97706')};">${vargSat}%</td>
+              <td class="font-mono">${avg}</td>
+              <td>
+                <div style="display: flex; gap: 6px;">
+                  <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 ${isHi ? '360° प्रोफाइल' : '360° Profile'}</button>
+                  <button class="btn-tactile gold" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictInBlocks('${d.district}')">🏢 ${isHi ? 'ब्लॉक' : 'Blocks'}</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+        const overallSat = sumUniverse > 0 ? ((sumAttendees / sumUniverse) * 100).toFixed(1) : 0;
+        const overallAvg = sumClusters > 0 ? (sumAttendees / sumClusters).toFixed(1) : '-';
+        footHtml = `
+          <tfoot id="leagueGridFoot">
+            <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800; border-top: 2px solid var(--border-medium); border-bottom: 2px solid var(--border-medium);">
+              <td style="padding: 12px 10px;">-</td>
+              <td style="padding: 12px 10px; color: var(--peepul-teal);"><strong>${isHi ? 'राज्य कुल सारांश (50 सक्रिय जिले)' : 'Total Summary (50 Reporting Districts)'}</strong></td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumBlocks}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumClusters}</td>
+              <td class="font-mono" style="font-weight: 800; color: #0284c7; padding: 12px 10px;">${sumUniverse.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: #1d4ed8; padding: 12px 10px;">${sumAttendees.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: ${overallSat >= 50 ? 'var(--accent-emerald)' : '#d97706'}; padding: 12px 10px;">${overallSat}%</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${overallAvg}</td>
+              <td style="padding: 12px 10px; color: var(--text-muted); font-size: 11px;">${isHi ? 'राज्यव्यापी संकुल कवरेज 96.2%' : 'State CRC Coverage 96.2%'}</td>
+            </tr>
+          </tfoot>
+        `;
       } else if (activeProgram === 'CLSS') {
         heading.innerText = isHi ? '🗺️ संकुल स्तरीय शैक्षिक संवाद (CLSS) लीग मैट्रिक्स' : '🗺️ Cluster Level Shaikshik Samwaad (CLSS) League Matrix';
         headerHtml = `
           <thead>
             <tr>
-              <th>${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
               <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
               <th>${isHi ? 'ब्लॉक' : 'Blocks'}</th>
               <th>${isHi ? 'संकुल' : 'Clusters'}</th>
               <th>${isHi ? 'मॉनिटर' : 'Monitors'}</th>
               <th>${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
-              <th>${isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees'}</th>
+              <th>${isHi ? 'शिक्षक यूनिवर्स' : 'Teacher Universe'}</th>
+              <th>${isHi ? 'सहभागी शिक्षक' : 'CLSS Teachers'}</th>
+              <th>${isHi ? 'संतृप्ति %' : 'Saturation %'}</th>
               <th>${isHi ? 'कुल सहभागिता' : 'Total Turnout'}</th>
-              <th>${isHi ? 'औसत / संकुल' : 'Avg / Cluster'}</th>
               <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
             </tr>
           </thead>
         `;
+        let sumBlocks = 0, sumClusters = 0, sumMon = 0, sumFac = 0, sumUniverse = 0, sumAtt = 0, sumTot = 0;
         dataPackage.districtSummary.forEach((d, idx) => {
-          const avg = d.totalClusters > 0 ? (d.attendees / d.totalClusters).toFixed(1) : '-';
+          const vargU = d.varg2Universe || 0;
+          const vargSat = d.varg2Saturation || (vargU > 0 ? ((d.attendees / vargU) * 100).toFixed(1) : 0);
+          sumBlocks += (d.totalBlocks || 0);
+          sumClusters += (d.totalClusters || 0);
+          sumMon += (d.monitors || 0);
+          sumFac += (d.facilitators || 0);
+          sumUniverse += vargU;
+          sumAtt += (d.attendees || 0);
+          sumTot += (d.total || 0);
+
           rowsHtml += `
             <tr>
               <td class="font-mono">${d.sno}</td>
@@ -3690,9 +3795,10 @@
               <td class="font-mono">${d.totalClusters}</td>
               <td class="font-mono">${d.monitors}</td>
               <td class="font-mono">${d.facilitators}</td>
+              <td class="font-mono" style="color: #0284c7; font-weight: 700;">${vargU.toLocaleString()}</td>
               <td class="font-mono" style="color: #1d4ed8; font-weight: 700;">${d.attendees.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 700; color: ${vargSat >= 50 ? 'var(--accent-emerald)' : (vargSat < 30 ? 'var(--accent-rose)' : '#d97706')};">${vargSat}%</td>
               <td class="font-mono" style="font-weight: 700; color: var(--peepul-teal);">${d.total.toLocaleString()}</td>
-              <td class="font-mono">${avg}</td>
               <td>
                 <div style="display: flex; gap: 6px;">
                   <button class="btn-tactile" style="font-size: 10.5px; padding: 3px 8px;" onclick="openDistrictIn360('${d.district}')">🔍 ${isHi ? '360° प्रोफाइल' : '360° Profile'}</button>
@@ -3702,13 +3808,31 @@
             </tr>
           `;
         });
+        const overallSat = sumUniverse > 0 ? ((sumAtt / sumUniverse) * 100).toFixed(1) : 0;
+        footHtml = `
+          <tfoot id="leagueGridFoot">
+            <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800; border-top: 2px solid var(--border-medium); border-bottom: 2px solid var(--border-medium);">
+              <td style="padding: 12px 10px;">-</td>
+              <td style="padding: 12px 10px; color: var(--peepul-teal);"><strong>${isHi ? 'राज्य कुल सारांश (50 सक्रिय जिले)' : 'Total Summary (50 Reporting Districts)'}</strong></td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumBlocks}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumClusters}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumMon}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumFac}</td>
+              <td class="font-mono" style="font-weight: 800; color: #0284c7; padding: 12px 10px;">${sumUniverse.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: #1d4ed8; padding: 12px 10px;">${sumAtt.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: ${overallSat >= 50 ? 'var(--accent-emerald)' : '#d97706'}; padding: 12px 10px;">${overallSat}%</td>
+              <td class="font-mono" style="font-weight: 800; color: var(--peepul-teal); padding: 12px 10px;">${sumTot.toLocaleString()}</td>
+              <td style="padding: 12px 10px; color: var(--text-muted); font-size: 11px;">${isHi ? 'राज्य संकुल 96.2%' : 'State CRC 96.2%'}</td>
+            </tr>
+          </tfoot>
+        `;
       } else {
         // Consolidated
         heading.innerText = isHi ? '🗺️ समेकित राज्य स्तरीय लीग (CLSS + DO तुलनात्मक)' : '🗺️ Consolidated State League (CLSS + DO Side-by-Side)';
         headerHtml = `
           <thead>
             <tr>
-              <th>${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
               <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
               <th>${isHi ? 'ब्लॉक' : 'Blocks'}</th>
               <th>${isHi ? 'संकुल' : 'Clusters'}</th>
@@ -3720,7 +3844,15 @@
             </tr>
           </thead>
         `;
+        let sumBlocks = 0, sumClusters = 0, sumClssAtt = 0, sumClssFac = 0, sumDoPart = 0, sumCombTot = 0;
         dataPackage.districtSummary.forEach((d, idx) => {
+          sumBlocks += (d.totalBlocks || 0);
+          sumClusters += (d.totalClusters || 0);
+          sumClssAtt += (d.attendees || 0);
+          sumClssFac += (d.facilitators || 0);
+          sumDoPart += (d.do_participants || 0);
+          sumCombTot += (d.combined_total || 0);
+
           rowsHtml += `
             <tr>
               <td class="font-mono">${d.sno}</td>
@@ -3748,9 +3880,24 @@
             </tr>
           `;
         });
+        footHtml = `
+          <tfoot id="leagueGridFoot">
+            <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800; border-top: 2px solid var(--border-medium); border-bottom: 2px solid var(--border-medium);">
+              <td style="padding: 12px 10px;">-</td>
+              <td style="padding: 12px 10px; color: var(--peepul-teal);"><strong>${isHi ? 'राज्य कुल सारांश (50 सक्रिय जिले)' : 'Total Summary (50 Reporting Districts)'}</strong></td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumBlocks}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumClusters}</td>
+              <td class="font-mono" style="font-weight: 800; color: #1d4ed8; padding: 12px 10px;">${sumClssAtt.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumClssFac}</td>
+              <td class="font-mono" style="font-weight: 800; color: #4f46e5; padding: 12px 10px;">${sumDoPart.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: #10b981; padding: 12px 10px;">${sumCombTot.toLocaleString()}</td>
+              <td style="padding: 12px 10px; color: var(--text-muted); font-size: 11px;">${isHi ? '50 जिले समेकित' : '50 Combined'}</td>
+            </tr>
+          </tfoot>
+        `;
       }
 
-      table.innerHTML = headerHtml + '<tbody>' + rowsHtml + '</tbody>';
+      table.innerHTML = headerHtml + '<tbody>' + rowsHtml + '</tbody>' + footHtml;
     }
 
     function filterDistrictLeague() {
@@ -3898,6 +4045,29 @@
         vargSatEl.innerText = `${overallSat}% Sat.`;
       }
       if (totEl) totEl.innerText = sumTot.toLocaleString();
+
+      const tfoot = document.getElementById('blockGridFoot');
+      if (tfoot) {
+        if (matchCount > 0) {
+          const overallSat = sumVarg2 > 0 ? ((sumPart / sumVarg2) * 100).toFixed(1) : 0;
+          tfoot.innerHTML = `
+            <tr>
+              <td colspan="3" style="text-align: right; font-weight: 800; color: var(--text-primary); padding: 12px 14px;">
+                ${isHi ? `कुल योग (${matchCount} ब्लॉक)` : `Total Summary (${matchCount} Blocks)`}:
+              </td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumMon.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">${sumFac.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: #0284c7; padding: 12px 10px;">${sumVarg2.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: #1d4ed8; padding: 12px 10px;">${sumPart.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; color: ${overallSat >= 50 ? 'var(--accent-emerald)' : '#d97706'}; padding: 12px 10px;">${sumVarg2 > 0 ? overallSat + '%' : '-'}</td>
+              <td class="font-mono" style="font-weight: 800; color: var(--peepul-teal); padding: 12px 10px;">${sumTot.toLocaleString()}</td>
+              <td class="font-mono" style="font-weight: 800; padding: 12px 10px;">100.0%</td>
+            </tr>
+          `;
+        } else {
+          tfoot.innerHTML = '';
+        }
+      }
     }
 
     // Helper to match survey items against program and role filters
