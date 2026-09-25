@@ -1696,27 +1696,38 @@
     
       <!-- Side-by-Side District Comparison Studio -->
       <div class="panel-box" style="margin-top: 24px;">
-        <div class="panel-head">
+        <div class="panel-head" style="flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center;">
           <div>
-            <div class="panel-head-title">
+            <div class="panel-head-title" id="comparatorHeading">
               ⚖️ Side-by-Side District Comparator (Benchmark Any 2 Districts)
             </div>
             <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
               [Ref: Comparative analysis across all 7 Field Telemetry Workbooks & Cluster Summary]
             </div>
           </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="slicer-btn active" id="btnSameBlockLock" onclick="toggleSameBlockLock()" style="font-size: 11px; padding: 5px 12px; border-radius: 6px;">
+              🔒 <span id="sameBlockLockText">Same-Block Peer Match: ON</span>
+            </button>
+          </div>
         </div>
 
-        <div style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;">
           <div style="flex: 1; min-width: 240px;">
-            <label style="font-size: 11px; font-family: var(--font-mono); color: var(--peepul-teal); font-weight: 700; display: block; margin-bottom: 4px;">SELECT DISTRICT A:</label>
-            <select id="compDistA" class="select-tactile" style="width: 100%; font-weight: 700;" onchange="updateDistrictComparison()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label style="font-size: 11px; font-family: var(--font-mono); color: var(--peepul-teal); font-weight: 700; display: block;">SELECT DISTRICT A:</label>
+              <span id="compDistABlocksBadge" class="status-chip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-size: 10.5px; font-family: var(--font-mono); padding: 1px 6px; font-weight: 700;">-</span>
+            </div>
+            <select id="compDistA" class="select-tactile" style="width: 100%; font-weight: 700;" onchange="onCompDistAChange()">
               <!-- populated dynamically -->
             </select>
           </div>
-          <div style="display: flex; align-items: flex-end; padding-bottom: 8px; font-size: 16px; font-weight: 800; color: var(--text-dim);">VS</div>
+          <div style="display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: var(--text-dim); padding-top: 16px;">VS</div>
           <div style="flex: 1; min-width: 240px;">
-            <label style="font-size: 11px; font-family: var(--font-mono); color: var(--accent-indigo); font-weight: 700; display: block; margin-bottom: 4px;">SELECT DISTRICT B:</label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label style="font-size: 11px; font-family: var(--font-mono); color: var(--accent-indigo); font-weight: 700; display: block;">SELECT DISTRICT B:</label>
+              <span id="compDistBBlocksBadge" class="status-chip" style="background: rgba(79, 70, 229, 0.1); color: var(--accent-indigo); font-size: 10.5px; font-family: var(--font-mono); padding: 1px 6px; font-weight: 700;">-</span>
+            </div>
             <select id="compDistB" class="select-tactile" style="width: 100%; font-weight: 700;" onchange="updateDistrictComparison()">
               <!-- populated dynamically -->
             </select>
@@ -1725,6 +1736,44 @@
 
         <div class="bento-equal" id="compResultsContainer">
           <!-- Populated via JS -->
+        </div>
+
+        <!-- NEW: Dedicated Same-Block District Peer Benchmark Chart & Studio -->
+        <div style="margin-top: 24px; border-top: 1px dashed var(--border-hairline); padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+            <div>
+              <div style="font-size: 15px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px;" id="peerCohortChartTitle">
+                <span>🏢 Same-Block District Peer Benchmark Chart</span>
+                <span class="pill-badge" id="peerCohortBadge" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-size: 11px;">Cohort: 4 Blocks</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;" id="peerCohortSubTitle">
+                Direct peer-to-peer performance benchmarking for districts operating at the exact same administrative block scale.
+              </div>
+            </div>
+
+            <!-- Metric Selector -->
+            <div style="display: flex; gap: 6px; background: var(--bg-surface-2); padding: 3px; border-radius: 6px; border: 1px solid var(--border-hairline);">
+              <button class="slicer-btn active" id="btnPeerMetricTurnout" onclick="setPeerCohortMetric('attendees', this)" style="padding: 4px 10px; font-size: 11px;">👨‍🏫 Teacher Turnout</button>
+              <button class="slicer-btn" id="btnPeerMetricSaturation" onclick="setPeerCohortMetric('saturation', this)" style="padding: 4px 10px; font-size: 11px;">🎯 Universe Saturation %</button>
+              <button class="slicer-btn" id="btnPeerMetricPedagogy" onclick="setPeerCohortMetric('pedagogy', this)" style="padding: 4px 10px; font-size: 11px;">🧠 Pedagogy Score %</button>
+              <button class="slicer-btn" id="btnPeerMetricDensity" onclick="setPeerCohortMetric('avgPerBlock', this)" style="padding: 4px 10px; font-size: 11px;">📊 Avg / Block</button>
+            </div>
+          </div>
+
+          <!-- Block Cohort Slicer Buttons -->
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;" id="peerCohortButtonsContainer">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Chart Stage -->
+          <div class="chart-stage" style="height: 320px; position: relative;">
+            <canvas id="sameBlockPeerChart"></canvas>
+          </div>
+
+          <!-- Cohort Intelligence Summary Bento Cards -->
+          <div class="bento-kpi-grid lang-fade-target" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px;" id="peerCohortBentoCards">
+            <!-- Populated via JS -->
+          </div>
         </div>
       </div>
     </section>
@@ -2487,11 +2536,13 @@
       const cmpA = document.getElementById('compDistA');
       const cmpB = document.getElementById('compDistB');
       if (cmpA && cmpB) {
-        const vA = cmpA.value || "Betul";
-        const vB = cmpB.value || "Chhindwara";
-        cmpA.innerHTML = dataPackage.districtSummary.map(d => `<option value="${d.district}" ${d.district === vA ? 'selected' : ''}>${getDistName(d.district)}</option>`).join('');
-        cmpB.innerHTML = dataPackage.districtSummary.map(d => `<option value="${d.district}" ${d.district === vB ? 'selected' : ''}>${getDistName(d.district)}</option>`).join('');
+        const vA = cmpA.value || "Agar Malwa";
+        const isHi = (currentLang === 'hi');
+        cmpA.innerHTML = dataPackage.districtSummary.map(d => `<option value="${d.district}" ${d.district === vA ? 'selected' : ''}>${isHi ? getDistName(d.district) : d.district} (${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'})</option>`).join('');
+        populateCompDistBDropdown(vA);
       }
+      if (typeof initPeerCohortButtons === 'function') initPeerCohortButtons();
+      if (typeof renderPeerCohortChart === 'function') renderPeerCohortChart();
     }
 
     // Slicer Handlers
@@ -5445,75 +5496,373 @@
     // ==========================================
     // SIDE-BY-SIDE DISTRICT COMPARATOR
     // ==========================================
+    // ==========================================
+    // SIDE-BY-SIDE DISTRICT COMPARATOR & SAME-BLOCK PEER BENCHMARK
+    // ==========================================
+    let sameBlockLockActive = true;
+    let activePeerBlockCohort = 4;
+    let activePeerMetric = 'attendees';
+
     function initDistrictComparatorDropdowns() {
       const ddA = document.getElementById('compDistA');
-      const ddB = document.getElementById('compDistB');
-      if (!ddA || !ddB) return;
+      if (!ddA) return;
       
+      const isHi = (currentLang === 'hi');
       ddA.innerHTML = '';
-      ddB.innerHTML = '';
-      
-      dataPackage.districtSummary.forEach((d, idx) => {
+      dataPackage.districtSummary.forEach((d) => {
         const optA = document.createElement('option');
         optA.value = d.district;
-        optA.innerText = d.district;
-        if (d.district === 'Betul') optA.selected = true;
+        optA.innerText = `${isHi ? getDistName(d.district) : d.district} (${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'})`;
+        if (d.district === 'Agar Malwa' || d.district === 'Betul') optA.selected = true;
         ddA.appendChild(optA);
-
-        const optB = document.createElement('option');
-        optB.value = d.district;
-        optB.innerText = d.district;
-        if (d.district === 'Dhar') optB.selected = true;
-        ddB.appendChild(optB);
       });
 
+      const initialDist = ddA.value || 'Agar Malwa';
+      const dA = dataPackage.districtSummary.find(x => x.district === initialDist);
+      if (dA) activePeerBlockCohort = dA.totalBlocks;
+
+      populateCompDistBDropdown(initialDist);
+      initPeerCohortButtons();
       updateDistrictComparison();
+      renderPeerCohortChart();
       initPedagogyRadar();
       refreshQuestionBankDropdown();
     }
 
-    function updateDistrictComparison() {
+    function populateCompDistBDropdown(distAName) {
+      const ddB = document.getElementById('compDistB');
+      const badgeA = document.getElementById('compDistABlocksBadge');
+      const badgeB = document.getElementById('compDistBBlocksBadge');
+      if (!ddB) return;
+
+      const isHi = (currentLang === 'hi');
+      const dA = dataPackage.districtSummary.find(x => x.district === distAName);
+      if (!dA) return;
+
+      if (badgeA) {
+        badgeA.innerText = `${dA.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}`;
+      }
+
+      ddB.innerHTML = '';
+      let candidates = dataPackage.districtSummary.filter(d => d.district !== distAName);
+      if (sameBlockLockActive) {
+        const peerList = candidates.filter(d => d.totalBlocks === dA.totalBlocks);
+        if (peerList.length > 0) {
+          candidates = peerList;
+        }
+      }
+
+      candidates.forEach((d, idx) => {
+        const optB = document.createElement('option');
+        optB.value = d.district;
+        optB.innerText = `${isHi ? getDistName(d.district) : d.district} (${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'})`;
+        if (idx === 0) optB.selected = true;
+        ddB.appendChild(optB);
+      });
+
+      const selectedB = ddB.value;
+      const dB = dataPackage.districtSummary.find(x => x.district === selectedB);
+      if (badgeB && dB) {
+        badgeB.innerText = `${dB.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}`;
+      }
+    }
+
+    function onCompDistAChange() {
       const nameA = document.getElementById('compDistA').value;
-      const nameB = document.getElementById('compDistB').value;
+      const dA = dataPackage.districtSummary.find(x => x.district === nameA);
+      if (dA) {
+        activePeerBlockCohort = dA.totalBlocks;
+        setPeerCohortSize(dA.totalBlocks);
+      }
+      populateCompDistBDropdown(nameA);
+      updateDistrictComparison();
+    }
+
+    function toggleSameBlockLock() {
+      sameBlockLockActive = !sameBlockLockActive;
+      const btn = document.getElementById('btnSameBlockLock');
+      const txt = document.getElementById('sameBlockLockText');
+      const isHi = (currentLang === 'hi');
+
+      if (btn && txt) {
+        if (sameBlockLockActive) {
+          btn.classList.add('active');
+          txt.innerText = isHi ? 'समान ब्लॉक फ़िल्टर: चालू' : 'Same-Block Peer Match: ON';
+        } else {
+          btn.classList.remove('active');
+          txt.innerText = isHi ? 'समान ब्लॉक फ़िल्टर: बंद (सभी जिले)' : 'Same-Block Peer Match: OFF (All Districts)';
+        }
+      }
+
+      const nameA = document.getElementById('compDistA')?.value || 'Agar Malwa';
+      populateCompDistBDropdown(nameA);
+      updateDistrictComparison();
+    }
+
+    function initPeerCohortButtons() {
+      const container = document.getElementById('peerCohortButtonsContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+      const cohorts = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+      const isHi = (currentLang === 'hi');
+
+      cohorts.forEach(c => {
+        const count = dataPackage.districtSummary.filter(d => d.totalBlocks === c).length;
+        const btn = document.createElement('button');
+        btn.className = `slicer-btn ${c === activePeerBlockCohort ? 'active' : ''}`;
+        btn.id = `btnCohort_${c}`;
+        btn.style.cssText = 'padding: 4px 10px; font-size: 11px;';
+        btn.innerText = isHi ? `${c} ब्लॉक (${count} जिले)` : `${c} Blocks (${count} Dist.)`;
+        btn.onclick = () => setPeerCohortSize(c);
+        container.appendChild(btn);
+      });
+    }
+
+    function setPeerCohortSize(numBlocks) {
+      activePeerBlockCohort = numBlocks;
+      document.querySelectorAll('#peerCohortButtonsContainer .slicer-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`btnCohort_${numBlocks}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const isHi = (currentLang === 'hi');
+      const count = dataPackage.districtSummary.filter(d => d.totalBlocks === numBlocks).length;
+      const badge = document.getElementById('peerCohortBadge');
+      if (badge) {
+        badge.innerText = isHi ? `समतुल्य समूह: ${numBlocks} ब्लॉक (${count} जिले)` : `Cohort: ${numBlocks} Blocks (${count} Districts)`;
+      }
+
+      renderPeerCohortChart();
+    }
+
+    function setPeerCohortMetric(metricKey, btn) {
+      activePeerMetric = metricKey;
+      document.querySelectorAll('#btnPeerMetricTurnout, #btnPeerMetricSaturation, #btnPeerMetricPedagogy, #btnPeerMetricDensity').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderPeerCohortChart();
+    }
+
+    function renderPeerCohortChart() {
+      const ctx = document.getElementById('sameBlockPeerChart')?.getContext('2d');
+      if (!ctx) return;
+
+      const isHi = (currentLang === 'hi');
+      const peerDists = dataPackage.districtSummary.filter(d => d.totalBlocks === activePeerBlockCohort);
+      if (peerDists.length === 0) return;
+
+      const preparedData = peerDists.map(d => {
+        const ped = calculateDistrictPedagogyScore(d.district);
+        const u = d.varg2Universe || 0;
+        const p = d.attendees || 0;
+        const sat = (u > 0) ? Number(((p / u) * 100).toFixed(1)) : 0;
+        const avgBlk = Number((p / d.totalBlocks).toFixed(1));
+
+        let val = p;
+        let suffix = '';
+        if (activePeerMetric === 'saturation') { val = sat; suffix = '%'; }
+        else if (activePeerMetric === 'pedagogy') { val = ped; suffix = '%'; }
+        else if (activePeerMetric === 'avgPerBlock') { val = avgBlk; suffix = ''; }
+
+        return {
+          district: d.district,
+          distNameHi: getDistName(d.district),
+          val: val,
+          turnout: p,
+          universe: u,
+          sat: sat,
+          ped: ped,
+          avgBlk: avgBlk,
+          blocks: d.totalBlocks,
+          clusters: d.totalClusters,
+          facilitators: d.facilitators,
+          monitors: d.monitors,
+          suffix: suffix
+        };
+      });
+
+      preparedData.sort((a, b) => b.val - a.val);
+
+      const maxVal = preparedData[0].val;
+      const minVal = preparedData[preparedData.length - 1].val;
+      const avgVal = Number((preparedData.reduce((acc, x) => acc + x.val, 0) / preparedData.length).toFixed(1));
+
+      // Bento stats update
+      const bentoContainer = document.getElementById('peerCohortBentoCards');
+      if (bentoContainer) {
+        const topItem = preparedData[0];
+        const lowItem = preparedData[preparedData.length - 1];
+        bentoContainer.innerHTML = `
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid var(--accent-emerald);">
+            <div class="kpi-micro-label"><span>🏆 ${isHi ? 'समूह शीर्ष जिला (LEADER)' : 'COHORT BENCHMARK LEADER'}</span></div>
+            <div class="kpi-huge-val font-mono" style="font-size: 20px; color: var(--accent-emerald);">
+              ${isHi ? topItem.distNameHi : topItem.district}
+            </div>
+            <div class="kpi-sub-desc font-mono" style="font-weight: 700; color: var(--text-primary);">
+              ${topItem.val.toLocaleString()}${topItem.suffix} (${topItem.sat}% ${isHi ? 'संतृप्ति' : 'Sat.'})
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid var(--peepul-teal);">
+            <div class="kpi-micro-label"><span>📊 ${isHi ? 'समूह औसत (COHORT AVERAGE)' : 'COHORT PEER AVERAGE'}</span></div>
+            <div class="kpi-huge-val font-mono" style="font-size: 20px; color: var(--peepul-teal);">
+              ${avgVal.toLocaleString()}${topItem.suffix}
+            </div>
+            <div class="kpi-sub-desc">
+              ${isHi ? `कुल ${preparedData.length} जिलों का मध्यमान` : `Average across all ${preparedData.length} peer districts`}
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid ${lowItem.val < avgVal ? 'var(--accent-rose)' : 'var(--accent-indigo)'};">
+            <div class="kpi-micro-label"><span>⚠️ ${isHi ? 'प्रोत्साहन आवश्यक (PRIORITY FOCUS)' : 'ACCELERATION FOCUS'}</span></div>
+            <div class="kpi-huge-val font-mono" style="font-size: 20px; color: ${lowItem.val < avgVal ? 'var(--accent-rose)' : 'var(--text-primary)'};">
+              ${isHi ? lowItem.distNameHi : lowItem.district}
+            </div>
+            <div class="kpi-sub-desc font-mono" style="font-weight: 700; color: var(--text-muted);">
+              ${lowItem.val.toLocaleString()}${lowItem.suffix} (${lowItem.sat}% ${isHi ? 'संतृप्ति' : 'Sat.'})
+            </div>
+          </div>
+        `;
+      }
+
+      const theme = getChartTheme();
+      if (chartInstances.sameBlockPeer) chartInstances.sameBlockPeer.destroy();
+
+      chartInstances.sameBlockPeer = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: preparedData.map(d => isHi ? d.distNameHi : d.district),
+          datasets: [{
+            label: isHi ? 'प्रदर्शन' : 'Score / Value',
+            data: preparedData.map(d => d.val),
+            backgroundColor: preparedData.map((d, i) => i === 0 ? '#10b981' : (d.val >= avgVal ? '#008aab' : '#0284c7')),
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 25, bottom: 5 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title(items) {
+                  const idx = items[0].dataIndex;
+                  const item = preparedData[idx];
+                  return `${isHi ? item.distNameHi : item.district} (${item.blocks} ${isHi ? 'ब्लॉक' : 'Blocks'})`;
+                },
+                label(item) {
+                  const idx = item.dataIndex;
+                  const d = preparedData[idx];
+                  return isHi ? [
+                    ` 👥 शिक्षक उपस्थिति: ${d.turnout.toLocaleString()}`,
+                    ` 🎯 शिक्षक यूनिवर्स: ${d.universe.toLocaleString()}`,
+                    ` 📊 यूनिवर्स संतृप्ति: ${d.sat}%`,
+                    ` 🧠 शिक्षाशास्त्र शुद्धता: ${d.ped}%`,
+                    ` 🏢 औसत प्रति ब्लॉक: ${d.avgBlk} शिक्षक`,
+                    ` 🤝 सहजकर्ता: ${d.facilitators} | 👁️ मॉनिटर: ${d.monitors}`
+                  ] : [
+                    ` 👥 Attending Teachers: ${d.turnout.toLocaleString()}`,
+                    ` 🎯 Teacher Universe: ${d.universe.toLocaleString()}`,
+                    ` 📊 Universe Saturation: ${d.sat}%`,
+                    ` 🧠 Pedagogy Accuracy: ${d.ped}%`,
+                    ` 🏢 Avg per Block: ${d.avgBlk} teachers`,
+                    ` 🤝 Facilitators: ${d.facilitators} | 👁️ Monitors: ${d.monitors}`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { family: theme.fontMono, weight: 700, size: 11 } } },
+            y: { grace: '20%', grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+          }
+        },
+        plugins: [{
+          id: 'sameBlockPeerLabels',
+          afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            ctx.save();
+            ctx.font = '700 11px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            const meta = chart.getDatasetMeta(0);
+            if (meta && !meta.hidden) {
+              meta.data.forEach((bar, idx) => {
+                const item = preparedData[idx];
+                if (item && item.val > 0) {
+                  ctx.fillStyle = idx === 0 ? '#059669' : (item.val >= avgVal ? '#008aab' : '#0284c7');
+                  ctx.fillText(`${item.val.toLocaleString()}${item.suffix}`, bar.x, bar.y - 4);
+                }
+              });
+            }
+            ctx.restore();
+          }
+        }]
+      });
+    }
+
+    function updateDistrictComparison() {
+      const nameA = document.getElementById('compDistA')?.value;
+      const nameB = document.getElementById('compDistB')?.value;
       const dA = dataPackage.districtSummary.find(x => x.district === nameA);
       const dB = dataPackage.districtSummary.find(x => x.district === nameB);
       if (!dA || !dB) return;
 
+      const badgeA = document.getElementById('compDistABlocksBadge');
+      const badgeB = document.getElementById('compDistBBlocksBadge');
+      const isHi = (currentLang === 'hi');
+
+      if (badgeA) badgeA.innerText = `${dA.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}`;
+      if (badgeB) badgeB.innerText = `${dB.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}`;
+
       const scoreA = calculateDistrictPedagogyScore(nameA);
       const scoreB = calculateDistrictPedagogyScore(nameB);
+      const uA = dA.varg2Universe || 0;
+      const uB = dB.varg2Universe || 0;
+      const satA = uA > 0 ? ((dA.attendees / uA) * 100).toFixed(1) : '0.0';
+      const satB = uB > 0 ? ((dB.attendees / uB) * 100).toFixed(1) : '0.0';
       const densityA = dA.totalClusters > 0 ? (dA.attendees / dA.totalClusters).toFixed(1) : '-';
       const densityB = dB.totalClusters > 0 ? (dB.attendees / dB.totalClusters).toFixed(1) : '-';
+
+      const diffTurnout = dA.attendees - dB.attendees;
+      const diffSat = (parseFloat(satA) - parseFloat(satB)).toFixed(1);
+      const diffScore = scoreA - scoreB;
 
       const container = document.getElementById('compResultsContainer');
       container.innerHTML = `
         <div style="background: var(--bg-surface-card); border: 2px solid var(--peepul-teal); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-tactile);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: var(--peepul-teal); font-family: var(--font-brand);">${dA.district}</div>
-            <span class="ind-status-pill" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal);">District A</span>
+            <div>
+              <div style="font-size: 18px; font-weight: 800; color: var(--peepul-teal); font-family: var(--font-brand);">${isHi ? getDistName(dA.district) : dA.district}</div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted);">${dA.totalBlocks} ${isHi ? 'प्रशासनिक ब्लॉक' : 'Administrative Blocks'} • ${dA.totalClusters} CRC</div>
+            </div>
+            <span class="ind-status-pill" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 800;">${isHi ? 'जिला A' : 'District A'}</span>
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 12px;">
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">Blocks & Clusters</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" class="font-mono">${dA.totalBlocks} Blocks / ${dA.totalClusters} CRC</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'शिक्षक यूनिवर्स (कुल संवर्ग)' : 'Teacher Cadre Universe'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: #0284c7;" class="font-mono">${uA.toLocaleString()}</div>
             </div>
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">CLSS Teacher Turnout</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--peepul-blue);" class="font-mono">${dA.attendees.toLocaleString()}</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'CLSS शिक्षक उपस्थिति' : 'CLSS Teacher Turnout'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: #1d4ed8;" class="font-mono">${dA.attendees.toLocaleString()}</div>
             </div>
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">DO Participants</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--peepul-teal);" class="font-mono">${dA.do_participants.toLocaleString()}</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'यूनिवर्स संतृप्ति %' : 'Universe Saturation %'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: ${parseFloat(satA) >= 50 ? 'var(--accent-emerald)' : '#d97706'};" class="font-mono">${satA}%</div>
             </div>
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">Cluster Density (Avg/CRC)</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" class="font-mono">${densityA} teachers</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'संकुल घनत्व (औसत/CRC)' : 'Cluster Density (Avg/CRC)'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" class="font-mono">${densityA} ${isHi ? 'शिक्षक' : 'teachers'}</div>
             </div>
           </div>
 
           <div style="margin-top: 14px; background: rgba(0, 138, 171, 0.05); padding: 12px; border-radius: 6px; border: 1px solid rgba(0, 138, 171, 0.2);">
             <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700;">
-              <span>Overall Pedagogy Accuracy:</span>
+              <span>${isHi ? 'शिक्षाशास्त्र शुद्धता (Pedagogy Score):' : 'Overall Pedagogy Accuracy:'}</span>
               <span class="font-mono" style="color: var(--peepul-teal); font-size: 16px;">${scoreA}%</span>
             </div>
           </div>
@@ -5521,32 +5870,35 @@
 
         <div style="background: var(--bg-surface-card); border: 2px solid var(--accent-indigo); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-tactile);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: var(--accent-indigo); font-family: var(--font-brand);">${dB.district}</div>
-            <span class="ind-status-pill" style="background: rgba(79, 70, 229, 0.1); color: var(--accent-indigo);">District B</span>
+            <div>
+              <div style="font-size: 18px; font-weight: 800; color: var(--accent-indigo); font-family: var(--font-brand);">${isHi ? getDistName(dB.district) : dB.district}</div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted);">${dB.totalBlocks} ${isHi ? 'प्रशासनिक ब्लॉक' : 'Administrative Blocks'} • ${dB.totalClusters} CRC</div>
+            </div>
+            <span class="ind-status-pill" style="background: rgba(79, 70, 229, 0.1); color: var(--accent-indigo); font-weight: 800;">${isHi ? 'जिला B' : 'District B'}</span>
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 12px;">
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">Blocks & Clusters</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" class="font-mono">${dB.totalBlocks} Blocks / ${dB.totalClusters} CRC</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'शिक्षक यूनिवर्स (कुल संवर्ग)' : 'Teacher Cadre Universe'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: #0284c7;" class="font-mono">${uB.toLocaleString()}</div>
             </div>
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">CLSS Teacher Turnout</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'CLSS शिक्षक उपस्थिति' : 'CLSS Teacher Turnout'}</div>
               <div style="font-size: 16px; font-weight: 800; color: var(--accent-indigo);" class="font-mono">${dB.attendees.toLocaleString()}</div>
             </div>
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">DO Participants</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--peepul-teal);" class="font-mono">${dB.do_participants.toLocaleString()}</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'यूनिवर्स संतृप्ति %' : 'Universe Saturation %'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: ${parseFloat(satB) >= 50 ? 'var(--accent-emerald)' : '#d97706'};" class="font-mono">${satB}%</div>
             </div>
             <div style="background: var(--bg-surface-2); padding: 10px; border-radius: 6px;">
-              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">Cluster Density (Avg/CRC)</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" class="font-mono">${densityB} teachers</div>
+              <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">${isHi ? 'संकुल घनत्व (औसत/CRC)' : 'Cluster Density (Avg/CRC)'}</div>
+              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);" class="font-mono">${densityB} ${isHi ? 'शिक्षक' : 'teachers'}</div>
             </div>
           </div>
 
           <div style="margin-top: 14px; background: rgba(79, 70, 229, 0.05); padding: 12px; border-radius: 6px; border: 1px solid rgba(79, 70, 229, 0.2);">
             <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700;">
-              <span>Overall Pedagogy Accuracy:</span>
+              <span>${isHi ? 'शिक्षाशास्त्र शुद्धता (Pedagogy Score):' : 'Overall Pedagogy Accuracy:'}</span>
               <span class="font-mono" style="color: var(--accent-indigo); font-size: 16px;">${scoreB}%</span>
             </div>
           </div>
