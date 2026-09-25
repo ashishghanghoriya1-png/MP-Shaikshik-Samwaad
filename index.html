@@ -1498,6 +1498,20 @@
             <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ High Att., Needs Pedagogy (<span id="q2BtnCount">11</span>)</button>
             <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">📈 High Score, Needs Att. (<span id="q3BtnCount">12</span>)</button>
             <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">🎯 Priority Support (<span id="q4BtnCount">13</span>)</button>
+        </div>
+
+        <!-- Dynamic 2D Scatter Chart Graph -->
+        <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 16px; margin-top: 14px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="font-size: 13px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
+              <span>🎯 2D Priority Scatter Plot (Turnout vs. Pedagogy Accuracy)</span>
+            </div>
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted);">
+              Thresholds: Turnout ≥ 400 | Pedagogy Accuracy ≥ 58% • Click any point to open District 360
+            </div>
+          </div>
+          <div style="position: relative; height: 360px; width: 100%;">
+            <canvas id="ovQuadrantScatterChart"></canvas>
           </div>
         </div>
 
@@ -1506,36 +1520,36 @@
           <div id="cardQuad1" style="background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q1')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH ATTENDANCE & HIGH SCORE</div>
-              <span class="pill-badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;" id="q1Badge">14 Districts</span>
+              <span class="pill-badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;" id="q1Badge">25 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥350) + High Teaching Score (≥58%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥400) + High Teaching Score (≥58%)</div>
             <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad2" style="background: rgba(0, 138, 171, 0.06); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q2')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: HIGH ATTENDANCE, NEEDS PEDAGOGY FOCUS</div>
-              <span class="pill-badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;" id="q2Badge">11 Districts</span>
+              <span class="pill-badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;" id="q2Badge">6 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥350) + Teaching Score Gap (&lt;58%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥400) + Teaching Score Gap (&lt;58%)</div>
             <div id="q2Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad3" style="background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.25); border-left: 4px solid var(--accent-indigo); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q3')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">📈 Q3: HIGH SCORE, NEEDS ATTENDANCE BOOST</div>
-              <span class="pill-badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;" id="q3Badge">12 Districts</span>
+              <span class="pill-badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;" id="q3Badge">11 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Teaching Score (≥58%) + Attendance &lt;350</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Teaching Score (≥58%) + Attendance &lt;400</div>
             <div id="q3Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad4" style="background: rgba(29, 78, 216, 0.06); border: 1px solid rgba(29, 78, 216, 0.25); border-left: 4px solid var(--accent-rose); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;" onclick="filterQuadrant('Q4')">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">🎯 Q4: PRIORITY SUPPORT NEEDED</div>
-              <span class="pill-badge" style="background: rgba(29, 78, 216, 0.18); color: var(--accent-rose); font-weight: 700;" id="q4Badge">13 Districts</span>
+              <span class="pill-badge" style="background: rgba(29, 78, 216, 0.18); color: var(--accent-rose); font-weight: 700;" id="q4Badge">10 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance &lt;350 + Teaching Score Gap (&lt;58%)</div>
+            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance &lt;400 + Teaching Score Gap (&lt;58%)</div>
             <div id="q3Chips_replace" style="display:none"></div>
             <div id="q4Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
@@ -3260,6 +3274,7 @@
         if (chartInstances.ovDonutStakeholder) chartInstances.ovDonutStakeholder.destroy();
         if (chartInstances.ovPedagogyBar) chartInstances.ovPedagogyBar.destroy();
         if (chartInstances.ovTrustBar) chartInstances.ovTrustBar.destroy();
+        if (chartInstances.ovQuadrantScatter) chartInstances.ovQuadrantScatter.destroy();
         return;
       }
 
@@ -3565,6 +3580,9 @@
         });
       }
       if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
+      if (typeof initQuadrantScatterChart === 'function') initQuadrantScatterChart();
+      if (typeof populateQuadrantBentoCards === 'function') populateQuadrantBentoCards();
+      if (typeof initQuadrantTable === 'function') initQuadrantTable();
     }
 
     function initDistrict360() {
@@ -6479,20 +6497,28 @@
       function getQScore(qid) {
         const s = dataPackage.surveys.find(x => 
           (x.program === 'CLSS' || x.program === activeProgram) && 
-          String(x.questionId) === String(qid)
+          (String(x.questionId) === String(qid) || String(x.questionId).replace('Q', '') === String(qid))
         );
         if (!s || !s.districtData) return 55;
         const row = s.districtData.find(d => d.district === dname);
         if (!row) return 55;
         
         const tot = row.totalRespondents || 1;
-        const correctCol = qid + '_Correct';
-        if (typeof row[correctCol] !== 'undefined') {
-          return Math.min(100, Math.round((row[correctCol] / tot) * 100));
+        const candidates = [
+          'Q' + qid + '.1',
+          qid + '.1',
+          'Q' + qid + '_Correct',
+          qid + '_Correct',
+          'Q' + qid,
+          qid
+        ];
+        if (s.columns && s.columns.length > 0) {
+          candidates.push(s.columns[0].code);
         }
-        const topCol = qid + '.1';
-        if (typeof row[topCol] !== 'undefined') {
-          return Math.min(100, Math.round((row[topCol] / tot) * 100));
+        for (let k of candidates) {
+          if (typeof row[k] !== 'undefined' && row[k] !== null) {
+            return Math.min(100, Math.round((row[k] / tot) * 100));
+          }
         }
         return 55;
       }
@@ -6500,14 +6526,14 @@
       const p95 = getQScore('95');
       const p96 = getQScore('96');
       const p97 = getQScore('97');
-      const p86 = getQScore('86');
+      const p84 = getQScore('84');
       const p82 = getQScore('82');
 
-      return Math.round((p95 + p96 + p97 + p86 + p82) / 5);
+      return Math.round((p95 + p96 + p97 + p84 + p82) / 5);
     }
 
     function getDistrictQuadrantInfo(turnout, pedScore) {
-      const TURNOUT_BENCHMARK = 350;
+      const TURNOUT_BENCHMARK = 400;
       const PEDAGOGY_BENCHMARK = 58;
 
       if (turnout >= TURNOUT_BENCHMARK && pedScore >= PEDAGOGY_BENCHMARK) {
@@ -6545,6 +6571,234 @@
       }
     }
 
+    function initQuadrantScatterChart() {
+      const canvas = document.getElementById('ovQuadrantScatterChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      if (chartInstances.ovQuadrantScatter) {
+        chartInstances.ovQuadrantScatter.destroy();
+        chartInstances.ovQuadrantScatter = null;
+      }
+
+      const theme = getChartTheme();
+      const TURNOUT_BM = 400;
+      const PED_BM = 58;
+
+      const q1Data = [];
+      const q2Data = [];
+      const q3Data = [];
+      const q4Data = [];
+
+      const dSummary = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
+      dSummary.forEach(d => {
+        const ped = calculateDistrictPedagogyScore(d.district);
+        const t = d.attendees || 0;
+        const qInfo = getDistrictQuadrantInfo(t, ped);
+        const point = {
+          x: t,
+          y: ped,
+          district: d.district,
+          blocks: d.totalBlocks || 0,
+          clusters: d.totalClusters || 0,
+          quad: qInfo.quad,
+          label: qInfo.label,
+          action: qInfo.action
+        };
+
+        if (qInfo.quad === 'Q1') q1Data.push(point);
+        else if (qInfo.quad === 'Q2') q2Data.push(point);
+        else if (qInfo.quad === 'Q3') q3Data.push(point);
+        else q4Data.push(point);
+      });
+
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+      const qFilter = (typeof currentQuadFilter !== 'undefined') ? currentQuadFilter : 'ALL';
+
+      const datasets = [
+        {
+          label: isHi ? '🏆 Q1: उच्च उपस्थिति एवं उच्च स्कोर' : '🏆 Q1: High Attendance & High Score',
+          data: qFilter === 'ALL' || qFilter === 'Q1' ? q1Data : [],
+          backgroundColor: 'rgba(5, 150, 105, 0.78)',
+          borderColor: '#059669',
+          borderWidth: 1.5,
+          pointRadius: 7,
+          pointHoverRadius: 10.5
+        },
+        {
+          label: isHi ? '⚡ Q2: उच्च उपस्थिति, शिक्षण सुधार आवश्यक' : '⚡ Q2: High Att., Needs Pedagogy Focus',
+          data: qFilter === 'ALL' || qFilter === 'Q2' ? q2Data : [],
+          backgroundColor: 'rgba(0, 138, 171, 0.78)',
+          borderColor: '#008aab',
+          borderWidth: 1.5,
+          pointRadius: 7,
+          pointHoverRadius: 10.5
+        },
+        {
+          label: isHi ? '📈 Q3: उच्च स्कोर, सहभागिता वृद्धि आवश्यक' : '📈 Q3: High Score, Needs Attendance Boost',
+          data: qFilter === 'ALL' || qFilter === 'Q3' ? q3Data : [],
+          backgroundColor: 'rgba(79, 70, 229, 0.78)',
+          borderColor: '#4f46e5',
+          borderWidth: 1.5,
+          pointRadius: 7,
+          pointHoverRadius: 10.5
+        },
+        {
+          label: isHi ? '🎯 Q4: सर्वोच्च प्राथमिकता सहायता क्षेत्र' : '🎯 Q4: Priority Support Needed',
+          data: qFilter === 'ALL' || qFilter === 'Q4' ? q4Data : [],
+          backgroundColor: 'rgba(220, 38, 38, 0.78)',
+          borderColor: '#dc2626',
+          borderWidth: 1.5,
+          pointRadius: 7,
+          pointHoverRadius: 10.5
+        }
+      ];
+
+      const quadrantBackgroundPlugin = {
+        id: 'quadrantBackgroundPlugin',
+        beforeDraw: (chart) => {
+          const { ctx, chartArea, scales: { x, y } } = chart;
+          if (!chartArea) return;
+          const xMid = x.getPixelForValue(TURNOUT_BM);
+          const yMid = y.getPixelForValue(PED_BM);
+
+          ctx.save();
+          // Draw dashed benchmark lines
+          ctx.strokeStyle = theme.isDark ? 'rgba(255, 255, 255, 0.22)' : 'rgba(0, 0, 0, 0.18)';
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([5, 5]);
+
+          // Vertical benchmark line (Turnout)
+          ctx.beginPath();
+          ctx.moveTo(xMid, chartArea.top);
+          ctx.lineTo(xMid, chartArea.bottom);
+          ctx.stroke();
+
+          // Horizontal benchmark line (Pedagogy)
+          ctx.beginPath();
+          ctx.moveTo(chartArea.left, yMid);
+          ctx.lineTo(chartArea.right, yMid);
+          ctx.stroke();
+
+          // Watermark Quadrant Titles
+          ctx.font = '600 11px sans-serif';
+          ctx.fillStyle = theme.isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.30)';
+          
+          // Q1 Top-Right
+          ctx.textAlign = 'right';
+          ctx.fillText(isHi ? '🏆 Q1: उच्च सहभागिता + उच्च दक्षता' : '🏆 Q1: High Attendance & High Score', chartArea.right - 10, chartArea.top + 18);
+
+          // Q2 Bottom-Right
+          ctx.fillText(isHi ? '⚡ Q2: उच्च सहभागिता + दक्षता अंतर' : '⚡ Q2: High Attendance, Pedagogy Gap', chartArea.right - 10, chartArea.bottom - 12);
+
+          // Q3 Top-Left
+          ctx.textAlign = 'left';
+          ctx.fillText(isHi ? '📈 Q3: उच्च दक्षता + सहभागिता अंतर' : '📈 Q3: High Score, Attendance Need', chartArea.left + 10, chartArea.top + 18);
+
+          // Q4 Bottom-Left
+          ctx.fillText(isHi ? '🎯 Q4: प्राथमिकता संबलन क्षेत्र' : '🎯 Q4: Priority Support Zone', chartArea.left + 10, chartArea.bottom - 12);
+
+          ctx.restore();
+        }
+      };
+
+      chartInstances.ovQuadrantScatter = new Chart(ctx, {
+        type: 'scatter',
+        data: { datasets },
+        plugins: [quadrantBackgroundPlugin],
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 400 },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: theme.textColor,
+                font: { family: theme.fontFamily || 'sans-serif', size: 11 },
+                usePointStyle: true,
+                pointStyle: 'circle',
+                boxWidth: 8
+              }
+            },
+            tooltip: {
+              backgroundColor: theme.isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.98)',
+              titleColor: theme.isDark ? '#f8fafc' : '#0f172a',
+              bodyColor: theme.isDark ? '#cbd5e1' : '#334155',
+              borderColor: theme.gridColor,
+              borderWidth: 1,
+              padding: 10,
+              displayColors: true,
+              callbacks: {
+                title: (items) => {
+                  if (!items || items.length === 0) return '';
+                  const p = items[0].raw;
+                  return p.district;
+                },
+                label: (item) => {
+                  const p = item.raw;
+                  return [
+                    `Classification: ${p.label}`,
+                    `CLSS Turnout: ${p.x.toLocaleString()} Teachers`,
+                    `Pedagogy Accuracy: ${p.y}%`,
+                    `Administrative Blocks: ${p.blocks}`,
+                    `Recommendation: ${p.action}`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: isHi ? 'शिक्षक उपस्थिति (Turnout - कुल प्रतिभागी शिक्षक)' : 'CLSS Teacher Attendance / Turnout (Teachers)',
+                color: theme.textColor,
+                font: { size: 11, weight: '600' }
+              },
+              grid: { color: theme.gridColor },
+              ticks: { color: theme.textColor, font: { size: 10.5 } },
+              min: 0,
+              suggestedMax: 1000
+            },
+            y: {
+              title: {
+                display: true,
+                text: isHi ? 'शिक्षाशास्त्रीय दक्षता (%)' : 'Composite Pedagogy Accuracy (%)',
+                color: theme.textColor,
+                font: { size: 11, weight: '600' }
+              },
+              grid: { color: theme.gridColor },
+              ticks: {
+                color: theme.textColor,
+                font: { size: 10.5 },
+                callback: (v) => v + '%'
+              },
+              min: 30,
+              max: 80
+            }
+          },
+          onClick: (evt, elements) => {
+            if (elements && elements.length > 0) {
+              const datasetIdx = elements[0].datasetIndex;
+              const index = elements[0].index;
+              const point = datasets[datasetIdx].data[index];
+              if (point && point.district) {
+                if (typeof openDistrictIn360 === 'function') {
+                  openDistrictIn360(point.district);
+                } else {
+                  activateTab('tab-d360');
+                  const sel = document.getElementById('d360DistrictSelect');
+                  if (sel) { sel.value = point.district; sel.dispatchEvent(new Event('change')); }
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
     function populateQuadrantBentoCards() {
       const q1Container = document.getElementById('q1Chips');
       const q2Container = document.getElementById('q2Chips');
@@ -6560,9 +6814,10 @@
 
       let c1 = 0, c2 = 0, c3 = 0, c4 = 0;
 
-      dataPackage.districtSummary.forEach(d => {
+      const dSummary = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
+      dSummary.forEach(d => {
         const ped = calculateDistrictPedagogyScore(d.district);
-        const t = d.attendees;
+        const t = d.attendees || 0;
         const qInfo = getDistrictQuadrantInfo(t, ped);
 
         let targetCont = q4Container;
@@ -6609,9 +6864,10 @@
       tbody.innerHTML = '';
 
       let idx = 1;
-      dataPackage.districtSummary.forEach(d => {
+      const dSummary = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
+      dSummary.forEach(d => {
         const pedScore = calculateDistrictPedagogyScore(d.district);
-        const turnout = d.attendees;
+        const turnout = d.attendees || 0;
         const avgPerCluster = d.totalClusters > 0 ? (d.attendees / d.totalClusters).toFixed(1) : '-';
         const qInfo = getDistrictQuadrantInfo(turnout, pedScore);
 
@@ -6636,11 +6892,11 @@
     function filterQuadrant(q) {
       currentQuadFilter = q;
       document.querySelectorAll('#btnQuadAll, #btnQuad1, #btnQuad2, #btnQuad3, #btnQuad4').forEach(b => b.classList.remove('active'));
-      if (q === 'ALL') document.getElementById('btnQuadAll').classList.add('active');
-      else if (q === 'Q1') document.getElementById('btnQuad1').classList.add('active');
-      else if (q === 'Q2') document.getElementById('btnQuad2').classList.add('active');
-      else if (q === 'Q3') document.getElementById('btnQuad3').classList.add('active');
-      else if (q === 'Q4') document.getElementById('btnQuad4').classList.add('active');
+      if (q === 'ALL') document.getElementById('btnQuadAll')?.classList.add('active');
+      else if (q === 'Q1') document.getElementById('btnQuad1')?.classList.add('active');
+      else if (q === 'Q2') document.getElementById('btnQuad2')?.classList.add('active');
+      else if (q === 'Q3') document.getElementById('btnQuad3')?.classList.add('active');
+      else if (q === 'Q4') document.getElementById('btnQuad4')?.classList.add('active');
 
       const cardMap = { 'Q1': 'cardQuad1', 'Q2': 'cardQuad2', 'Q3': 'cardQuad3', 'Q4': 'cardQuad4' };
       ['cardQuad1', 'cardQuad2', 'cardQuad3', 'cardQuad4'].forEach(cid => {
@@ -6658,15 +6914,19 @@
         }
       }
 
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       const quadTitleMap = {
-        'ALL': 'All 50 Districts',
-        'Q1': 'Q1: Benchmark Champions (High Turnout & High Pedagogy)',
-        'Q2': 'Q2: Scale, Pedagogy Gap (High Turnout, Low Pedagogy)',
-        'Q3': 'Q3: Mobilization Need (Low Turnout, High Pedagogy)',
-        'Q4': 'Q4: Targeted Support Zone (Low Turnout, Low Pedagogy)'
+        'ALL': isHi ? 'सभी 50 जिले' : 'All 50 Districts',
+        'Q1': isHi ? 'Q1: उच्च उपस्थिति एवं उच्च दक्षता (चैंपियन जिले)' : 'Q1: Benchmark Champions (High Turnout & High Pedagogy)',
+        'Q2': isHi ? 'Q2: उच्च उपस्थिति, शिक्षण सुधार क्षेत्र' : 'Q2: Scale, Pedagogy Gap (High Turnout, Low Pedagogy)',
+        'Q3': isHi ? 'Q3: उच्च दक्षता, सहभागिता वृद्धि क्षेत्र' : 'Q3: Mobilization Need (Low Turnout, High Pedagogy)',
+        'Q4': isHi ? 'Q4: सर्वोच्च प्राथमिकता संबलन क्षेत्र' : 'Q4: Targeted Support Zone (Low Turnout, Low Pedagogy)'
       };
-      document.getElementById('quadrantTableTitle').innerText = `Districts in Selected Quadrant: ${quadTitleMap[q] || q}`;
+      const titleEl = document.getElementById('quadrantTableTitle');
+      if (titleEl) titleEl.innerText = `${isHi ? 'चयनित क्वाड्रेंट के जिले: ' : 'Districts in Selected Quadrant: '} ${quadTitleMap[q] || q}`;
+      
       initQuadrantTable();
+      if (typeof initQuadrantScatterChart === 'function') initQuadrantScatterChart();
     }
 
     function filterQuadrantTableSearch() {
