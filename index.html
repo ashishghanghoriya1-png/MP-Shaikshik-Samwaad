@@ -2873,6 +2873,10 @@
         animateValue('kpiCadre', 0, 0);
         if (kCadreDesc) kCadreDesc.innerText = isHi ? 'प्रशिक्षक एवं पर्यवेक्षक' : 'Trainers & Monitors Pending';
 
+        animateValue('kpiVarg2Total', 0, 0);
+        if (kVarg2Bdg) kVarg2Bdg.innerText = 'Pending (Sept 28)';
+        if (kVarg2Desc) kVarg2Desc.innerText = isHi ? 'सितंबर डेटा 28 सितंबर को प्रतीक्षित' : 'September Data Pending Sept 28 Ingestion';
+
         if (kDistRef) kDistRef.innerHTML = '[Cycle: <em>September 2026 (Scheduled Sept 28)</em>]';
         if (kReachRef) kReachRef.innerHTML = '[Cycle: <em>September 2026 (Scheduled Sept 28)</em>]';
         if (kTeachRef) kTeachRef.innerHTML = '[Cycle: <em>September 2026 (Scheduled Sept 28)</em>]';
@@ -3103,6 +3107,10 @@
       // Update Teacher Universe KPI Card
       const kVarg2Lbl = document.getElementById('kpiVarg2Label');
       if (kVarg2Lbl) kVarg2Lbl.innerText = isHi ? ('शिक्षक यूनिवर्स' + archCohortLabel) : ('TEACHER UNIVERSE' + archCohortLabel.toUpperCase());
+      const kVarg2Tot = document.getElementById('kpiVarg2Total');
+      if (kVarg2Tot) {
+        animateValue('kpiVarg2Total', 0, sumUniverse);
+      }
       const kVarg2Bdg = document.getElementById('kpiVarg2Badge');
       if (kVarg2Bdg) kVarg2Bdg.innerText = satPct + '% ' + (isHi ? 'यूनिवर्स संतृप्ति' : 'Universe Saturation');
       const kVarg2Desc = document.getElementById('kpiVarg2Desc');
