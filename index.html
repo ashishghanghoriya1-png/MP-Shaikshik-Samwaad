@@ -1970,15 +1970,16 @@
     <!-- 5. UNIVERSAL QUESTION BANK -->
     <section id="tab-questions" class="tab-section">
       <div class="panel-box">
-        <div class="panel-head">
+        <div class="panel-head" style="flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
           <div>
-            <div class="panel-head-title">
-              📋 Universal Survey & Question Explorer (All 52 Sheets)
+            <div class="panel-head-title" id="qBankHeading">
+              📋 Universal Survey & Question Explorer (All 74 Questions)
             </div>
-            <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-              [Ref: <strong>Master Workbooks (Cluster Level & District Level)</strong> | Sheets: <strong>Que Master (Question text & Options) & Cross-Tab Sheets (Q25 through Q97)</strong>]
+            <div id="qBankRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
+              [Ref: <strong>Master Workbooks (Cluster Level & District Level)</strong> | Sheets: <strong>Que Master (Question text & Options) & Cross-Tab Sheets (Q25 through Q98)</strong>]
             </div>
           </div>
+          <span class="pill-badge" id="qbCountBadge" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700; border-color: rgba(0, 138, 171, 0.3); font-size: 11px;">74 Questions</span>
         </div>
 
         <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; background: var(--bg-surface-2); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-hairline);">
@@ -1994,8 +1995,8 @@
             </div>
           </div>
           <div style="flex: 1; min-width: 260px;">
-            <label style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); display: block; margin-bottom: 4px;">SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):</label>
-            <select id="qbSheetSelect" class="select-tactile" style="width: 100%;" onchange="renderQuestionBankActive()">
+            <label id="qbSelectLabel" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); display: block; margin-bottom: 4px;">SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):</label>
+            <select id="qbSheetSelect" class="select-tactile" style="width: 100%; font-family: var(--font-sans); font-size: 13px;" onchange="renderQuestionBankActive()">
               <!-- populated dynamically -->
             </select>
           </div>
@@ -3010,7 +3011,8 @@
         updateDistrict360View();
         updateDistrictComparison();
       } else if (tabId === 'tab-questions') {
-        renderQuestionBankActive();
+        if (typeof refreshQuestionBankDropdown === 'function') refreshQuestionBankDropdown();
+        else renderQuestionBankActive();
       } else if (tabId === 'tab-league') {
         initDistrictLeague();
       } else if (tabId === 'tab-blocks') {
@@ -4572,29 +4574,89 @@
       if (totEl) totEl.innerText = sumTot.toLocaleString();
     }
 
+    // Helper to match survey items against program and role filters
+    function matchesSurveyFilter(s, prog, role) {
+      if (!s) return false;
+      // 1. Program Match
+      let matchProg = true;
+      if (prog && prog !== 'ALL') {
+        matchProg = (String(s.program).toUpperCase() === String(prog).toUpperCase());
+      }
+
+      // 2. Role Match
+      let matchRole = true;
+      if (role && role !== 'ALL') {
+        const sRole = String(s.role || '').toLowerCase();
+        const fRole = String(role || '').toLowerCase();
+
+        if (fRole.startsWith('part') || fRole.startsWith('teach')) {
+          matchRole = sRole.startsWith('part') || sRole.startsWith('teach');
+        } else if (fRole.startsWith('facil')) {
+          matchRole = sRole.startsWith('facil');
+        } else if (fRole.startsWith('monit') || fRole.startsWith('observ')) {
+          matchRole = sRole.startsWith('monit') || sRole.startsWith('observ');
+        } else {
+          matchRole = (sRole === fRole);
+        }
+      }
+      return matchProg && matchRole;
+    }
+
     // 5. Question Bank
     function refreshQuestionBankDropdown() {
       const sel = document.getElementById('qbSheetSelect');
+      if (!sel) return;
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       sel.innerHTML = '';
 
-      const filtered = dataPackage.surveys.filter(s => {
-        const mP = (activeProgram === 'ALL' || s.program === activeProgram);
-        const mR = (activeRole === 'ALL' || s.role === activeRole);
-        return mP && mR;
-      });
+      const surveys = (dataPackage && dataPackage.surveys) ? dataPackage.surveys : [];
+      const filtered = surveys.filter(s => matchesSurveyFilter(s, activeProgram, activeRole));
+
+      // Update Header Count Badge & Slicer Scope Indicator
+      const countBadge = document.getElementById('qbCountBadge');
+      if (countBadge) {
+        let progText = activeProgram === 'ALL' ? (isHi ? 'समेकित' : 'All Programs') : activeProgram;
+        let roleText = activeRole === 'ALL' ? (isHi ? 'सभी संवर्ग' : 'All Cadres') : (activeRole === 'Observer' ? (isHi ? 'मॉनिटर' : 'Monitors') : (activeRole === 'Participant' ? (isHi ? 'शिक्षक' : 'Teachers') : (isHi ? 'फैसिलिटेटर' : 'Facilitators')));
+        countBadge.innerText = isHi 
+          ? `${filtered.length} प्रश्न (${progText} • ${roleText})`
+          : `${filtered.length} Questions (${progText} • ${roleText})`;
+      }
+
+      const selectLabel = document.getElementById('qbSelectLabel');
+      if (selectLabel) {
+        selectLabel.innerText = isHi
+          ? `प्रश्न / सर्वेक्षण शीट चुनें (सक्रिय फिल्टर: ${activeProgram} | ${activeRole}):`
+          : `SELECT QUESTION / SHEET (FILTERED BY: ${activeProgram} | ${activeRole}):`;
+      }
 
       if (filtered.length === 0) {
         const opt = document.createElement('option');
         opt.value = '';
-        opt.innerText = 'No survey sheets match current slicer selection.';
+        opt.innerText = isHi ? 'वर्तमान फिल्टर चयन के लिए कोई सर्वेक्षण प्रश्न उपलब्ध नहीं है।' : 'No survey questions match current slicer selection.';
         sel.appendChild(opt);
+        const banner = document.getElementById('qbBanner');
+        if (banner) banner.innerHTML = `<div style="color: var(--accent-rose); font-weight: 700; padding: 12px;">${isHi ? 'चयनित फिल्टर के लिए कोई प्रश्न नहीं मिला।' : 'No questions found for the selected program/cadre filter.'}</div>`;
+        if (chartInstances.qbBar) chartInstances.qbBar.destroy();
+        const leg = document.getElementById('qbOptionsLegend');
+        if (leg) leg.innerHTML = '';
+        const tbl = document.getElementById('qbDistTable');
+        if (tbl) tbl.innerHTML = '';
         return;
       }
 
       filtered.forEach(s => {
         const opt = document.createElement('option');
-        opt.value = `${s.program}|${s.role}|${s.sheet}`;
-        opt.innerText = `[${s.program} - ${s.role}] Sheet: ${s.sheet} | Q${s.questionId}`;
+        opt.value = `${s.program}|${s.role}|${s.sheet}|${s.questionId}`;
+        
+        let roleName = s.role;
+        if (s.role === 'Participants' || s.role === 'Participant') roleName = isHi ? 'शिक्षक' : 'Teacher';
+        else if (s.role === 'Facilitator') roleName = isHi ? 'फैसिलिटेटर' : 'Facilitator';
+        else if (s.role === 'Monitor') roleName = isHi ? 'मॉनिटर' : 'Monitor';
+
+        const qSnippet = (s.questionText || s.sheet || '').trim();
+        const shortSnippet = qSnippet.length > 70 ? qSnippet.substring(0, 67) + '...' : qSnippet;
+
+        opt.innerText = `Q${s.questionId} [${s.program} - ${roleName}]: ${shortSnippet}`;
         sel.appendChild(opt);
       });
 
@@ -4602,74 +4664,158 @@
     }
 
     function renderQuestionBankActive() {
-      const val = document.getElementById('qbSheetSelect').value;
+      const sel = document.getElementById('qbSheetSelect');
+      if (!sel) return;
+      const val = sel.value;
       if (!val) return;
-      const [prog, role, sheet] = val.split('|');
-      const s = dataPackage.surveys.find(x => x.program === prog && x.role === role && x.sheet === sheet);
+      const parts = val.split('|');
+      const prog = parts[0];
+      const role = parts[1];
+      const sheet = parts[2];
+      const qid = parts[3];
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+
+      const s = dataPackage.surveys.find(x => 
+        x.program === prog && 
+        x.role === role && 
+        String(x.questionId) === String(qid)
+      ) || dataPackage.surveys.find(x => 
+        x.program === prog && 
+        x.role === role && 
+        x.sheet === sheet
+      );
       if (!s) return;
 
+      let roleDisp = s.role;
+      if (s.role === 'Participants' || s.role === 'Participant') roleDisp = isHi ? 'शिक्षक' : 'Teachers';
+      else if (s.role === 'Facilitator') roleDisp = isHi ? 'फैसिलिटेटर (प्रशिक्षक)' : 'Facilitators';
+      else if (s.role === 'Monitor') roleDisp = isHi ? 'पर्यवेक्षक / मॉनिटर' : 'Monitors / Observers';
+
+      let totalResponses = (s.columns && s.columns.length > 0)
+        ? s.columns.reduce((sum, c) => sum + (c.stateTotal || 0), 0)
+        : 0;
+
       document.getElementById('qbBanner').innerHTML = `
-        <div class="q-hindi-text">${s.questionText || 'Sheet: ' + s.sheet}</div>
-        <div class="q-chips">
-          <span>PROGRAM: <strong>${s.program}</strong></span> |
-          <span>ROLE: <strong>${s.role}</strong></span> |
-          <span>SHEET: <strong>${s.sheet}</strong></span> |
-          <span>SUB-METRICS: <strong>${s.columns.length}</strong></span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+          <div>
+            <span class="pill-badge" style="background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); font-weight: 800; font-size: 11px; margin-bottom: 6px; display: inline-block;">
+              QUESTION Q${s.questionId} • ${s.program}
+            </span>
+            <div class="q-hindi-text" style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.5;">${s.questionText || 'Sheet: ' + s.sheet}</div>
+          </div>
+          <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); font-weight: 800; font-size: 11px; font-family: var(--font-mono);">
+            ${isHi ? 'कुल प्रतिक्रियाएं: ' : 'Total Responses: '} ${totalResponses.toLocaleString()}
+          </span>
+        </div>
+        <div class="q-chips" style="margin-top: 10px; font-size: 11px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap;">
+          <span>${isHi ? 'कार्यक्रम' : 'PROGRAM'}: <strong style="color: var(--peepul-teal);">${s.program}</strong></span> |
+          <span>${isHi ? 'संवर्ग' : 'ROLE'}: <strong style="color: var(--text-primary);">${roleDisp}</strong></span> |
+          <span>${isHi ? 'शीट' : 'SHEET'}: <strong style="color: var(--text-primary);">${s.sheet}</strong></span> |
+          <span>${isHi ? 'विकल्प संख्या' : 'OPTIONS'}: <strong style="color: var(--text-primary);">${s.columns.length}</strong></span>
         </div>
       `;
 
       const theme = getChartTheme();
       if (chartInstances.qbBar) chartInstances.qbBar.destroy();
-      const ctx = document.getElementById('qbStateBar').getContext('2d');
-      chartInstances.qbBar = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: s.columns.map(c => c.code),
-          datasets: [{
-            label: 'Total Responses',
-            data: s.columns.map(c => c.stateTotal),
-            backgroundColor: '#0284c7',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { family: theme.fontMono } } },
-            y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
-          }
-        }
-      });
+      const ctx = document.getElementById('qbStateBar')?.getContext('2d');
+      if (ctx) {
+        chartInstances.qbBar = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: s.columns.map(c => c.code),
+            datasets: [{
+              label: isHi ? 'कुल प्रतिक्रियाएं' : 'Total Responses',
+              data: s.columns.map(c => c.stateTotal),
+              backgroundColor: '#0284c7',
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 20 } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  title(items) {
+                    const idx = items[0].dataIndex;
+                    const col = s.columns[idx];
+                    return `${col.code}: ${col.labelEn || col.labelHi}`;
+                  },
+                  label(item) {
+                    const idx = item.dataIndex;
+                    const col = s.columns[idx];
+                    return ` ${isHi ? 'प्रतिक्रियाएं' : 'Responses'}: ${col.stateTotal.toLocaleString()} (${col.statePct}%)`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { family: theme.fontMono, weight: 600 } } },
+              y: { grace: '15%', grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+            }
+          },
+          plugins: [
+            {
+              id: 'qbBarLabels',
+              afterDatasetsDraw(chart) {
+                const { ctx } = chart;
+                ctx.save();
+                ctx.font = '700 10px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillStyle = '#0284c7';
+
+                const meta = chart.getDatasetMeta(0);
+                if (meta && !meta.hidden) {
+                  meta.data.forEach((bar, bIdx) => {
+                    const col = s.columns[bIdx];
+                    if (col && col.stateTotal > 0) {
+                      ctx.fillText(`${col.statePct}%`, bar.x, bar.y - 4);
+                    }
+                  });
+                }
+                ctx.restore();
+              }
+            }
+          ]
+        });
+      }
 
       let legendHtml = '';
       s.columns.forEach(c => {
         legendHtml += `
           <div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-left: 3px solid var(--peepul-teal); padding: 8px 12px; border-radius: 6px;">
-            <div style="font-weight: 700; color: var(--text-primary);">${c.code} — ${c.labelEn}</div>
-            <div style="font-size: 11px; color: var(--text-muted);">${c.labelHi}</div>
-            <div class="font-mono" style="font-size: 11px; color: var(--accent-cyan); margin-top: 2px;">Total: <strong>${c.stateTotal.toLocaleString()}</strong> (${c.statePct}%)</div>
+            <div style="font-weight: 700; color: var(--text-primary); font-size: 12.5px;">${c.code} — ${c.labelEn}</div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 2px;">${c.labelHi}</div>
+            <div class="font-mono" style="font-size: 11px; color: var(--accent-cyan); margin-top: 4px; font-weight: 700;">
+              ${isHi ? 'राज्य कुल' : 'Total'}: <strong>${c.stateTotal.toLocaleString()}</strong> (${c.statePct}%)
+            </div>
           </div>
         `;
       });
-      document.getElementById('qbOptionsLegend').innerHTML = legendHtml;
+      const optLeg = document.getElementById('qbOptionsLegend');
+      if (optLeg) optLeg.innerHTML = legendHtml;
 
       const table = document.getElementById('qbDistTable');
-      let tHtml = '<thead><tr><th>District</th><th>Total Cadre</th>';
-      s.columns.forEach(c => { tHtml += `<th>${c.code}</th>`; });
-      tHtml += '</tr></thead><tbody>';
+      if (table) {
+        let tHtml = `<thead><tr><th>${isHi ? 'जिला' : 'District'}</th><th>${isHi ? 'कुल कैडर' : 'Total Cadre'}</th>`;
+        s.columns.forEach(c => { tHtml += `<th title="${c.labelEn}">${c.code}</th>`; });
+        tHtml += '</tr></thead><tbody>';
 
-      s.districtData.forEach(d => {
-        tHtml += `<tr><td><strong style="color: var(--text-primary);">${d.district}</strong></td><td class="font-mono">${d.totalRespondents || '-'}</td>`;
-        s.columns.forEach(c => {
-          const v = d[c.code] !== undefined ? d[c.code] : '-';
-          tHtml += `<td class="font-mono" style="color: #38bdf8;">${v}</td>`;
+        s.districtData.forEach(d => {
+          const dHi = getDistName(d.district);
+          tHtml += `<tr><td><strong style="color: var(--text-primary);">${isHi ? dHi : d.district}</strong></td><td class="font-mono" style="font-weight: 700;">${d.totalRespondents ? d.totalRespondents.toLocaleString() : '-'}</td>`;
+          s.columns.forEach(c => {
+            const v = d[c.code] !== undefined ? d[c.code] : '-';
+            tHtml += `<td class="font-mono" style="color: #38bdf8;">${v !== '-' ? Number(v).toLocaleString() : '-'}</td>`;
+          });
+          tHtml += '</tr>';
         });
-        tHtml += '</tr>';
-      });
-      tHtml += '</tbody>';
-      table.innerHTML = tHtml;
+        tHtml += '</tbody>';
+        table.innerHTML = tHtml;
+      }
     }
 
     function filterQuestionDistTable() {
