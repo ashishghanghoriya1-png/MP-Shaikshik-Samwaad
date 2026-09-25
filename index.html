@@ -6776,45 +6776,122 @@
 
     function initTrustHeatmapTable() {
       const tbody = document.querySelector('#trustHeatmapTable tbody');
+      const thead = document.querySelector('#trustHeatmapTable thead');
       if (!tbody) return;
       tbody.innerHTML = '';
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+
+      if (thead) {
+        thead.innerHTML = `
+          <tr>
+            <th style="width: 45px; text-align: center;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
+            <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+            <th style="text-align: right; width: 85px;">${isHi ? 'सहभागी शिक्षक' : 'Teachers'}</th>
+            <th style="text-align: center; width: 110px;">${isHi ? 'उच्च विश्वास % (Q91)' : 'High Trust % (Q91)'}</th>
+            <th style="text-align: center; width: 115px;">${isHi ? 'शैक्षणिक फ़ोकस % (Q89)' : 'Academic Focus % (Q89)'}</th>
+            <th style="text-align: center; width: 115px;">${isHi ? 'समस्या समाधान % (Q90)' : 'Problem Solving % (Q90)'}</th>
+            <th style="text-align: center; width: 110px;">${isHi ? '2-वर्षीय वृद्धि % (Q88)' : '2-Yr Growth % (Q88)'}</th>
+            <th style="text-align: center; width: 135px;">${isHi ? 'धारणा ग्रेड' : 'Perception Grade'}</th>
+          </tr>
+        `;
+      }
 
       function getDistQScore(qid, code, distName) {
         if (!dataPackage || !dataPackage.surveys) return 0;
-        const s = dataPackage.surveys.find(x => String(x.questionId) === String(qid));
+        const s = dataPackage.surveys.find(x => 
+          (x.program === 'CLSS' || x.program === activeProgram || !x.program) && 
+          (String(x.questionId) === String(qid) || String(x.questionId).replace('Q', '') === String(qid))
+        );
         if (!s || !s.districtData) return 0;
-        const row = s.districtData.find(d => d.district === distName);
+        const row = s.districtData.find(d => d.district && d.district.toLowerCase() === distName.toLowerCase());
         if (!row || !row.totalRespondents) return 0;
-        const cnt = row[code] || 0;
+
+        const candidates = [
+          code,
+          'Q' + code,
+          code.replace('Q', ''),
+          'Q' + qid + '.1',
+          qid + '.1',
+          'Q' + qid + '_1',
+          qid + '_1'
+        ];
+        let cnt = 0;
+        for (const c of candidates) {
+          if (row[c] !== undefined && typeof row[c] === 'number') {
+            cnt = row[c];
+            break;
+          }
+        }
         return Math.min(100, Math.round((cnt / row.totalRespondents) * 100));
       }
 
+      function getHeatmapPill(pct, isStalled) {
+        if (isStalled) return '<span style="color: var(--text-muted);">-</span>';
+        let bg = 'rgba(16, 185, 129, 0.12)';
+        let color = 'var(--accent-emerald)';
+        if (pct < 85) {
+          bg = 'rgba(225, 29, 72, 0.12)';
+          color = 'var(--accent-rose)';
+        } else if (pct < 92) {
+          bg = 'rgba(245, 158, 11, 0.12)';
+          color = '#d97706';
+        } else if (pct < 96) {
+          bg = 'rgba(0, 138, 171, 0.12)';
+          color = 'var(--peepul-teal)';
+        }
+        return `<span class="status-chip" style="background: ${bg}; color: ${color}; font-weight: 800; font-family: var(--font-mono); font-size: 11.5px; padding: 2px 8px; border-radius: 4px;">${pct}%</span>`;
+      }
+
       let idx = 1;
-      (dataPackage.districtSummary || []).forEach(d => {
-        const isStalled = (d.attendees < 10);
+      let distList = [...(dataPackage.districtSummary || [])];
+
+      // Slicer Archetype filter if active
+      if (typeof activeArchetype !== 'undefined' && activeArchetype !== 'ALL') {
+        if (activeArchetype === 'ASPIRATIONAL') distList = distList.filter(d => d.isAspirational);
+        else if (activeArchetype === 'TRIBAL') distList = distList.filter(d => d.isTribal);
+        else if (activeArchetype === 'URBAN') distList = distList.filter(d => d.isUrban);
+        else if (activeArchetype === 'GENERAL') distList = distList.filter(d => !d.isAspirational && !d.isTribal && !d.isUrban);
+      }
+
+      distList.forEach(d => {
+        const isStalled = ((d.attendees || 0) < 10);
         const p91 = isStalled ? 0 : getDistQScore('91', '91.1', d.district);
         const p89 = isStalled ? 0 : getDistQScore('89', '89.1', d.district);
         const p90 = isStalled ? 0 : getDistQScore('90', '90.1', d.district);
         const p88 = isStalled ? 0 : getDistQScore('88', '88.1', d.district);
 
-        let badge = '<span style="color: var(--accent-emerald); font-weight: 700; font-size: 10.5px; background: rgba(5,150,105,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2);">🌟 Stellar (95%+)</span>';
+        let badge = `<span style="color: var(--accent-emerald); font-weight: 700; font-size: 10.5px; background: rgba(5,150,105,0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2);">${isHi ? '🌟 उत्कृष्ट (95%+)' : '🌟 Stellar (95%+)'}</span>`;
         if (isStalled) {
-          badge = '<span style="color: var(--accent-rose); font-weight: 700; font-size: 10.5px; background: rgba(220,38,38,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(220,38,38,0.2);">⚠️ Vacancy / Stalled</span>';
-        } else if (p91 < 90 || p89 < 95) {
-          badge = '<span style="color: var(--peepul-teal); font-weight: 700; font-size: 10.5px; background: rgba(0,138,171,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,138,171,0.2);">🌱 High Trust (88-95%)</span>';
+          badge = `<span style="color: var(--accent-rose); font-weight: 700; font-size: 10.5px; background: rgba(220,38,38,0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(220,38,38,0.2);">${isHi ? '⚠️ पद रिक्त / बाधित' : '⚠️ Vacancy / Stalled'}</span>`;
+        } else if (p91 < 88 || p89 < 92) {
+          badge = `<span style="color: var(--peepul-teal); font-weight: 700; font-size: 10.5px; background: rgba(0,138,171,0.08); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0,138,171,0.2);">${isHi ? '🌱 मध्यम विश्वास (80-92%)' : '🌱 Moderate Trust (80-92%)'}</span>`;
+        }
+
+        let archBadge = '';
+        if (d.isAspirational) {
+          archBadge = `<span class="status-chip" style="background: rgba(245, 158, 11, 0.18); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.35); font-size: 9.5px; font-weight: 800; padding: 1px 5px; margin-left: 4px;">⭐ Asp</span>`;
+        } else if (d.isTribal) {
+          archBadge = `<span class="status-chip" style="background: rgba(16, 185, 129, 0.12); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 9.5px; font-weight: 700; padding: 1px 5px; margin-left: 4px;">🏹 Tribal</span>`;
+        } else if (d.isUrban) {
+          archBadge = `<span class="status-chip" style="background: rgba(79, 70, 229, 0.12); color: #4338ca; border: 1px solid rgba(79, 70, 229, 0.3); font-size: 9.5px; font-weight: 700; padding: 1px 5px; margin-left: 4px;">🏙️ Urban</span>`;
         }
 
         const tr = document.createElement('tr');
         tr.setAttribute('data-district', d.district.toLowerCase());
+        const distHi = getDistName(d.district);
+        tr.setAttribute('data-districthi', distHi.toLowerCase());
         tr.innerHTML = `
-          <td class="font-mono">${idx++}</td>
-          <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="if(typeof openDistrictIn360==='function'){openDistrictIn360('${d.district}')}else{activateTab('tab-d360')}">${getDistName(d.district)}</strong></td>
-          <td class="font-mono">${d.attendees.toLocaleString()}</td>
-          <td class="font-mono" style="color: ${p91 >= 90 ? 'var(--peepul-teal)' : 'var(--accent-rose)'}; font-weight: 700;">${isStalled ? '-' : p91 + '%'}</td>
-          <td class="font-mono" style="color: ${p89 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'}; font-weight: 700;">${isStalled ? '-' : p89 + '%'}</td>
-          <td class="font-mono" style="color: ${p90 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'}; font-weight: 700;">${isStalled ? '-' : p90 + '%'}</td>
-          <td class="font-mono" style="color: ${p88 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'}; font-weight: 700;">${isStalled ? '-' : p88 + '%'}</td>
-          <td>${badge}</td>
+          <td class="font-mono" style="text-align: center;">${idx++}</td>
+          <td>
+            <strong style="color: var(--text-primary); cursor: pointer;" onclick="if(typeof openDistrictIn360==='function'){openDistrictIn360('${d.district}')}else{activateTab('tab-d360')}">📍 ${distHi}</strong>
+            ${archBadge}
+          </td>
+          <td class="font-mono" style="text-align: right; font-weight: 700;">${(d.attendees || 0).toLocaleString()}</td>
+          <td style="text-align: center;">${getHeatmapPill(p91, isStalled)}</td>
+          <td style="text-align: center;">${getHeatmapPill(p89, isStalled)}</td>
+          <td style="text-align: center;">${getHeatmapPill(p90, isStalled)}</td>
+          <td style="text-align: center;">${getHeatmapPill(p88, isStalled)}</td>
+          <td style="text-align: center;">${badge}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -6825,7 +6902,8 @@
       const rows = document.querySelectorAll('#trustHeatmapTable tbody tr');
       rows.forEach(r => {
         const d = r.getAttribute('data-district') || '';
-        r.style.display = (!q || d.includes(q)) ? '' : 'none';
+        const dHi = r.getAttribute('data-districthi') || '';
+        r.style.display = (!q || d.includes(q) || dHi.includes(q)) ? '' : 'none';
       });
     }
 
