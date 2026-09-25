@@ -207,16 +207,27 @@
       margin: 2px 0 0 0;
     }
 
-    /* Global Slicer Ribbon */
+    /* Global Slicer Ribbon - High Visibility Command Ribbon */
     .slicer-ribbon {
-      background: var(--bg-surface-2);
-      border-bottom: 1px solid var(--border-hairline);
+      background: linear-gradient(135deg, #e6f6f9 0%, #e0f2f7 50%, #d8eef4 100%);
+      border-bottom: 2px solid rgba(0, 138, 171, 0.28);
+      border-top: 1px solid rgba(0, 138, 171, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 138, 171, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
       padding: 10px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    html.dark .slicer-ribbon {
+      background: linear-gradient(135deg, #0b1f28 0%, #081720 50%, #061219 100%);
+      border-bottom: 2px solid rgba(99, 208, 223, 0.35);
+      border-top: 1px solid rgba(99, 208, 223, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     }
 
     .slicer-group {
@@ -230,27 +241,39 @@
       font-family: var(--font-mono);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--text-muted);
-      font-weight: 600;
+      color: #006078;
+      font-weight: 800;
+    }
+
+    html.dark .slicer-label {
+      color: #63d0df;
     }
 
     .slicer-pills {
       display: flex;
-      background: var(--bg-surface-1);
-      padding: 3px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-hairline);
-      gap: 3px;
+      background: #ffffff;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(0, 138, 171, 0.35);
+      box-shadow: 0 2px 8px rgba(0, 138, 171, 0.12), inset 0 1px 1px rgba(0, 0, 0, 0.03);
+      gap: 4px;
+      align-items: center;
     }
 
-    .slicer-btn {
+    html.dark .slicer-pills {
+      background: #0f242d;
+      border: 1.5px solid rgba(99, 208, 223, 0.35);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .slicer-btn, .slicer-pill {
       background: transparent;
-      border: none;
-      color: var(--text-secondary);
+      border: 1px solid transparent;
+      color: #334155;
       padding: 6px 14px;
       font-size: 12px;
-      font-weight: 600;
-      border-radius: 6px;
+      font-weight: 700;
+      border-radius: 7px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -259,19 +282,39 @@
       white-space: nowrap;
       min-width: 90px;
       text-align: center;
-      transition: var(--transition-spring);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .slicer-btn:hover {
-      color: var(--text-primary);
-      background: var(--bg-surface-2);
+    html.dark .slicer-btn, html.dark .slicer-pill {
+      color: #cbd5e1;
     }
 
-    .slicer-btn.active {
-      background: var(--peepul-teal);
-      color: #ffffff;
-      font-weight: 700;
-      box-shadow: 0 2px 10px rgba(0, 138, 171, 0.35);
+    .slicer-btn:hover, .slicer-pill:hover {
+      color: #008aab;
+      background: rgba(0, 138, 171, 0.10);
+      border-color: rgba(0, 138, 171, 0.25);
+    }
+
+    html.dark .slicer-btn:hover, html.dark .slicer-pill:hover {
+      color: #63d0df;
+      background: rgba(99, 208, 223, 0.15);
+      border-color: rgba(99, 208, 223, 0.3);
+    }
+
+    .slicer-btn.active, .slicer-pill.active {
+      background: linear-gradient(135deg, #008aab 0%, #006f8a 100%) !important;
+      border: 1px solid #005a70 !important;
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      box-shadow: 0 3px 10px rgba(0, 138, 171, 0.45) !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    }
+
+    html.dark .slicer-btn.active, html.dark .slicer-pill.active {
+      background: linear-gradient(135deg, #008aab 0%, #005a70 100%) !important;
+      border: 1px solid #63d0df !important;
+      color: #ffffff !important;
+      box-shadow: 0 3px 12px rgba(99, 208, 223, 0.35) !important;
     }
 
     .btn-tactile {
