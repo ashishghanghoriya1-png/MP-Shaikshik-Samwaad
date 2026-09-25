@@ -3495,13 +3495,13 @@
               {
                 label: isHi ? 'शैक्षिक संवाद शिक्षक शुद्धता %' : 'CLSS Teacher Accuracy %',
                 data: clssScores,
-                backgroundColor: '#0284c7',
+                backgroundColor: '#2563eb',
                 borderRadius: 6
               },
               {
                 label: isHi ? 'DO फैसिलिटेटर बेसलाइन %' : 'DO Facilitator Baseline %',
                 data: doScores,
-                backgroundColor: '#008aab',
+                backgroundColor: '#ea580c',
                 borderRadius: 6
               }
             ]
@@ -5371,18 +5371,28 @@
           labels: radarLabels,
           datasets: [
             {
-              label: isHi ? 'CLSS शिक्षक शुद्धता %' : 'CLSS Teacher Accuracy %',
+              label: isHi ? '👨‍🏫 संकुल शिक्षक शुद्धता % (CLSS Teachers)' : '👨‍🏫 CLSS Teacher Accuracy %',
               data: clssRadar,
-              borderColor: '#0284c7',
-              backgroundColor: isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(2, 132, 199, 0.2)',
-              borderWidth: 2
+              borderColor: '#2563eb',
+              backgroundColor: isDark ? 'rgba(37, 99, 235, 0.35)' : 'rgba(37, 99, 235, 0.22)',
+              borderWidth: 2.5,
+              pointBackgroundColor: '#2563eb',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 6
             },
             {
-              label: isHi ? 'DO फेसिलिटेटर बेसलाइन %' : 'DO Facilitator Baseline %',
+              label: isHi ? '🤝 डीओ फैसिलिटेटर बेसलाइन % (DO Facilitators)' : '🤝 DO Facilitator Baseline %',
               data: doRadar,
-              borderColor: '#008aab',
-              backgroundColor: isDark ? 'rgba(99, 208, 223, 0.25)' : 'rgba(0, 138, 171, 0.2)',
-              borderWidth: 2
+              borderColor: '#ea580c',
+              backgroundColor: isDark ? 'rgba(234, 88, 12, 0.30)' : 'rgba(245, 158, 11, 0.22)',
+              borderWidth: 2.5,
+              pointBackgroundColor: '#ea580c',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 6
             }
           ]
         },
