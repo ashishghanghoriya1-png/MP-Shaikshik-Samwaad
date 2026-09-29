@@ -1282,7 +1282,8 @@
 <button class="nav-item" onclick="activateTab('tab-blocks', this)"><span class="nav-dot"></span> 🏢 5. Block Directory</button>
 <button class="nav-item" onclick="activateTab('tab-questions', this)"><span class="nav-dot"></span> 📋 6. Survey Questions &amp; Data</button>
 <button class="nav-item" onclick="activateTab('tab-pedagogy', this)"><span class="nav-dot"></span> 🧠 7. Teaching &amp; Learning Quality</button>
-<button class="nav-item" onclick="activateTab('tab-governance', this)"><span class="nav-dot"></span> ⚠️ 8. Key Actions &amp; Directives</button>
+<button class="nav-item" onclick="activateTab('tab-governance', this)"><span class="nav-dot"></span> ⚖️ 8. Key Actions &amp; Directives</button>
+        <button class="nav-item" id="navTabInsights" onclick="activateTab('tab-insights', this)"><span class="nav-dot"></span> 🤖 9. AI Insights &amp; Analysis</button>
 </nav>
 <main class="studio-canvas">
 <!-- 1. EXECUTIVE INTELLIGENCE -->
@@ -2078,6 +2079,373 @@
 <!-- Populated via JS -->
 </div>
 </div>
+</section>
+<!-- 9. AI INSIGHTS & DEEP ANALYSIS -->
+<section class="tab-section" id="tab-insights">
+  <div class="panel-box">
+    <div class="panel-head" style="flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
+      <div>
+        <div class="panel-head-title" id="insightsHeadTitle">
+          🤖 Executive AI Insights &amp; Multi-Cycle Deep Analysis
+        </div>
+        <div id="insightsSubtitle" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 3px;">
+          [Comprehensive Multi-Cycle Synthesis: <strong>August 2026 vs. September 2026</strong> | Statewide KPIs, District Shifts, Pedagogical Growth &amp; Governance Directives]
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <span class="pill-badge" id="insightsCycleBadge" style="background: rgba(37, 99, 235, 0.12); color: #2563eb; font-weight: 700; border-color: rgba(37, 99, 235, 0.3); font-size: 11px;">Dual-Cycle Comparative</span>
+        <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; font-weight: 700; border-color: rgba(16, 185, 129, 0.3); font-size: 11px;">Qwen 2.5 Synthesized</span>
+      </div>
+    </div>
+
+    <!-- Macro Scorecards Bento -->
+    <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 16px;">
+      
+      <!-- Card 1: Teachers Turnout Delta -->
+      <div class="bento-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; border-left: 4px solid #2563eb;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono);" id="insCard1Title">Teacher Participation (CLSS)</span>
+          <span class="status-chip" style="background: rgba(239, 68, 68, 0.1); color: #dc2626; font-weight: 800; font-size: 10px;">-2.6% Delta</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <span class="font-mono" style="font-size: 24px; font-weight: 900; color: var(--text-primary);">23,169</span>
+          <span style="font-size: 12px; color: var(--text-muted);">vs 23,785 (Aug)</span>
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;" id="insCard1Desc">
+          Statewide attendance remained strong at <strong>65.5%</strong> of target cohort with minor -616 seasonal consolidation.
+        </div>
+      </div>
+
+      <!-- Card 2: Active Clusters Reach -->
+      <div class="bento-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; border-left: 4px solid #059669;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono);" id="insCard2Title">Cluster Decentralization</span>
+          <span class="status-chip" style="background: rgba(16, 185, 129, 0.1); color: #059669; font-weight: 800; font-size: 10px;">+98 Clusters</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <span class="font-mono" style="font-size: 24px; font-weight: 900; color: #059669;">2,920</span>
+          <span style="font-size: 12px; color: var(--text-muted);">vs 2,822 (Aug)</span>
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;" id="insCard2Desc">
+          Active Jan Shiksha Kendras expanded statewide, broadening academic coverage to previously unreached schools.
+        </div>
+      </div>
+
+      <!-- Card 3: Facilitator Cadre Stability -->
+      <div class="bento-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; border-left: 4px solid var(--peepul-teal);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono);" id="insCard3Title">Facilitator Retention</span>
+          <span class="status-chip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 800; font-size: 10px;">98.5% Retained</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <span class="font-mono" style="font-size: 24px; font-weight: 900; color: var(--text-primary);">4,740</span>
+          <span style="font-size: 12px; color: var(--text-muted);">vs 4,814 (Aug)</span>
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;" id="insCard3Desc">
+          Consistent facilitator deployment maintained across 320 blocks with high guide fidelity (87.4%).
+        </div>
+      </div>
+
+      <!-- Card 4: Observer Presence Alert -->
+      <div class="bento-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; border-left: 4px solid #f59e0b;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono);" id="insCard4Title">Observer On-Ground Presence</span>
+          <span class="status-chip" style="background: rgba(245, 158, 11, 0.15); color: #d97706; font-weight: 800; font-size: 10px;">⚠️ -19.8% Drop</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <span class="font-mono" style="font-size: 24px; font-weight: 900; color: #d97706;">414</span>
+          <span style="font-size: 12px; color: var(--text-muted);">vs 516 (Aug)</span>
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;" id="insCard4Desc">
+          Critical alert: Field monitoring visits by CAC/BAC observers dipped, necessitating administrative review for Oct cycle.
+        </div>
+      </div>
+    </div>
+
+    <!-- Bento Row 2: Operational Breakthroughs vs Drop-off Hotspots -->
+    <div class="bento-2-1" style="margin-top: 20px; gap: 16px;">
+      
+      <!-- Breakthroughs Column -->
+      <div class="panel-box" style="margin: 0; background: var(--bg-surface-2);">
+        <div class="panel-head" style="margin-bottom: 12px; border-bottom: 1px solid var(--border-hairline); padding-bottom: 8px;">
+          <div class="panel-head-title" style="font-size: 13.5px; color: #059669;" id="insGainHeading">
+            🚀 Top Breakthrough Turnarounds &amp; Gainers (Sep vs. Aug)
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: var(--text-primary); font-size: 13.5px;">Dewas</strong>
+                <span class="status-chip" style="background: rgba(16, 185, 129, 0.12); color: #059669; font-weight: 800; font-size: 10px; margin-left: 6px;">Turnaround Champion</span>
+              </div>
+              <span class="font-mono" style="color: #059669; font-weight: 900; font-size: 14px;">+493 Teachers (+29.8% Sat)</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Reversed severe August data deficit (1 teacher → <strong>494 teachers</strong> in Sep). Complete operational recovery across all 6 blocks.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: var(--text-primary); font-size: 13.5px;">Sehore</strong>
+                <span class="status-chip" style="background: rgba(16, 185, 129, 0.12); color: #059669; font-weight: 800; font-size: 10px; margin-left: 6px;">Turnaround</span>
+              </div>
+              <span class="font-mono" style="color: #059669; font-weight: 900; font-size: 14px;">+339 Teachers (+18.8% Sat)</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Overcame August reporting blackout (3 teachers → <strong>342 teachers</strong> in Sep) through active cluster mobilization.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: var(--text-primary); font-size: 13.5px;">Damoh (NITI Aspirational)</strong>
+                <span class="status-chip" style="background: rgba(37, 99, 235, 0.12); color: #2563eb; font-weight: 800; font-size: 10px; margin-left: 6px;">Aspirational Leader</span>
+              </div>
+              <span class="font-mono" style="color: #059669; font-weight: 900; font-size: 14px;">+81 Teachers (+21.7% Growth)</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Rose from 374 → <strong>455 teachers</strong>, achieving highest positive delta among all 8 NITI Aspirational districts.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="color: var(--text-primary); font-size: 13.5px;">Sagar &amp; Rewa</strong>
+              </div>
+              <span class="font-mono" style="color: #059669; font-weight: 900; font-size: 14px;">+73 &amp; +56 Teachers</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Sagar (479 → 552) and Rewa (397 → 453) demonstrated sustained upward attendance momentum.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Drop-off Hotspots Column -->
+      <div class="panel-box" style="margin: 0; background: var(--bg-surface-2);">
+        <div class="panel-head" style="margin-bottom: 12px; border-bottom: 1px solid var(--border-hairline); padding-bottom: 8px;">
+          <div class="panel-head-title" style="font-size: 13.5px; color: #dc2626;" id="insLossHeading">
+            ⚠️ Districts Requiring Focus &amp; Rapid Intervention
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="color: var(--text-primary); font-size: 13.5px;">Seoni</strong>
+              <span class="font-mono" style="color: #dc2626; font-weight: 900; font-size: 14px;">-111 Teachers (-16.2%)</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Dropped from 687 → 576 teachers. Needs targeted cluster mobilization in tribal blocks.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="color: var(--text-primary); font-size: 13.5px;">Jhabua &amp; Dhar</strong>
+              <span class="font-mono" style="color: #dc2626; font-weight: 900; font-size: 14px;">-105 &amp; -93 Teachers</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Jhabua (478 → 373) and Dhar (839 → 746) experienced seasonal attendance contraction.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="color: var(--text-primary); font-size: 13.5px;">Betul &amp; Vidisha</strong>
+              <span class="font-mono" style="color: #dc2626; font-weight: 900; font-size: 14px;">-81 &amp; -78 Teachers</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px;">
+              Betul (951 → 870) and Vidisha (612 → 534) experienced slight drops requiring review before October cycle.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bento Row 3: NITI Aspirational Trajectory Table -->
+    <div class="panel-box" style="margin-top: 20px;">
+      <div class="panel-head" style="flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;">
+        <div class="panel-head-title" id="insAspHeading">
+          ⭐ NITI Aspirational Districts (8) — Multi-Cycle Trajectory Matrix
+        </div>
+        <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; font-weight: 700; border-color: rgba(245, 158, 11, 0.3); font-size: 11px;">8 Focus Districts</span>
+      </div>
+      <div class="table-viewport">
+        <table class="kowalski-table">
+          <thead>
+            <tr>
+              <th>Aspirational District</th>
+              <th style="text-align: right;">August Attendees</th>
+              <th style="text-align: right;">September Attendees</th>
+              <th style="text-align: right;">Net Change</th>
+              <th style="text-align: right;">Saturation Rate</th>
+              <th>Trajectory Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Damoh</strong></td>
+              <td class="font-mono" style="text-align: right;">374</td>
+              <td class="font-mono" style="text-align: right; font-weight: 800; color: #059669;">455</td>
+              <td class="font-mono" style="text-align: right; font-weight: 800; color: #059669;">+81</td>
+              <td class="font-mono" style="text-align: right;">22.1% → 26.9% (+4.8%)</td>
+              <td><span class="status-chip" style="background: rgba(16, 185, 129, 0.15); color: #047857; font-weight: 800;">🟢 Strong Upward</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Chhatarpur</strong></td>
+              <td class="font-mono" style="text-align: right;">720</td>
+              <td class="font-mono" style="text-align: right; font-weight: 800; color: #059669;">752</td>
+              <td class="font-mono" style="text-align: right; font-weight: 800; color: #059669;">+32</td>
+              <td class="font-mono" style="text-align: right;">30.7% → 32.1% (+1.4%)</td>
+              <td><span class="status-chip" style="background: rgba(16, 185, 129, 0.15); color: #047857; font-weight: 800;">🟢 Positive Growth</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Singrauli</strong></td>
+              <td class="font-mono" style="text-align: right;">251</td>
+              <td class="font-mono" style="text-align: right; font-weight: 700;">257</td>
+              <td class="font-mono" style="text-align: right; color: #059669;">+6</td>
+              <td class="font-mono" style="text-align: right;">22.6% → 23.2% (+0.6%)</td>
+              <td><span class="status-chip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700;">🟡 Stable</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Rajgarh</strong></td>
+              <td class="font-mono" style="text-align: right;">651</td>
+              <td class="font-mono" style="text-align: right; font-weight: 700;">654</td>
+              <td class="font-mono" style="text-align: right; color: #059669;">+3</td>
+              <td class="font-mono" style="text-align: right;">26.9% → 27.1% (+0.2%)</td>
+              <td><span class="status-chip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700;">🟡 Stable</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Guna</strong></td>
+              <td class="font-mono" style="text-align: right;">404</td>
+              <td class="font-mono" style="text-align: right; font-weight: 700;">362</td>
+              <td class="font-mono" style="text-align: right; color: #ea580c;">-42</td>
+              <td class="font-mono" style="text-align: right;">28.3% → 25.4% (-2.9%)</td>
+              <td><span class="status-chip" style="background: rgba(234, 88, 12, 0.1); color: #ea580c; font-weight: 700;">🟠 Minor Drop</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Khandwa</strong></td>
+              <td class="font-mono" style="text-align: right;">423</td>
+              <td class="font-mono" style="text-align: right; font-weight: 700;">372</td>
+              <td class="font-mono" style="text-align: right; color: #ea580c;">-51</td>
+              <td class="font-mono" style="text-align: right;">38.2% → 33.6% (-4.6%)</td>
+              <td><span class="status-chip" style="background: rgba(234, 88, 12, 0.1); color: #ea580c; font-weight: 700;">🟠 Minor Drop</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Barwani</strong></td>
+              <td class="font-mono" style="text-align: right;">565</td>
+              <td class="font-mono" style="text-align: right; font-weight: 700;">513</td>
+              <td class="font-mono" style="text-align: right; color: #ea580c;">-52</td>
+              <td class="font-mono" style="text-align: right;">High Tribal Baseline</td>
+              <td><span class="status-chip" style="background: rgba(234, 88, 12, 0.1); color: #ea580c; font-weight: 700;">🟠 Tribal Base Retained</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">Vidisha</strong></td>
+              <td class="font-mono" style="text-align: right;">612</td>
+              <td class="font-mono" style="text-align: right; font-weight: 700; color: #dc2626;">534</td>
+              <td class="font-mono" style="text-align: right; font-weight: 800; color: #dc2626;">-78</td>
+              <td class="font-mono" style="text-align: right;">35.0% → 30.5% (-4.5%)</td>
+              <td><span class="status-chip" style="background: rgba(239, 68, 68, 0.12); color: #dc2626; font-weight: 800;">🔴 Review Needed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bento Row 4: Pedagogical Clarity Shifts -->
+    <div class="panel-box" style="margin-top: 20px;">
+      <div class="panel-head" style="margin-bottom: 12px; border-bottom: 1px solid var(--border-hairline); padding-bottom: 8px;">
+        <div class="panel-head-title" style="font-size: 13.5px; color: var(--peepul-teal);" id="insPedHeading">
+          🧠 Pedagogical Competencies &amp; Survey Understanding Growth
+        </div>
+      </div>
+      <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+        
+        <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; border-top: 3px solid #059669;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: var(--text-primary); font-size: 13px;">Teacher Concept Clarity (Q82)</strong>
+            <span class="font-mono" style="color: #059669; font-weight: 900; font-size: 13px;">+2.5% Accuracy</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+            Correct pedagogical recognition that Samwaad is <em>not</em> for cultural event planning rose from <strong>62.4% (14,847)</strong> to <strong>64.9% (15,045)</strong>.
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; border-top: 3px solid #2563eb;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: var(--text-primary); font-size: 13px;">Facilitator Preparedness (Q67)</strong>
+            <span class="font-mono" style="color: #2563eb; font-weight: 900; font-size: 13px;">+2.3% Accuracy</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+            Facilitators identifying core academic discussion mandates increased from <strong>76.5% (3,684)</strong> to <strong>78.8% (3,737)</strong>.
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; border-top: 3px solid #7c3aed;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: var(--text-primary); font-size: 13px;">Guide Compliance (Q58)</strong>
+            <span class="font-mono" style="color: #7c3aed; font-weight: 900; font-size: 13px;">+3.3% Fidelity</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+            Monitors verifying active adherence to the <em>Facilitator Guide (सहजकर्ता मार्गदर्शिका)</em> rose from <strong>84.1% (434)</strong> to <strong>87.4% (362)</strong>.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bento Row 5: Action Directives for RSK Leadership -->
+    <div class="panel-box" style="margin-top: 20px; background: linear-gradient(135deg, rgba(0, 138, 171, 0.04), rgba(37, 99, 235, 0.04)); border: 1px solid rgba(0, 138, 171, 0.25);">
+      <div class="panel-head" style="margin-bottom: 12px; border-bottom: 1px solid rgba(0, 138, 171, 0.15); padding-bottom: 8px;">
+        <div class="panel-head-title" style="font-size: 14px; color: var(--peepul-teal);" id="insActionHeading">
+          🎯 Priority Governance Directives for October 2026 Cycle
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+        
+        <div style="background: var(--bg-surface-1); border-radius: 8px; padding: 14px; border: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="status-chip" style="background: rgba(239, 68, 68, 0.12); color: #dc2626; font-weight: 800;">Priority 1</span>
+            <strong style="color: var(--text-primary); font-size: 13px;">Re-Mandate Physical Observer Visits</strong>
+          </div>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.45;">
+            Issue state directive to District Education Officers (DEOs) and DPCs to ensure 100% CAC/BAC observer allocation to arrest the -19.8% field monitoring dip.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-surface-1); border-radius: 8px; padding: 14px; border: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="status-chip" style="background: rgba(245, 158, 11, 0.12); color: #d97706; font-weight: 800;">Priority 2</span>
+            <strong style="color: var(--text-primary); font-size: 13px;">Targeted Review in 5 Dropping Districts</strong>
+          </div>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.45;">
+            Convene rapid video review with DPCs of Seoni, Jhabua, Dhar, Betul, and Vidisha to resolve local operational blockages before October 2026.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-surface-1); border-radius: 8px; padding: 14px; border: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="status-chip" style="background: rgba(16, 185, 129, 0.12); color: #059669; font-weight: 800;">Priority 3</span>
+            <strong style="color: var(--text-primary); font-size: 13px;">Scale Dewas &amp; Sehore Recovery Protocol</strong>
+          </div>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.45;">
+            Standardize the cluster mobilization mechanism deployed in Dewas (+493) and Sehore (+339) across any future low-reporting blocks.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </section>
 </main>
 <!-- Global Footer & Provenance -->
@@ -3463,6 +3831,8 @@
         populateQuadrantBentoCards();
       } else if (tabId === 'tab-governance') {
         initGovernance();
+      } else if (tabId === 'tab-insights') {
+        if (typeof initInsightsTab === 'function') initInsightsTab();
       }
     }
 
@@ -7334,6 +7704,26 @@ function renderQuestionBankTable() {
     window.renderQuestionBankTable = renderQuestionBankTable;
     window.filterQuestionDistTable = renderQuestionBankTable;
 window.renderQuestionBankTable = renderQuestionBankTable;
+
+
+
+/* Injected missing function initInsightsTab */
+function initInsightsTab() {
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+      const hTitle = document.getElementById('insightsHeadTitle');
+      const hSub = document.getElementById('insightsSubtitle');
+      if (hTitle) hTitle.innerText = isHi ? '🤖 कार्यपालक एआई अंतर्दृष्टि और बहु-चक्र गहन विश्लेषण' : '🤖 Executive AI Insights & Multi-Cycle Deep Analysis';
+      if (hSub) hSub.innerHTML = isHi ? 
+        '[व्यापक बहु-चक्र संश्लेषण: <strong>अगस्त 2026 बनाम सितंबर 2026</strong> | राज्य स्तरीय संकेतक, जिला गतिशीलता, शिक्षाशास्त्रीय विकास एवं प्रशासनिक निर्देश]' :
+        '[Comprehensive Multi-Cycle Synthesis: <strong>August 2026 vs. September 2026</strong> | Statewide KPIs, District Shifts, Pedagogical Growth & Governance Directives]';
+      
+      const badge = document.getElementById('insightsCycleBadge');
+      if (badge) {
+        badge.innerText = isHi ? 'द्वि-चक्र तुलनात्मक' : 'Dual-Cycle Comparative';
+      }
+    }
+    window.initInsightsTab = initInsightsTab;
+window.initInsightsTab = initInsightsTab;
 
 
 
