@@ -2795,7 +2795,10 @@
       if (typeof initDistrictLeague === 'function') initDistrictLeague();
       if (typeof refreshQuestionBankDropdown === 'function') refreshQuestionBankDropdown();
       if (typeof renderQuestionBankActive === 'function') renderQuestionBankActive();
-      if (typeof updateDistrict360View === 'function') updateDistrict360View();
+      if (typeof initDistrict360 === 'function') initDistrict360();
+      else if (typeof updateDistrict360View === 'function') updateDistrict360View();
+      if (typeof initDistrictComparatorDropdowns === 'function') initDistrictComparatorDropdowns();
+      else if (typeof updateDistrictComparison === 'function') updateDistrictComparison();
       if (typeof updateBlockView === 'function') updateBlockView();
       if (typeof filterBlockDirectory === 'function') filterBlockDirectory();
       if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
@@ -2810,8 +2813,9 @@
     // 1. Update Executive KPIs
     
     function getSurveyQuestionScore(qid) {
-      if (!dataPackage || !dataPackage.surveys) return 0;
-      const s = dataPackage.surveys.find(x => String(x.questionId) === String(qid));
+      const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
+      if (!surveys || surveys.length === 0) return 0;
+      const s = surveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q', '') === String(qid));
       if (!s || !s.columns || s.columns.length === 0) return 0;
       return s.columns[0].statePct || 0;
     }
@@ -3285,6 +3289,93 @@
       return (dataPackage && dataPackage.blockSummary) || [];
     }
 
+    function getActiveSurveys() {
+      if (currentCycle === 'SEP') {
+        if (dataPackage && dataPackage.cycles && dataPackage.cycles.hasSeptember && dataPackage.cycles.SEP) {
+          return dataPackage.cycles.SEP.surveys || [];
+        }
+        return [];
+      }
+      if (currentCycle === 'AUG') {
+        if (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG) {
+          return dataPackage.cycles.AUG.surveys || [];
+        }
+        return (dataPackage && dataPackage.surveys) || [];
+      }
+      // ALL (Consolidated)
+      if (dataPackage && dataPackage.cycles && dataPackage.cycles.CONSOLIDATED) {
+        return dataPackage.cycles.CONSOLIDATED.surveys || [];
+      }
+      return (dataPackage && dataPackage.surveys) || [];
+    }
+
+    function getActiveCycleFieldIssues() {
+      if (currentCycle === 'SEP') {
+        if (dataPackage && dataPackage.cycles && dataPackage.cycles.hasSeptember && dataPackage.cycles.SEP) {
+          return dataPackage.cycles.SEP.fieldIssues || [];
+        }
+        return [];
+      }
+      if (currentCycle === 'AUG') {
+        if (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG) {
+          return dataPackage.cycles.AUG.fieldIssues || [];
+        }
+        return (dataPackage && dataPackage.fieldIssues) || [];
+      }
+      // ALL (Consolidated)
+      if (dataPackage && dataPackage.cycles && dataPackage.cycles.CONSOLIDATED) {
+        return dataPackage.cycles.CONSOLIDATED.fieldIssues || [];
+      }
+      return (dataPackage && dataPackage.fieldIssues) || [];
+    }
+
+    function getActiveOperationsAttendance() {
+      if (currentCycle === 'SEP') {
+        if (dataPackage && dataPackage.cycles && dataPackage.cycles.hasSeptember && dataPackage.cycles.SEP) {
+          return dataPackage.cycles.SEP.operationsAttendance || [];
+        }
+        return [];
+      }
+      if (currentCycle === 'AUG') {
+        if (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG) {
+          return dataPackage.cycles.AUG.operationsAttendance || [];
+        }
+        return (dataPackage && dataPackage.operationsAttendance) || [];
+      }
+      // ALL (Consolidated)
+      if (dataPackage && dataPackage.cycles && dataPackage.cycles.CONSOLIDATED) {
+        return dataPackage.cycles.CONSOLIDATED.operationsAttendance || [];
+      }
+      return (dataPackage && dataPackage.operationsAttendance) || [];
+    }
+
+    function getSurveyQuestionScore(qid) {
+      const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
+      if (!surveys || surveys.length === 0) return 0;
+      const s = surveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid));
+      if (!s || !s.columns || s.columns.length === 0) return 0;
+      return s.columns[0].statePct || 0;
+    }
+
+    function getDistrictSurveyVal(prog, qid, district) {
+      const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
+      if (!surveys || surveys.length === 0) return { count: 0, pct: 0, total: 0 };
+      const s = surveys.find(x => 
+        (prog === 'ALL' || x.program === prog) && 
+        (String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid))
+      );
+      if (!s || !s.districtData || s.districtData.length === 0) return { count: 0, pct: 0, total: 0 };
+      
+      const row = s.districtData.find(d => d.district === district);
+      if (!row) return { count: 0, pct: 0, total: 0 };
+
+      const colCode = (s.columns && s.columns.length > 0) ? s.columns[0].code : (qid + '_Correct');
+      const val = row[colCode] !== undefined ? row[colCode] : (row[qid + '.1'] !== undefined ? row[qid + '.1'] : (row[qid + '_Correct'] || 0));
+      const tot = row.totalRespondents || 1;
+      const pct = Math.min(100, Math.round((val / tot) * 100));
+      return { count: val, pct: pct, total: tot };
+    }
+
     function setMonthSlicer(cycle, el) {
       currentCycle = cycle;
       document.querySelectorAll('#monthSlicer .slicer-btn').forEach(b => b.classList.remove('active'));
@@ -3298,6 +3389,7 @@
         if (sepNotice) sepNotice.style.display = 'none';
       }
 
+      updateBriefingDrawerLanguage(typeof currentLang !== 'undefined' ? currentLang : 'en');
       applySlicers();
     }
 
@@ -3307,7 +3399,11 @@
       if (bTitle) bTitle.innerText = isHi ? 'कार्यकारी रणनीतिक सारांश एवं राज्य निर्देश' : 'Executive Strategic Briefing & State Directives';
 
       const bCycle = document.getElementById('briefingCycleBadge');
-      if (bCycle) bCycle.innerText = isHi ? 'अगस्त 2026 चक्र' : 'August 2026 Cycle';
+      if (bCycle) {
+        if (currentCycle === 'SEP') bCycle.innerText = isHi ? 'सितंबर 2026 चक्र' : 'September 2026 Cycle';
+        else if (currentCycle === 'AUG') bCycle.innerText = isHi ? 'अगस्त 2026 चक्र' : 'August 2026 Cycle';
+        else bCycle.innerText = isHi ? 'समेकित विश्लेषण (अगस्त + सितंबर)' : 'Consolidated (August + September)';
+      }
 
       const bSub = document.getElementById('briefingSubtitleText');
       if (bSub) bSub.innerText = isHi ? 'राज्य शिक्षा केंद्र (RSK) एवं राज्य नेतृत्व हेतु प्राथमिकता रणनीतिक निष्कर्ष' : 'Priority Actionable Intelligence for Rajya Shiksha Kendra (RSK) & State Leadership';
@@ -3813,15 +3909,50 @@
       }
     }
 
+    function populateD360BlockDropdown() {
+      const dname = document.getElementById('d360Dropdown').value;
+      const blockDd = document.getElementById('d360BlockDropdown');
+      if (!blockDd) return;
+      blockDd.innerHTML = '';
+
+      const distBlocks = ((typeof getActiveCycleBlockSummary === "function") ? getActiveCycleBlockSummary() : (dataPackage.blockSummary || [])).filter(b => b.district === dname);
+      
+      const allOpt = document.createElement('option');
+      allOpt.value = 'ALL';
+      allOpt.innerText = `All ${distBlocks.length} Blocks in ${dname}`;
+      blockDd.appendChild(allOpt);
+
+      distBlocks.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b.block;
+        const bTot = b.total || (b.monitors + b.facilitators + b.participants);
+        opt.innerText = `${b.block} (${bTot} Mobilized)`;
+        blockDd.appendChild(opt);
+      });
+    }
+
+    function initDistrict360() {
+      const dd = document.getElementById('d360Dropdown');
+      dd.innerHTML = '';
+      ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.district;
+        opt.innerText = `${d.district} (${d.totalBlocks} Blocks)`;
+        dd.appendChild(opt);
+      });
+      populateD360BlockDropdown();
+      updateDistrict360View();
+    }
+
     function updateDistrict360View() {
       const dname = document.getElementById('d360Dropdown').value;
-      const dinfo = dataPackage.districtSummary.find(d => d.district === dname);
+      const dinfo = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(d => d.district === dname);
       if (!dinfo) return;
 
       const blockSelect = document.getElementById('d360BlockDropdown');
       const focusedBlock = blockSelect ? blockSelect.value : 'ALL';
 
-      const ops = dataPackage.operationsAttendance.find(o => o.Program === 'CLSS' && o.District === dname) || {};
+      const ops = ((typeof getActiveOperationsAttendance === "function") ? getActiveOperationsAttendance() : (dataPackage.operationsAttendance || [])).find(o => o.Program === 'CLSS' && o.District === dname) || {};
       const fAtt = ops.FemaleAttendance || 0;
       const mAtt = ops.MaleAttendance || 0;
 
@@ -3900,7 +4031,7 @@
       }
 
       // 2. Populate Block-wise Bifurcation Bento Cards & Breakdown Table
-      const distBlocks = dataPackage.blockSummary.filter(b => b.district === dname);
+      const distBlocks = ((typeof getActiveCycleBlockSummary === "function") ? getActiveCycleBlockSummary() : (dataPackage.blockSummary || [])).filter(b => b.district === dname);
       const bifGrid = document.getElementById('d360BlockBentoGrid');
       const bifCountChip = document.getElementById('d360BifurcateBlockCount');
       const blockTbody = document.querySelector('#d360BlockTable tbody');
@@ -5080,7 +5211,7 @@
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       sel.innerHTML = '';
 
-      const surveys = (dataPackage && dataPackage.surveys) ? dataPackage.surveys : [];
+      const surveys = (dataPackage && ((typeof getActiveSurveys === "function") ? getActiveSurveys() : (dataPackage.surveys || []))) ? ((typeof getActiveSurveys === "function") ? getActiveSurveys() : (dataPackage.surveys || [])) : [];
       const filtered = surveys.filter(s => matchesSurveyFilter(s, activeProgram, activeRole));
 
       // Update Header Count Badge & Slicer Scope Indicator
@@ -5132,6 +5263,187 @@
       });
 
       renderQuestionBankActive();
+    }
+
+    function renderQuestionBankActive() {
+      const sel = document.getElementById('qbSheetSelect');
+      if (!sel) return;
+      const val = sel.value;
+      if (!val) return;
+      const parts = val.split('|');
+      const prog = parts[0];
+      const role = parts[1];
+      const sheet = parts[2];
+      const qid = parts[3];
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+
+      const s = ((typeof getActiveSurveys === "function") ? getActiveSurveys() : (dataPackage.surveys || [])).find(x => 
+        x.program === prog && 
+        x.role === role && 
+        String(x.questionId) === String(qid)
+      ) || ((typeof getActiveSurveys === "function") ? getActiveSurveys() : (dataPackage.surveys || [])).find(x => 
+        x.program === prog && 
+        x.role === role && 
+        x.sheet === sheet
+      );
+      if (!s) return;
+
+      let roleDisp = s.role;
+      if (s.role === 'Participants' || s.role === 'Participant') roleDisp = isHi ? 'शिक्षक' : 'Teachers';
+      else if (s.role === 'Facilitator') roleDisp = isHi ? 'फैसिलिटेटर (प्रशिक्षक)' : 'Facilitators';
+      else if (s.role === 'Monitor') roleDisp = isHi ? 'पर्यवेक्षक / मॉनिटर' : 'Monitors / Observers';
+
+      let totalResponses = (s.columns && s.columns.length > 0)
+        ? s.columns.reduce((sum, c) => sum + (c.stateTotal || 0), 0)
+        : 0;
+
+      document.getElementById('qbBanner').innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+          <div>
+            <span class="pill-badge" style="background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); font-weight: 800; font-size: 11px; margin-bottom: 6px; display: inline-block;">
+              QUESTION Q${s.questionId} • ${s.program}
+            </span>
+            <div class="q-hindi-text" style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.5;">${s.questionText || 'Sheet: ' + s.sheet}</div>
+          </div>
+          <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); font-weight: 800; font-size: 11px; font-family: var(--font-mono);">
+            ${isHi ? 'कुल प्रतिक्रियाएं: ' : 'Total Responses: '} ${totalResponses.toLocaleString()}
+          </span>
+        </div>
+        <div class="q-chips" style="margin-top: 10px; font-size: 11px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap;">
+          <span>${isHi ? 'कार्यक्रम' : 'PROGRAM'}: <strong style="color: var(--peepul-teal);">${s.program}</strong></span> |
+          <span>${isHi ? 'संवर्ग' : 'ROLE'}: <strong style="color: var(--text-primary);">${roleDisp}</strong></span> |
+          <span>${isHi ? 'शीट' : 'SHEET'}: <strong style="color: var(--text-primary);">${s.sheet}</strong></span> |
+          <span>${isHi ? 'विकल्प संख्या' : 'OPTIONS'}: <strong style="color: var(--text-primary);">${s.columns.length}</strong></span>
+        </div>
+      `;
+
+      const theme = getChartTheme();
+      if (chartInstances.qbBar) chartInstances.qbBar.destroy();
+      const ctx = document.getElementById('qbStateBar')?.getContext('2d');
+      if (ctx) {
+        chartInstances.qbBar = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: s.columns.map(c => c.code),
+            datasets: [{
+              label: isHi ? 'कुल प्रतिक्रियाएं' : 'Total Responses',
+              data: s.columns.map(c => c.stateTotal),
+              backgroundColor: s.columns.map(c => c.isCorrect ? '#10b981' : '#0284c7'),
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 20 } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  title(items) {
+                    const idx = items[0].dataIndex;
+                    const col = s.columns[idx];
+                    return `${col.code}: ${col.labelHi || col.labelEn}`;
+                  },
+                  label(item) {
+                    const idx = item.dataIndex;
+                    const col = s.columns[idx];
+                    return ` ${isHi ? 'प्रतिक्रियाएं' : 'Responses'}: ${col.stateTotal.toLocaleString()} (${col.statePct}%)`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { family: theme.fontMono, weight: 600 } } },
+              y: { grace: '15%', grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+            }
+          },
+          plugins: [
+            {
+              id: 'qbBarLabels',
+              afterDatasetsDraw(chart) {
+                const { ctx } = chart;
+                ctx.save();
+                ctx.font = '700 10px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillStyle = '#0284c7';
+
+                const meta = chart.getDatasetMeta(0);
+                if (meta && !meta.hidden) {
+                  meta.data.forEach((bar, bIdx) => {
+                    const col = s.columns[bIdx];
+                    if (col && col.stateTotal > 0) {
+                      ctx.fillStyle = col.isCorrect ? '#059669' : '#0284c7';
+                      ctx.fillText(`${col.statePct}%`, bar.x, bar.y - 4);
+                    }
+                  });
+                }
+                ctx.restore();
+              }
+            }
+          ]
+        });
+      }
+
+      let legendHtml = '';
+      s.columns.forEach(c => {
+        const isCorr = !!c.isCorrect;
+        const borderCol = isCorr ? 'var(--accent-emerald)' : 'var(--peepul-teal)';
+        const badgeBg = isCorr ? 'rgba(16, 185, 129, 0.12)' : 'rgba(0, 138, 171, 0.1)';
+        const badgeCol = isCorr ? '#059669' : 'var(--peepul-teal)';
+        const displayLabel = c.labelHi || c.labelEn;
+
+        legendHtml += `
+          <div class="qb-option-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-left: 4px solid ${borderCol}; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px; transition: transform 0.15s ease, box-shadow 0.15s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="background: ${badgeBg}; color: ${badgeCol}; font-family: var(--font-mono); font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px;">
+                  ${c.code}
+                </span>
+                ${isCorr ? `<span class="status-chip" style="background: rgba(16, 185, 129, 0.15); color: #047857; font-weight: 800; font-size: 10px; border: 1px solid rgba(16, 185, 129, 0.35); padding: 1px 6px; border-radius: 4px;">🎯 ${isHi ? 'सही शिक्षाशास्त्रीय विकल्प' : 'Correct Pedagogical Choice'}</span>` : ''}
+              </div>
+              <div class="font-mono" style="font-weight: 800; font-size: 13px; color: ${isCorr ? 'var(--accent-emerald)' : 'var(--peepul-teal)'};">
+                ${c.statePct}%
+              </div>
+            </div>
+
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.5; margin-top: 8px;">
+              ${displayLabel}
+            </div>
+
+            <div style="height: 5px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden; margin-top: 10px;">
+              <div style="width: ${Math.min(100, Math.max(0, c.statePct))}%; height: 100%; background: ${isCorr ? 'linear-gradient(90deg, #059669, #10b981)' : 'linear-gradient(90deg, #008aab, #0284c7)'}; border-radius: 3px;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
+              <span>${isHi ? 'राज्य सहभागिता:' : 'Statewide Count:'} <strong style="color: var(--text-primary);">${Number(c.stateTotal).toLocaleString()}</strong></span>
+              <span>${isHi ? 'प्रतिशत:' : 'Share:'} <strong style="color: var(--text-primary);">${c.statePct}%</strong></span>
+            </div>
+          </div>
+        `;
+      });
+      const optLeg = document.getElementById('qbOptionsLegend');
+      if (optLeg) optLeg.innerHTML = legendHtml;
+
+      const table = document.getElementById('qbDistTable');
+      if (table) {
+        let tHtml = `<thead><tr><th>${isHi ? 'जिला' : 'District'}</th><th>${isHi ? 'कुल कैडर' : 'Total Cadre'}</th>`;
+        s.columns.forEach(c => { tHtml += `<th title="${c.labelEn}">${c.code}</th>`; });
+        tHtml += '</tr></thead><tbody>';
+
+        s.districtData.forEach(d => {
+          const dHi = getDistName(d.district);
+          tHtml += `<tr><td><strong style="color: var(--text-primary);">${isHi ? dHi : d.district}</strong></td><td class="font-mono" style="font-weight: 700;">${d.totalRespondents ? d.totalRespondents.toLocaleString() : '-'}</td>`;
+          s.columns.forEach(c => {
+            const v = d[c.code] !== undefined ? d[c.code] : '-';
+            tHtml += `<td class="font-mono" style="color: #38bdf8;">${v !== '-' ? Number(v).toLocaleString() : '-'}</td>`;
+          });
+          tHtml += '</tr>';
+        });
+        tHtml += '</tbody>';
+        table.innerHTML = tHtml;
+      }
     }
 
     function renderQuestionBankActive() {
@@ -5613,7 +5925,7 @@
       if (!container) return;
       container.innerHTML = '';
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
-      const allIssues = (dataPackage && dataPackage.fieldIssues) || [];
+      const allIssues = (typeof getActiveCycleFieldIssues === 'function') ? getActiveCycleFieldIssues() : ((dataPackage && dataPackage.fieldIssues) || []);
 
       // Normalize activeRole & activeProgram
       let normRole = (typeof activeRole !== 'undefined') ? activeRole : 'ALL';
@@ -6761,7 +7073,7 @@
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      dataPackage.districtSummary.forEach(d => {
+      ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).forEach(d => {
         const tr = document.createElement('tr');
         const doReach = d.do_total > 0 ? '96.0%' : '0.0%';
         tr.innerHTML = `
@@ -6997,11 +7309,12 @@
     const PEDAGOGY_BENCHMARK = 56;
 
     function calculateDistrictPedagogyScore(dname) {
-      if (!dataPackage || !dataPackage.surveys) return 55;
+      const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
+      if (!surveys || surveys.length === 0) return 55;
 
       function getQScore(qid) {
-        const s = dataPackage.surveys.find(x => 
-          (x.program === 'CLSS' || x.program === activeProgram) && 
+        const s = surveys.find(x => 
+          (x.program === 'CLSS' || (typeof activeProgram !== 'undefined' && x.program === activeProgram)) && 
           (String(x.questionId) === String(qid) || String(x.questionId).replace('Q', '') === String(qid))
         );
         if (!s || !s.districtData) return 55;
@@ -7538,11 +7851,283 @@
       });
     }
 
+    function populateCompDistBDropdown(distAName) {
+      const ddB = document.getElementById('compDistB');
+      const badgeA = document.getElementById('compDistABlocksBadge');
+      const badgeB = document.getElementById('compDistBBlocksBadge');
+      if (!ddB) return;
+
+      const isHi = (currentLang === 'hi');
+      const dA = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(x => x.district === distAName);
+      if (!dA) return;
+
+      if (badgeA) {
+        badgeA.innerText = `${dA.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}`;
+      }
+
+      ddB.innerHTML = '';
+      let candidates = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).filter(d => d.district !== distAName);
+      if (sameBlockLockActive) {
+        const peerList = candidates.filter(d => d.totalBlocks === dA.totalBlocks);
+        if (peerList.length > 0) {
+          candidates = peerList;
+        }
+      }
+
+      candidates.forEach((d, idx) => {
+        const optB = document.createElement('option');
+        optB.value = d.district;
+        optB.innerText = `${isHi ? getDistName(d.district) : d.district} (${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'})`;
+        if (idx === 0) optB.selected = true;
+        ddB.appendChild(optB);
+      });
+
+      const selectedB = ddB.value;
+      const dB = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(x => x.district === selectedB);
+      if (badgeB && dB) {
+        badgeB.innerText = `${dB.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'}`;
+      }
+    }
+
+    function onCompDistAChange() {
+      const nameA = document.getElementById('compDistA').value;
+      const dA = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(x => x.district === nameA);
+      if (dA) {
+        activePeerBlockCohort = dA.totalBlocks;
+        setPeerCohortSize(dA.totalBlocks);
+      }
+      populateCompDistBDropdown(nameA);
+      updateDistrictComparison();
+    }
+
+    function initPeerCohortButtons() {
+      const container = document.getElementById('peerCohortButtonsContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+      const cohorts = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+      const isHi = (currentLang === 'hi');
+
+      cohorts.forEach(c => {
+        const count = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).filter(d => d.totalBlocks === c).length;
+        const btn = document.createElement('button');
+        btn.className = `slicer-btn ${c === activePeerBlockCohort ? 'active' : ''}`;
+        btn.id = `btnCohort_${c}`;
+        btn.style.cssText = 'padding: 4px 10px; font-size: 11px;';
+        btn.innerText = isHi ? `${c} ब्लॉक (${count} जिले)` : `${c} Blocks (${count} Dist.)`;
+        btn.onclick = () => setPeerCohortSize(c);
+        container.appendChild(btn);
+      });
+    }
+
+    function setPeerCohortSize(numBlocks) {
+      activePeerBlockCohort = numBlocks;
+      document.querySelectorAll('#peerCohortButtonsContainer .slicer-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`btnCohort_${numBlocks}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const isHi = (currentLang === 'hi');
+      const count = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).filter(d => d.totalBlocks === numBlocks).length;
+      const badge = document.getElementById('peerCohortBadge');
+      if (badge) {
+        badge.innerText = isHi ? `समतुल्य समूह: ${numBlocks} ब्लॉक (${count} जिले)` : `Cohort: ${numBlocks} Blocks (${count} Districts)`;
+      }
+
+      renderPeerCohortChart();
+    }
+
+    function renderPeerCohortChart() {
+      const ctx = document.getElementById('sameBlockPeerChart')?.getContext('2d');
+      if (!ctx) return;
+
+      const isHi = (currentLang === 'hi');
+      const peerDists = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).filter(d => d.totalBlocks === activePeerBlockCohort);
+      if (peerDists.length === 0) return;
+
+      const preparedData = peerDists.map(d => {
+        const ped = calculateDistrictPedagogyScore(d.district);
+        const u = d.varg2Universe || 0;
+        const p = d.attendees || 0;
+        const sat = (u > 0) ? Number(((p / u) * 100).toFixed(1)) : 0;
+        const avgBlk = Number((p / d.totalBlocks).toFixed(1));
+
+        let val = p;
+        let suffix = '';
+        if (activePeerMetric === 'saturation') { val = sat; suffix = '%'; }
+        else if (activePeerMetric === 'pedagogy') { val = ped; suffix = '%'; }
+        else if (activePeerMetric === 'avgPerBlock') { val = avgBlk; suffix = ''; }
+
+        return {
+          district: d.district,
+          distNameHi: getDistName(d.district),
+          val: val,
+          turnout: p,
+          universe: u,
+          sat: sat,
+          ped: ped,
+          avgBlk: avgBlk,
+          blocks: d.totalBlocks,
+          clusters: d.totalClusters,
+          facilitators: d.facilitators,
+          monitors: d.monitors,
+          suffix: suffix
+        };
+      });
+
+      preparedData.sort((a, b) => b.val - a.val);
+
+      const maxVal = preparedData[0].val;
+      const minVal = preparedData[preparedData.length - 1].val;
+      const avgVal = Number((preparedData.reduce((acc, x) => acc + x.val, 0) / preparedData.length).toFixed(1));
+
+      // Bento stats update
+      const bentoContainer = document.getElementById('peerCohortBentoCards');
+      if (bentoContainer) {
+        const topItem = preparedData[0];
+        const lowItem = preparedData[preparedData.length - 1];
+        bentoContainer.innerHTML = `
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid var(--accent-emerald);">
+            <div class="kpi-micro-label"><span>🏆 ${isHi ? 'समूह शीर्ष जिला (LEADER)' : 'COHORT BENCHMARK LEADER'}</span></div>
+            <div class="kpi-huge-val font-mono" style="font-size: 20px; color: var(--accent-emerald);">
+              ${isHi ? topItem.distNameHi : topItem.district}
+            </div>
+            <div class="kpi-sub-desc font-mono" style="font-weight: 700; color: var(--text-primary);">
+              ${topItem.val.toLocaleString()}${topItem.suffix} (${topItem.sat}% ${isHi ? 'संतृप्ति' : 'Sat.'})
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid var(--peepul-teal);">
+            <div class="kpi-micro-label"><span>📊 ${isHi ? 'समूह औसत (COHORT AVERAGE)' : 'COHORT PEER AVERAGE'}</span></div>
+            <div class="kpi-huge-val font-mono" style="font-size: 20px; color: var(--peepul-teal);">
+              ${avgVal.toLocaleString()}${topItem.suffix}
+            </div>
+            <div class="kpi-sub-desc">
+              ${isHi ? `कुल ${preparedData.length} जिलों का मध्यमान` : `Average across all ${preparedData.length} peer districts`}
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid ${lowItem.val < avgVal ? 'var(--accent-rose)' : 'var(--accent-indigo)'};">
+            <div class="kpi-micro-label"><span>⚠️ ${isHi ? 'प्रोत्साहन आवश्यक (PRIORITY FOCUS)' : 'ACCELERATION FOCUS'}</span></div>
+            <div class="kpi-huge-val font-mono" style="font-size: 20px; color: ${lowItem.val < avgVal ? 'var(--accent-rose)' : 'var(--text-primary)'};">
+              ${isHi ? lowItem.distNameHi : lowItem.district}
+            </div>
+            <div class="kpi-sub-desc font-mono" style="font-weight: 700; color: var(--text-muted);">
+              ${lowItem.val.toLocaleString()}${lowItem.suffix} (${lowItem.sat}% ${isHi ? 'संतृप्ति' : 'Sat.'})
+            </div>
+          </div>
+        `;
+      }
+
+      const theme = getChartTheme();
+      if (chartInstances.sameBlockPeer) chartInstances.sameBlockPeer.destroy();
+
+      chartInstances.sameBlockPeer = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: preparedData.map(d => isHi ? d.distNameHi : d.district),
+          datasets: [{
+            label: isHi ? 'प्रदर्शन' : 'Score / Value',
+            data: preparedData.map(d => d.val),
+            backgroundColor: preparedData.map((d, i) => i === 0 ? '#10b981' : (d.val >= avgVal ? '#008aab' : '#0284c7')),
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 25, bottom: 5 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title(items) {
+                  const idx = items[0].dataIndex;
+                  const item = preparedData[idx];
+                  return `${isHi ? item.distNameHi : item.district} (${item.blocks} ${isHi ? 'ब्लॉक' : 'Blocks'})`;
+                },
+                label(item) {
+                  const idx = item.dataIndex;
+                  const d = preparedData[idx];
+                  return isHi ? [
+                    ` 👥 शिक्षक उपस्थिति: ${d.turnout.toLocaleString()}`,
+                    ` 🎯 शिक्षक यूनिवर्स: ${d.universe.toLocaleString()}`,
+                    ` 📊 यूनिवर्स संतृप्ति: ${d.sat}%`,
+                    ` 🧠 शिक्षाशास्त्र शुद्धता: ${d.ped}%`,
+                    ` 🏢 औसत प्रति ब्लॉक: ${d.avgBlk} शिक्षक`,
+                    ` 🤝 सहजकर्ता: ${d.facilitators} | 👁️ मॉनिटर: ${d.monitors}`
+                  ] : [
+                    ` 👥 Attending Teachers: ${d.turnout.toLocaleString()}`,
+                    ` 🎯 Teacher Universe: ${d.universe.toLocaleString()}`,
+                    ` 📊 Universe Saturation: ${d.sat}%`,
+                    ` 🧠 Pedagogy Accuracy: ${d.ped}%`,
+                    ` 🏢 Avg per Block: ${d.avgBlk} teachers`,
+                    ` 🤝 Facilitators: ${d.facilitators} | 👁️ Monitors: ${d.monitors}`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor, font: { family: theme.fontMono, weight: 700, size: 11 } } },
+            y: { grace: '20%', grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+          }
+        },
+        plugins: [{
+          id: 'sameBlockPeerLabels',
+          afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            ctx.save();
+            ctx.font = '700 11px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            const meta = chart.getDatasetMeta(0);
+            if (meta && !meta.hidden) {
+              meta.data.forEach((bar, idx) => {
+                const item = preparedData[idx];
+                if (item && item.val > 0) {
+                  ctx.fillStyle = idx === 0 ? '#059669' : (item.val >= avgVal ? '#008aab' : '#0284c7');
+                  ctx.fillText(`${item.val.toLocaleString()}${item.suffix}`, bar.x, bar.y - 4);
+                }
+              });
+            }
+            ctx.restore();
+          }
+        }]
+      });
+    }
+
+    function initDistrictComparatorDropdowns() {
+      const ddA = document.getElementById('compDistA');
+      if (!ddA) return;
+      
+      const isHi = (currentLang === 'hi');
+      ddA.innerHTML = '';
+      ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).forEach((d) => {
+        const optA = document.createElement('option');
+        optA.value = d.district;
+        optA.innerText = `${isHi ? getDistName(d.district) : d.district} (${d.totalBlocks} ${isHi ? 'ब्लॉक' : 'Blocks'})`;
+        if (d.district === 'Agar Malwa' || d.district === 'Betul') optA.selected = true;
+        ddA.appendChild(optA);
+      });
+
+      const initialDist = ddA.value || 'Agar Malwa';
+      const dA = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(x => x.district === initialDist);
+      if (dA) activePeerBlockCohort = dA.totalBlocks;
+
+      populateCompDistBDropdown(initialDist);
+      initPeerCohortButtons();
+      updateDistrictComparison();
+      renderPeerCohortChart();
+      initPedagogyRadar();
+      refreshQuestionBankDropdown();
+    }
+
     function updateDistrictComparison() {
       const nameA = document.getElementById('compDistA')?.value;
       const nameB = document.getElementById('compDistB')?.value;
-      const dA = dataPackage.districtSummary.find(x => x.district === nameA);
-      const dB = dataPackage.districtSummary.find(x => x.district === nameB);
+      const dA = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(x => x.district === nameA);
+      const dB = ((typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || [])).find(x => x.district === nameB);
       if (!dA || !dB) return;
 
       const badgeA = document.getElementById('compDistABlocksBadge');
