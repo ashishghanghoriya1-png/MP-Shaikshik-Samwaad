@@ -3080,7 +3080,8 @@
     // Slicer Handlers
     function setProgramSlicer(prog, btn) {
       activeProgram = prog;
-      document.querySelectorAll('#programSlicer .slicer-btn').forEach(b => {
+      window.activeProgram = prog;
+      document.querySelectorAll('#programSlicer .slicer-btn, button[onclick*="setProgramSlicer"]').forEach(b => {
         b.classList.remove('active');
         if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + prog + "'")) {
           b.classList.add('active');
@@ -3089,10 +3090,12 @@
       if (btn && btn.classList) btn.classList.add('active');
       applySlicers();
     }
+    window.setProgramSlicer = setProgramSlicer;
 
     function setRoleSlicer(role, btn) {
       activeRole = role;
-      document.querySelectorAll('#roleSlicer .slicer-btn').forEach(b => {
+      window.activeRole = role;
+      document.querySelectorAll('#roleSlicer .slicer-btn, button[onclick*="setRoleSlicer"]').forEach(b => {
         b.classList.remove('active');
         if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + role + "'")) {
           b.classList.add('active');
@@ -3101,6 +3104,7 @@
       if (btn && btn.classList) btn.classList.add('active');
       applySlicers();
     }
+    window.setRoleSlicer = setRoleSlicer;
 
     function applySlicers() {
       updateKPIs();
@@ -3109,11 +3113,15 @@
       initQuadrantTable();
       if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
       if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
+      if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
       initDistrictLeague();
       refreshQuestionBankDropdown();
       updateDistrict360View();
       updateBlockView();
+      if (typeof initPedagogyRadar === 'function') initPedagogyRadar();
+      if (typeof initGovernance === 'function') initGovernance();
     }
+    window.applySlicers = applySlicers;
 
     // 1. Update Executive KPIs
     function updateKPIs() {
@@ -5823,9 +5831,44 @@
       container.innerHTML = '';
 
       const activeRF = (typeof getRFDataForActiveCycle === 'function') ? getRFDataForActiveCycle() : (typeof rfData !== 'undefined' ? rfData : { indicators: [] });
-      const indicators = activeRF.indicators || [];
+      let indicators = activeRF.indicators || [];
 
-      if (indicators.length === 0) return;
+      // Filter by activeProgram (CLSS / DO / ALL)
+      if (typeof activeProgram !== 'undefined' && activeProgram !== 'ALL') {
+        indicators = indicators.filter(ind => {
+          if (activeProgram === 'DO') return (ind.category && ind.category.includes('District Orientation')) || (ind.cadre && ind.cadre.includes('District'));
+          if (activeProgram === 'CLSS') return !(ind.category && ind.category.includes('District Orientation'));
+          return true;
+        });
+      }
+
+      // Filter by activeRole (Teachers / Facilitators / Monitors / Observers / ALL)
+      if (typeof activeRole !== 'undefined' && activeRole !== 'ALL') {
+        const rLower = activeRole.toLowerCase();
+        indicators = indicators.filter(ind => {
+          const cLower = ((ind.cadre || '') + ' ' + (ind.category || '') + ' ' + (ind.title || '')).toLowerCase();
+          if (rLower.includes('part') || rLower.includes('teach')) {
+            return cLower.includes('teacher') || cLower.includes('participant') || cLower.includes('classroom') || cLower.includes('pedagog');
+          }
+          if (rLower.includes('fac')) {
+            return cLower.includes('facilitator');
+          }
+          if (rLower.includes('obs') || rLower.includes('mon')) {
+            return cLower.includes('monitor') || cLower.includes('observer') || cLower.includes('oversight');
+          }
+          return true;
+        });
+      }
+
+      if (indicators.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; padding: 24px; text-align: center; color: var(--text-muted); background: var(--bg-surface-2); border-radius: 8px; border: 1px dashed var(--border-subtle);">
+          No deliverables / indicators match the selected filter (${activeProgram} • ${activeRole}).
+        </div>`;
+        const detailBox = document.getElementById('rfIndicatorDetailBox');
+        if (detailBox) detailBox.innerHTML = '';
+        return;
+      }
+
       if (!indicators.some(x => x.id === activeRFIndicatorId)) {
         activeRFIndicatorId = indicators[0].id;
       }
@@ -5857,6 +5900,7 @@
 
       selectRFIndicator(activeRFIndicatorId);
     }
+    window.renderRFIndicatorCards = renderRFIndicatorCards;
 
             function selectRFIndicator(id) {
       activeRFIndicatorId = id;
