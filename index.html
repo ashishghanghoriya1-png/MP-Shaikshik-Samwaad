@@ -3974,7 +3974,7 @@
       const isHi = (currentLang === 'hi');
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
       
-      if (typeof currentLeagueScope === 'undefined') {
+      if (typeof currentLeagueScope === 'undefined' || !currentLeagueScope) {
         window.currentLeagueScope = 'ALL';
       }
 
@@ -3983,8 +3983,8 @@
 
       if (currentLeagueScope === 'TOP10') {
         filteredList.sort((a, b) => {
-          const valA = (activeProgram === 'DO') ? (a.do_participants || 0) : ((activeProgram === 'CLSS') ? (a.attendees || 0) : (a.combined_total || 0));
-          const valB = (activeProgram === 'DO') ? (b.do_participants || 0) : ((activeProgram === 'CLSS') ? (b.attendees || 0) : (b.combined_total || 0));
+          const valA = (activeProgram === 'DO') ? (a.do_participants || 0) : ((activeProgram === 'CLSS') ? (a.attendees || 0) : ((a.combined_total !== undefined) ? a.combined_total : ((a.total || 0) + (a.do_total || 0))));
+          const valB = (activeProgram === 'DO') ? (b.do_participants || 0) : ((activeProgram === 'CLSS') ? (b.attendees || 0) : ((b.combined_total !== undefined) ? b.combined_total : ((b.total || 0) + (b.do_total || 0))));
           return valB - valA;
         });
         filteredList = filteredList.slice(0, 10);
@@ -3997,7 +3997,7 @@
           return (d.attendees < 300 || sat < 30.0 || ped < 50);
         });
       } else if (currentLeagueScope === 'CRITICAL') {
-        // Pure dynamic blackout detection for active cycle
+        // Dynamic blackout detection for active cycle
         filteredList = filteredList.filter(d => {
           if (activeProgram === 'DO') return (!d.do_participants || d.do_participants === 0);
           if (activeProgram === 'CLSS') return (!d.attendees || d.attendees === 0);
@@ -4007,7 +4007,17 @@
         filteredList = filteredList.filter(d => calculateDistrictPedagogyScore(d.district) >= 50);
       }
 
-      // 2. Update dynamic badges on slicer buttons
+      // 2. Real-time Search Box Filtering
+      const searchVal = (document.getElementById('leagueFilter')?.value || '').trim().toLowerCase();
+      if (searchVal) {
+        filteredList = filteredList.filter(d => {
+          const nameEn = (d.district || '').toLowerCase();
+          const nameHi = (typeof getDistName === 'function' ? getDistName(d.district) : '').toLowerCase();
+          return nameEn.includes(searchVal) || nameHi.includes(searchVal);
+        });
+      }
+
+      // 3. Update dynamic badges on slicer buttons
       const top10Count = Math.min(10, dists.length);
       const aspCount = dists.filter(d => d.isAspirational).length;
       const defCount = dists.filter(d => {
@@ -4029,7 +4039,7 @@
       const bCrit = document.getElementById('btnLeagueCritical'); if (bCrit) bCrit.innerText = isHi ? `🚨 क्रिटिकल ब्लैकआउट (${critCount})` : `🚨 Critical Blackouts (${critCount})`;
       const bPed = document.getElementById('btnLeagueHighPed'); if (bPed) bPed.innerText = isHi ? `🎯 उच्च पेडागोजी ≥50% (${highPedCount})` : `🎯 High Pedagogy (≥50%) (${highPedCount})`;
 
-      // 3. Render Table
+      // 4. Render Table
       let headerHtml = '';
       let rowsHtml = '';
       let footHtml = '';
@@ -4037,7 +4047,7 @@
       const cycleName = (currentCycle === 'SEP') ? (isHi ? 'सितंबर 2026' : 'September 2026') : ((currentCycle === 'AUG') ? (isHi ? 'अगस्त 2026' : 'August 2026') : (isHi ? 'समेकित (अगस्त + सितंबर)' : 'Consolidated (Aug + Sep)'));
 
       if (activeProgram === 'DO') {
-        if (heading) heading.innerText = isHi ? `🗺️ जिला अभिमुखीकरण (DO) ${cycleName} राज्य प्रदर्शन लीग` : `🗺️ District Orientation (DO) ${cycleName} State Performance League`;
+        if (heading) heading.innerText = isHi ? `🗺️ जिला अभिमुखीकरण (DO) — ${cycleName}` : `🗺️ District Orientation (DO) League — ${cycleName}`;
         headerHtml = `
           <thead>
             <tr>
@@ -4089,7 +4099,7 @@
           </tfoot>
         `;
       } else if (activeProgram === 'CLSS') {
-        if (heading) heading.innerText = isHi ? `🗺️ शिक्षक संवाद (CLSS) ${cycleName} 52-जिला प्रदर्शन लीग` : `🗺️ Shaikshik Samwaad (CLSS) ${cycleName} 52-District Performance League`;
+        if (heading) heading.innerText = isHi ? `🗺️ शिक्षक संवाद (CLSS) — ${cycleName}` : `🗺️ Shaikshik Samwaad (CLSS) League — ${cycleName}`;
         headerHtml = `
           <thead>
             <tr>
@@ -4221,9 +4231,10 @@
       table.innerHTML = headerHtml + '<tbody>' + rowsHtml + '</tbody>' + footHtml;
     }
 
-    function filterDistrictLeague(scope) {
-      setLeagueScope(scope);
+    function filterDistrictLeague() {
+      initDistrictLeague();
     }
+    window.filterDistrictLeague = filterDistrictLeague;
 
     
     // 4. Block Directory
@@ -7051,7 +7062,6 @@ function setLeagueScope(scope) {
       initDistrictLeague();
     }
     window.setLeagueScope = setLeagueScope;
-    window.filterDistrictLeague = setLeagueScope;
 window.setLeagueScope = setLeagueScope;
 
 </script>
