@@ -1188,26 +1188,103 @@
   </header>
 
   <!-- Global Multi-Program Slicer Ribbon -->
-  <div class="slicer-ribbon lang-fade-target">
-    <div class="slicer-group">
-      <span class="slicer-label">PROGRAM SLICER:</span>
-      <div class="slicer-pills" id="programSlicer">
-        <button class="slicer-btn active" onclick="setProgramSlicer('ALL', this)">🌐 Consolidated (All)</button>
-        <button class="slicer-btn" onclick="setProgramSlicer('CLSS', this)">🏫 CLSS (Cluster Level)</button>
-        <button class="slicer-btn" onclick="setProgramSlicer('DO', this)">🏛️ DO (District Orientation)</button>
+  <!-- Global Multi-Program & Multi-Cycle Slicer Ribbon -->
+  <div class="slicer-ribbon lang-fade-target" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px;">
+      <!-- Reporting Cycle Slicer (August, September, Consolidated) -->
+      <div class="slicer-group" style="background: rgba(0, 138, 171, 0.08); padding: 5px 12px; border-radius: 8px; border: 1.5px solid rgba(0, 138, 171, 0.35); box-shadow: 0 2px 8px rgba(0, 138, 171, 0.08);">
+        <span class="slicer-label" id="lblMonthSlicer" style="color: var(--peepul-teal); font-weight: 800; letter-spacing: 0.04em;">📅 REPORTING CYCLE:</span>
+        <div class="slicer-pills" id="monthSlicer">
+          <button class="slicer-btn active" id="btnCycleAug" onclick="setMonthSlicer('AUG', this)" style="font-weight: 700;">📅 August 2026</button>
+          <button class="slicer-btn" id="btnCycleSep" onclick="setMonthSlicer('SEP', this)" style="font-weight: 700;">📅 September 2026</button>
+          <button class="slicer-btn" id="btnCycleConsolidated" onclick="setMonthSlicer('CONSOLIDATED', this)" style="font-weight: 700;">🌐 Consolidated (Aug + Sep)</button>
+        </div>
+      </div>
+
+      <!-- Program Slicer -->
+      <div class="slicer-group">
+        <span class="slicer-label" id="lblProgramSlicer">PROGRAM:</span>
+        <div class="slicer-pills" id="programSlicer">
+          <button class="slicer-btn active" onclick="setProgramSlicer('ALL', this)">Consolidated (All)</button>
+          <button class="slicer-btn" onclick="setProgramSlicer('CLSS', this)">🏫 CLSS</button>
+          <button class="slicer-btn" onclick="setProgramSlicer('DO', this)">🏛️ DO</button>
+        </div>
+      </div>
+
+      <!-- Cadre / Role Slicer -->
+      <div class="slicer-group">
+        <span class="slicer-label" id="lblCadreSlicer">CADRE / ROLE:</span>
+        <div class="slicer-pills" id="roleSlicer">
+          <button class="slicer-btn active" onclick="setRoleSlicer('ALL', this)">All Stakeholders</button>
+          <button class="slicer-btn" onclick="setRoleSlicer('Participant', this)">👨‍🏫 Teachers</button>
+          <button class="slicer-btn" onclick="setRoleSlicer('Facilitator', this)">🤝 Facilitators</button>
+          <button class="slicer-btn" onclick="setRoleSlicer('Observer', this)">👁️ Monitors</button>
+        </div>
       </div>
     </div>
 
-    <div class="slicer-group">
-      <span class="slicer-label">CADRE / ROLE:</span>
-      <div class="slicer-pills" id="roleSlicer">
-        <button class="slicer-btn active" onclick="setRoleSlicer('ALL', this)">All Stakeholders</button>
-        <button class="slicer-btn" onclick="setRoleSlicer('Participant', this)">👨‍🏫 Teachers</button>
-        <button class="slicer-btn" onclick="setRoleSlicer('Facilitator', this)">🤝 Facilitators</button>
-        <button class="slicer-btn" onclick="setRoleSlicer('Observer', this)">👁️ Monitors</button>
-      </div>
+    <!-- Executive Strategic Briefing Drawer Button -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button class="btn-tactile" onclick="toggleBriefingDrawer(true)" style="background: linear-gradient(135deg, rgba(0,138,171,0.18) 0%, rgba(99,208,223,0.18) 100%); border: 1.5px solid var(--peepul-teal); color: var(--peepul-teal); font-weight: 800; font-size: 11.5px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;">
+        💡 Executive Strategic Briefing
+      </button>
     </div>
   </div>
+
+  <!-- Executive Strategic Briefing Drawer Overlay & Container -->
+  <div id="briefingDrawerOverlay" onclick="toggleBriefingDrawer(false)" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 9998; transition: opacity 0.3s ease;"></div>
+  <aside id="briefingDrawer" style="position: fixed; top: 0; right: -580px; width: 560px; max-width: 92vw; height: 100vh; background: var(--bg-surface-card); border-left: 1px solid var(--border-subtle); box-shadow: -8px 0 32px rgba(0,0,0,0.25); z-index: 9999; display: flex; flex-direction: column; transition: right 0.32s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;">
+    <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: flex-start; justify-content: space-between; background: var(--bg-surface-2);">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <span style="font-size: 18px;">💡</span>
+          <h2 id="briefingTitleText" style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin: 0;">Executive Strategic Briefing & State Directives</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+          <span id="briefingCycleBadge" class="status-chip" style="background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); font-weight: 700; font-size: 11px;">August 2026 Cycle</span>
+        </div>
+        <div id="briefingSubtitleText" style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+          Priority Actionable Intelligence for Rajya Shiksha Kendra (RSK) & State Leadership
+        </div>
+      </div>
+      <button onclick="toggleBriefingDrawer(false)" style="background: transparent; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 4px;">✕</button>
+    </div>
+    
+    <div id="briefingContentArea" style="flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;">
+      <!-- Card 1 -->
+      <div class="panel-box" style="padding: 16px; border-left: 4px solid var(--peepul-teal);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong id="briefingCard1Head" style="font-size: 13px; color: var(--text-primary);">🧠 Pedagogical Focus (Q95)</strong>
+          <span id="briefingCard1Badge" class="status-chip" style="background: rgba(0,138,171,0.12); color: var(--peepul-teal); font-weight: 700; font-size: 10.5px;">52.1% Mastery</span>
+        </div>
+        <div id="briefingCard1Body" style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+          <strong>Student Agency vs. Busywork:</strong> 47.9% of teachers require targeted reinforcement to distinguish authentic classroom agency from procedural activities.
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="panel-box" style="padding: 16px; border-left: 4px solid var(--accent-indigo);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong id="briefingCard2Head" style="font-size: 13px; color: var(--text-primary);">👁️ Observer Presence (Q76)</strong>
+          <span id="briefingCard2Badge" class="status-chip" style="background: rgba(79,70,229,0.12); color: var(--accent-indigo); font-weight: 700; font-size: 10.5px;">73.9% Monitored</span>
+        </div>
+        <div id="briefingCard2Body" style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+          <strong>Monitoring Coverage:</strong> 26.1% of cluster meetings operated without a dedicated observer present. Direct BRCs and BACs to mandate 100% monitor deployment.
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="panel-box" style="padding: 16px; border-left: 4px solid var(--accent-rose);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong id="briefingCard3Head" style="font-size: 13px; color: var(--text-primary);">🚨 Field Data Stalls (4 Districts)</strong>
+          <span id="briefingCard3Badge" class="status-chip" style="background: rgba(220,38,38,0.12); color: var(--accent-rose); font-weight: 700; font-size: 10.5px;">Urgent Action</span>
+        </div>
+        <div id="briefingCard3Body" style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+          <strong>Administrative Escalation:</strong> Dewas and Sehore experienced CAC vacancy blackouts; Anuppur & Khandwa recorded 0 DO sync. Immediate officiating appointments required.
+        </div>
+      </div>
+    </div>
+  </aside>
 
   <!-- Navigation Ribbon -->
   <nav class="studio-nav lang-fade-target">
