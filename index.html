@@ -1919,6 +1919,14 @@
           <input type="text" id="leagueFilter" placeholder="🔍 Search district..." class="search-input" onkeyup="filterDistrictLeague()">
         </div>
         <div class="table-viewport">
+          <div class="slicer-pills" id="leagueScopeSlicer" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; padding: 10px 14px; background: var(--bg-surface-2); border-radius: var(--radius-md); border: 1px solid var(--border-hairline);">
+            <button class="slicer-btn active" id="btnLeagueAll" onclick="setLeagueScope('ALL')">🌐 All 52 Districts</button>
+            <button class="slicer-btn" id="btnLeagueTop10" onclick="setLeagueScope('TOP10')">🏆 Top 10 High Turnout</button>
+            <button class="slicer-btn" id="btnLeagueAsp" onclick="setLeagueScope('ASPIRATIONAL')" style="border-color: rgba(245, 158, 11, 0.4); color: #d97706; font-weight: 700;">⭐ NITI Aspirational (8)</button>
+            <button class="slicer-btn" id="btnLeagueDeficit" onclick="setLeagueScope('DEFICIT')" style="color: var(--accent-rose);">⚠️ Data Deficit Focus</button>
+            <button class="slicer-btn" id="btnLeagueCritical" onclick="setLeagueScope('CRITICAL')" style="color: #dc2626;">🚨 Critical Blackouts</button>
+            <button class="slicer-btn" id="btnLeagueHighPed" onclick="setLeagueScope('HIGH_PED')" style="color: var(--accent-emerald);">🎯 High Pedagogy (≥50%)</button>
+          </div>
           <table class="kowalski-table" id="leagueGrid">
             <!-- Headers and rows rendered dynamically based on active slicer -->
           </table>
@@ -4448,40 +4456,102 @@
     function initDistrictLeague() {
       const table = document.getElementById('leagueGrid');
       const heading = document.getElementById('leagueTableHeading');
+      if (!table) return;
       const isHi = (currentLang === 'hi');
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
       
+      if (typeof currentLeagueScope === 'undefined') {
+        window.currentLeagueScope = 'ALL';
+      }
+
+      // 1. Calculate dynamic cohorts based on active cycle data
+      let filteredList = [...dists];
+
+      if (currentLeagueScope === 'TOP10') {
+        filteredList.sort((a, b) => {
+          const valA = (activeProgram === 'DO') ? (a.do_participants || 0) : ((activeProgram === 'CLSS') ? (a.attendees || 0) : (a.combined_total || 0));
+          const valB = (activeProgram === 'DO') ? (b.do_participants || 0) : ((activeProgram === 'CLSS') ? (b.attendees || 0) : (b.combined_total || 0));
+          return valB - valA;
+        });
+        filteredList = filteredList.slice(0, 10);
+      } else if (currentLeagueScope === 'ASPIRATIONAL') {
+        filteredList = filteredList.filter(d => d.isAspirational);
+      } else if (currentLeagueScope === 'DEFICIT') {
+        filteredList = filteredList.filter(d => {
+          const ped = calculateDistrictPedagogyScore(d.district);
+          const sat = d.varg2Saturation !== undefined ? d.varg2Saturation : (d.varg2Universe > 0 ? (d.attendees / d.varg2Universe * 100) : 0);
+          return (d.attendees < 300 || sat < 30.0 || ped < 50);
+        });
+      } else if (currentLeagueScope === 'CRITICAL') {
+        // Pure dynamic blackout detection for active cycle
+        filteredList = filteredList.filter(d => {
+          if (activeProgram === 'DO') return (!d.do_participants || d.do_participants === 0);
+          if (activeProgram === 'CLSS') return (!d.attendees || d.attendees === 0);
+          return (!d.attendees || d.attendees === 0 || !d.do_participants || d.do_participants === 0);
+        });
+      } else if (currentLeagueScope === 'HIGH_PED') {
+        filteredList = filteredList.filter(d => calculateDistrictPedagogyScore(d.district) >= 50);
+      }
+
+      // 2. Update dynamic badges on slicer buttons
+      const top10Count = Math.min(10, dists.length);
+      const aspCount = dists.filter(d => d.isAspirational).length;
+      const defCount = dists.filter(d => {
+        const ped = calculateDistrictPedagogyScore(d.district);
+        const sat = d.varg2Saturation !== undefined ? d.varg2Saturation : (d.varg2Universe > 0 ? (d.attendees / d.varg2Universe * 100) : 0);
+        return (d.attendees < 300 || sat < 30.0 || ped < 50);
+      }).length;
+      const critCount = dists.filter(d => {
+        if (activeProgram === 'DO') return (!d.do_participants || d.do_participants === 0);
+        if (activeProgram === 'CLSS') return (!d.attendees || d.attendees === 0);
+        return (!d.attendees || d.attendees === 0 || !d.do_participants || d.do_participants === 0);
+      }).length;
+      const highPedCount = dists.filter(d => calculateDistrictPedagogyScore(d.district) >= 50).length;
+
+      const bAll = document.getElementById('btnLeagueAll'); if (bAll) bAll.innerText = isHi ? `🌐 सभी ${dists.length} जिले` : `🌐 All ${dists.length} Districts`;
+      const bTop = document.getElementById('btnLeagueTop10'); if (bTop) bTop.innerText = isHi ? `🏆 शीर्ष ${top10Count} उच्च उपस्थिति` : `🏆 Top ${top10Count} High Turnout`;
+      const bAsp = document.getElementById('btnLeagueAsp'); if (bAsp) bAsp.innerText = isHi ? `⭐ नीति आकांक्षी (${aspCount})` : `⭐ NITI Aspirational (${aspCount})`;
+      const bDef = document.getElementById('btnLeagueDeficit'); if (bDef) bDef.innerText = isHi ? `⚠️ डेटा घाटा फ़ोकस (${defCount})` : `⚠️ Data Deficit Focus (${defCount})`;
+      const bCrit = document.getElementById('btnLeagueCritical'); if (bCrit) bCrit.innerText = isHi ? `🚨 क्रिटिकल ब्लैकआउट (${critCount})` : `🚨 Critical Blackouts (${critCount})`;
+      const bPed = document.getElementById('btnLeagueHighPed'); if (bPed) bPed.innerText = isHi ? `🎯 उच्च पेडागोजी ≥50% (${highPedCount})` : `🎯 High Pedagogy (≥50%) (${highPedCount})`;
+
+      // 3. Render Table
       let headerHtml = '';
       let rowsHtml = '';
       let footHtml = '';
 
+      const cycleName = (currentCycle === 'SEP') ? (isHi ? 'सितंबर 2026' : 'September 2026') : ((currentCycle === 'AUG') ? (isHi ? 'अगस्त 2026' : 'August 2026') : (isHi ? 'समेकित (अगस्त + सितंबर)' : 'Consolidated (Aug + Sep)'));
+
       if (activeProgram === 'DO') {
-        heading.innerText = isHi ? '🗺️ जिला अभिमुखीकरण (DO) राज्य स्तरीय लीग मैट्रिक्स' : '🗺️ District Orientation (DO) State League Matrix';
+        if (heading) heading.innerText = isHi ? `🗺️ जिला अभिमुखीकरण (DO) ${cycleName} राज्य प्रदर्शन लीग` : `🗺️ District Orientation (DO) ${cycleName} State Performance League`;
         headerHtml = `
           <thead>
             <tr>
               <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
               <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'श्रेणी' : 'Cohort Tag'}</th>
               <th>${isHi ? 'DO मॉनिटर' : 'DO Observers'}</th>
               <th>${isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators'}</th>
-              <th>${isHi ? 'DO जिला प्रतिभागी' : 'District Participants (DO)'}</th>
-              <th>${isHi ? 'कुल DO सहभागिता' : 'Total DO Mobilized'}</th>
-              <th>${isHi ? 'स्थिति' : 'Status'}</th>
-              <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
+              <th>${isHi ? 'DO प्रतिभागी' : 'DO Participants'}</th>
+              <th>${isHi ? 'कुल DO' : 'Total DO Mobilized'}</th>
+              <th>${isHi ? 'स्थिति' : 'Sync Status'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Action'}</th>
             </tr>
           </thead>
         `;
         let sumDoMon = 0, sumDoFac = 0, sumDoPart = 0, sumDoTot = 0;
-        dists.forEach((d, idx) => {
+        filteredList.forEach((d, idx) => {
           sumDoMon += (d.do_monitors || 0);
           sumDoFac += (d.do_facilitators || 0);
           sumDoPart += (d.do_participants || 0);
           sumDoTot += (d.do_total || 0);
-          const status = (d.do_participants && d.do_participants > 0) ? `<span style="color:#10b981; font-weight:700;">✓ Active</span>` : `<span style="color:#ef4444; font-weight:700;">⚠ Pending</span>`;
+          const isAsp = d.isAspirational ? `<span class="status-chip" style="background: rgba(245, 158, 11, 0.12); color: #d97706; font-size: 10px; font-weight: 700;">⭐ Aspirational</span>` : `<span style="font-size: 10px; color: var(--text-muted);">${d.archetype || 'General'}</span>`;
+          const status = (d.do_participants && d.do_participants > 0) ? `<span style="color:#10b981; font-weight:700; font-size:11px;">✓ Active (${d.do_participants})</span>` : `<span style="color:#ef4444; font-weight:700; font-size:11px;">⚠️ Vacancy/Pending</span>`;
           rowsHtml += `
             <tr>
               <td class="font-mono">${idx + 1}</td>
               <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
+              <td>${isAsp}</td>
               <td class="font-mono">${(d.do_monitors || 0).toLocaleString()}</td>
               <td class="font-mono">${(d.do_facilitators || 0).toLocaleString()}</td>
               <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${(d.do_participants || 0).toLocaleString()}</td>
@@ -4494,45 +4564,48 @@
         footHtml = `
           <tfoot>
             <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800;">
-              <td colspan="2">${isHi ? 'राज्य कुल' : 'Statewide Total'}</td>
+              <td colspan="3">${isHi ? 'चयनित कुल' : 'Selected Total'} (${filteredList.length} Districts)</td>
               <td class="font-mono">${sumDoMon.toLocaleString()}</td>
               <td class="font-mono">${sumDoFac.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--peepul-blue);">${sumDoPart.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald);">${sumDoTot.toLocaleString()}</td>
-              <td>${dists.length} Districts</td>
+              <td></td>
               <td></td>
             </tr>
           </tfoot>
         `;
-      } else {
-        heading.innerText = isHi ? `🗺️ शिक्षक संवाद (CLSS) ${dists.length}-जिला प्रदर्शन लीग मैट्रिक्स` : `🗺️ Shaikshik Samwaad (CLSS) ${dists.length}-District Performance League Matrix`;
+      } else if (activeProgram === 'CLSS') {
+        if (heading) heading.innerText = isHi ? `🗺️ शिक्षक संवाद (CLSS) ${cycleName} 52-जिला प्रदर्शन लीग` : `🗺️ Shaikshik Samwaad (CLSS) ${cycleName} 52-District Performance League`;
         headerHtml = `
           <thead>
             <tr>
               <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
               <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'श्रेणी' : 'Cohort Tag'}</th>
               <th>${isHi ? 'कुल संकुल' : 'Total Clusters'}</th>
               <th>${isHi ? 'मॉनिटर' : 'Monitors'}</th>
               <th>${isHi ? 'सुगमकर्ता' : 'Facilitators'}</th>
               <th>${isHi ? 'शिक्षक उपस्थिति' : 'Teacher Attendees'}</th>
               <th>${isHi ? 'कुल सहभागिता' : 'Total Attendance'}</th>
               <th>${isHi ? 'पेडागोजी स्कोर' : 'Pedagogy Accuracy'}</th>
-              <th>${isHi ? 'कार्रवाई' : 'Drill-Down Actions'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Action'}</th>
             </tr>
           </thead>
         `;
         let sumClust = 0, sumMon = 0, sumFac = 0, sumAtt = 0, sumTot = 0;
-        dists.forEach((d, idx) => {
+        filteredList.forEach((d, idx) => {
           sumClust += (d.totalClusters || 0);
           sumMon += (d.monitors || 0);
           sumFac += (d.facilitators || 0);
           sumAtt += (d.attendees || 0);
           sumTot += (d.total || 0);
           const ped = calculateDistrictPedagogyScore(d.district);
+          const isAsp = d.isAspirational ? `<span class="status-chip" style="background: rgba(245, 158, 11, 0.12); color: #d97706; font-size: 10px; font-weight: 700;">⭐ Aspirational</span>` : `<span style="font-size: 10px; color: var(--text-muted);">${d.archetype || 'General'}</span>`;
           rowsHtml += `
             <tr>
               <td class="font-mono">${idx + 1}</td>
               <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
+              <td>${isAsp}</td>
               <td class="font-mono">${d.totalClusters}</td>
               <td class="font-mono">${d.monitors}</td>
               <td class="font-mono">${d.facilitators}</td>
@@ -4546,7 +4619,7 @@
         footHtml = `
           <tfoot>
             <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800;">
-              <td colspan="2">${isHi ? 'राज्य कुल' : 'Statewide Total'}</td>
+              <td colspan="3">${isHi ? 'चयनित कुल' : 'Selected Total'} (${filteredList.length} Districts)</td>
               <td class="font-mono">${sumClust.toLocaleString()}</td>
               <td class="font-mono">${sumMon.toLocaleString()}</td>
               <td class="font-mono">${sumFac.toLocaleString()}</td>
@@ -4557,11 +4630,81 @@
             </tr>
           </tfoot>
         `;
+      } else {
+        // Consolidated CLSS + DO Side-by-Side Matrix
+        if (heading) heading.innerText = isHi ? `🗺️ समेकित राज्य लीग (CLSS + DO साथ-साथ) — ${cycleName}` : `🗺️ Consolidated State League (CLSS + DO Side-by-Side) — ${cycleName}`;
+        headerHtml = `
+          <thead>
+            <tr>
+              <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
+              <th>${isHi ? 'जिला का नाम' : 'District Name'}</th>
+              <th>${isHi ? 'श्रेणी' : 'Cohort'}</th>
+              <th>${isHi ? 'CLSS संकुल' : 'CLSS Clusters'}</th>
+              <th>${isHi ? 'CLSS शिक्षक' : 'CLSS Teachers'}</th>
+              <th>${isHi ? 'CLSS संवर्ग' : 'CLSS Cadre'}</th>
+              <th>${isHi ? 'DO प्रतिभागी' : 'DO Officers'}</th>
+              <th>${isHi ? 'DO संवर्ग' : 'DO Cadre'}</th>
+              <th>${isHi ? 'समेकित कुल' : 'Combined Total'}</th>
+              <th>${isHi ? 'पेडागोजी' : 'Pedagogy %'}</th>
+              <th>${isHi ? 'कार्रवाई' : 'Action'}</th>
+            </tr>
+          </thead>
+        `;
+        let sumClust = 0, sumTeach = 0, sumClssCadre = 0, sumDoPart = 0, sumDoCadre = 0, sumComb = 0;
+        filteredList.forEach((d, idx) => {
+          const cCadre = (d.monitors || 0) + (d.facilitators || 0);
+          const dCadre = (d.do_monitors || 0) + (d.do_facilitators || 0);
+          const comb = (d.combined_total !== undefined) ? d.combined_total : ((d.total || 0) + (d.do_total || 0));
+          sumClust += (d.totalClusters || 0);
+          sumTeach += (d.attendees || 0);
+          sumClssCadre += cCadre;
+          sumDoPart += (d.do_participants || 0);
+          sumDoCadre += dCadre;
+          sumComb += comb;
+          const ped = calculateDistrictPedagogyScore(d.district);
+          const isAsp = d.isAspirational ? `<span class="status-chip" style="background: rgba(245, 158, 11, 0.12); color: #d97706; font-size: 10px; font-weight: 700;">⭐ Aspirational</span>` : `<span style="font-size: 10px; color: var(--text-muted);">${d.archetype || 'General'}</span>`;
+          rowsHtml += `
+            <tr>
+              <td class="font-mono">${idx + 1}</td>
+              <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
+              <td>${isAsp}</td>
+              <td class="font-mono">${d.totalClusters}</td>
+              <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${(d.attendees || 0).toLocaleString()}</td>
+              <td class="font-mono">${cCadre.toLocaleString()}</td>
+              <td class="font-mono" style="color: #7c3aed; font-weight: 700;">${(d.do_participants || 0).toLocaleString()}</td>
+              <td class="font-mono">${dCadre.toLocaleString()}</td>
+              <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${comb.toLocaleString()}</td>
+              <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
+              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
+            </tr>
+          `;
+        });
+        footHtml = `
+          <tfoot>
+            <tr style="background: rgba(0, 138, 171, 0.08); font-weight: 800;">
+              <td colspan="3">${isHi ? 'चयनित कुल' : 'Selected Total'} (${filteredList.length} Districts)</td>
+              <td class="font-mono">${sumClust.toLocaleString()}</td>
+              <td class="font-mono" style="color: var(--peepul-blue);">${sumTeach.toLocaleString()}</td>
+              <td class="font-mono">${sumClssCadre.toLocaleString()}</td>
+              <td class="font-mono" style="color: #7c3aed;">${sumDoPart.toLocaleString()}</td>
+              <td class="font-mono">${sumDoCadre.toLocaleString()}</td>
+              <td class="font-mono" style="color: var(--accent-emerald);">${sumComb.toLocaleString()}</td>
+              <td class="font-mono">-</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        `;
       }
 
-      if (table) {
-        table.innerHTML = headerHtml + '<tbody>' + rowsHtml + '</tbody>' + footHtml;
+      if (filteredList.length === 0) {
+        rowsHtml = `<tr><td colspan="11" style="text-align: center; padding: 36px; color: var(--text-muted); font-size: 13px;">
+          <span style="font-size: 24px; display: block; margin-bottom: 6px;">🎉</span>
+          <strong>${isHi ? 'कोई जिला इस फ़िल्टर में नहीं है' : 'No districts match the selected cohort criteria for this cycle.'}</strong><br/>
+          <span style="font-size: 11.5px; opacity: 0.8;">${currentLeagueScope === 'CRITICAL' ? (isHi ? 'सितंबर 2026 में सभी 52 जिलों ने सफलतापूर्वक रिपोर्टिंग की है (0 ब्लैकआउट)।' : 'All 52 districts successfully reported in this cycle with zero blackouts!') : ''}</span>
+        </td></tr>`;
       }
+
+      table.innerHTML = headerHtml + '<tbody>' + rowsHtml + '</tbody>' + footHtml;
     }
 
     function filterDistrictLeague() {
