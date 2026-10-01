@@ -6916,6 +6916,8 @@
       else if (bSel.options.length > 0) bSel.selectedIndex = 0;
       
       populateCompDistBDropdown(aSel.value);
+      updateDistrictComparison();
+      renderPeerCohortChart();
     }
 
     function populateCompDistBDropdown(distAName) {
@@ -6971,72 +6973,227 @@
       updateDistrictComparison();
     }
 
-    function initPeerCohortButtons() {
-      const c = document.getElementById('peerCohortBtnContainer');
+    function initPeerCohortButtons(targetBlocks) {
+      const c = document.getElementById('peerCohortButtonsContainer') || document.getElementById('peerCohortBtnContainer');
       if (!c) return;
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+      const filter = (typeof window.activePeerCohortFilter !== 'undefined') ? window.activePeerCohortFilter : 'exact';
+      const tb = targetBlocks || 4;
+      
       c.innerHTML = `
-        <div style="display: flex; gap: 6px; align-items: center;">
-          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Peer Cohort Size:</span>
-          <button class="slicer-pill active" id="btnCohort3" onclick="setPeerCohortSize(3)">±3 Blocks</button>
-          <button class="slicer-pill" id="btnCohort5" onclick="setPeerCohortSize(5)">±5 Blocks</button>
-          <button class="slicer-pill" id="btnCohort10" onclick="setPeerCohortSize(10)">±10 Blocks</button>
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">${isHi ? 'साथी समूह दायरा:' : 'Cohort Scope:'}</span>
+          <button class="slicer-pill ${filter === 'exact' ? 'active' : ''}" id="btnCohortExact" onclick="setPeerCohortFilter('exact')">
+            ${isHi ? `सटीक ${tb} ब्लॉक समूह` : `Exact ${tb} Blocks Cohort`}
+          </button>
+          <button class="slicer-pill ${filter === 'pm1' ? 'active' : ''}" id="btnCohortPm1" onclick="setPeerCohortFilter('pm1')">
+            ${isHi ? `±1 ब्लॉक (${Math.max(1, tb - 1)}-${tb + 1} ब्लॉक)` : `±1 Block (${Math.max(1, tb - 1)}-${tb + 1} Blocks)`}
+          </button>
+          <button class="slicer-pill ${filter === 'all' ? 'active' : ''}" id="btnCohortAll" onclick="setPeerCohortFilter('all')">
+            ${isHi ? 'सभी 55 जिले' : 'All 55 Districts'}
+          </button>
         </div>
       `;
     }
 
     function setPeerCohortSize(numBlocks) {
-      peerCohortSize = numBlocks;
-      document.querySelectorAll('#peerCohortBtnContainer .slicer-pill').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`btnCohort${numBlocks}`);
-      if (activeBtn) activeBtn.classList.add('active');
+      window.activePeerCohortFilter = 'exact';
       renderPeerCohortChart();
     }
 
     function setPeerCohortMetric(metricKey, btn) {
-      activePeerMetric = metricKey;
-      document.querySelectorAll('#btnPeerMetricTurnout, #btnPeerMetricSaturation, #btnPeerMetricPedagogy, #btnPeerMetricDensity').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
+      window.activePeerMetric = metricKey;
+      ['btnPeerMetricTurnout', 'btnPeerMetricSaturation', 'btnPeerMetricPedagogy', 'btnPeerMetricDensity'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+      if (btn) {
+        btn.classList.add('active');
+      } else {
+        const btnMap = {
+          'attendees': 'btnPeerMetricTurnout',
+          'saturation': 'btnPeerMetricSaturation',
+          'pedagogy': 'btnPeerMetricPedagogy',
+          'avgPerBlock': 'btnPeerMetricDensity'
+        };
+        const targetBtn = document.getElementById(btnMap[metricKey]);
+        if (targetBtn) targetBtn.classList.add('active');
+      }
       renderPeerCohortChart();
     }
 
     function renderPeerCohortChart() {
       const aSel = document.getElementById('compDistA');
-      if (!aSel) return;
-      const targetDist = aSel.value;
+      const targetDist = aSel ? aSel.value : 'Agar Malwa';
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
 
-      const distSummary = (typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
-      const targetObj = distSummary.find(d => d.district === targetDist);
-      if (!targetObj) return;
+      if (!window.activePeerMetric) window.activePeerMetric = 'attendees';
+      if (!window.activePeerCohortFilter) window.activePeerCohortFilter = 'exact';
 
-      const targetBlocks = targetObj.totalBlocks || 1;
-      const sortedByBlocks = [...distSummary].sort((a, b) => {
-        const diffA = Math.abs((a.totalBlocks || 1) - targetBlocks);
-        const diffB = Math.abs((b.totalBlocks || 1) - targetBlocks);
-        return diffA - diffB;
+      const distSummary = (typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
+      if (!distSummary || distSummary.length === 0) return;
+
+      const targetObj = distSummary.find(d => d.district === targetDist) || distSummary[0];
+      const targetBlocks = targetObj ? (targetObj.totalBlocks || 1) : 4;
+
+      if (typeof initPeerCohortButtons === 'function') {
+        initPeerCohortButtons(targetBlocks);
+      }
+
+      let cohort = [];
+      if (window.activePeerCohortFilter === 'exact') {
+        cohort = distSummary.filter(d => (d.totalBlocks || 1) === targetBlocks);
+        if (cohort.length <= 1) {
+          cohort = distSummary.filter(d => Math.abs((d.totalBlocks || 1) - targetBlocks) <= 1);
+        }
+      } else if (window.activePeerCohortFilter === 'pm1') {
+        cohort = distSummary.filter(d => Math.abs((d.totalBlocks || 1) - targetBlocks) <= 1);
+      } else {
+        cohort = [...distSummary];
+      }
+
+      const metricKey = window.activePeerMetric;
+      cohort = cohort.map(d => {
+        let val = 0;
+        if (metricKey === 'attendees') {
+          val = d.attendees || 0;
+        } else if (metricKey === 'saturation') {
+          val = parseFloat(d.varg2Saturation || 0);
+        } else if (metricKey === 'pedagogy') {
+          val = (typeof calculateDistrictPedagogyScore === 'function') ? calculateDistrictPedagogyScore(d.district) : (d.avgScore || 55);
+        } else if (metricKey === 'avgPerBlock') {
+          val = Math.round((d.attendees || 0) / (d.totalBlocks || 1));
+        }
+        return {
+          ...d,
+          _metricVal: val
+        };
       });
 
-      const cohortSize = (typeof peerCohortSize !== 'undefined') ? peerCohortSize : 5;
-      const cohort = sortedByBlocks.slice(0, cohortSize + 1);
+      cohort.sort((a, b) => b._metricVal - a._metricVal);
 
-      const ctx = document.getElementById('peerCohortChart')?.getContext('2d');
+      // Badge
+      const badgeEl = document.getElementById('peerCohortBadge');
+      if (badgeEl) {
+        if (window.activePeerCohortFilter === 'exact') {
+          badgeEl.innerText = isHi ? `समूह: सटीक ${targetBlocks} ब्लॉक (${cohort.length} जिले)` : `Cohort: Exact ${targetBlocks} Blocks (${cohort.length} Districts)`;
+        } else if (window.activePeerCohortFilter === 'pm1') {
+          badgeEl.innerText = isHi ? `समूह: ±1 ब्लॉक (${cohort.length} जिले)` : `Cohort: ±1 Block (${cohort.length} Districts)`;
+        } else {
+          badgeEl.innerText = isHi ? `समूह: राज्य के सभी ${cohort.length} जिले` : `Cohort: Statewide (${cohort.length} Districts)`;
+        }
+      }
+
+      function formatVal(v) {
+        if (metricKey === 'saturation' || metricKey === 'pedagogy') return Number(v).toFixed(1) + '%';
+        if (metricKey === 'avgPerBlock') return Math.round(v).toLocaleString() + (isHi ? ' / ब्लॉक' : ' / blk');
+        return Math.round(v).toLocaleString() + (isHi ? ' शिक्षक' : ' Teachers');
+      }
+
+      const metricTitles = {
+        attendees: { en: 'Teacher Turnout', hi: 'शिक्षक उपस्थिति' },
+        saturation: { en: 'Universe Saturation %', hi: 'यूनिवर्स संतृप्ति %' },
+        pedagogy: { en: 'Pedagogy Score %', hi: 'शिक्षाशास्त्र स्कोर %' },
+        avgPerBlock: { en: 'Avg / Block', hi: 'औसत / ब्लॉक' }
+      };
+      const curMetricTitle = metricTitles[metricKey] ? (isHi ? metricTitles[metricKey].hi : metricTitles[metricKey].en) : 'Metric';
+
+      // Bento Cards
+      const bentoContainer = document.getElementById('peerCohortBentoCards');
+      if (bentoContainer && cohort.length > 0) {
+        const topDist = cohort[0];
+        const bottomDist = cohort[cohort.length - 1];
+        const targetIdx = cohort.findIndex(d => d.district === targetDist);
+        const targetRank = targetIdx >= 0 ? targetIdx + 1 : '-';
+        const sumVal = cohort.reduce((acc, cur) => acc + cur._metricVal, 0);
+        const avgVal = sumVal / cohort.length;
+        const targetVal = targetIdx >= 0 ? cohort[targetIdx]._metricVal : 0;
+        const diffFromAvg = targetVal - avgVal;
+        const diffSign = diffFromAvg >= 0 ? '+' : '';
+
+        const topDistName = isHi ? (topDist.districtHi || getDistName(topDist.district)) : topDist.district;
+        const btmDistName = isHi ? (bottomDist.districtHi || getDistName(bottomDist.district)) : bottomDist.district;
+
+        bentoContainer.innerHTML = `
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid var(--peepul-teal); min-height: auto;">
+            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isHi ? 'समूह में शीर्ष' : 'Highest in Cohort'}
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              ${topDistName}
+            </div>
+            <div style="font-size: 12px; font-weight: 600; color: var(--peepul-teal); margin-top: 2px;">
+              ${formatVal(topDist._metricVal)} (${topDist.totalBlocks} Blks)
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid #f59e0b; min-height: auto;">
+            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isHi ? 'समूह में न्यूनतम' : 'Lowest in Cohort'}
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              ${btmDistName}
+            </div>
+            <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-top: 2px;">
+              ${formatVal(bottomDist._metricVal)} (${bottomDist.totalBlocks} Blks)
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid #2563eb; min-height: auto;">
+            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isHi ? 'चयनित जिले का रैंक' : 'Target District Rank'}
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin-top: 3px;">
+              #${targetRank} <span style="font-size: 11px; font-weight: 500; color: var(--text-secondary);">/ ${cohort.length}</span>
+            </div>
+            <div style="font-size: 11.5px; font-weight: 600; color: ${diffFromAvg >= 0 ? '#10b981' : '#ef4444'}; margin-top: 2px;">
+              ${diffSign}${metricKey === 'saturation' || metricKey === 'pedagogy' ? diffFromAvg.toFixed(1) + '%' : Math.round(diffFromAvg).toLocaleString()} ${isHi ? 'समूह औसत से' : 'vs Cohort Avg'}
+            </div>
+          </div>
+
+          <div class="bento-card" style="padding: 12px 14px; border-left: 3px solid #8b5cf6; min-height: auto;">
+            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isHi ? 'समूह औसत बेंचमार्क' : 'Cohort Average'}
+            </div>
+            <div style="font-size: 15px; font-weight: 800; color: var(--text-primary); margin-top: 3px;">
+              ${formatVal(avgVal)}
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 2px;">
+              ${isHi ? `${cohort.length} प्रशासनिक रूप से समान जिले` : `Across ${cohort.length} peer districts`}
+            </div>
+          </div>
+        `;
+      }
+
+      // Chart
+      const canvas = document.getElementById('sameBlockPeerChart') || document.getElementById('peerCohortChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
-      if (chartInstances.peerCohort) chartInstances.peerCohort.destroy();
+
+      if (chartInstances.peerCohort) {
+        chartInstances.peerCohort.destroy();
+      }
 
       const theme = getChartTheme();
-      const labels = cohort.map(d => isHi ? getDistName(d.district) : d.district);
-      const satData = cohort.map(d => Number(d.varg2Saturation || 0));
-      const colors = cohort.map(d => d.district === targetDist ? '#2563eb' : (theme.isDark ? '#475569' : '#94a3b8'));
+      const labels = cohort.map(d => isHi ? (d.districtHi || getDistName(d.district)) : d.district);
+      const data = cohort.map(d => d._metricVal);
+      const bgColors = cohort.map(d => d.district === targetDist ? '#008aab' : (theme.isDark ? '#334155' : '#94a3b8'));
+      const hoverColors = cohort.map(d => d.district === targetDist ? '#006d87' : (theme.isDark ? '#475569' : '#64748b'));
+      const borderColors = cohort.map(d => d.district === targetDist ? '#002f3a' : 'transparent');
 
       chartInstances.peerCohort = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: labels,
           datasets: [{
-            label: isHi ? 'शिक्षक संतृप्ति %' : 'Teacher Saturation %',
-            data: satData,
-            backgroundColor: colors,
-            borderRadius: 6
+            label: curMetricTitle,
+            data: data,
+            backgroundColor: bgColors,
+            hoverBackgroundColor: hoverColors,
+            borderColor: borderColors,
+            borderWidth: cohort.map(d => d.district === targetDist ? 2 : 0),
+            borderRadius: 5
           }]
         },
         options: {
@@ -7046,20 +7203,45 @@
           plugins: {
             legend: { display: false },
             tooltip: {
+              backgroundColor: theme.isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+              titleColor: theme.isDark ? '#f8fafc' : '#0f172a',
+              bodyColor: theme.isDark ? '#cbd5e1' : '#334155',
+              borderColor: theme.isDark ? '#334155' : '#e2e8f0',
+              borderWidth: 1,
+              padding: 10,
               callbacks: {
-                label: (ctx) => ` ${ctx.parsed.x}% ${isHi ? 'संतृप्ति' : 'Saturation'} (${cohort[ctx.dataIndex].attendees.toLocaleString()} ${isHi ? 'शिक्षक' : 'Teachers'})`
+                label: function(c) {
+                  const item = cohort[c.dataIndex];
+                  const valStr = formatVal(item._metricVal);
+                  return ` ${curMetricTitle}: ${valStr} (${item.totalBlocks} Blocks, Saturation: ${item.varg2Saturation || 0}%)`;
+                }
               }
             }
           },
           scales: {
             x: {
-              max: 100,
-              grid: { color: theme.gridColor },
-              ticks: { color: theme.textColor, callback: (v) => `${v}%` }
+              grid: { color: theme.gridColor, borderDash: [2, 2] },
+              ticks: {
+                color: theme.textColor,
+                callback: function(v) {
+                  if (metricKey === 'saturation' || metricKey === 'pedagogy') return v + '%';
+                  return v.toLocaleString();
+                }
+              },
+              max: (metricKey === 'saturation' || metricKey === 'pedagogy') ? 100 : undefined
             },
             y: {
               grid: { display: false },
-              ticks: { color: theme.textColor, font: { weight: 600 } }
+              ticks: {
+                color: theme.textColor,
+                font: function(c) {
+                  const dist = cohort[c.index];
+                  return {
+                    weight: dist && dist.district === targetDist ? 800 : 500,
+                    size: 11
+                  };
+                }
+              }
             }
           }
         }
@@ -7199,6 +7381,9 @@
           }
         }
       });
+      if (typeof renderPeerCohortChart === 'function') {
+        renderPeerCohortChart();
+      }
     }
 
     // ==========================================
@@ -7536,6 +7721,15 @@ function getRFDataForActiveCycle() {
       };
     }
 window.getRFDataForActiveCycle = getRFDataForActiveCycle;
+
+
+
+/* Injected missing function setPeerCohortFilter */
+function setPeerCohortFilter(filterType) {
+      window.activePeerCohortFilter = filterType;
+      renderPeerCohortChart();
+    }
+window.setPeerCohortFilter = setPeerCohortFilter;
 
 
 
