@@ -847,27 +847,52 @@
       background: var(--peepul-teal) !important;
     }
     #trustHeatmapTable {
-      min-width: 780px !important;
       width: 100%;
+      min-width: 540px;
       table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
     }
-    #trustHeatmapTable th:nth-child(1), #trustHeatmapTable td:nth-child(1) { width: 45px; text-align: center; }
+    #trustHeatmapTable th {
+      white-space: nowrap;
+      padding: 8px 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      background: var(--bg-surface-2);
+      border-bottom: 2px solid var(--border-subtle);
+    }
+    #trustHeatmapTable td {
+      padding: 6px 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    #trustHeatmapTable th:nth-child(1), #trustHeatmapTable td:nth-child(1) { width: 30px; text-align: center; }
     #trustHeatmapTable th:nth-child(2), #trustHeatmapTable td:nth-child(2) { 
-      width: 130px; 
+      width: 100px; 
       position: sticky; 
       left: 0; 
       background: var(--bg-surface-1); 
       z-index: 5; 
-      box-shadow: 2px 0 5px rgba(0,0,0,0.05); 
+      border-right: 1.5px solid var(--border-hairline);
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     #trustHeatmapTable th:nth-child(2) { background: var(--bg-surface-2); z-index: 25; }
     #trustHeatmapTable tr:hover td:nth-child(2) { background: var(--bg-surface-2); }
-    #trustHeatmapTable th:nth-child(3), #trustHeatmapTable td:nth-child(3) { width: 75px; text-align: right; }
-    #trustHeatmapTable th:nth-child(4), #trustHeatmapTable td:nth-child(4) { width: 110px; text-align: center; }
-    #trustHeatmapTable th:nth-child(5), #trustHeatmapTable td:nth-child(5) { width: 115px; text-align: center; }
-    #trustHeatmapTable th:nth-child(6), #trustHeatmapTable td:nth-child(6) { width: 115px; text-align: center; }
-    #trustHeatmapTable th:nth-child(7), #trustHeatmapTable td:nth-child(7) { width: 110px; text-align: center; }
-    #trustHeatmapTable th:nth-child(8), #trustHeatmapTable td:nth-child(8) { width: 125px; text-align: center; }
+    #trustHeatmapTable th:nth-child(3), #trustHeatmapTable td:nth-child(3) { width: 55px; text-align: right; }
+    #trustHeatmapTable th:nth-child(4), #trustHeatmapTable td:nth-child(4) { width: 68px; text-align: center; }
+    #trustHeatmapTable th:nth-child(5), #trustHeatmapTable td:nth-child(5) { width: 68px; text-align: center; }
+    #trustHeatmapTable th:nth-child(6), #trustHeatmapTable td:nth-child(6) { width: 68px; text-align: center; }
+    #trustHeatmapTable th:nth-child(7), #trustHeatmapTable td:nth-child(7) { width: 65px; text-align: center; }
+    #trustHeatmapTable th:nth-child(8), #trustHeatmapTable td:nth-child(8) { width: 85px; text-align: center; }
+
+    .trust-panel-expanded {
+      grid-column: 1 / -1 !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
     table.kowalski-table {
       width: 100%;
@@ -1629,52 +1654,57 @@
   <!-- Populated dynamically via initOverviewCharts -->
 </div>
 </div>
-<div class="panel-box">
-<div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
-<div>
-<div class="panel-head-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span id="ovTrustIndexTitle">✨ Teacher Trust Index</span><span id="ovTrustBadge" style="font-size: 11px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); background: rgba(0, 138, 171, 0.08); border: 1px solid rgba(0, 138, 171, 0.25); padding: 2px 8px; border-radius: 6px;">🛡️ Net Trust Score (NTS): +93.8%</span></div>
-<div id="ovTrustChartRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-                [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Sheets: <strong>Q91, Q89, Q90, Q88</strong>, Cols: <strong>91.1 (Trust), 89_Yes (Academic Focus), 90_Yes (Problem Solving), 88_Yes (Role Clarity)</strong>]
+<div class="panel-box" id="panelTrustIndexBox">
+            <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
+              <div>
+                <div class="panel-head-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                  <span id="ovTrustIndexTitle">✨ Teacher Trust Index</span>
+                  <span id="ovTrustBadge" style="font-size: 11px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); background: rgba(0, 138, 171, 0.08); border: 1px solid rgba(0, 138, 171, 0.25); padding: 2px 8px; border-radius: 6px;">📊 Net Trust Score (NTS): +93.8%</span>
+                </div>
+                <div id="ovTrustChartRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
+                  [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Sheets: <strong>Q91, Q89, Q90, Q88</strong>, Cols: <strong>91.1 (Trust), 89_Yes (Academic Focus), 90_Yes (Problem Solving), 88_Yes (Role Clarity)</strong>]
+                </div>
               </div>
-</div>
-<div style="display: flex; gap: 6px;">
-<button class="slicer-btn active" id="btnTrustChart" onclick="toggleTrustView('CHART')">📊 State Chart</button>
-<button class="slicer-btn" id="btnTrustHeatmap" onclick="toggleTrustView('HEATMAP')">🗺️ 52-District Heatmap</button>
-</div>
-</div>
-<div class="chart-stage" id="trustChartStage">
-<canvas id="ovTrustBar"></canvas>
-</div>
-<div id="trustHeatmapStage" style="display: none; margin-top: 10px;">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-<div style="font-size: 11.5px; color: var(--text-secondary);">
-                District-wise perception scores: High Trust (Q91.1), Academic Focus (Q89), Problem Solving (Q90), 2-Yr Growth (Q88).
+              <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                <button class="slicer-btn active" id="btnTrustChart" onclick="toggleTrustView('CHART')">📊 State Chart</button>
+                <button class="slicer-btn" id="btnTrustHeatmap" onclick="toggleTrustView('HEATMAP')">🗺️ 52-District Heatmap</button>
+                <button class="slicer-btn" id="btnTrustExpand" onclick="toggleTrustExpand()" style="display: none; padding: 4px 8px; font-size: 11px;" title="Toggle Full Width View">⤢ Expand</button>
               </div>
-<input class="search-input" id="trustSearchInput" oninput="filterTrustHeatmap()" placeholder="🔍 Search district in heatmap..." style="max-width: 220px; font-size: 11.5px;" type="text"/>
-</div>
-<div class="table-viewport" style="max-height: 280px;">
-<table class="kowalski-table" id="trustHeatmapTable">
-<thead>
-<tr>
-<th>S.No</th>
-<th>District</th>
-<th>Teachers</th>
-<th>High Trust % (Q91.1)</th>
-<th>Academic Focus % (Q89)</th>
-<th>Problem Solving % (Q90)</th>
-<th>2-Yr Growth % (Q88)</th>
-<th>Perception Grade</th>
-</tr>
-</thead>
-<tbody>
-<!-- Populated via JS -->
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<!-- 4-Quadrant District Priority Matrix -->
+            </div>
+            <div class="chart-stage" id="trustChartStage">
+              <canvas id="ovTrustBar"></canvas>
+            </div>
+            <div id="trustHeatmapStage" style="display: none; margin-top: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                <div style="font-size: 11.5px; color: var(--text-secondary);">
+                  District-wise perception scores: High Trust (Q91.1), Academic Focus (Q89), Problem Solving (Q90), 2-Yr Growth (Q88).
+                </div>
+                <input class="search-input" id="trustSearchInput" oninput="filterTrustHeatmap()" placeholder="🔍 Search district..." style="max-width: 200px; font-size: 11.5px;" type="text"/>
+              </div>
+              <div class="table-viewport" style="max-height: 380px;">
+                <table class="kowalski-table" id="trustHeatmapTable">
+                  <thead>
+                    <tr>
+                      <th title="Serial Number">#</th>
+                      <th title="District Name">District</th>
+                      <th title="Teacher Turnout">Turnout</th>
+                      <th title="Q91.1: Psychological Safety & Trust">Trust %</th>
+                      <th title="Q89: Academic & Pedagogy Focus">Academic %</th>
+                      <th title="Q90: Problem Solving & Collaboration">Problem %</th>
+                      <th title="Q88: 2-Year Professional Growth">Growth %</th>
+                      <th title="Composite Perception Rating">Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Quadrant District Priority Matrix -->
       <div class="panel-box" style="margin-top: 24px;">
         <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
           <div>
@@ -8605,12 +8635,26 @@
     // TEACHER TRUST HEATMAP VIEW TOGGLE & RENDER
     // ==========================================
     let activeTrustView = 'CHART';
+    let isTrustExpanded = false;
+
+    function toggleTrustExpand() {
+      isTrustExpanded = !isTrustExpanded;
+      const panel = document.getElementById('panelTrustIndexBox');
+      const btn = document.getElementById('btnTrustExpand');
+      if (panel) panel.classList.toggle('trust-panel-expanded', isTrustExpanded);
+      if (btn) btn.innerHTML = isTrustExpanded ? '⤡ Compact' : '⤢ Expand';
+    }
+
     function toggleTrustView(v) {
       activeTrustView = v;
       document.getElementById('btnTrustChart').classList.toggle('active', v === 'CHART');
       document.getElementById('btnTrustHeatmap').classList.toggle('active', v === 'HEATMAP');
       document.getElementById('trustChartStage').style.display = v === 'CHART' ? 'block' : 'none';
       document.getElementById('trustHeatmapStage').style.display = v === 'HEATMAP' ? 'block' : 'none';
+      
+      const expandBtn = document.getElementById('btnTrustExpand');
+      if (expandBtn) expandBtn.style.display = v === 'HEATMAP' ? 'inline-flex' : 'none';
+
       if (v === 'HEATMAP') initTrustHeatmapTable();
     }
 
@@ -8634,17 +8678,20 @@
         const p90 = (q90 && q90.pct !== undefined) ? q90.pct : (currentCycle === 'SEP' ? 99.2 : 98.8);
         const p88 = (q88 && q88.pct !== undefined) ? q88.pct : 99.6;
 
-        let badge = '<span style="color: var(--accent-emerald); font-weight: 700; font-size: 10.5px; background: rgba(5,150,105,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2);">🌟 Stellar (95%+)</span>';
+        let badge = '<span style="color: var(--accent-emerald); font-weight: 700; font-size: 9.5px; background: rgba(5,150,105,0.08); padding: 2px 5px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2); white-space: nowrap;">🌟 Stellar</span>';
         if (d.attendees < 10) {
-          badge = '<span style="color: var(--accent-rose); font-weight: 700; font-size: 10.5px; background: rgba(220,38,38,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(220,38,38,0.2);">⚠️ Vacancy / Stalled</span>';
+          badge = '<span style="color: var(--accent-rose); font-weight: 700; font-size: 9.5px; background: rgba(220,38,38,0.08); padding: 2px 5px; border-radius: 4px; border: 1px solid rgba(220,38,38,0.2); white-space: nowrap;">⚠️ Stalled</span>';
         } else if (p91 < 90 || p89 < 95) {
-          badge = '<span style="color: var(--peepul-teal); font-weight: 700; font-size: 10.5px; background: rgba(0,138,171,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,138,171,0.2);">🌱 Healthy (90-95%)</span>';
+          badge = '<span style="color: var(--peepul-teal); font-weight: 700; font-size: 9.5px; background: rgba(0,138,171,0.08); padding: 2px 5px; border-radius: 4px; border: 1px solid rgba(0,138,171,0.2); white-space: nowrap;">✅ Healthy</span>';
         }
+
+        const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+        const distName = (isHi && typeof getDistName === 'function') ? getDistName(d.district) : d.district;
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="font-mono">${idx++}</td>
-          <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
+          <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')" title="Click to view 360 profile">${distName}</strong></td>
           <td class="font-mono">${d.attendees.toLocaleString()}</td>
           <td class="font-mono" style="color: ${p91 >= 90 ? 'var(--peepul-teal)' : 'var(--accent-rose)'}; font-weight: 700;">${d.attendees > 0 ? Math.round(p91) + '%' : '-'}</td>
           <td class="font-mono" style="color: ${p89 >= 95 ? 'var(--accent-emerald)' : 'var(--text-secondary)'}; font-weight: 700;">${d.attendees > 0 ? Math.round(p89) + '%' : '-'}</td>
