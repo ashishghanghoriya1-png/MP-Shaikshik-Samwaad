@@ -144,10 +144,10 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
         ],
         [
             Paragraph("<b>District Saturation</b>", table_cell_bold),
+            Paragraph("<b>50 / 52</b> (96.2%)", table_cell_center),
             Paragraph("<b>52 / 52</b> (100%)", table_cell_center),
             Paragraph("<b>52 / 52</b> (100%)", table_cell_center),
-            Paragraph("<b>52 / 52</b> (100%)", table_cell_center),
-            Paragraph("All 52 administrative districts actively reporting across MP", table_cell_style)
+            Paragraph("<b>Aug:</b> 50 active (Dewas & Sehore vacant). <b>Sep:</b> 52 active (100% full coverage)", table_cell_style)
         ],
         [
             Paragraph("<b>Active Venues</b>", table_cell_bold),
@@ -210,19 +210,25 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
             Paragraph("<b>Strategic Operational Takeaway</b>", table_cell_bold)
         ],
         [
-            Paragraph("<b>1. Facilitator Expected Target</b>", table_cell_style),
+            Paragraph("<b>1. District Coverage Status</b>", table_cell_style),
+            Paragraph("<b>50 / 52</b> (Dewas & Sehore Vacant)", table_cell_center),
+            Paragraph("<b>52 / 52</b> (100% Full Saturation)", table_cell_center),
+            Paragraph("Full coverage restored in Sep after initial August cluster delay", table_cell_style)
+        ],
+        [
+            Paragraph("<b>2. Facilitator Expected Target</b>", table_cell_style),
             Paragraph("<b>68,369</b> (99.9% of Universe)", table_cell_center),
             Paragraph("<b>67,222</b> (98.2% of Universe)", table_cell_center),
             Paragraph("Ground facilitators accurately reflect full ~68k Varg-2 teacher baseline", table_cell_style)
         ],
         [
-            Paragraph("<b>2. Actual Attending Teachers</b>", table_cell_bold),
+            Paragraph("<b>3. Actual Attending Teachers</b>", table_cell_bold),
             Paragraph("<font color='#047857'><b>23,785 (34.8% Turnout)</b></font>", table_cell_center),
             Paragraph("<font color='#047857'><b>23,169 (34.5% Turnout)</b></font>", table_cell_center),
             Paragraph("High month-on-month core participation stability across both cycles", table_cell_style)
         ],
         [
-            Paragraph("<b>3. Non-Attendance Mobilization Gap</b>", table_cell_style),
+            Paragraph("<b>4. Non-Attendance Mobilization Gap</b>", table_cell_style),
             Paragraph("<font color='#b91c1c'><b>44,584 (65.2% Gap)</b></font>", table_cell_center),
             Paragraph("<font color='#b91c1c'><b>44,053 (65.5% Gap)</b></font>", table_cell_center),
             Paragraph("Primary growth lever for RSK: Enforcing block-level attendance follow-up", table_cell_style)
@@ -236,8 +242,8 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
-        ('TOPPADDING', (0, 0), (-1, -1), 2),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+        ('TOPPADDING', (0, 0), (-1, -1), 1.8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 1.8),
     ]))
     story.append(t_funnel)
 
@@ -295,8 +301,8 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
-        ('TOPPADDING', (0, 0), (-1, -1), 2),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+        ('TOPPADDING', (0, 0), (-1, -1), 1.8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 1.8),
     ]))
     story.append(t_ped)
 
@@ -313,7 +319,7 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
         [
             Paragraph("<font color='#047857'><b>Q1: Champions</b></font>", table_cell_bold),
             Paragraph("Turnout ≥34.8%<br/>Pedagogy ≥50.5%", table_cell_style),
-            Paragraph("Dewas, Sehore, Harda, Narsinghpur, Raisen, Shajapur, Neemuch, Mandsaur, Jabalpur", table_cell_style),
+            Paragraph("Harda, Narsinghpur, Raisen, Shajapur, Neemuch, Mandsaur, Jabalpur, Dewas (Sep), Sehore (Sep)", table_cell_style),
             Paragraph("Scale best practices; deploy master facilitators as peer mentors.", table_cell_style)
         ],
         [
@@ -343,8 +349,8 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#cbd5e1")),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#f8fafc")]),
-        ('TOPPADDING', (0, 0), (-1, -1), 2),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+        ('TOPPADDING', (0, 0), (-1, -1), 1.8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 1.8),
     ]))
     story.append(t_quad)
 
@@ -354,7 +360,7 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
     directives = [
         "<b>1. Targeted Block Attendance Mandate:</b> Direct DPCs and BEOs in Quadrant 3 & 4 districts to track CRC rosters against the ~44k non-attending Varg-2 teachers.",
         "<b>2. Pedagogical Refocus on Normalizing Struggle (Q97):</b> Deploy 15-minute micro-modules targeting the 66.1% misconception that equates praise only with correct answers.",
-        "<b>3. Cross-District Mentorship:</b> Pair Champion districts (Dewas, Sehore) with Priority Support districts (Alirajpur, Barwani) for facilitator co-planning.",
+        "<b>3. Cross-District Mentorship:</b> Pair Champion districts (Harda, Narsinghpur, Dewas) with Priority Support districts (Alirajpur, Barwani) for facilitator co-planning.",
         "<b>4. Real-time Telemetry Feedback:</b> Utilize live monitoring telemetry from the 572 field observers to execute mid-cycle course corrections."
     ]
 

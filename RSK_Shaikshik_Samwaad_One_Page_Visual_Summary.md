@@ -12,7 +12,7 @@
 
 | KPI Metric | August 2026 Cycle | September 2026 Cycle | Consolidated Total | Operational Lineage & Scope |
 | :--- | :---: | :---: | :---: | :--- |
-| **District Saturation** | **52 / 52** (100%) | **52 / 52** (100%) | **52 / 52** (100%) | All 52 administrative districts actively reporting across MP |
+| **District Saturation** | **50 / 52** (96.2%) | **52 / 52** (100%) | **52 / 52** (100%) | **August:** 50 Active districts (Dewas & Sehore vacant/non-reporting). **September:** All 52 reporting (100%). |
 | **Active Venues** | **2,874** Venues | **2,861** Venues | **5,735** Venue-Sessions | 2,822 Cluster Venues + 52 DIETs (Aug) \| 2,809 Cluster + 52 DIETs (Sep) |
 | **Classroom Teachers (CLSS)** | **23,785** / 68,369 (**34.8%**) | **23,169** / 67,222 (**34.5%**) | **46,954** / 135,591 (**34.6%**) | Actual attending Varg-2 teachers vs. Facilitator-reported expected target |
 | **District Officials (DO)** | **4,454** Officers | **4,520** Officers | **8,974** Attendees | DIET faculty, APCs, BACs, and CACs oriented at District Headquarters |
@@ -31,16 +31,18 @@ Total Sanctioned Madhyamik Shikshak (Varg-2) State Universe = 68,427 Teachers (1
  │
  ├── Field-Reported Expected Target (Facilitators Q72) = 68,369 (Aug) | 67,222 (Sep)
  │    │
+ │    ├── [August Coverage]           = 50 / 52 Districts Active (Dewas & Sehore Vacant)
  │    ├── [August Actual Attended]    = 23,785 Teachers (34.8% Turnout vs Target | 34.8% of Universe)
  │    └── [August Absentee Gap]       = 44,584 Teachers (65.2% Non-Attendance Gap)
  │
+ ├── [September Coverage]             = 52 / 52 Districts Active (100% Full Saturation)
  ├── [September Actual Attended]      = 23,169 Teachers (34.5% Turnout vs Target | 33.9% of Universe)
  └── [September Absentee Gap]         = 44,053 Teachers (65.5% Non-Attendance Gap)
 ====================================================================================================
 ```
 
 ### Key Participation Takeaways:
-1. **Target Alignment:** Cluster Facilitators in the field reported expected participant targets of **68,369** (August) and **67,222** (September), which closely match the state's total **68,427** Varg-2 teacher universe.
+1. **District Coverage Recovery:** August had **50 of 52** districts reporting at the cluster level due to vacant/delayed sessions in **Dewas and Sehore**. In September, both districts achieved full operationalization, reaching **52 / 52 (100%)** state coverage.
 2. **Attendance Stability:** Actual classroom teacher turnout stabilized at **34.8%** in August (23,785 teachers) and **34.5%** in September (23,169 teachers).
 3. **The Core Opportunity:** Approximately **44,000 to 44,500 middle school teachers** remain unreached each cycle, representing the primary growth lever for RSK block-level mobilization.
 
@@ -69,9 +71,9 @@ Districts are categorized into four distinct strategic groups based on **Teacher
                  [QUADRANT 3: REACH GAP]        │        [QUADRANT 1: CHAMPIONS]
                  Low Turnout | High Pedagogy    │        High Turnout | High Pedagogy
                                                 │
-                 • Bhopal, Indore, Ujjain,      │        • Dewas, Sehore, Harda,
-                   Gwalior, Jabalpur, Sagar,    │          Narsinghpur, Raisen,
-                   Hoshangabad, Ratlam          │          Shajapur, Neemuch, Mandsaur
+                 • Bhopal, Indore, Ujjain,      │        • Harda, Narsinghpur, Raisen,
+                   Gwalior, Jabalpur, Sagar,    │          Shajapur, Neemuch, Mandsaur,
+                   Hoshangabad, Ratlam          │          Dewas (Sep), Sehore (Sep)
                                                 │
          ───────────────────────────────────────┼───────────────────────────────────────
                                                 │
@@ -86,7 +88,7 @@ Districts are categorized into four distinct strategic groups based on **Teacher
 ```
 
 ### Strategic Quadrant Characteristics:
-- **Quadrant 1 (Champions):** Robust administrative mobilization coupled with high pedagogical understanding. *Action:* Deploy as peer-learning mentors for neighboring districts.
+- **Quadrant 1 (Champions):** Robust administrative mobilization coupled with high pedagogical understanding. *(Dewas & Sehore entered Q1 upon reporting in September).*
 - **Quadrant 2 (Scale Gap):** High physical teacher turnout, but higher rates of pedagogical misconception traps. *Action:* Enhance facilitator coaching on conceptual reflection rather than rote activity.
 - **Quadrant 3 (Reach Gap):** High pedagogical understanding among attending teachers, but lower overall turnout. *Action:* Strengthen block-level administrative follow-up and CRC attendance enforcement.
 - **Quadrant 4 (Priority Support):** Lower turnout combined with high misconception rates, predominantly in tribal and aspirational belts. *Action:* Intensive localized academic support and bilingual learning resources.
@@ -97,7 +99,7 @@ Districts are categorized into four distinct strategic groups based on **Teacher
 
 1. **Targeted Block-Level Attendance Directives:** Direct District Project Coordinators (DPCs) and Block Education Officers (BEOs) in Quadrant 3 & 4 districts to track CRC-level teacher attendance rosters against the ~44k non-attending Varg-2 teachers.
 2. **Pedagogical Refocus on Question 97 (Normalizing Struggle):** Design specific 15-minute Samwaad micro-modules addressing the 66.1% misconception trap that equates praise solely with correct answers.
-3. **Cross-District Mentorship Model:** Pair top-performing Champion districts (e.g., Dewas, Sehore) with Priority Support districts (e.g., Alirajpur, Barwani) for facilitator co-planning and academic demonstration.
+3. **Cross-District Mentorship Model:** Pair top-performing Champion districts (e.g., Harda, Narsinghpur, Dewas) with Priority Support districts (e.g., Alirajpur, Barwani) for facilitator co-planning and academic demonstration.
 4. **Institutionalize Cluster Feedback Loops:** Leverage live monitoring telemetry from the 572 field observers to conduct mid-cycle course corrections before subsequent monthly sessions.
 
 ---
