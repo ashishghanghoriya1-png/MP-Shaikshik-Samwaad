@@ -1,37 +1,50 @@
-﻿# Rajya Shiksha Kendra (RSK) - Shaikshik Samwaad Executive BI Dashboard
+# RSK Madhya Pradesh — Shaikshik Samwaad & DO Master BI Dashboard
 
-An interactive, high-fidelity Executive Business Intelligence dashboard and Results Framework (RF) tracking system for the **Madhya Pradesh Shaikshik Samwaad (Academic Dialogue)** initiative.
-
----
-
-## 🌐 Live Dashboard
-Once GitHub Pages is enabled on the `main` branch, the dashboard is accessible at:
-👉 **https://ashishghanghoriya1-png.github.io/MP-Shaikshik-Samwaad/**
+Automated, bilingual, zero-dependency executive dashboard pipeline for **Madhya Pradesh Rajya Shiksha Kendra (RSK)** Shikshak Samvad & District Orientation (Grades 6–8).
 
 ---
 
-## 📊 Overview & Strategic Highlights
-* **Statewide Coverage**: Tracks all 52 districts across 314 blocks and 2,851 clusters with 29,285 total participants.
-* **Coverage Rate Bifurcation**: Transparently itemizes 50 active reporting districts (96.2%), 2 non-reporting districts (*Sehore* & *Dewas* due to vacant CAC positions), and accommodates newly carved districts (*Mauganj*, *Maihar*, *Pandhurna*).
-* **Results Framework (RF 7 – RF 18)**: 12 comprehensive Results Framework indicators with exact baseline targets, achievements, sub-indicators, and diagnostic status tags.
-* **4-Quadrant Priority Matrix**: Classifies all 52 districts by *Turnout Rate* vs. *Pedagogy Assessment Mastery*.
-* **Pedagogical Misconception Diagnostics**: Deep-dive analysis on critical misconception indicators (**Q95** Active Engagement & **Q97** Belongingness) with DIET coaching guides.
-* **Side-by-Side District Comparator**: Multi-metric delta comparison across any two selected districts.
-* **Governance Action Tracker**: Digitized administrative roadmap addressing CAC vacancies, bifurcation logistics, cadre mobilization, and compliance.
-* **Peepul Brand Guidelines**: Built with official brand palettes (`#008AAB` Peepul Teal, `#63D0DF` Peepul Cyan, `#1D4ED8` Royal Blue) and Comfortaa typography.
+## 🌟 Key Features
+
+1. **Exact Mirror of CLSS RF BI Executive Studio**:
+   - 7 Interactive Navigation Tabs (Overview & RF Scorecard, Stakeholder Cascade, District 360° Profile & Block Matrix, Pedagogy & Assessment Analytics, 7 Design Principles Triangulation, State League Table, and Question Explorer).
+   - High-craft UI styling, Bento grid KPI ribbons, dark/light mode toggle, and print/PDF export.
+2. **Instant Bilingual Switch (English $\leftrightarrow$ हिन्दी)**:
+   - Dynamic localization for all cards, district names, metrics, charts, and question distributions.
+3. **Data Integrity & Missing Values Safeguard**:
+   - Strict omission of empty, null, and NaN responses from all percentage calculations and averages.
+4. **Stakeholder Cascade Mapping**:
+   - DO Monitors & Facilitators $\rightarrow$ CLSS Monitors
+   - DO Participants (CACs / Teachers) $\rightarrow$ CLSS Facilitators
+   - CLSS Participants $\rightarrow$ Classroom Teachers
 
 ---
 
-## 📂 Repository Structure
-- `index.html` - Production-ready, standalone single-page interactive dashboard.
-- `RSK_Executive_BI_ProMax.html` - Master source dashboard template.
-- `Logos, fonts, colours/` - Brand assets, typography, and color guidelines.
-- `PowerBI_Model_Data/` - Normalized data tables (Districts, Attendance, Cadres, Pedagogy).
+## 🚀 How to Run and View the Dashboard
+
+### 1. View the Interactive Dashboard
+Double-click:
+`c:\Master Dashboard for CLSS\RSK_Master_CLSS_Executive_Dashboard.html`
+
+*Opens in Google Chrome, Microsoft Edge, Mozilla Firefox, or any modern web browser with zero external dependencies.*
 
 ---
 
-## 🛠️ Built With
-- **Vanilla HTML5 / CSS3 / JavaScript (ES6+)**
-- **Chart.js v4.4.1**
-- **Lucide Icons**
-- **Google Fonts (Comfortaa, Plus Jakarta Sans, Newsreader, JetBrains Mono)**
+## 🔄 How to Update Figures Every Month (Automated ETL)
+
+Whenever a new cycle or month's data arrives with updated figures (while keeping the standard columns):
+
+1. **Replace the Excel Files** in `c:\Master Dashboard for CLSS\`:
+   - `SS_ResponseDetail_District Level_Grades 6-8_August.xlsx` *(or the new month's file with identical name)*
+   - `SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx` *(or the new month's file with identical name)*
+
+2. **Run the One-Click Build Script**:
+   Open PowerShell or Terminal and execute:
+   ```bash
+   python "c:\Master Dashboard for CLSS\build_master_dashboard.py"
+   ```
+
+3. **Done!** The script will automatically:
+   - Clean and parse all 74 questions and responses.
+   - Recompute state totals, district rankings, and block matrices.
+   - Refresh `dataPackage.json` and generate the updated `RSK_Master_CLSS_Executive_Dashboard.html`.
