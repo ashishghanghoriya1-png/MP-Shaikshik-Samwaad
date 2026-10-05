@@ -425,59 +425,129 @@
     }
 
     /* Navigation Tabs */
+    /* =========================================================================
+       PRO-MAX EXECUTIVE NAVIGATION SYSTEM (Emil Kowalski / High-Contrast Tactile)
+       ========================================================================= */
     .studio-nav {
+      position: sticky;
+      top: 0;
+      z-index: 800;
       background: var(--bg-surface-1);
-      border-bottom: 1px solid var(--border-hairline);
-      padding: 6px 32px;
+      border-bottom: 1.5px solid var(--border-subtle);
+      padding: 8px 24px;
       display: flex;
+      align-items: center;
       gap: 6px;
       overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 138, 171, 0.25) transparent;
+      box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.04);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .studio-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+    .studio-nav::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .studio-nav::-webkit-scrollbar-thumb {
+      background: rgba(0, 138, 171, 0.25);
+      border-radius: 4px;
+    }
+    .studio-nav::-webkit-scrollbar-thumb:hover {
+      background: var(--peepul-teal);
     }
 
     .nav-item {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-secondary);
-      padding: 7px 12px;
-      font-size: 12px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 8px 14px;
+      font-size: 12.5px;
       font-weight: 600;
-      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      border-radius: 8px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
       white-space: nowrap;
-      flex: 1 1 0;
-      min-width: 120px;
+      flex: 0 0 auto;
       text-align: center;
-      transition: var(--transition-spring);
+      letter-spacing: -0.01em;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
     }
 
     .nav-item:hover {
-      color: var(--text-primary);
-      background: var(--bg-surface-2);
+      color: var(--peepul-teal);
+      background: #ffffff;
+      border-color: rgba(0, 138, 171, 0.35);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px -2px rgba(0, 138, 171, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .nav-item:active {
+      transform: scale(0.98);
     }
 
     .nav-item.active {
-      background: var(--bg-surface-2);
-      border-color: var(--peepul-teal);
-      color: var(--text-primary);
+      background: linear-gradient(135deg, #008aab 0%, #00708a 100%);
+      border-color: #006078;
+      color: #ffffff !important;
       font-weight: 700;
-      box-shadow: var(--shadow-tactile);
-    }
-
-    .nav-item.active .nav-dot {
-      background: var(--accent-pbi-gold);
-      box-shadow: 0 0 8px var(--accent-pbi-gold);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px -2px rgba(0, 138, 171, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
     .nav-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--text-dim);
+      background: var(--peepul-teal);
+      opacity: 0.7;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
+
+    .nav-item:hover .nav-dot {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .nav-item.active .nav-dot {
+      background: #ffffff;
+      opacity: 1;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+      transform: scale(1.15);
+    }
+
+    [data-theme="dark"] .studio-nav {
+      background: var(--bg-surface-1);
+      border-bottom-color: var(--border-subtle);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    [data-theme="dark"] .nav-item {
+      background: rgba(30, 41, 59, 0.7);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .nav-item:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: rgba(99, 208, 223, 0.4);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+    [data-theme="dark"] .nav-item.active {
+      background: linear-gradient(135deg, #008aab 0%, #005a70 100%);
+      border-color: rgba(99, 208, 223, 0.5);
+      color: #ffffff !important;
+      box-shadow: 0 4px 18px rgba(0, 138, 171, 0.45);
+    }
+
 
     /* Main Container */
     .studio-canvas {
@@ -1416,17 +1486,17 @@
 </div>
 </aside>
 <!-- Navigation Ribbon -->
-<nav class="studio-nav lang-fade-target">
-<button class="nav-item active" onclick="activateTab('tab-overview', this)">📊 1. Overview &amp; Summary</button>
-<button class="nav-item" onclick="activateTab('tab-rf', this)">🎯 2. Key Goals &amp; RF</button>
-<button class="nav-item" onclick="activateTab('tab-d360', this)">🔍 3. District Profile</button>
-<button class="nav-item" onclick="activateTab('tab-league', this)">🗺️ 4. District Rankings</button>
-<button class="nav-item" onclick="activateTab('tab-blocks', this)">🏢 5. Block Directory</button>
-<button class="nav-item" onclick="activateTab('tab-questions', this)">📋 6. Survey Questions</button>
-<button class="nav-item" onclick="activateTab('tab-pedagogy', this)">🧠 7. Teaching Quality</button>
-<button class="nav-item" onclick="activateTab('tab-governance', this)">⚖️ 8. Key Actions</button>
-<button class="nav-item" id="navTabInsights" onclick="activateTab('tab-insights', this)">🤖 9. AI Insights</button>
-<button class="nav-item" id="navTabResearch" onclick="activateTab('tab-research', this)">📚 10. Qualitative Research</button>
+<nav class="studio-nav lang-fade-target" id="mainStudioNav">
+<button class="nav-item active" onclick="activateTab('tab-overview', this)"><span class="nav-dot"></span> 📊 1. Overview &amp; Summary</button>
+<button class="nav-item" onclick="activateTab('tab-rf', this)"><span class="nav-dot"></span> 🎯 2. Key Goals &amp; RF</button>
+<button class="nav-item" onclick="activateTab('tab-d360', this)"><span class="nav-dot"></span> 🔍 3. District Profile</button>
+<button class="nav-item" onclick="activateTab('tab-league', this)"><span class="nav-dot"></span> 🗺️ 4. District Rankings</button>
+<button class="nav-item" onclick="activateTab('tab-blocks', this)"><span class="nav-dot"></span> 🏢 5. Block Directory</button>
+<button class="nav-item" onclick="activateTab('tab-questions', this)"><span class="nav-dot"></span> 📋 6. Survey Questions</button>
+<button class="nav-item" onclick="activateTab('tab-pedagogy', this)"><span class="nav-dot"></span> 🧠 7. Teaching Quality</button>
+<button class="nav-item" onclick="activateTab('tab-governance', this)"><span class="nav-dot"></span> ⚖️ 8. Key Actions</button>
+<button class="nav-item" id="navTabInsights" onclick="activateTab('tab-insights', this)"><span class="nav-dot"></span> 🤖 9. AI Insights</button>
+<button class="nav-item" id="navTabResearch" onclick="activateTab('tab-research', this)"><span class="nav-dot"></span> 📚 10. Qualitative Research</button>
 <button class="nav-item" id="navTabCohort" onclick="activateTab('tab-cohort', this)"><span class="nav-dot"></span> 👥 11. Teacher Cohorts &amp; Retention</button>
 </nav>
 <main class="studio-canvas">
@@ -4996,7 +5066,17 @@
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       const activeSec = document.getElementById(tabId);
       if (activeSec) activeSec.classList.add('active');
-      if (el) el.classList.add('active');
+      
+      let activeBtn = el;
+      if (!activeBtn) {
+        activeBtn = document.querySelector(`.studio-nav .nav-item[onclick*="'${tabId}'"]`);
+      }
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        try {
+          activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } catch(e) {}
+      }
 
       if (tabId === 'tab-cohort' && typeof window.renderCohortTab === 'function') {
         window.renderCohortTab();
