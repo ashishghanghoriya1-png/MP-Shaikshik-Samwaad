@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Template C: Minimalist Swiss Grid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Space Grotesk', sans-serif; background: #ffffff; color: #09090b; width: 1200px; margin: 0 auto; padding: 32px; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="space-y-4">
+  <div class="border-b border-zinc-200 pb-3 flex justify-between items-baseline">
+    <div>
+      <div class="text-[10px] font-mono uppercase tracking-widest text-zinc-400">RSK MADHYA PRADESH • EVALUATION BRIEFING</div>
+      <h1 class="text-2xl font-bold tracking-tight text-zinc-950">Shaikshik Samwaad: 2-Cycle Operational & Pedagogy Briefing</h1>
+    </div>
+    <div class="text-xs font-mono text-zinc-500">Universe: <strong>68,427</strong> Varg-2 Middle Teachers</div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-3">
+    <div class="border border-zinc-200 p-4 rounded-md">
+      <div class="text-[10px] font-mono text-zinc-400 uppercase">August 2026 Cycle</div>
+      <div class="text-2xl font-bold font-mono mt-1">23,785 <span class="text-xs font-normal text-zinc-500">/ 68,369 (34.8%)</span></div>
+      <div class="text-xs text-zinc-500 mt-1">50/52 Active Districts (Dewas & Sehore Vacant)</div>
+    </div>
+    <div class="border border-zinc-200 p-4 rounded-md">
+      <div class="text-[10px] font-mono text-zinc-400 uppercase">September 2026 Cycle</div>
+      <div class="text-2xl font-bold font-mono mt-1">23,169 <span class="text-xs font-normal text-zinc-500">/ 67,222 (34.5%)</span></div>
+      <div class="text-xs text-zinc-500 mt-1">52/52 Active Districts (100% Full Saturation)</div>
+    </div>
+    <div class="border border-zinc-900 bg-zinc-950 text-white p-4 rounded-md">
+      <div class="text-[10px] font-mono text-zinc-400 uppercase">Consolidated 2-Cycle Total</div>
+      <div class="text-2xl font-bold font-mono mt-1">46,954 <span class="text-xs font-normal text-zinc-400">/ 135,591 (34.6%)</span></div>
+      <div class="text-xs text-zinc-400 mt-1">5,735 Sessions • 8,974 DO • 4,891 Leads</div>
+    </div>
+  </div>
+
+  <div class="border border-zinc-200 rounded-md overflow-hidden text-xs">
+    <table class="w-full text-left border-collapse">
+      <thead class="bg-zinc-50 border-b border-zinc-200 font-mono text-[10px] text-zinc-500 uppercase">
+        <tr>
+          <th class="p-2.5">Domain</th>
+          <th class="p-2.5">Constructive Option</th>
+          <th class="p-2.5">Misconception Trap</th>
+          <th class="p-2.5 text-right">Mastery</th>
+          <th class="p-2.5 text-right">Trap %</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-zinc-100 font-mono text-[11px]">
+        <tr><td class="p-2.5 font-bold">Q95: TLM Purpose</td><td class="p-2.5 text-zinc-700">Structured reflection</td><td class="p-2.5 text-zinc-500">Activity Fallacy</td><td class="p-2.5 text-right font-bold">51.9%</td><td class="p-2.5 text-right text-zinc-500">48.1%</td></tr>
+        <tr><td class="p-2.5 font-bold">Q97: Struggle</td><td class="p-2.5 text-zinc-700">Normalize errors</td><td class="p-2.5 text-zinc-500">Praise right answers only</td><td class="p-2.5 text-right font-bold text-red-600">33.9%</td><td class="p-2.5 text-right text-red-600">66.1%</td></tr>
+        <tr><td class="p-2.5 font-bold">Q96: Misconceptions</td><td class="p-2.5 text-zinc-700">Diagnostic entry point</td><td class="p-2.5 text-zinc-500">Immediate correction</td><td class="p-2.5 text-right font-bold">62.0%</td><td class="p-2.5 text-right text-zinc-500">38.0%</td></tr>
+        <tr><td class="p-2.5 font-bold">Q98: Peer Dialogue</td><td class="p-2.5 text-zinc-700">Small-group debate</td><td class="p-2.5 text-zinc-500">Teacher monologue</td><td class="p-2.5 text-right font-bold">54.2%</td><td class="p-2.5 text-right text-zinc-500">45.8%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid grid-cols-4 gap-2 text-xs font-mono">
+    <div class="border border-zinc-200 p-2.5 rounded"><strong>Q1 Champions:</strong> Harda, Dewas, Sehore, Narsinghpur, Raisen.</div>
+    <div class="border border-zinc-200 p-2.5 rounded"><strong>Q2 Scale Gap:</strong> Chhatarpur, Damoh, Panna, Rewa, Satna.</div>
+    <div class="border border-zinc-200 p-2.5 rounded"><strong>Q3 Reach Gap:</strong> Bhopal, Indore, Ujjain, Gwalior, Sagar.</div>
+    <div class="border border-zinc-200 p-2.5 rounded"><strong>Q4 Priority:</strong> Alirajpur, Barwani, Jhabua, Singrauli.</div>
+  </div>
+</body>
+</html>

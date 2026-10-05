@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Template B: Modern Executive Bento Grid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; width: 1200px; margin: 0 auto; padding: 28px; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+    .bento-card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 16px; box-shadow: 0 4px 20px -2px rgba(0,0,0,0.03), 0 2px 6px -1px rgba(0,0,0,0.02); }
+  </style>
+</head>
+<body class="space-y-4">
+  <!-- Header -->
+  <div class="flex justify-between items-center bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white font-bold text-lg shadow-md">RSK</div>
+      <div>
+        <h1 class="text-2xl font-black tracking-tight text-slate-900">Shaikshik Samwaad <span class="text-teal-600">Executive Briefing</span></h1>
+        <p class="text-xs text-slate-500">Rajya Shiksha Kendra MP • Peepul India • Grades 6–8 Shikshak Samvad</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <div class="px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-200 text-teal-800 text-xs font-semibold font-mono">August & September 2026</div>
+      <div class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold font-mono">Universe: 68,427 Teachers</div>
+    </div>
+  </div>
+
+  <!-- Main Bento Row 1: Funnel & Key Progress -->
+  <div class="grid grid-cols-3 gap-4">
+    <!-- Card 1: August Cycle -->
+    <div class="bento-card p-5 border-t-4 border-t-amber-500">
+      <div class="flex justify-between items-center text-xs text-slate-500 mb-2 font-mono">
+        <span class="font-bold text-slate-900">AUGUST 2026 CYCLE</span>
+        <span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded font-semibold text-[10px]">50/52 Dists (96.2%)</span>
+      </div>
+      <div class="text-3xl font-black font-mono text-slate-900">23,785</div>
+      <div class="text-xs text-slate-500 mt-1">Actual Teachers Attended (<strong>34.8%</strong> of 68,369 target)</div>
+      <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between text-xs text-slate-600 font-mono">
+        <span>Gap: 44,584 (65.2%)</span>
+        <span class="text-amber-700">Dewas & Sehore Vacant</span>
+      </div>
+    </div>
+
+    <!-- Card 2: September Cycle -->
+    <div class="bento-card p-5 border-t-4 border-t-teal-500">
+      <div class="flex justify-between items-center text-xs text-slate-500 mb-2 font-mono">
+        <span class="font-bold text-slate-900">SEPTEMBER 2026 CYCLE</span>
+        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold text-[10px]">52/52 Dists (100%)</span>
+      </div>
+      <div class="text-3xl font-black font-mono text-teal-700">23,169</div>
+      <div class="text-xs text-slate-500 mt-1">Actual Teachers Attended (<strong>34.5%</strong> of 67,222 target)</div>
+      <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between text-xs text-slate-600 font-mono">
+        <span>Gap: 44,053 (65.5%)</span>
+        <span class="text-emerald-700">100% Full Saturation</span>
+      </div>
+    </div>
+
+    <!-- Card 3: Consolidated Total -->
+    <div class="bento-card p-5 border-t-4 border-t-indigo-600 bg-gradient-to-b from-white to-indigo-50/30">
+      <div class="flex justify-between items-center text-xs text-slate-500 mb-2 font-mono">
+        <span class="font-bold text-indigo-900">CONSOLIDATED IMPACT</span>
+        <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded font-semibold text-[10px]">Both Cycles</span>
+      </div>
+      <div class="text-3xl font-black font-mono text-indigo-900">46,954</div>
+      <div class="text-xs text-slate-500 mt-1">Total Attendances (<strong>34.6%</strong> of 135,591 combined target)</div>
+      <div class="mt-3 pt-3 border-t border-indigo-100 flex justify-between text-xs text-slate-600 font-mono">
+        <span>Total Venues: 5,735</span>
+        <span class="text-indigo-800">8,974 DO Trained</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pedagogy & Quadrants Bento Grid -->
+  <div class="grid grid-cols-2 gap-4">
+    <!-- Pedagogy Misconceptions -->
+    <div class="bento-card p-5">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-3">Diagnostic Pedagogy Telemetry</h3>
+      <div class="space-y-3 text-xs">
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+          <div class="flex justify-between font-bold text-slate-800"><span>Q95: Purpose of TLM in Learning</span><span class="text-emerald-600 font-mono">51.9% Mastery</span></div>
+          <div class="w-full bg-slate-200 h-2 rounded-full mt-1.5 overflow-hidden flex"><div class="bg-emerald-500 h-full" style="width:51.9%"></div><div class="bg-rose-500 h-full" style="width:48.1%"></div></div>
+          <div class="flex justify-between text-[10px] text-slate-500 mt-1"><span>Structured reflection & inquiry</span><span class="text-rose-600">48.1% Activity Fallacy trap</span></div>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+          <div class="flex justify-between font-bold text-slate-800"><span>Q97: Normalizing Student Struggle</span><span class="text-rose-600 font-mono">33.9% Mastery</span></div>
+          <div class="w-full bg-slate-200 h-2 rounded-full mt-1.5 overflow-hidden flex"><div class="bg-emerald-500 h-full" style="width:33.9%"></div><div class="bg-rose-500 h-full" style="width:66.1%"></div></div>
+          <div class="flex justify-between text-[10px] text-slate-500 mt-1"><span>Normalize mistakes as learning</span><span class="text-rose-600 font-bold">66.1% Performance bias trap</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 52-District Quadrants -->
+    <div class="bento-card p-5">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono mb-3">52-District Strategic Quadrants</h3>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="p-3 bg-emerald-50/80 rounded-xl border border-emerald-200">
+          <div class="font-bold text-emerald-900">🌟 Q1: Champions</div>
+          <div class="text-[10px] text-emerald-800 mt-1 leading-tight">Harda, Narsinghpur, Raisen, Shajapur, Neemuch, Dewas (Sep), Sehore (Sep).</div>
+        </div>
+        <div class="p-3 bg-amber-50/80 rounded-xl border border-amber-200">
+          <div class="font-bold text-amber-900">⚡ Q2: Scale Gap</div>
+          <div class="text-[10px] text-amber-800 mt-1 leading-tight">Chhatarpur, Damoh, Panna, Rewa, Satna, Tikamgarh, Bhind, Morena.</div>
+        </div>
+        <div class="p-3 bg-indigo-50/80 rounded-xl border border-indigo-200">
+          <div class="font-bold text-indigo-900">🎯 Q3: Reach Gap</div>
+          <div class="text-[10px] text-indigo-800 mt-1 leading-tight">Bhopal, Indore, Ujjain, Gwalior, Sagar, Hoshangabad, Ratlam.</div>
+        </div>
+        <div class="p-3 bg-rose-50/80 rounded-xl border border-rose-200">
+          <div class="font-bold text-rose-900">🚨 Q4: Priority Support</div>
+          <div class="text-[10px] text-rose-800 mt-1 leading-tight">Alirajpur, Barwani, Jhabua, Singrauli, Sheopur, Dindori, Mandla.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Directives -->
+  <div class="bento-card p-4 bg-slate-900 text-white">
+    <div class="text-xs font-bold font-mono text-teal-400 uppercase mb-2">Strategic Directives for RSK Leadership</div>
+    <div class="grid grid-cols-4 gap-3 text-[10px] text-slate-300">
+      <div class="bg-slate-800/80 p-2.5 rounded-lg"><strong>1. Attendance:</strong> Track ~44k unreached Varg-2 middle teachers.</div>
+      <div class="bg-slate-800/80 p-2.5 rounded-lg"><strong>2. Pedagogy:</strong> 15-min modules targeting Q97 struggle misconceptions.</div>
+      <div class="bg-slate-800/80 p-2.5 rounded-lg"><strong>3. Mentorship:</strong> Pair Champion districts with Priority Support districts.</div>
+      <div class="bg-slate-800/80 p-2.5 rounded-lg"><strong>4. Telemetry:</strong> Agile feedback loop from 572 field observers.</div>
+    </div>
+  </div>
+</body>
+</html>
