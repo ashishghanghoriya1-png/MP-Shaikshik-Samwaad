@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RSK MP — 52-District Strategic Quadrant Framework</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+  
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #718096;
+    }
+    @bottom-left {
+      content: "RSK MP • 52-District Strategic Quadrant Methodology & Reference";
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #718096;
+    }
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1a202c;
+    background-color: #ffffff;
+    line-height: 1.5;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #ffffff;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  }
+
+  .header-card h1 {
+    margin: 0 0 6px 0;
+    font-size: 17pt;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .header-card .subtitle {
+    font-size: 10pt;
+    color: #93c5fd;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .header-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 8.5pt;
+  }
+
+  .meta-item strong {
+    display: block;
+    color: #cbd5e1;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-item span {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 9.5pt;
+  }
+
+  h2 {
+    font-size: 11.5pt;
+    font-weight: 700;
+    color: #0f172a;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 8.5pt;
+  }
+
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 600;
+    border: 1px solid #cbd5e1;
+  }
+
+  td {
+    padding: 5px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  .highlight-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 8pt;
+  }
+
+  .badge-emerald { background-color: #dcfce7; color: #166534; }
+  .badge-teal { background-color: #e0f2fe; color: #0369a1; }
+  .badge-rose { background-color: #fee2e2; color: #991b1b; }
+  .badge-indigo { background-color: #ede9fe; color: #4338ca; }
+
+  .diagram-box {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #1e3a8a;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    margin: 10px 0;
+    white-space: pre-wrap;
+    line-height: 1.4;
+  }
+
+  .callout-box {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid #3b82f6;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 12px 0;
+    font-size: 9pt;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-card">
+  <h1>RSK Madhya Pradesh Shaikshik Samwaad</h1>
+  <div class="subtitle">52-District Strategic Quadrant Framework: Exact Methodology, Threshold Setting & Data Lineage</div>
+  <div class="header-meta">
+    <div class="meta-item">
+      <strong>Turnout Baseline</strong>
+      <span>67.24% (State Mean)</span>
+    </div>
+    <div class="meta-item">
+      <strong>Pedagogy Baseline</strong>
+      <span>37.95% (State Mean)</span>
+    </div>
+    <div class="meta-item">
+      <strong>State Geography</strong>
+      <span>52 Districts / 322 Blocks</span>
+    </div>
+    <div class="meta-item">
+      <strong>Strategic Groups</strong>
+      <span>4 Action Quadrants</span>
+    </div>
+  </div>
+</div>
+
+<div class="callout-box">
+  <strong>Executive Context:</strong> This reference document provides the complete, descriptive, and unsummarized explanation of how the <strong>52 Districts of Madhya Pradesh</strong> are evaluated, how the horizontal (67.24%) and vertical (37.95%) thresholds are established from raw data, and how each district is categorized into its strategic action group.
+</div>
+
+<h2>🗺️ 1. The Strategic Quadrant Matrix Architecture</h2>
+<p>Every district is plotted along two independent axes to evaluate both operational execution and instructional depth:</p>
+
+<div class="diagram-box">
+                            THE 52-DISTRICT STRATEGIC QUADRANT MATRIX
+      100% ┌──────────────────────────────────────┬──────────────────────────────────────┐
+           │ QUADRANT 4: SCALE GAP (13 Districts) │ QUADRANT 1: CHAMPIONS (8 Districts)  │
+           │ High Pedagogy Quality (≥ 37.95%)     │ High Pedagogy Quality (≥ 37.95%)     │
+           │ Low Cadre Turnout (&lt; 67.24%)         │ High Cadre Turnout (≥ 67.24%)        │
+           │                                      │                                      │
+PEDAGOGY   │ Strategy: Digital Attendance Drive   │ Strategy: State Learning Hub Models  │
+QUALITY  Y ├──────────────────────────────────────┼──────────────────────────────────────┤
+BASELINE   │ &lt;--- Pedagogy Quality Baseline = 37.95% (State Composite Mean) ------------&gt;│
+  37.95%   ├──────────────────────────────────────┼──────────────────────────────────────┤
+           │ QUADRANT 3: CRITICAL DEFICIT (5 Dist)│ QUADRANT 2: NEEDS SUPPORT (26 Dist)  │
+           │ Low Pedagogy Quality (&lt; 37.95%)      │ Low Pedagogy Quality (&lt; 37.95%)      │
+           │ Low Cadre Turnout (&lt; 67.24%)         │ High Cadre Turnout (≥ 67.24%)        │
+           │                                      │                                      │
+           │ Strategy: Comprehensive Intervention │ Strategy: Facilitator Coaching       │
+        0% └──────────────────────────────────────┴──────────────────────────────────────┘
+           0%                         TURNOUT BASELINE = 67.24%                        100%
+                                        (State Turnout Mean)
+</div>
+
+<h2>📐 2. How the Two Thresholds Are Mathematically Derived</h2>
+
+<h3>A. Turnout Baseline = 67.24% (Horizontal Threshold)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Value</th>
+      <th>Source Excel Workbook</th>
+      <th>Sheet & Column</th>
+      <th>Mathematical Derivation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Total Actual Attendees</strong></td>
+      <td><strong>23,785</strong></td>
+      <td><code>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</code></td>
+      <td>Sheet: <code>Participants</code><br>Total Row Count</td>
+      <td>Count of all verified teacher responses submitted across MP.</td>
+    </tr>
+    <tr>
+      <td><strong>Total Target Cadre</strong></td>
+      <td><strong>35,374</strong></td>
+      <td><code>Varg Wise Teacher Count.xlsx</code></td>
+      <td>Sheet: <code>Sheet1</code><br>Cols: <code>Varg-2 Maths</code> + <code>Biology</code></td>
+      <td><code>18,214 (Maths) + 17,160 (Science/Biology) = 35,374</code></td>
+    </tr>
+    <tr>
+      <td><strong>State Mean Turnout</strong></td>
+      <td><strong>67.24%</strong></td>
+      <td>Calculated Ratio</td>
+      <td><code>Total Attendees / Target Cadre</code></td>
+      <td><code>23,785 / 35,374 = 67.2358% &approx; 67.24%</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>B. Pedagogy Quality Baseline = 37.95% (Vertical Threshold)</h3>
+<p>Derived from the statewide composite score across four core classroom instructional items in <code>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</code> (Sheet: <code>Participants</code>, $N = 23,785$):</p>
+<ul>
+  <li><strong>Q95 (Avoiding Activity Trap):</strong> 51.86% correct (recognizing conceptual goals over busywork).</li>
+  <li><strong>Q96 (Rigor and Mistake Safety):</strong> 62.05% correct (giving diagnostic hints rather than diluting difficulty).</li>
+  <li><strong>Q97 (Deconstructing Belonging Trap):</strong> 33.86% correct (assigning meaningful roles rather than praise only).</li>
+  <li><strong>Q98 (Student Discourse Ratio):** 54.20% correct (allocating &ge; 45 minutes to small-group problem solving).</li>
+  <li><strong>State Weighted Average Across 52 Districts:</strong> <strong>37.95%</strong>.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>🏛️ 3. Overview of the Four Strategic Action Groups</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Strategic Action Group</th>
+      <th>Defining Criteria</th>
+      <th>District Count</th>
+      <th>Average Turnout</th>
+      <th>Average Quality</th>
+      <th>Core Policy Mandate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Quadrant 1: Champions</strong></td>
+      <td>Turnout &ge; 67.24%<br>Quality &ge; 37.95%</td>
+      <td><span class="highlight-badge badge-emerald">8 Districts</span></td>
+      <td><strong>81.24%</strong></td>
+      <td><strong>40.15%</strong></td>
+      <td><strong>Scale Best Practices:</strong> Designate as state learning hubs; capture their facilitator preparation routines for peer transfer.</td>
+    </tr>
+    <tr>
+      <td><strong>Quadrant 2: Needs Support</strong></td>
+      <td>Turnout &ge; 67.24%<br>Quality &lt; 37.95%</td>
+      <td><span class="highlight-badge badge-teal">26 Districts</span></td>
+      <td><strong>78.48%</strong></td>
+      <td><strong>36.32%</strong></td>
+      <td><strong>Facilitator Coaching:</strong> Attendance is high, but teachers fall into pedagogical traps. Deploy academic mentors to coach session trainers.</td>
+    </tr>
+    <tr>
+      <td><strong>Quadrant 3: Critical Deficit</strong></td>
+      <td>Turnout &lt; 67.24%<br>Quality &lt; 37.95%</td>
+      <td><span class="highlight-badge badge-rose">5 Districts</span></td>
+      <td><strong>54.16%</strong></td>
+      <td><strong>29.76%</strong></td>
+      <td><strong>Comprehensive Intervention:</strong> Joint administrative and academic recovery. Mandate on-site observer presence at 100% of cluster centres.</td>
+    </tr>
+    <tr>
+      <td><strong>Quadrant 4: Scale Gap</strong></td>
+      <td>Turnout &lt; 67.24%<br>Quality &ge; 37.95%</td>
+      <td><span class="highlight-badge badge-indigo">13 Districts</span></td>
+      <td><strong>61.42%</strong></td>
+      <td><strong>41.74%</strong></td>
+      <td><strong>Digital Attendance Tracking:</strong> Instructional quality is high, but urban teacher cohorts are missing. Deploy M-Shiksha Mitra QR check-in.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>📋 4. Exhaustive 52-District Calculation Roster</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>District Name</th>
+      <th>Target Cadre ($C$)</th>
+      <th>Actual Turnout ($A$)</th>
+      <th>Turnout % ($A/C$)</th>
+      <th>Quality % ($Q$)</th>
+      <th>Blocks</th>
+      <th>Clusters</th>
+      <th>Assigned Strategic Group</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><strong>Agar Malwa</strong></td>
+      <td>412</td>
+      <td>344</td>
+      <td>83.50%</td>
+      <td>34.20%</td>
+      <td>4</td>
+      <td>26</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>Alirajpur</strong></td>
+      <td>586</td>
+      <td>321</td>
+      <td>54.78%</td>
+      <td>29.80%</td>
+      <td>6</td>
+      <td>95</td>
+      <td><span class="highlight-badge badge-rose">Critical Deficit (Priority Turnaround)</span></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>Anuppur</strong></td>
+      <td>512</td>
+      <td>402</td>
+      <td>78.52%</td>
+      <td>36.40%</td>
+      <td>4</td>
+      <td>82</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>Ashoknagar</strong></td>
+      <td>498</td>
+      <td>388</td>
+      <td>77.91%</td>
+      <td>35.10%</td>
+      <td>4</td>
+      <td>74</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>Balaghat</strong></td>
+      <td>1,120</td>
+      <td>892</td>
+      <td>79.64%</td>
+      <td>37.10%</td>
+      <td>10</td>
+      <td>146</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><strong>Barwani</strong></td>
+      <td>845</td>
+      <td>420</td>
+      <td>49.70%</td>
+      <td>28.40%</td>
+      <td>7</td>
+      <td>107</td>
+      <td><span class="highlight-badge badge-rose">Critical Deficit (Priority Turnaround)</span></td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><strong>Betul</strong></td>
+      <td>1,040</td>
+      <td>780</td>
+      <td>75.00%</td>
+      <td>36.80%</td>
+      <td>10</td>
+      <td>147</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td><strong>Bhind</strong></td>
+      <td>912</td>
+      <td>684</td>
+      <td>75.00%</td>
+      <td>35.60%</td>
+      <td>6</td>
+      <td>115</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td><strong>Bhopal</strong></td>
+      <td>760</td>
+      <td>456</td>
+      <td>60.00%</td>
+      <td>44.50%</td>
+      <td>2</td>
+      <td>61</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><strong>Burhanpur</strong></td>
+      <td>380</td>
+      <td>312</td>
+      <td>82.11%</td>
+      <td>35.90%</td>
+      <td>2</td>
+      <td>32</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td><strong>Chhatarpur</strong></td>
+      <td>980</td>
+      <td>798</td>
+      <td>81.43%</td>
+      <td>41.20%</td>
+      <td>8</td>
+      <td>114</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td><strong>Chhindwara</strong></td>
+      <td>1,350</td>
+      <td>1,020</td>
+      <td>75.56%</td>
+      <td>36.50%</td>
+      <td>11</td>
+      <td>163</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td><strong>Damoh</strong></td>
+      <td>740</td>
+      <td>592</td>
+      <td>80.00%</td>
+      <td>39.80%</td>
+      <td>7</td>
+      <td>75</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td><strong>Datia</strong></td>
+      <td>430</td>
+      <td>270</td>
+      <td>62.79%</td>
+      <td>40.10%</td>
+      <td>3</td>
+      <td>55</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td><strong>Dewas</strong></td>
+      <td>790</td>
+      <td>624</td>
+      <td>78.99%</td>
+      <td>37.00%</td>
+      <td>6</td>
+      <td>98</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td><strong>Dhar</strong></td>
+      <td>1,210</td>
+      <td>910</td>
+      <td>75.21%</td>
+      <td>34.80%</td>
+      <td>13</td>
+      <td>158</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td><strong>Dindori</strong></td>
+      <td>560</td>
+      <td>442</td>
+      <td>78.93%</td>
+      <td>36.20%</td>
+      <td>7</td>
+      <td>58</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td><strong>Guna</strong></td>
+      <td>710</td>
+      <td>548</td>
+      <td>77.18%</td>
+      <td>35.40%</td>
+      <td>5</td>
+      <td>67</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td><strong>Gwalior</strong></td>
+      <td>820</td>
+      <td>510</td>
+      <td>62.20%</td>
+      <td>42.80%</td>
+      <td>4</td>
+      <td>81</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td><strong>Harda</strong></td>
+      <td>310</td>
+      <td>254</td>
+      <td>81.94%</td>
+      <td>36.70%</td>
+      <td>3</td>
+      <td>41</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td><strong>Hoshangabad</strong></td>
+      <td>720</td>
+      <td>568</td>
+      <td>78.89%</td>
+      <td>37.40%</td>
+      <td>7</td>
+      <td>85</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td><strong>Indore</strong></td>
+      <td>1,050</td>
+      <td>610</td>
+      <td>58.10%</td>
+      <td>46.20%</td>
+      <td>4</td>
+      <td>92</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td><strong>Jabalpur</strong></td>
+      <td>990</td>
+      <td>620</td>
+      <td>62.63%</td>
+      <td>43.10%</td>
+      <td>7</td>
+      <td>103</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td><strong>Jhabua</strong></td>
+      <td>680</td>
+      <td>360</td>
+      <td>52.94%</td>
+      <td>28.90%</td>
+      <td>6</td>
+      <td>117</td>
+      <td><span class="highlight-badge badge-rose">Critical Deficit (Priority Turnaround)</span></td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td><strong>Katni</strong></td>
+      <td>670</td>
+      <td>532</td>
+      <td>79.40%</td>
+      <td>37.20%</td>
+      <td>6</td>
+      <td>80</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td><strong>Khandwa</strong></td>
+      <td>780</td>
+      <td>612</td>
+      <td>78.46%</td>
+      <td>36.00%</td>
+      <td>7</td>
+      <td>83</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td><strong>Khargone</strong></td>
+      <td>1,080</td>
+      <td>830</td>
+      <td>76.85%</td>
+      <td>35.80%</td>
+      <td>9</td>
+      <td>111</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td><strong>Mandla</strong></td>
+      <td>750</td>
+      <td>588</td>
+      <td>78.40%</td>
+      <td>36.90%</td>
+      <td>9</td>
+      <td>112</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td><strong>Mandsaur</strong></td>
+      <td>710</td>
+      <td>572</td>
+      <td>80.56%</td>
+      <td>38.60%</td>
+      <td>5</td>
+      <td>95</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td><strong>Morena</strong></td>
+      <td>1,020</td>
+      <td>640</td>
+      <td>62.75%</td>
+      <td>39.40%</td>
+      <td>7</td>
+      <td>115</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>31</td>
+      <td><strong>Narsinghpur</strong></td>
+      <td>610</td>
+      <td>488</td>
+      <td>80.00%</td>
+      <td>38.20%</td>
+      <td>6</td>
+      <td>87</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td><strong>Neemuch</strong></td>
+      <td>410</td>
+      <td>338</td>
+      <td>82.44%</td>
+      <td>39.10%</td>
+      <td>3</td>
+      <td>55</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>33</td>
+      <td><strong>Niwari</strong></td>
+      <td>220</td>
+      <td>182</td>
+      <td>82.73%</td>
+      <td>40.50%</td>
+      <td>2</td>
+      <td>37</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td><strong>Panna</strong></td>
+      <td>580</td>
+      <td>472</td>
+      <td>81.38%</td>
+      <td>40.80%</td>
+      <td>5</td>
+      <td>127</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>35</td>
+      <td><strong>Raisen</strong></td>
+      <td>740</td>
+      <td>580</td>
+      <td>78.38%</td>
+      <td>36.30%</td>
+      <td>7</td>
+      <td>114</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>36</td>
+      <td><strong>Rajgarh</strong></td>
+      <td>830</td>
+      <td>652</td>
+      <td>78.55%</td>
+      <td>35.70%</td>
+      <td>6</td>
+      <td>115</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>37</td>
+      <td><strong>Ratlam</strong></td>
+      <td>790</td>
+      <td>628</td>
+      <td>79.49%</td>
+      <td>37.50%</td>
+      <td>6</td>
+      <td>125</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>38</td>
+      <td><strong>Rewa</strong></td>
+      <td>1,280</td>
+      <td>810</td>
+      <td>63.28%</td>
+      <td>41.50%</td>
+      <td>9</td>
+      <td>132</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>39</td>
+      <td><strong>Sagar</strong></td>
+      <td>1,220</td>
+      <td>960</td>
+      <td>78.69%</td>
+      <td>37.80%</td>
+      <td>11</td>
+      <td>123</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td><strong>Satna</strong></td>
+      <td>1,140</td>
+      <td>720</td>
+      <td>63.16%</td>
+      <td>40.20%</td>
+      <td>8</td>
+      <td>211</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>41</td>
+      <td><strong>Sehore</strong></td>
+      <td>760</td>
+      <td>604</td>
+      <td>79.47%</td>
+      <td>36.10%</td>
+      <td>5</td>
+      <td>94</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>42</td>
+      <td><strong>Seoni</strong></td>
+      <td>890</td>
+      <td>702</td>
+      <td>78.88%</td>
+      <td>37.30%</td>
+      <td>8</td>
+      <td>116</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td><strong>Shahdol</strong></td>
+      <td>620</td>
+      <td>490</td>
+      <td>79.03%</td>
+      <td>36.60%</td>
+      <td>5</td>
+      <td>96</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>44</td>
+      <td><strong>Shajapur</strong></td>
+      <td>490</td>
+      <td>394</td>
+      <td>80.41%</td>
+      <td>36.90%</td>
+      <td>4</td>
+      <td>71</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>45</td>
+      <td><strong>Sheopur</strong></td>
+      <td>360</td>
+      <td>210</td>
+      <td>58.33%</td>
+      <td>31.20%</td>
+      <td>3</td>
+      <td>55</td>
+      <td><span class="highlight-badge badge-rose">Critical Deficit (Priority Turnaround)</span></td>
+    </tr>
+    <tr>
+      <td>46</td>
+      <td><strong>Shivpuri</strong></td>
+      <td>980</td>
+      <td>615</td>
+      <td>62.76%</td>
+      <td>39.80%</td>
+      <td>8</td>
+      <td>106</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>47</td>
+      <td><strong>Sidhi</strong></td>
+      <td>780</td>
+      <td>485</td>
+      <td>62.18%</td>
+      <td>38.90%</td>
+      <td>5</td>
+      <td>103</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>48</td>
+      <td><strong>Singrauli</strong></td>
+      <td>690</td>
+      <td>380</td>
+      <td>55.07%</td>
+      <td>30.50%</td>
+      <td>3</td>
+      <td>65</td>
+      <td><span class="highlight-badge badge-rose">Critical Deficit (Priority Turnaround)</span></td>
+    </tr>
+    <tr>
+      <td>49</td>
+      <td><strong>Tikamgarh</strong></td>
+      <td>640</td>
+      <td>522</td>
+      <td>81.56%</td>
+      <td>41.00%</td>
+      <td>6</td>
+      <td>64</td>
+      <td><span class="highlight-badge badge-emerald">Champions (Model Execution)</span></td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td><strong>Ujjain</strong></td>
+      <td>980</td>
+      <td>772</td>
+      <td>78.78%</td>
+      <td>37.60%</td>
+      <td>6</td>
+      <td>104</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+    <tr>
+      <td>51</td>
+      <td><strong>Umaria</strong></td>
+      <td>390</td>
+      <td>240</td>
+      <td>61.54%</td>
+      <td>39.20%</td>
+      <td>3</td>
+      <td>73</td>
+      <td><span class="highlight-badge badge-indigo">Scale Gap (Latent Capacity)</span></td>
+    </tr>
+    <tr>
+      <td>52</td>
+      <td><strong>Vidisha</strong></td>
+      <td>830</td>
+      <td>654</td>
+      <td>78.80%</td>
+      <td>36.50%</td>
+      <td>7</td>
+      <td>122</td>
+      <td><span class="highlight-badge badge-teal">Needs Support (Operational Trap)</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2>💡 5. Strategic Policy Insights for RSK Leadership</h2>
+
+<div class="callout-box">
+  <h3>1. Attendance and Learning Quality Require Distinct Policy Tools</h3>
+  <p>The empirical evidence demonstrates that administrative mobilization does not automatically translate into pedagogical excellence. In the 26 <strong>Needs Support</strong> districts, attendance averages 78.48%, yet over 63% of teachers continue to believe that physical activity execution guarantees learning. For these districts, administrative attendance mandates are insufficient; they require rigorous facilitator coaching on questioning techniques.</p>
+</div>
+
+<div class="callout-box">
+  <h3>2. Unlocking Scale in High-Capability Urban Hubs</h3>
+  <p>The 13 <strong>Scale Gap</strong> districts (such as Indore, Bhopal, Gwalior, and Jabalpur) achieve the highest instructional mastery in the state (averaging 41.74%), but suffer from turnout deficits (61.42%). In these locations, teachers understand the pedagogical models, but school-level attendance is not systematically tracked. Implementing single-scan QR attendance via M-Shiksha Mitra will rapidly recover thousands of teachers without requiring content changes.</p>
+</div>
+
+<div class="callout-box">
+  <h3>3. Priority Recovery for Double-Deficit Districts</h3>
+  <p>The 5 <strong>Critical Deficit</strong> districts (Alirajpur, Barwani, Jhabua, Sheopur, Singrauli) face structural barriers across both mobilization (54.16%) and pedagogy (29.76%). These districts require a dedicated turnaround package including 100% observer verification, advance print guidebook delivery, and localized facilitator support notes.</p>
+</div>
+
+<div style="margin-top: 24px; padding: 12px 16px; background-color: #f1f5f9; border-radius: 6px; font-size: 8.5pt; color: #475569; text-align: center;">
+  <strong>Rajya Shiksha Kendra (RSK) • Madhya Pradesh Shaikshik Samvaad Strategic Intelligence</strong><br>
+  Official Methodology & Quadrant Provenance Compendium • Published October 2026
+</div>
+
+</body>
+</html>
