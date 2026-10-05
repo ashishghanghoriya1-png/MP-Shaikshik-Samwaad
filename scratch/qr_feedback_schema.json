@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RSK_CLSS_QR_Micro_Feedback_Specification",
+  "version": "1.0.0",
+  "description": "Technical specification for dynamic cluster QR code encoding and frictionless teacher feedback form schema.",
+  "qrUrlStructure": {
+    "baseUrl": "https://rsk.mp.gov.in/clss/feedback",
+    "requiredParams": {
+      "d": "District Name (e.g. Agar Malwa, Bhopal)",
+      "b": "Block Name (e.g. AGAR, BERASIA)",
+      "c": "Cluster Code / Name (e.g. CLUST_04)",
+      "f": "Facilitator ID (e.g. FAC_102)",
+      "cyc": "Cycle Code (e.g. SEP2026, OCT2026)"
+    },
+    "exampleUrl": "https://rsk.mp.gov.in/clss/feedback?d=Agar+Malwa&b=AGAR&c=CLUST04&f=FAC102&cyc=SEP2026"
+  },
+  "formFields": [
+    {
+      "id": "teacherId",
+      "labelEn": "Treasury Employee Code / Mobile Number",
+      "labelHi": "ट्रेजरी कर्मचारी कोड / मोबाइल नंबर",
+      "type": "string",
+      "pattern": "^[0-9]{6,10}$",
+      "required": true,
+      "helpText": "Enter 6-8 digit Treasury Code or 10-digit registered mobile number"
+    },
+    {
+      "id": "schoolUdise",
+      "labelEn": "School UDISE Code",
+      "labelHi": "विद्यालय का यू-डाइस कोड",
+      "type": "string",
+      "pattern": "^[0-9]{11}$",
+      "required": true
+    },
+    {
+      "id": "subjectGroup",
+      "labelEn": "Subject Group Taught",
+      "labelHi": "अध्यापन विषय समूह",
+      "type": "select",
+      "options": [
+        { "val": "MATH_SCI", "label": "गणित एवं विज्ञान (Math & Science)" },
+        { "val": "LANG_SOC", "label": "भाषा एवं सामाजिक विज्ञान (Language & Social Science)" }
+      ],
+      "required": true
+    },
+    {
+      "id": "qClarity",
+      "labelEn": "1. Clarity on session purpose & learning goals (Q82)",
+      "labelHi": "1. सत्र के उद्देश्य एवं सीखने के लक्ष्यों की स्पष्टता",
+      "type": "rating_5_star",
+      "required": true
+    },
+    {
+      "id": "qUtility",
+      "labelEn": "2. Practical classroom utility of teaching tools (Q177/Q84)",
+      "labelHi": "2. शिक्षण सामग्री की कक्षा में व्यावहारिक उपयोगिता",
+      "type": "rating_5_star",
+      "required": true
+    },
+    {
+      "id": "qDialogue",
+      "labelEn": "3. Opportunity for peer discussion & sharing best practices (Q178/Q79)",
+      "labelHi": "3. सहकर्मियों के साथ विचार-विमर्श एवं अनुभवों के साझाकरण का अवसर",
+      "type": "rating_5_star",
+      "required": true
+    },
+    {
+      "id": "qSafety",
+      "labelEn": "4. Psychological safety to ask doubts & discuss challenges (Q179/Q96)",
+      "labelHi": "4. कक्षा की चुनौतियों एवं शंकाओं पर खुलकर चर्चा करने का सुरक्षित वातावरण",
+      "type": "rating_5_star",
+      "required": true
+    },
+    {
+      "id": "qPedagogy",
+      "labelEn": "5. Confidence in applying active learning techniques in class (Q90/Q95)",
+      "labelHi": "5. सक्रिय शिक्षण विधियों को कक्षा में लागू करने का आत्मविश्वास",
+      "type": "rating_5_star",
+      "required": true
+    }
+  ],
+  "submissionMetrics": {
+    "estimatedCompletionTimeSec": 75,
+    "maxPayloadSizeKb": 1.2,
+    "offlineStorageSupported": true,
+    "syncProtocol": "IndexedDB + BackgroundSync"
+  }
+}

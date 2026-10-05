@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RSK Madhya Pradesh — Executive BI Studio One-Page Visual Summary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.35;
+      font-size: 8.5pt;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Executive Header Band */
+    .header-band {
+      background: linear-gradient(135deg, #008aab 0%, #00566b 50%, #0f172a 100%);
+      color: #ffffff;
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px -2px rgba(0, 138, 171, 0.25);
+    }
+
+    .brand-title {
+      font-size: 14pt;
+      font-weight: 800;
+      margin: 0 0 2px 0;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title span.serif {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 16pt;
+      color: #63d0df;
+    }
+
+    .brand-sub {
+      font-size: 8pt;
+      opacity: 0.92;
+      margin: 0;
+    }
+
+    .meta-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      text-align: right;
+      line-height: 1.3;
+    }
+
+    /* 4-KPI Metric Ribbon */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 7px 10px;
+      border-left: 3.5px solid #008aab;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .kpi-card.teal { border-left-color: #008aab; }
+    .kpi-card.emerald { border-left-color: #059669; }
+    .kpi-card.indigo { border-left-color: #4f46e5; }
+    .kpi-card.amber { border-left-color: #d97706; }
+
+    .kpi-label {
+      font-size: 6.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 1px;
+      letter-spacing: 0.04em;
+    }
+
+    .kpi-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.15;
+    }
+
+    .kpi-desc {
+      font-size: 6.5pt;
+      color: #64748b;
+      margin-top: 1px;
+    }
+
+    /* Section Headings */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 3px;
+      margin: 10px 0 8px 0;
+    }
+
+    .section-title {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #008aab;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-badge {
+      font-size: 6.8pt;
+      font-family: 'JetBrains Mono', monospace;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* 10-Tab Bento Grid Visual Matrix */
+    .tabs-bento {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tab-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 7px 8px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+      position: relative;
+    }
+
+    .tab-card-num {
+      font-size: 6.2pt;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: #008aab;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 1px;
+    }
+
+    .tab-card-title {
+      font-size: 7.8pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 3px;
+      line-height: 1.2;
+    }
+
+    .tab-card-body {
+      font-size: 6.8pt;
+      color: #475569;
+      line-height: 1.28;
+    }
+
+    .tab-card-body strong {
+      color: #0f172a;
+    }
+
+    .tab-card.highlight {
+      border-color: #008aab;
+      background: rgba(0, 138, 171, 0.02);
+    }
+
+    /* 2-Column Split: District Rankings Quadrant & Key Directives */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+
+    .panel-title {
+      font-size: 8.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    table.compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 6.8pt;
+    }
+
+    table.compact-table th {
+      background: #f8fafc;
+      color: #475569;
+      text-align: left;
+      padding: 3px 5px;
+      border: 1px solid #e2e8f0;
+      font-weight: 700;
+      font-size: 6.5pt;
+    }
+
+    table.compact-table td {
+      padding: 3.5px 5px;
+      border: 1px solid #e2e8f0;
+      color: #1e293b;
+      line-height: 1.25;
+    }
+
+    /* Key Pedagogical & Governance Insights */
+    .insight-bullet {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 5px;
+      font-size: 7.2pt;
+      line-height: 1.3;
+      color: #334155;
+    }
+
+    .insight-icon {
+      font-size: 8.5pt;
+      line-height: 1;
+    }
+
+    .footer-band {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 6.8pt;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .tag-shine { background: #dcfce7; color: #15803d; padding: 1px 4px; border-radius: 3px; font-weight: 700; font-size: 6.2pt; }
+    .tag-flag { background: #ffe4e6; color: #be123c; padding: 1px 4px; border-radius: 3px; font-weight: 700; font-size: 6.2pt; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <div class="header-band">
+    <div>
+      <div class="brand-title">
+        राज्य शिक्षा केंद्र (RSK) MP × Peepul
+        <span class="serif">• Executive Intelligence Studio</span>
+      </div>
+      <div class="brand-sub">Shaikshik Samwaad (CLSS) &amp; District Orientation (DO) Comprehensive Telemetry &amp; Decision Platform</div>
+    </div>
+    <div class="meta-badge">
+      <div>Data Cycles: Aug &amp; Sep 2026</div>
+      <div>Coverage: 52 Districts | 313 Blocks</div>
+      <div>Bilingual: Hindi &amp; English</div>
+    </div>
+  </div>
+
+  <!-- 4-KPI RIBBON -->
+  <div class="kpi-row">
+    <div class="kpi-card teal">
+      <div class="kpi-label">Teacher Cadre Mobilized</div>
+      <div class="kpi-val">23,785</div>
+      <div class="kpi-desc">Middle School CLSS Participants</div>
+    </div>
+    <div class="kpi-card emerald">
+      <div class="kpi-label">Master Facilitators &amp; Observers</div>
+      <div class="kpi-val">5,407</div>
+      <div class="kpi-desc">4,814 Facilitators + 516 Monitors</div>
+    </div>
+    <div class="kpi-card indigo">
+      <div class="kpi-label">Total Cadre Telemetry</div>
+      <div class="kpi-val">33,702</div>
+      <div class="kpi-desc">Total CLSS + DO Recorded Responses</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Pedagogy Diagnostic Score</div>
+      <div class="kpi-val">58.0%</div>
+      <div class="kpi-desc">State Composite Across 5 Core Metrics</div>
+    </div>
+  </div>
+
+  <!-- SECTION: 10 STUDIO MODULES MAP -->
+  <div class="section-head">
+    <div class="section-title">🗺️ Complete 10-Tab Studio Architecture &amp; Intelligence Capabilities</div>
+    <div class="section-badge">10 LIVE MODULES • INTERACTIVE BI PLATFORM</div>
+  </div>
+
+  <div class="tabs-bento">
+    <!-- Tab 1 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 01</div>
+      <div class="tab-card-title">📊 Overview &amp; KPIs</div>
+      <div class="tab-card-body">
+        Macro attendance, multi-cycle dual telemetry (Aug vs Sep), and <strong>Pedagogy Benchmark Glossary Guide</strong>.
+      </div>
+    </div>
+    <!-- Tab 2 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 02</div>
+      <div class="tab-card-title">📋 Key Goals (RF)</div>
+      <div class="tab-card-body">
+        12 Results Framework indicators with <strong>Statewide 52-District Matrix</strong> across all 11 evaluation columns.
+      </div>
+    </div>
+    <!-- Tab 3 -->
+    <div class="tab-card highlight">
+      <div class="tab-card-num">TAB 03</div>
+      <div class="tab-card-title">🔍 District 360°</div>
+      <div class="tab-card-body">
+        Deep dive with <strong>Block Focus Slicer</strong>, roster table, and <strong>Same-Block District Peer Benchmark Studio</strong>.
+      </div>
+    </div>
+    <!-- Tab 4 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 04</div>
+      <div class="tab-card-title">🗺️ District League</div>
+      <div class="tab-card-body">
+        52-District performance rankings with <strong>4-Quadrant Priority Matrix Slicers</strong> (Top 10, Aspirational, Deficit).
+      </div>
+    </div>
+    <!-- Tab 5 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 05</div>
+      <div class="tab-card-title">🏢 Block Directory</div>
+      <div class="tab-card-body">
+        Comprehensive roster of all <strong>313 administrative blocks</strong> mapped to Varg-2 universe saturation rates.
+      </div>
+    </div>
+    <!-- Tab 6 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 06</div>
+      <div class="tab-card-title">📋 Survey Questions</div>
+      <div class="tab-card-body">
+        70+ question bank with search &amp; filter across <strong>Monitors, Facilitators, and Teachers</strong> with item-level analytics.
+      </div>
+    </div>
+    <!-- Tab 7 -->
+    <div class="tab-card highlight">
+      <div class="tab-card-num">TAB 07</div>
+      <div class="tab-card-title">🧠 Teaching Quality</div>
+      <div class="tab-card-body">
+        Pedagogy deep dive: <strong>Q95 (Student Agency) vs. Q97 (Belongingness)</strong> with district misconception breakdown.
+      </div>
+    </div>
+    <!-- Tab 8 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 08</div>
+      <div class="tab-card-title">⚖️ Key Actions</div>
+      <div class="tab-card-body">
+        Operational governance tracker with <strong>3-Level Urgency Tiers (P0/P1/P2)</strong> and deadline-bound directives.
+      </div>
+    </div>
+    <!-- Tab 9 -->
+    <div class="tab-card highlight">
+      <div class="tab-card-num">TAB 09</div>
+      <div class="tab-card-title">🤖 AI Insights</div>
+      <div class="tab-card-body">
+        Executive AI multi-cycle synthesis, dynamic prompt analyzer, and <strong>Statewide Strategic Intelligence Dossier</strong>.
+      </div>
+    </div>
+    <!-- Tab 10 -->
+    <div class="tab-card">
+      <div class="tab-card-num">TAB 10</div>
+      <div class="tab-card-title">📚 Qualitative Research</div>
+      <div class="tab-card-body">
+        1,600+ verbatim teacher quotes categorized across <strong>6 grounded thematic pillars</strong> with sentiment metrics.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: 2-COLUMN SPLIT (QUADRANTS & DIRECTIVES) -->
+  <div class="split-grid">
+    <!-- Column 1: Statewide 4-Quadrant Matrix -->
+    <div class="panel">
+      <div class="panel-title">🗺️ Statewide 4-Quadrant Priority Matrix (52 Districts)</div>
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th>Quadrant</th>
+            <th>Districts</th>
+            <th>Representative Districts</th>
+            <th>Strategic Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: #059669;">🏆 Q1: Champions</strong><br><span style="font-size: 5.8pt; color: #64748b;">(Turnout ≥350, Ped ≥58%)</span></td>
+            <td><strong style="font-family: 'JetBrains Mono'; color: #059669;">8</strong></td>
+            <td>Chhindwara, Indore, Narsinghpur, Narmadapuram, Raisen, Ratlam</td>
+            <td>Peer leadership &amp; best practice dissemination.</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #008aab;">⚡ Q2: Scale Gap</strong><br><span style="font-size: 5.8pt; color: #64748b;">(Turnout ≥350, Ped &lt;58%)</span></td>
+            <td><strong style="font-family: 'JetBrains Mono'; color: #008aab;">26</strong></td>
+            <td>Balaghat, Betul, Chhatarpur, Dhar, Khargone, Sagar, Satna, Rewa</td>
+            <td>Refresher on Q95 student agency &amp; Q97 belongingness.</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #4f46e5;">📈 Q3: Mobilize</strong><br><span style="font-size: 5.8pt; color: #64748b;">(Turnout &lt;350, Ped ≥58%)</span></td>
+            <td><strong style="font-family: 'JetBrains Mono'; color: #4f46e5;">5</strong></td>
+            <td>Agar Malwa, Sheopur, Harda, Neemuch, Dewas</td>
+            <td>Enforce rotational quorum to lift turnout.</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #e11d48;">⚠️ Q4: Support</strong><br><span style="font-size: 5.8pt; color: #64748b;">(Turnout &lt;350, Ped &lt;58%)</span></td>
+            <td><strong style="font-family: 'JetBrains Mono'; color: #e11d48;">13</strong></td>
+            <td>Alirajpur, Anuppur, Ashoknagar, Bhopal, Burhanpur, Jhabua, Sehore</td>
+            <td>Urgent CAC mentor deployment &amp; BEO monitoring.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Column 2: Key Strategic Takeaways -->
+    <div class="panel">
+      <div class="panel-title">⚖️ Key Administrative Takeaways &amp; Directives</div>
+      
+      <div class="insight-bullet">
+        <div class="insight-icon">🎯</div>
+        <div>
+          <strong>Activity Trap vs. Student Agency (Q95):</strong> 48.1% of teachers confuse activity with agency. Next cycle enforces micro-role classroom allocation.
+        </div>
+      </div>
+
+      <div class="insight-bullet">
+        <div class="insight-icon">👁️</div>
+        <div>
+          <strong>Monitoring Deficit (Q76):</strong> 35.1% of clusters had 0 monitors. DPCs must issue advance BRC/BAC duty rosters to achieve 100% inspection.
+        </div>
+      </div>
+
+      <div class="insight-bullet">
+        <div class="insight-icon">📱</div>
+        <div>
+          <strong>ICT Projection Gap (Q65):</strong> 59.1% had PPTs idle due to lack of screens. Introduce printed chart backups alongside digital PPTs.
+        </div>
+      </div>
+
+      <div class="insight-bullet">
+        <div class="insight-icon">🔄</div>
+        <div>
+          <strong>Rotational School Quorum:</strong> Mandate 1 subject teacher/school per cycle (Math/Sci in Cycle A, Lang/Soc in Cycle B) to reach 100% of 80k universe.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-band">
+    <span>RSK Madhya Pradesh × Peepul India • Executive Intelligence Studio</span>
+    <span>Live Interactive BI Platform • 100% Bilingual (Hindi &amp; English)</span>
+    <span>Single-Page Executive Summary</span>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+ getQScore('95', 'Q95.2');
+        const p96 = getQScore('96', 'Q96.1');
+        const p97 = getQScore('97', 'Q97.1');
+        return Math.round((p82 + p84 + p95 + p96 + p97) / 5);
+      }
+    }
+
+    function getDistrictQuadrantInfo(turnout, pedScore) {
+      if (turnout >= TURNOUT_BENCHMARK && pedScore >= PEDAGOGY_BENCHMARK) {
+        return {
+          quad: 'Q1',
+          label: 'Q1: Benchmark Champion',
+          color: 'var(--accent-emerald)',
+          bgChip: 'background: rgba(5, 150, 105, 0.12); color: var(--accent-emerald); border: 1px solid rgba(5, 150, 105, 0.3);',
+          action: 'Document & scale peer dialogue best practices'
+        };
+      } else if (turnout >= TURNOUT_BENCHMARK && pedScore < PEDAGOGY_BENCHMARK) {
+        return {
+          quad: 'Q2',
+          label: 'Q2: Scale, Pedagogy Gap',
+          color: 'var(--peepul-teal)',
+          bgChip: 'background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.3);',
+          action: 'Conduct targeted refresher on core competencies'
+        };
+      } else if (turnout < TURNOUT_BENCHMARK && pedScore >= PEDAGOGY_BENCHMARK) {
+        return {
+          quad: 'Q3',
+          label: 'Q3: Mobilization Need',
+          color: 'var(--accent-indigo)',
+          bgChip: 'background: rgba(79, 70, 229, 0.12); color: var(--accent-indigo); border: 1px solid rgba(79, 70, 229, 0.3);',
+          action: 'Drive teacher attendance & CAC monitoring'
+        };
+      } else {
+        return {
+          quad: 'Q4',
+          label: 'Q4: Priority Support Zone',
+          color: 'var(--accent-rose)',
+          bgChip: 'background: rgba(220, 38, 38, 0.12); color: var(--accent-rose); b

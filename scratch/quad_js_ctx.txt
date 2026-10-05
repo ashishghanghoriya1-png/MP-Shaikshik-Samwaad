@@ -1,0 +1,40 @@
+nnerText = `Districts in Selected Quadrant: ${quadTitleMap[q] || `All ${dists.length} Districts`}`;
+      }
+
+      initQuadrantTable();
+    }
+
+    function filterQuadrantTableSearch() {
+      const q = document.getElementById('quadSearchInput').value.toLowerCase();
+      document.querySelectorAll('#quadrantDistTable tbody tr').forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // SIDE-BY-SIDE DISTRICT COMPARATOR
+    // ==========================================
+    // ==========================================
+    // SIDE-BY-SIDE DISTRICT COMPARATOR & SAME-BLOCK PEER BENCHMARK
+    // ==========================================
+    let sameBlockLockActive = true;
+    let selectedPeerBlockScale = 'AUTO'; // 'AUTO', 'ALL', or specific number like 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13
+    let activePeerMetric = 'attendees';
+    let peerCohortScope = 'EXACT'; // 'EXACT', 'PM1', 'TOP5', 'ALL'
+
+    function initDistrictComparatorDropdowns() {
+      const aSel = document.getElementById('compDistA');
+      const bSel = document.getElementById('compDistB');
+      if (!aSel || !bSel) return;
+      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+      aSel.innerHTML = '';
+      bSel.innerHTML = '';
+      
+      const distSummary = (typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
+      distSummary.forEach(d => {
+        const optA = document.createElement('option');
+        optA.value = d.district;
+        optA.innerText = isHi ? `${getDistName(d.district)} (${d.totalBlocks} ब्लॉक)` : `${d.district} (${d.totalBlocks} Blocks)`;
+        aSel.appendChild(optA);
+
+        const optB = document.createElement('option');
+        optB.value =

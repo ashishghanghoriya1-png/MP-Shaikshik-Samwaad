@@ -1,10 +1,10 @@
 {
   "varg2Metrics": {
     "totalUniverse": 68427,
-    "targetCohort": 35374,
+    "targetCohort": 68369,
     "actualAttendees": 23785,
     "cadreSaturationPct": 34.8,
-    "cohortTurnoutPct": 67.2
+    "cohortTurnoutPct": 34.8
   },
   "districtSummary": [
     {
@@ -28,7 +28,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 669.0,
+      "targetCohort": 669.0,
+      "cohortTurnoutPct": 35.7
     },
     {
       "sno": 2,
@@ -51,7 +54,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 721.0,
+      "targetCohort": 721.0,
+      "cohortTurnoutPct": 47.0
     },
     {
       "sno": 3,
@@ -74,7 +80,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1102.0,
+      "targetCohort": 1102.0,
+      "cohortTurnoutPct": 25.2
     },
     {
       "sno": 4,
@@ -97,7 +106,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1133.0,
+      "targetCohort": 1133.0,
+      "cohortTurnoutPct": 30.6
     },
     {
       "sno": 5,
@@ -120,7 +132,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 2878.0,
+      "targetCohort": 2878.0,
+      "cohortTurnoutPct": 27.9
     },
     {
       "sno": 6,
@@ -143,7 +158,10 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 1538.0,
+      "targetCohort": 1538.0,
+      "cohortTurnoutPct": 36.7
     },
     {
       "sno": 7,
@@ -166,7 +184,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 2542.0,
+      "targetCohort": 2542.0,
+      "cohortTurnoutPct": 37.4
     },
     {
       "sno": 8,
@@ -189,7 +210,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1735.0,
+      "targetCohort": 1735.0,
+      "cohortTurnoutPct": 36.7
     },
     {
       "sno": 9,
@@ -212,7 +236,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 1023.0,
+      "targetCohort": 1023.0,
+      "cohortTurnoutPct": 31.4
     },
     {
       "sno": 10,
@@ -235,7 +262,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 459.0,
+      "targetCohort": 459.0,
+      "cohortTurnoutPct": 32.0
     },
     {
       "sno": 11,
@@ -258,7 +288,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 1785.0,
+      "targetCohort": 1785.0,
+      "cohortTurnoutPct": 40.3
     },
     {
       "sno": 12,
@@ -281,7 +314,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 2294.0,
+      "targetCohort": 2294.0,
+      "cohortTurnoutPct": 37.6
     },
     {
       "sno": 13,
@@ -304,7 +340,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 1068.0,
+      "targetCohort": 1068.0,
+      "cohortTurnoutPct": 35.0
     },
     {
       "sno": 14,
@@ -327,7 +366,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 995.0,
+      "targetCohort": 995.0,
+      "cohortTurnoutPct": 34.0
     },
     {
       "sno": 15,
@@ -350,7 +392,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1649,
+      "targetCohort": 1649,
+      "cohortTurnoutPct": 0.1
     },
     {
       "sno": 16,
@@ -373,7 +418,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 2130.0,
+      "targetCohort": 2130.0,
+      "cohortTurnoutPct": 39.4
     },
     {
       "sno": 17,
@@ -396,7 +444,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 684.0,
+      "targetCohort": 684.0,
+      "cohortTurnoutPct": 45.3
     },
     {
       "sno": 18,
@@ -419,7 +470,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 835.0,
+      "targetCohort": 835.0,
+      "cohortTurnoutPct": 48.4
     },
     {
       "sno": 19,
@@ -442,7 +496,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 1568.0,
+      "targetCohort": 1568.0,
+      "cohortTurnoutPct": 33.6
     },
     {
       "sno": 20,
@@ -465,7 +522,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 519.0,
+      "targetCohort": 519.0,
+      "cohortTurnoutPct": 42.4
     },
     {
       "sno": 21,
@@ -488,7 +548,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 1458.0,
+      "targetCohort": 1458.0,
+      "cohortTurnoutPct": 31.5
     },
     {
       "sno": 22,
@@ -511,7 +574,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 1330.0,
+      "targetCohort": 1330.0,
+      "cohortTurnoutPct": 30.8
     },
     {
       "sno": 23,
@@ -534,7 +600,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1377.0,
+      "targetCohort": 1377.0,
+      "cohortTurnoutPct": 34.7
     },
     {
       "sno": 24,
@@ -557,7 +626,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1327.0,
+      "targetCohort": 1327.0,
+      "cohortTurnoutPct": 32.8
     },
     {
       "sno": 25,
@@ -580,7 +652,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 1401.0,
+      "targetCohort": 1401.0,
+      "cohortTurnoutPct": 30.2
     },
     {
       "sno": 26,
@@ -603,7 +678,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1141.0,
+      "targetCohort": 1141.0,
+      "cohortTurnoutPct": 36.5
     },
     {
       "sno": 27,
@@ -626,7 +704,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1703.0,
+      "targetCohort": 1703.0,
+      "cohortTurnoutPct": 36.6
     },
     {
       "sno": 28,
@@ -649,7 +730,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1622.0,
+      "targetCohort": 1622.0,
+      "cohortTurnoutPct": 33.9
     },
     {
       "sno": 29,
@@ -672,7 +756,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 2334.0,
+      "targetCohort": 2334.0,
+      "cohortTurnoutPct": 31.3
     },
     {
       "sno": 30,
@@ -695,7 +782,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1452.0,
+      "targetCohort": 1452.0,
+      "cohortTurnoutPct": 40.3
     },
     {
       "sno": 31,
@@ -718,7 +808,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1153.0,
+      "targetCohort": 1153.0,
+      "cohortTurnoutPct": 40.8
     },
     {
       "sno": 32,
@@ -741,7 +834,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 809.0,
+      "targetCohort": 809.0,
+      "cohortTurnoutPct": 42.0
     },
     {
       "sno": 33,
@@ -764,7 +860,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 413.0,
+      "targetCohort": 413.0,
+      "cohortTurnoutPct": 34.6
     },
     {
       "sno": 34,
@@ -787,7 +886,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1653.0,
+      "targetCohort": 1653.0,
+      "cohortTurnoutPct": 37.1
     },
     {
       "sno": 35,
@@ -810,7 +912,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1390.0,
+      "targetCohort": 1390.0,
+      "cohortTurnoutPct": 39.3
     },
     {
       "sno": 36,
@@ -833,7 +938,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 1638.0,
+      "targetCohort": 1638.0,
+      "cohortTurnoutPct": 39.7
     },
     {
       "sno": 37,
@@ -856,7 +964,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 2154.0,
+      "targetCohort": 2154.0,
+      "cohortTurnoutPct": 35.3
     },
     {
       "sno": 38,
@@ -879,7 +990,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1606.0,
+      "targetCohort": 1606.0,
+      "cohortTurnoutPct": 24.7
     },
     {
       "sno": 39,
@@ -902,7 +1016,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1400.0,
+      "targetCohort": 1400.0,
+      "cohortTurnoutPct": 34.2
     },
     {
       "sno": 40,
@@ -925,7 +1042,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 2392.0,
+      "targetCohort": 2392.0,
+      "cohortTurnoutPct": 23.4
     },
     {
       "sno": 41,
@@ -948,7 +1068,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1801,
+      "targetCohort": 1801,
+      "cohortTurnoutPct": 0.2
     },
     {
       "sno": 42,
@@ -971,7 +1094,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1806.0,
+      "targetCohort": 1806.0,
+      "cohortTurnoutPct": 38.0
     },
     {
       "sno": 43,
@@ -994,7 +1120,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1048.0,
+      "targetCohort": 1048.0,
+      "cohortTurnoutPct": 30.6
     },
     {
       "sno": 44,
@@ -1017,7 +1146,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1168.0,
+      "targetCohort": 1168.0,
+      "cohortTurnoutPct": 33.0
     },
     {
       "sno": 45,
@@ -1040,7 +1172,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 574.0,
+      "targetCohort": 574.0,
+      "cohortTurnoutPct": 40.8
     },
     {
       "sno": 46,
@@ -1063,7 +1198,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1238.0,
+      "targetCohort": 1238.0,
+      "cohortTurnoutPct": 33.3
     },
     {
       "sno": 47,
@@ -1086,7 +1224,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 1608.0,
+      "targetCohort": 1608.0,
+      "cohortTurnoutPct": 32.2
     },
     {
       "sno": 48,
@@ -1109,7 +1250,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 812.0,
+      "targetCohort": 812.0,
+      "cohortTurnoutPct": 30.9
     },
     {
       "sno": 49,
@@ -1132,7 +1276,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 839.0,
+      "targetCohort": 839.0,
+      "cohortTurnoutPct": 31.7
     },
     {
       "sno": 50,
@@ -1155,7 +1302,10 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 1230.0,
+      "targetCohort": 1230.0,
+      "cohortTurnoutPct": 44.6
     },
     {
       "sno": 51,
@@ -1178,7 +1328,10 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 1026.0,
+      "targetCohort": 1026.0,
+      "cohortTurnoutPct": 25.0
     },
     {
       "sno": 52,
@@ -1201,7 +1354,10 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 1589.0,
+      "targetCohort": 1589.0,
+      "cohortTurnoutPct": 38.5
     }
   ],
   "blockSummary": [
@@ -1217,7 +1373,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 109.0,
+      "targetCohort": 109.0
     },
     {
       "district": "Agar Malwa",
@@ -1231,7 +1389,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 214.0,
+      "targetCohort": 214.0
     },
     {
       "district": "Agar Malwa",
@@ -1245,7 +1405,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 189.0,
+      "targetCohort": 189.0
     },
     {
       "district": "Agar Malwa",
@@ -1259,7 +1421,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 157.0,
+      "targetCohort": 157.0
     },
     {
       "district": "Alirajpur",
@@ -1273,7 +1437,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 222.0,
+      "targetCohort": 222.0
     },
     {
       "district": "Alirajpur",
@@ -1287,7 +1453,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 126.0,
+      "targetCohort": 126.0
     },
     {
       "district": "Alirajpur",
@@ -1301,7 +1469,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 138.0,
+      "targetCohort": 138.0
     },
     {
       "district": "Alirajpur",
@@ -1315,7 +1485,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 55.0,
+      "targetCohort": 55.0
     },
     {
       "district": "Alirajpur",
@@ -1329,7 +1501,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 108.0,
+      "targetCohort": 108.0
     },
     {
       "district": "Alirajpur",
@@ -1343,7 +1517,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 72.0,
+      "targetCohort": 72.0
     },
     {
       "district": "Anuppur",
@@ -1357,7 +1533,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 262.0,
+      "targetCohort": 262.0
     },
     {
       "district": "Anuppur",
@@ -1371,7 +1549,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 336.0,
+      "targetCohort": 336.0
     },
     {
       "district": "Anuppur",
@@ -1385,7 +1565,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 137.0,
+      "targetCohort": 137.0
     },
     {
       "district": "Anuppur",
@@ -1399,7 +1581,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 367.0,
+      "targetCohort": 367.0
     },
     {
       "district": "Ashoknagar",
@@ -1413,7 +1597,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 388.0,
+      "targetCohort": 388.0
     },
     {
       "district": "Ashoknagar",
@@ -1427,7 +1613,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 197.0,
+      "targetCohort": 197.0
     },
     {
       "district": "Ashoknagar",
@@ -1441,7 +1629,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 221.0,
+      "targetCohort": 221.0
     },
     {
       "district": "Ashoknagar",
@@ -1455,7 +1645,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 327.0,
+      "targetCohort": 327.0
     },
     {
       "district": "Balaghat",
@@ -1469,7 +1661,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 306.0,
+      "targetCohort": 306.0
     },
     {
       "district": "Balaghat",
@@ -1483,7 +1677,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 317.0,
+      "targetCohort": 317.0
     },
     {
       "district": "Balaghat",
@@ -1497,7 +1693,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 210.0,
+      "targetCohort": 210.0
     },
     {
       "district": "Balaghat",
@@ -1511,7 +1709,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 440.0,
+      "targetCohort": 440.0
     },
     {
       "district": "Balaghat",
@@ -1525,7 +1725,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 209.0,
+      "targetCohort": 209.0
     },
     {
       "district": "Balaghat",
@@ -1539,7 +1741,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 291.0,
+      "targetCohort": 291.0
     },
     {
       "district": "Balaghat",
@@ -1553,7 +1757,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 252.0,
+      "targetCohort": 252.0
     },
     {
       "district": "Balaghat",
@@ -1567,7 +1773,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 315.0,
+      "targetCohort": 315.0
     },
     {
       "district": "Balaghat",
@@ -1581,7 +1789,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 265.0,
+      "targetCohort": 265.0
     },
     {
       "district": "Balaghat",
@@ -1595,7 +1805,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 273.0,
+      "targetCohort": 273.0
     },
     {
       "district": "Barwani",
@@ -1609,7 +1821,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 395.0,
+      "targetCohort": 395.0
     },
     {
       "district": "Barwani",
@@ -1623,7 +1837,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 185.0,
+      "targetCohort": 185.0
     },
     {
       "district": "Barwani",
@@ -1637,7 +1853,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 145.0,
+      "targetCohort": 145.0
     },
     {
       "district": "Barwani",
@@ -1651,7 +1869,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 133.0,
+      "targetCohort": 133.0
     },
     {
       "district": "Barwani",
@@ -1665,7 +1885,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 226.0,
+      "targetCohort": 226.0
     },
     {
       "district": "Barwani",
@@ -1679,7 +1901,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 182.0,
+      "targetCohort": 182.0
     },
     {
       "district": "Barwani",
@@ -1693,7 +1917,9 @@
       "isAspirational": true,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 272.0,
+      "targetCohort": 272.0
     },
     {
       "district": "Betul",
@@ -1707,7 +1933,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 316.0,
+      "targetCohort": 316.0
     },
     {
       "district": "Betul",
@@ -1721,7 +1949,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 192.0,
+      "targetCohort": 192.0
     },
     {
       "district": "Betul",
@@ -1735,7 +1965,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 423.0,
+      "targetCohort": 423.0
     },
     {
       "district": "Betul",
@@ -1749,7 +1981,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 209.0,
+      "targetCohort": 209.0
     },
     {
       "district": "Betul",
@@ -1763,7 +1997,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 316.0,
+      "targetCohort": 316.0
     },
     {
       "district": "Betul",
@@ -1777,7 +2013,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 100.0,
+      "targetCohort": 100.0
     },
     {
       "district": "Betul",
@@ -1791,7 +2029,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 349.0,
+      "targetCohort": 349.0
     },
     {
       "district": "Betul",
@@ -1805,7 +2045,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 281.0,
+      "targetCohort": 281.0
     },
     {
       "district": "Betul",
@@ -1819,7 +2061,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 185.0,
+      "targetCohort": 185.0
     },
     {
       "district": "Betul",
@@ -1833,7 +2077,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 171.0,
+      "targetCohort": 171.0
     },
     {
       "district": "Bhind",
@@ -1847,7 +2093,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 328.0,
+      "targetCohort": 328.0
     },
     {
       "district": "Bhind",
@@ -1861,7 +2109,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 515.0,
+      "targetCohort": 515.0
     },
     {
       "district": "Bhind",
@@ -1875,7 +2125,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 259.0,
+      "targetCohort": 259.0
     },
     {
       "district": "Bhind",
@@ -1889,7 +2141,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 193.0,
+      "targetCohort": 193.0
     },
     {
       "district": "Bhind",
@@ -1903,7 +2157,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 289.0,
+      "targetCohort": 289.0
     },
     {
       "district": "Bhind",
@@ -1917,7 +2173,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 151.0,
+      "targetCohort": 151.0
     },
     {
       "district": "Bhopal",
@@ -1931,7 +2189,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 304.0,
+      "targetCohort": 304.0
     },
     {
       "district": "Bhopal",
@@ -1945,7 +2205,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 218.0,
+      "targetCohort": 218.0
     },
     {
       "district": "Bhopal",
@@ -1959,7 +2221,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 97.0,
+      "targetCohort": 97.0
     },
     {
       "district": "Bhopal",
@@ -1973,7 +2237,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 404.0,
+      "targetCohort": 404.0
     },
     {
       "district": "Burhanpur",
@@ -1987,7 +2253,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 348.0,
+      "targetCohort": 348.0
     },
     {
       "district": "Burhanpur",
@@ -2001,7 +2269,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 111.0,
+      "targetCohort": 111.0
     },
     {
       "district": "Chhatarpur",
@@ -2015,7 +2285,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 265.0,
+      "targetCohort": 265.0
     },
     {
       "district": "Chhatarpur",
@@ -2029,7 +2301,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 83.0,
+      "targetCohort": 83.0
     },
     {
       "district": "Chhatarpur",
@@ -2043,7 +2317,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 172.0,
+      "targetCohort": 172.0
     },
     {
       "district": "Chhatarpur",
@@ -2057,7 +2333,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 93.0,
+      "targetCohort": 93.0
     },
     {
       "district": "Chhatarpur",
@@ -2071,7 +2349,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 259.0,
+      "targetCohort": 259.0
     },
     {
       "district": "Chhatarpur",
@@ -2085,7 +2365,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 247.0,
+      "targetCohort": 247.0
     },
     {
       "district": "Chhatarpur",
@@ -2099,7 +2381,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 318.0,
+      "targetCohort": 318.0
     },
     {
       "district": "Chhatarpur",
@@ -2113,7 +2397,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 348.0,
+      "targetCohort": 348.0
     },
     {
       "district": "Chhindwara",
@@ -2127,7 +2413,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 203.0,
+      "targetCohort": 203.0
     },
     {
       "district": "Chhindwara",
@@ -2141,7 +2429,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 129.0,
+      "targetCohort": 129.0
     },
     {
       "district": "Chhindwara",
@@ -2155,7 +2445,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 342.0,
+      "targetCohort": 342.0
     },
     {
       "district": "Chhindwara",
@@ -2169,7 +2461,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 154.0,
+      "targetCohort": 154.0
     },
     {
       "district": "Chhindwara",
@@ -2183,7 +2477,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 239.0,
+      "targetCohort": 239.0
     },
     {
       "district": "Chhindwara",
@@ -2197,7 +2493,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 336.0,
+      "targetCohort": 336.0
     },
     {
       "district": "Chhindwara",
@@ -2211,7 +2509,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 248.0,
+      "targetCohort": 248.0
     },
     {
       "district": "Chhindwara",
@@ -2225,7 +2525,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 64.0,
+      "targetCohort": 64.0
     },
     {
       "district": "Chhindwara",
@@ -2239,7 +2541,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 249.0,
+      "targetCohort": 249.0
     },
     {
       "district": "Chhindwara",
@@ -2253,7 +2557,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 147.0,
+      "targetCohort": 147.0
     },
     {
       "district": "Chhindwara",
@@ -2267,7 +2573,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 183.0,
+      "targetCohort": 183.0
     },
     {
       "district": "Damoh",
@@ -2281,7 +2589,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 224.0,
+      "targetCohort": 224.0
     },
     {
       "district": "Damoh",
@@ -2295,7 +2605,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 189.0,
+      "targetCohort": 189.0
     },
     {
       "district": "Damoh",
@@ -2309,7 +2621,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 99.0,
+      "targetCohort": 99.0
     },
     {
       "district": "Damoh",
@@ -2323,7 +2637,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 181.0,
+      "targetCohort": 181.0
     },
     {
       "district": "Damoh",
@@ -2337,7 +2653,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 120.0,
+      "targetCohort": 120.0
     },
     {
       "district": "Damoh",
@@ -2351,7 +2669,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 61.0,
+      "targetCohort": 61.0
     },
     {
       "district": "Damoh",
@@ -2365,7 +2685,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 194.0,
+      "targetCohort": 194.0
     },
     {
       "district": "Datia",
@@ -2379,7 +2701,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 216.0,
+      "targetCohort": 216.0
     },
     {
       "district": "Datia",
@@ -2393,7 +2717,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 490.0,
+      "targetCohort": 490.0
     },
     {
       "district": "Datia",
@@ -2407,7 +2733,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 289.0,
+      "targetCohort": 289.0
     },
     {
       "district": "Dewas",
@@ -2419,7 +2747,9 @@
       "varg2Universe": 279,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 279,
+      "targetCohort": 279
     },
     {
       "district": "Dewas",
@@ -2431,7 +2761,9 @@
       "varg2Universe": 529,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 529,
+      "targetCohort": 529
     },
     {
       "district": "Dewas",
@@ -2443,7 +2775,9 @@
       "varg2Universe": 271,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 271,
+      "targetCohort": 271
     },
     {
       "district": "Dewas",
@@ -2457,7 +2791,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 186,
+      "targetCohort": 186
     },
     {
       "district": "Dewas",
@@ -2469,7 +2805,9 @@
       "varg2Universe": 204,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 204,
+      "targetCohort": 204
     },
     {
       "district": "Dewas",
@@ -2481,7 +2819,9 @@
       "varg2Universe": 181,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 181,
+      "targetCohort": 181
     },
     {
       "district": "Dhar",
@@ -2495,7 +2835,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 209.0,
+      "targetCohort": 209.0
     },
     {
       "district": "Dhar",
@@ -2509,7 +2851,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 179.0,
+      "targetCohort": 179.0
     },
     {
       "district": "Dhar",
@@ -2523,7 +2867,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 151.0,
+      "targetCohort": 151.0
     },
     {
       "district": "Dhar",
@@ -2537,7 +2883,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 196.0,
+      "targetCohort": 196.0
     },
     {
       "district": "Dhar",
@@ -2551,7 +2899,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 245.0,
+      "targetCohort": 245.0
     },
     {
       "district": "Dhar",
@@ -2565,7 +2915,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 148.0,
+      "targetCohort": 148.0
     },
     {
       "district": "Dhar",
@@ -2579,7 +2931,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 119.0,
+      "targetCohort": 119.0
     },
     {
       "district": "Dhar",
@@ -2593,7 +2947,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 184.0,
+      "targetCohort": 184.0
     },
     {
       "district": "Dhar",
@@ -2607,7 +2963,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 174.0,
+      "targetCohort": 174.0
     },
     {
       "district": "Dhar",
@@ -2621,7 +2979,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 105.0,
+      "targetCohort": 105.0
     },
     {
       "district": "Dhar",
@@ -2635,7 +2995,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 186.0,
+      "targetCohort": 186.0
     },
     {
       "district": "Dhar",
@@ -2649,7 +3011,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 79.0,
+      "targetCohort": 79.0
     },
     {
       "district": "Dhar",
@@ -2663,7 +3027,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 155.0,
+      "targetCohort": 155.0
     },
     {
       "district": "Dindori",
@@ -2677,7 +3043,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 60.0,
+      "targetCohort": 60.0
     },
     {
       "district": "Dindori",
@@ -2691,7 +3059,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 60.0,
+      "targetCohort": 60.0
     },
     {
       "district": "Dindori",
@@ -2705,7 +3075,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 212.0,
+      "targetCohort": 212.0
     },
     {
       "district": "Dindori",
@@ -2719,7 +3091,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 11.0,
+      "targetCohort": 11.0
     },
     {
       "district": "Dindori",
@@ -2733,7 +3107,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 90.0,
+      "targetCohort": 90.0
     },
     {
       "district": "Dindori",
@@ -2747,7 +3123,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 115.0,
+      "targetCohort": 115.0
     },
     {
       "district": "Dindori",
@@ -2761,7 +3139,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 136.0,
+      "targetCohort": 136.0
     },
     {
       "district": "Guna",
@@ -2775,7 +3155,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 97.0,
+      "targetCohort": 97.0
     },
     {
       "district": "Guna",
@@ -2789,7 +3171,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 120.0,
+      "targetCohort": 120.0
     },
     {
       "district": "Guna",
@@ -2803,7 +3187,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 193.0,
+      "targetCohort": 193.0
     },
     {
       "district": "Guna",
@@ -2817,7 +3203,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 235.0,
+      "targetCohort": 235.0
     },
     {
       "district": "Guna",
@@ -2831,7 +3219,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 190.0,
+      "targetCohort": 190.0
     },
     {
       "district": "Gwalior",
@@ -2845,7 +3235,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 239.0,
+      "targetCohort": 239.0
     },
     {
       "district": "Gwalior",
@@ -2859,7 +3251,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 466.0,
+      "targetCohort": 466.0
     },
     {
       "district": "Gwalior",
@@ -2873,7 +3267,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 202.0,
+      "targetCohort": 202.0
     },
     {
       "district": "Gwalior",
@@ -2887,7 +3283,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 276.0,
+      "targetCohort": 276.0
     },
     {
       "district": "Gwalior",
@@ -2901,7 +3299,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 173.0,
+      "targetCohort": 173.0
     },
     {
       "district": "Gwalior",
@@ -2915,7 +3315,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 212.0,
+      "targetCohort": 212.0
     },
     {
       "district": "Harda",
@@ -2929,7 +3331,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 234.0,
+      "targetCohort": 234.0
     },
     {
       "district": "Harda",
@@ -2943,7 +3347,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 74.0,
+      "targetCohort": 74.0
     },
     {
       "district": "Harda",
@@ -2957,7 +3363,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 211.0,
+      "targetCohort": 211.0
     },
     {
       "district": "Indore",
@@ -2971,7 +3379,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 182.0,
+      "targetCohort": 182.0
     },
     {
       "district": "Indore",
@@ -2985,7 +3395,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 262.0,
+      "targetCohort": 262.0
     },
     {
       "district": "Indore",
@@ -2999,7 +3411,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 151.0,
+      "targetCohort": 151.0
     },
     {
       "district": "Indore",
@@ -3013,7 +3427,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 305.0,
+      "targetCohort": 305.0
     },
     {
       "district": "Indore",
@@ -3027,7 +3443,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 294.0,
+      "targetCohort": 294.0
     },
     {
       "district": "Indore",
@@ -3041,7 +3459,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 264.0,
+      "targetCohort": 264.0
     },
     {
       "district": "Jabalpur",
@@ -3055,7 +3475,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 212.0,
+      "targetCohort": 212.0
     },
     {
       "district": "Jabalpur",
@@ -3069,7 +3491,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 25.0,
+      "targetCohort": 25.0
     },
     {
       "district": "Jabalpur",
@@ -3083,7 +3507,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 83.0,
+      "targetCohort": 83.0
     },
     {
       "district": "Jabalpur",
@@ -3097,7 +3523,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 210.0,
+      "targetCohort": 210.0
     },
     {
       "district": "Jabalpur",
@@ -3111,7 +3539,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 251.0,
+      "targetCohort": 251.0
     },
     {
       "district": "Jabalpur",
@@ -3125,7 +3555,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 37.0,
+      "targetCohort": 37.0
     },
     {
       "district": "Jabalpur",
@@ -3139,7 +3571,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 191.0,
+      "targetCohort": 191.0
     },
     {
       "district": "Jabalpur",
@@ -3153,7 +3587,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 169.0,
+      "targetCohort": 169.0
     },
     {
       "district": "Jabalpur",
@@ -3167,7 +3603,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 152.0,
+      "targetCohort": 152.0
     },
     {
       "district": "Jhabua",
@@ -3181,7 +3619,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 302.0,
+      "targetCohort": 302.0
     },
     {
       "district": "Jhabua",
@@ -3195,7 +3635,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 242.0,
+      "targetCohort": 242.0
     },
     {
       "district": "Jhabua",
@@ -3209,7 +3651,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 254.0,
+      "targetCohort": 254.0
     },
     {
       "district": "Jhabua",
@@ -3223,7 +3667,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 205.0,
+      "targetCohort": 205.0
     },
     {
       "district": "Jhabua",
@@ -3237,7 +3683,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 125.0,
+      "targetCohort": 125.0
     },
     {
       "district": "Jhabua",
@@ -3251,7 +3699,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 249.0,
+      "targetCohort": 249.0
     },
     {
       "district": "Katni",
@@ -3265,7 +3715,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 297.0,
+      "targetCohort": 297.0
     },
     {
       "district": "Katni",
@@ -3279,7 +3731,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 219.0,
+      "targetCohort": 219.0
     },
     {
       "district": "Katni",
@@ -3293,7 +3747,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 171.0,
+      "targetCohort": 171.0
     },
     {
       "district": "Katni",
@@ -3307,7 +3763,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 300.0,
+      "targetCohort": 300.0
     },
     {
       "district": "Katni",
@@ -3321,7 +3779,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 144.0,
+      "targetCohort": 144.0
     },
     {
       "district": "Katni",
@@ -3335,7 +3795,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 196.0,
+      "targetCohort": 196.0
     },
     {
       "district": "Khandwa",
@@ -3349,7 +3811,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 57.0,
+      "targetCohort": 57.0
     },
     {
       "district": "Khandwa",
@@ -3363,7 +3827,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 117.0,
+      "targetCohort": 117.0
     },
     {
       "district": "Khandwa",
@@ -3377,7 +3843,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 129.0,
+      "targetCohort": 129.0
     },
     {
       "district": "Khandwa",
@@ -3391,7 +3859,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 167.0,
+      "targetCohort": 167.0
     },
     {
       "district": "Khandwa",
@@ -3405,7 +3875,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 357.0,
+      "targetCohort": 357.0
     },
     {
       "district": "Khandwa",
@@ -3419,7 +3891,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 291.0,
+      "targetCohort": 291.0
     },
     {
       "district": "Khandwa",
@@ -3433,7 +3907,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 283.0,
+      "targetCohort": 283.0
     },
     {
       "district": "Khargone",
@@ -3447,7 +3923,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 113.0,
+      "targetCohort": 113.0
     },
     {
       "district": "Khargone",
@@ -3461,7 +3939,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 18.0,
+      "targetCohort": 18.0
     },
     {
       "district": "Khargone",
@@ -3475,7 +3955,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 126.0,
+      "targetCohort": 126.0
     },
     {
       "district": "Khargone",
@@ -3489,7 +3971,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 91.0,
+      "targetCohort": 91.0
     },
     {
       "district": "Khargone",
@@ -3503,7 +3987,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 151.0,
+      "targetCohort": 151.0
     },
     {
       "district": "Khargone",
@@ -3517,7 +4003,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 229.0,
+      "targetCohort": 229.0
     },
     {
       "district": "Khargone",
@@ -3531,7 +4019,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 149.0,
+      "targetCohort": 149.0
     },
     {
       "district": "Khargone",
@@ -3545,7 +4035,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 104.0,
+      "targetCohort": 104.0
     },
     {
       "district": "Khargone",
@@ -3559,7 +4051,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 160.0,
+      "targetCohort": 160.0
     },
     {
       "district": "Mandla",
@@ -3573,7 +4067,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 175.0,
+      "targetCohort": 175.0
     },
     {
       "district": "Mandla",
@@ -3587,7 +4083,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 424.0,
+      "targetCohort": 424.0
     },
     {
       "district": "Mandla",
@@ -3601,7 +4099,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 66.0,
+      "targetCohort": 66.0
     },
     {
       "district": "Mandla",
@@ -3615,7 +4115,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 338.0,
+      "targetCohort": 338.0
     },
     {
       "district": "Mandla",
@@ -3629,7 +4131,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 106.0,
+      "targetCohort": 106.0
     },
     {
       "district": "Mandla",
@@ -3643,7 +4147,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 73.0,
+      "targetCohort": 73.0
     },
     {
       "district": "Mandla",
@@ -3657,7 +4163,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 209.0,
+      "targetCohort": 209.0
     },
     {
       "district": "Mandla",
@@ -3671,7 +4179,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 156.0,
+      "targetCohort": 156.0
     },
     {
       "district": "Mandla",
@@ -3685,7 +4195,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 156.0,
+      "targetCohort": 156.0
     },
     {
       "district": "Mandsaur",
@@ -3699,7 +4211,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 187.0,
+      "targetCohort": 187.0
     },
     {
       "district": "Mandsaur",
@@ -3713,7 +4227,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 352.0,
+      "targetCohort": 352.0
     },
     {
       "district": "Mandsaur",
@@ -3727,7 +4243,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 331.0,
+      "targetCohort": 331.0
     },
     {
       "district": "Mandsaur",
@@ -3741,7 +4259,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 437.0,
+      "targetCohort": 437.0
     },
     {
       "district": "Mandsaur",
@@ -3755,7 +4275,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 315.0,
+      "targetCohort": 315.0
     },
     {
       "district": "Morena",
@@ -3769,7 +4291,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 291.0,
+      "targetCohort": 291.0
     },
     {
       "district": "Morena",
@@ -3783,7 +4307,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 301.0,
+      "targetCohort": 301.0
     },
     {
       "district": "Morena",
@@ -3797,7 +4323,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 406.0,
+      "targetCohort": 406.0
     },
     {
       "district": "Morena",
@@ -3811,7 +4339,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 498.0,
+      "targetCohort": 498.0
     },
     {
       "district": "Morena",
@@ -3825,7 +4355,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 218.0,
+      "targetCohort": 218.0
     },
     {
       "district": "Morena",
@@ -3839,7 +4371,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 194.0,
+      "targetCohort": 194.0
     },
     {
       "district": "Morena",
@@ -3853,7 +4387,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 426.0,
+      "targetCohort": 426.0
     },
     {
       "district": "Narmadapuram",
@@ -3867,7 +4403,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 241.0,
+      "targetCohort": 241.0
     },
     {
       "district": "Narmadapuram",
@@ -3881,7 +4419,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 165.0,
+      "targetCohort": 165.0
     },
     {
       "district": "Narmadapuram",
@@ -3895,7 +4435,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 197.0,
+      "targetCohort": 197.0
     },
     {
       "district": "Narmadapuram",
@@ -3909,7 +4451,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 200.0,
+      "targetCohort": 200.0
     },
     {
       "district": "Narmadapuram",
@@ -3923,7 +4467,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 317.0,
+      "targetCohort": 317.0
     },
     {
       "district": "Narmadapuram",
@@ -3937,7 +4483,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 159.0,
+      "targetCohort": 159.0
     },
     {
       "district": "Narmadapuram",
@@ -3951,7 +4499,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 173.0,
+      "targetCohort": 173.0
     },
     {
       "district": "Narsinghpur",
@@ -3965,7 +4515,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 174.0,
+      "targetCohort": 174.0
     },
     {
       "district": "Narsinghpur",
@@ -3979,7 +4531,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 156.0,
+      "targetCohort": 156.0
     },
     {
       "district": "Narsinghpur",
@@ -3993,7 +4547,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 212.0,
+      "targetCohort": 212.0
     },
     {
       "district": "Narsinghpur",
@@ -4007,7 +4563,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 173.0,
+      "targetCohort": 173.0
     },
     {
       "district": "Narsinghpur",
@@ -4021,7 +4579,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 350.0,
+      "targetCohort": 350.0
     },
     {
       "district": "Narsinghpur",
@@ -4035,7 +4595,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 88.0,
+      "targetCohort": 88.0
     },
     {
       "district": "Neemuch",
@@ -4049,7 +4611,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 261.0,
+      "targetCohort": 261.0
     },
     {
       "district": "Neemuch",
@@ -4063,7 +4627,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 320.0,
+      "targetCohort": 320.0
     },
     {
       "district": "Neemuch",
@@ -4077,7 +4643,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 228.0,
+      "targetCohort": 228.0
     },
     {
       "district": "Niwari",
@@ -4091,7 +4659,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 202.0,
+      "targetCohort": 202.0
     },
     {
       "district": "Niwari",
@@ -4105,7 +4675,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 211.0,
+      "targetCohort": 211.0
     },
     {
       "district": "Panna",
@@ -4119,7 +4691,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 320.0,
+      "targetCohort": 320.0
     },
     {
       "district": "Panna",
@@ -4133,7 +4707,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 247.0,
+      "targetCohort": 247.0
     },
     {
       "district": "Panna",
@@ -4147,7 +4723,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 477.0,
+      "targetCohort": 477.0
     },
     {
       "district": "Panna",
@@ -4161,7 +4739,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 302.0,
+      "targetCohort": 302.0
     },
     {
       "district": "Panna",
@@ -4175,7 +4755,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 307.0,
+      "targetCohort": 307.0
     },
     {
       "district": "Raisen",
@@ -4189,7 +4771,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 222.0,
+      "targetCohort": 222.0
     },
     {
       "district": "Raisen",
@@ -4203,7 +4787,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 157.0,
+      "targetCohort": 157.0
     },
     {
       "district": "Raisen",
@@ -4217,7 +4803,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 123.0,
+      "targetCohort": 123.0
     },
     {
       "district": "Raisen",
@@ -4231,7 +4819,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 204.0,
+      "targetCohort": 204.0
     },
     {
       "district": "Raisen",
@@ -4245,7 +4835,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 300.0,
+      "targetCohort": 300.0
     },
     {
       "district": "Raisen",
@@ -4259,7 +4851,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 170.0,
+      "targetCohort": 170.0
     },
     {
       "district": "Raisen",
@@ -4273,7 +4867,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 214.0,
+      "targetCohort": 214.0
     },
     {
       "district": "Rajgarh",
@@ -4287,7 +4883,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 195.0,
+      "targetCohort": 195.0
     },
     {
       "district": "Rajgarh",
@@ -4301,7 +4899,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 263.0,
+      "targetCohort": 263.0
     },
     {
       "district": "Rajgarh",
@@ -4315,7 +4915,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 420.0,
+      "targetCohort": 420.0
     },
     {
       "district": "Rajgarh",
@@ -4329,7 +4931,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 277.0,
+      "targetCohort": 277.0
     },
     {
       "district": "Rajgarh",
@@ -4343,7 +4947,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 184.0,
+      "targetCohort": 184.0
     },
     {
       "district": "Rajgarh",
@@ -4357,7 +4963,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 299.0,
+      "targetCohort": 299.0
     },
     {
       "district": "Ratlam",
@@ -4371,7 +4979,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 252.0,
+      "targetCohort": 252.0
     },
     {
       "district": "Ratlam",
@@ -4385,7 +4995,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 413.0,
+      "targetCohort": 413.0
     },
     {
       "district": "Ratlam",
@@ -4399,7 +5011,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 257.0,
+      "targetCohort": 257.0
     },
     {
       "district": "Ratlam",
@@ -4413,7 +5027,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 217.0,
+      "targetCohort": 217.0
     },
     {
       "district": "Ratlam",
@@ -4427,7 +5043,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 580.0,
+      "targetCohort": 580.0
     },
     {
       "district": "Ratlam",
@@ -4441,7 +5059,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 435.0,
+      "targetCohort": 435.0
     },
     {
       "district": "Rewa",
@@ -4455,7 +5075,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 113.0,
+      "targetCohort": 113.0
     },
     {
       "district": "Rewa",
@@ -4469,7 +5091,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 129.0,
+      "targetCohort": 129.0
     },
     {
       "district": "Rewa",
@@ -4483,7 +5107,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 236.0,
+      "targetCohort": 236.0
     },
     {
       "district": "Rewa",
@@ -4497,7 +5123,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 66.0,
+      "targetCohort": 66.0
     },
     {
       "district": "Rewa",
@@ -4511,7 +5139,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 178.0,
+      "targetCohort": 178.0
     },
     {
       "district": "Rewa",
@@ -4525,7 +5155,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 194.0,
+      "targetCohort": 194.0
     },
     {
       "district": "Rewa",
@@ -4539,7 +5171,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 469.0,
+      "targetCohort": 469.0
     },
     {
       "district": "Rewa",
@@ -4553,7 +5187,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 177.0,
+      "targetCohort": 177.0
     },
     {
       "district": "Rewa",
@@ -4567,7 +5203,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 44.0,
+      "targetCohort": 44.0
     },
     {
       "district": "Sagar",
@@ -4581,7 +5219,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 140.0,
+      "targetCohort": 140.0
     },
     {
       "district": "Sagar",
@@ -4595,7 +5235,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 6.0,
+      "targetCohort": 6.0
     },
     {
       "district": "Sagar",
@@ -4609,7 +5251,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 77.0,
+      "targetCohort": 77.0
     },
     {
       "district": "Sagar",
@@ -4623,7 +5267,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 151.0,
+      "targetCohort": 151.0
     },
     {
       "district": "Sagar",
@@ -4637,7 +5283,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 65.0,
+      "targetCohort": 65.0
     },
     {
       "district": "Sagar",
@@ -4651,7 +5299,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 153.0,
+      "targetCohort": 153.0
     },
     {
       "district": "Sagar",
@@ -4665,7 +5315,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 135.0,
+      "targetCohort": 135.0
     },
     {
       "district": "Sagar",
@@ -4679,7 +5331,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 140.0,
+      "targetCohort": 140.0
     },
     {
       "district": "Sagar",
@@ -4693,7 +5347,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 97.0,
+      "targetCohort": 97.0
     },
     {
       "district": "Sagar",
@@ -4707,7 +5363,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 313.0,
+      "targetCohort": 313.0
     },
     {
       "district": "Sagar",
@@ -4721,7 +5379,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 123.0,
+      "targetCohort": 123.0
     },
     {
       "district": "Satna",
@@ -4735,7 +5395,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 230.0,
+      "targetCohort": 230.0
     },
     {
       "district": "Satna",
@@ -4749,7 +5411,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 378.0,
+      "targetCohort": 378.0
     },
     {
       "district": "Satna",
@@ -4763,7 +5427,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 298.0,
+      "targetCohort": 298.0
     },
     {
       "district": "Satna",
@@ -4777,7 +5443,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 360.0,
+      "targetCohort": 360.0
     },
     {
       "district": "Satna",
@@ -4791,7 +5459,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 223.0,
+      "targetCohort": 223.0
     },
     {
       "district": "Satna",
@@ -4805,7 +5475,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 363.0,
+      "targetCohort": 363.0
     },
     {
       "district": "Satna",
@@ -4819,7 +5491,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 350.0,
+      "targetCohort": 350.0
     },
     {
       "district": "Satna",
@@ -4833,7 +5507,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 190.0,
+      "targetCohort": 190.0
     },
     {
       "district": "Sehore",
@@ -4845,7 +5521,9 @@
       "varg2Universe": 506,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 506,
+      "targetCohort": 506
     },
     {
       "district": "Sehore",
@@ -4859,7 +5537,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 228,
+      "targetCohort": 228
     },
     {
       "district": "Sehore",
@@ -4873,7 +5553,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 230,
+      "targetCohort": 230
     },
     {
       "district": "Sehore",
@@ -4885,7 +5567,9 @@
       "varg2Universe": 250,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 250,
+      "targetCohort": 250
     },
     {
       "district": "Sehore",
@@ -4897,7 +5581,9 @@
       "varg2Universe": 589,
       "varg2Saturation": 0.0,
       "month": "August",
-      "isVacant": true
+      "isVacant": true,
+      "expectedParticipants": 589,
+      "targetCohort": 589
     },
     {
       "district": "Seoni",
@@ -4911,7 +5597,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 162.0,
+      "targetCohort": 162.0
     },
     {
       "district": "Seoni",
@@ -4925,7 +5613,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 208.0,
+      "targetCohort": 208.0
     },
     {
       "district": "Seoni",
@@ -4939,7 +5629,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 149.0,
+      "targetCohort": 149.0
     },
     {
       "district": "Seoni",
@@ -4953,7 +5645,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 255.0,
+      "targetCohort": 255.0
     },
     {
       "district": "Seoni",
@@ -4967,7 +5661,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 235.0,
+      "targetCohort": 235.0
     },
     {
       "district": "Seoni",
@@ -4981,7 +5677,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 279.0,
+      "targetCohort": 279.0
     },
     {
       "district": "Seoni",
@@ -4995,7 +5693,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 159.0,
+      "targetCohort": 159.0
     },
     {
       "district": "Seoni",
@@ -5009,7 +5709,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 359.0,
+      "targetCohort": 359.0
     },
     {
       "district": "Shahdol",
@@ -5023,7 +5725,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 220.0,
+      "targetCohort": 220.0
     },
     {
       "district": "Shahdol",
@@ -5037,7 +5741,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 239.0,
+      "targetCohort": 239.0
     },
     {
       "district": "Shahdol",
@@ -5051,7 +5757,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 135.0,
+      "targetCohort": 135.0
     },
     {
       "district": "Shahdol",
@@ -5065,7 +5773,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 192.0,
+      "targetCohort": 192.0
     },
     {
       "district": "Shahdol",
@@ -5079,7 +5789,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 262.0,
+      "targetCohort": 262.0
     },
     {
       "district": "Shajapur",
@@ -5093,7 +5805,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 256.0,
+      "targetCohort": 256.0
     },
     {
       "district": "Shajapur",
@@ -5107,7 +5821,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 316.0,
+      "targetCohort": 316.0
     },
     {
       "district": "Shajapur",
@@ -5121,7 +5837,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 321.0,
+      "targetCohort": 321.0
     },
     {
       "district": "Shajapur",
@@ -5135,7 +5853,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 275.0,
+      "targetCohort": 275.0
     },
     {
       "district": "Sheopur",
@@ -5149,7 +5869,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 155.0,
+      "targetCohort": 155.0
     },
     {
       "district": "Sheopur",
@@ -5163,7 +5885,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 218.0,
+      "targetCohort": 218.0
     },
     {
       "district": "Sheopur",
@@ -5177,7 +5901,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 201.0,
+      "targetCohort": 201.0
     },
     {
       "district": "Shivpuri",
@@ -5191,7 +5917,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 80.0,
+      "targetCohort": 80.0
     },
     {
       "district": "Shivpuri",
@@ -5205,7 +5933,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 207.0,
+      "targetCohort": 207.0
     },
     {
       "district": "Shivpuri",
@@ -5219,7 +5949,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 131.0,
+      "targetCohort": 131.0
     },
     {
       "district": "Shivpuri",
@@ -5233,7 +5965,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 110.0,
+      "targetCohort": 110.0
     },
     {
       "district": "Shivpuri",
@@ -5247,7 +5981,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 40.0,
+      "targetCohort": 40.0
     },
     {
       "district": "Shivpuri",
@@ -5261,7 +5997,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 172.0,
+      "targetCohort": 172.0
     },
     {
       "district": "Shivpuri",
@@ -5275,7 +6013,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 158.0,
+      "targetCohort": 158.0
     },
     {
       "district": "Shivpuri",
@@ -5289,7 +6029,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 340.0,
+      "targetCohort": 340.0
     },
     {
       "district": "Sidhi",
@@ -5303,7 +6045,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 241.0,
+      "targetCohort": 241.0
     },
     {
       "district": "Sidhi",
@@ -5317,7 +6061,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 316.0,
+      "targetCohort": 316.0
     },
     {
       "district": "Sidhi",
@@ -5331,7 +6077,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 259.0,
+      "targetCohort": 259.0
     },
     {
       "district": "Sidhi",
@@ -5345,7 +6093,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 409.0,
+      "targetCohort": 409.0
     },
     {
       "district": "Sidhi",
@@ -5359,7 +6109,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 383.0,
+      "targetCohort": 383.0
     },
     {
       "district": "Singrauli",
@@ -5373,7 +6125,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 267.0,
+      "targetCohort": 267.0
     },
     {
       "district": "Singrauli",
@@ -5387,7 +6141,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 246.0,
+      "targetCohort": 246.0
     },
     {
       "district": "Singrauli",
@@ -5401,7 +6157,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 299.0,
+      "targetCohort": 299.0
     },
     {
       "district": "Tikamgarh",
@@ -5415,7 +6173,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 219.0,
+      "targetCohort": 219.0
     },
     {
       "district": "Tikamgarh",
@@ -5429,7 +6189,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 339.0,
+      "targetCohort": 339.0
     },
     {
       "district": "Tikamgarh",
@@ -5443,7 +6205,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 103.0,
+      "targetCohort": 103.0
     },
     {
       "district": "Tikamgarh",
@@ -5457,7 +6221,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "GENERAL"
+      "archetype": "GENERAL",
+      "expectedParticipants": 178.0,
+      "targetCohort": 178.0
     },
     {
       "district": "Ujjain",
@@ -5471,7 +6237,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 144.0,
+      "targetCohort": 144.0
     },
     {
       "district": "Ujjain",
@@ -5485,7 +6253,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 158.0,
+      "targetCohort": 158.0
     },
     {
       "district": "Ujjain",
@@ -5499,7 +6269,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 276.0,
+      "targetCohort": 276.0
     },
     {
       "district": "Ujjain",
@@ -5513,7 +6285,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 208.0,
+      "targetCohort": 208.0
     },
     {
       "district": "Ujjain",
@@ -5527,7 +6301,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 233.0,
+      "targetCohort": 233.0
     },
     {
       "district": "Ujjain",
@@ -5541,7 +6317,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 146.0,
+      "targetCohort": 146.0
     },
     {
       "district": "Ujjain",
@@ -5555,7 +6333,9 @@
       "isAspirational": false,
       "isTribal": false,
       "isUrban": true,
-      "archetype": "URBAN"
+      "archetype": "URBAN",
+      "expectedParticipants": 65.0,
+      "targetCohort": 65.0
     },
     {
       "district": "Umaria",
@@ -5569,7 +6349,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 491.0,
+      "targetCohort": 491.0
     },
     {
       "district": "Umaria",
@@ -5583,7 +6365,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 377.0,
+      "targetCohort": 377.0
     },
     {
       "district": "Umaria",
@@ -5597,7 +6381,9 @@
       "isAspirational": false,
       "isTribal": true,
       "isUrban": false,
-      "archetype": "TRIBAL"
+      "archetype": "TRIBAL",
+      "expectedParticipants": 158.0,
+      "targetCohort": 158.0
     },
     {
       "district": "Vidisha",
@@ -5611,7 +6397,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 297.0,
+      "targetCohort": 297.0
     },
     {
       "district": "Vidisha",
@@ -5625,7 +6413,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 158.0,
+      "targetCohort": 158.0
     },
     {
       "district": "Vidisha",
@@ -5639,7 +6429,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 218.0,
+      "targetCohort": 218.0
     },
     {
       "district": "Vidisha",
@@ -5653,7 +6445,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 196.0,
+      "targetCohort": 196.0
     },
     {
       "district": "Vidisha",
@@ -5667,7 +6461,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 145.0,
+      "targetCohort": 145.0
     },
     {
       "district": "Vidisha",
@@ -5681,7 +6477,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 190.0,
+      "targetCohort": 190.0
     },
     {
       "district": "Vidisha",
@@ -5695,7 +6493,9 @@
       "isAspirational": true,
       "isTribal": false,
       "isUrban": false,
-      "archetype": "ASPIRATIONAL"
+      "archetype": "ASPIRATIONAL",
+      "expectedParticipants": 385.0,
+      "targetCohort": 385.0
     }
   ],
   "fieldIssues": [
@@ -6148,7 +6948,7 @@
     {
       "Program": "CLSS",
       "District": "Agar Malwa",
-      "ExpectedParticipants": 390.0,
+      "ExpectedParticipants": 669.0,
       "FemaleAttendance": 100,
       "MaleAttendance": 139,
       "TotalActualAttendance": 239.0,
@@ -6158,7 +6958,7 @@
     {
       "Program": "CLSS",
       "District": "Alirajpur",
-      "ExpectedParticipants": 870.0,
+      "ExpectedParticipants": 721.0,
       "FemaleAttendance": 142,
       "MaleAttendance": 197,
       "TotalActualAttendance": 339.0,
@@ -6168,7 +6968,7 @@
     {
       "Program": "CLSS",
       "District": "Anuppur",
-      "ExpectedParticipants": 660.0,
+      "ExpectedParticipants": 1102.0,
       "FemaleAttendance": 117,
       "MaleAttendance": 161,
       "TotalActualAttendance": 278.0,
@@ -6178,7 +6978,7 @@
     {
       "Program": "CLSS",
       "District": "Ashoknagar",
-      "ExpectedParticipants": 495.0,
+      "ExpectedParticipants": 1133.0,
       "FemaleAttendance": 146,
       "MaleAttendance": 201,
       "TotalActualAttendance": 347.0,
@@ -6188,7 +6988,7 @@
     {
       "Program": "CLSS",
       "District": "Balaghat",
-      "ExpectedParticipants": 1155.0,
+      "ExpectedParticipants": 2878.0,
       "FemaleAttendance": 337,
       "MaleAttendance": 465,
       "TotalActualAttendance": 802.0,
@@ -6198,7 +6998,7 @@
     {
       "Program": "CLSS",
       "District": "Barwani",
-      "ExpectedParticipants": 1095.0,
+      "ExpectedParticipants": 1538.0,
       "FemaleAttendance": 237,
       "MaleAttendance": 328,
       "TotalActualAttendance": 565.0,
@@ -6208,7 +7008,7 @@
     {
       "Program": "CLSS",
       "District": "Betul",
-      "ExpectedParticipants": 1185.0,
+      "ExpectedParticipants": 2542.0,
       "FemaleAttendance": 399,
       "MaleAttendance": 552,
       "TotalActualAttendance": 951.0,
@@ -6218,7 +7018,7 @@
     {
       "Program": "CLSS",
       "District": "Bhind",
-      "ExpectedParticipants": 975.0,
+      "ExpectedParticipants": 1735.0,
       "FemaleAttendance": 268,
       "MaleAttendance": 369,
       "TotalActualAttendance": 637.0,
@@ -6228,7 +7028,7 @@
     {
       "Program": "CLSS",
       "District": "Bhopal",
-      "ExpectedParticipants": 480.0,
+      "ExpectedParticipants": 1023.0,
       "FemaleAttendance": 135,
       "MaleAttendance": 186,
       "TotalActualAttendance": 321.0,
@@ -6238,7 +7038,7 @@
     {
       "Program": "CLSS",
       "District": "Burhanpur",
-      "ExpectedParticipants": 300.0,
+      "ExpectedParticipants": 459.0,
       "FemaleAttendance": 62,
       "MaleAttendance": 85,
       "TotalActualAttendance": 147.0,
@@ -6248,7 +7048,7 @@
     {
       "Program": "CLSS",
       "District": "Chhatarpur",
-      "ExpectedParticipants": 1110.0,
+      "ExpectedParticipants": 1785.0,
       "FemaleAttendance": 302,
       "MaleAttendance": 418,
       "TotalActualAttendance": 720.0,
@@ -6258,7 +7058,7 @@
     {
       "Program": "CLSS",
       "District": "Chhindwara",
-      "ExpectedParticipants": 1440.0,
+      "ExpectedParticipants": 2294.0,
       "FemaleAttendance": 362,
       "MaleAttendance": 501,
       "TotalActualAttendance": 863.0,
@@ -6268,7 +7068,7 @@
     {
       "Program": "CLSS",
       "District": "Damoh",
-      "ExpectedParticipants": 795.0,
+      "ExpectedParticipants": 1068.0,
       "FemaleAttendance": 157,
       "MaleAttendance": 217,
       "TotalActualAttendance": 374.0,
@@ -6278,7 +7078,7 @@
     {
       "Program": "CLSS",
       "District": "Datia",
-      "ExpectedParticipants": 510.0,
+      "ExpectedParticipants": 995.0,
       "FemaleAttendance": 142,
       "MaleAttendance": 196,
       "TotalActualAttendance": 338.0,
@@ -6288,7 +7088,7 @@
     {
       "Program": "CLSS",
       "District": "Dewas",
-      "ExpectedParticipants": 15.0,
+      "ExpectedParticipants": 756,
       "FemaleAttendance": 0,
       "MaleAttendance": 1,
       "TotalActualAttendance": 1.0,
@@ -6298,7 +7098,7 @@
     {
       "Program": "CLSS",
       "District": "Dhar",
-      "ExpectedParticipants": 1575.0,
+      "ExpectedParticipants": 2130.0,
       "FemaleAttendance": 352,
       "MaleAttendance": 487,
       "TotalActualAttendance": 839.0,
@@ -6308,7 +7108,7 @@
     {
       "Program": "CLSS",
       "District": "Dindori",
-      "ExpectedParticipants": 705.0,
+      "ExpectedParticipants": 684.0,
       "FemaleAttendance": 130,
       "MaleAttendance": 180,
       "TotalActualAttendance": 310.0,
@@ -6318,7 +7118,7 @@
     {
       "Program": "CLSS",
       "District": "Guna",
-      "ExpectedParticipants": 765.0,
+      "ExpectedParticipants": 835.0,
       "FemaleAttendance": 170,
       "MaleAttendance": 234,
       "TotalActualAttendance": 404.0,
@@ -6328,7 +7128,7 @@
     {
       "Program": "CLSS",
       "District": "Gwalior",
-      "ExpectedParticipants": 795.0,
+      "ExpectedParticipants": 1568.0,
       "FemaleAttendance": 221,
       "MaleAttendance": 306,
       "TotalActualAttendance": 527.0,
@@ -6338,7 +7138,7 @@
     {
       "Program": "CLSS",
       "District": "Harda",
-      "ExpectedParticipants": 360.0,
+      "ExpectedParticipants": 519.0,
       "FemaleAttendance": 92,
       "MaleAttendance": 128,
       "TotalActualAttendance": 220.0,
@@ -6348,7 +7148,7 @@
     {
       "Program": "CLSS",
       "District": "Indore",
-      "ExpectedParticipants": 720.0,
+      "ExpectedParticipants": 1458.0,
       "FemaleAttendance": 193,
       "MaleAttendance": 266,
       "TotalActualAttendance": 459.0,
@@ -6358,7 +7158,7 @@
     {
       "Program": "CLSS",
       "District": "Jabalpur",
-      "ExpectedParticipants": 930.0,
+      "ExpectedParticipants": 1330.0,
       "FemaleAttendance": 172,
       "MaleAttendance": 238,
       "TotalActualAttendance": 410.0,
@@ -6368,7 +7168,7 @@
     {
       "Program": "CLSS",
       "District": "Jhabua",
-      "ExpectedParticipants": 945.0,
+      "ExpectedParticipants": 1377.0,
       "FemaleAttendance": 201,
       "MaleAttendance": 277,
       "TotalActualAttendance": 478.0,
@@ -6378,7 +7178,7 @@
     {
       "Program": "CLSS",
       "District": "Katni",
-      "ExpectedParticipants": 765.0,
+      "ExpectedParticipants": 1327.0,
       "FemaleAttendance": 183,
       "MaleAttendance": 252,
       "TotalActualAttendance": 435.0,
@@ -6388,7 +7188,7 @@
     {
       "Program": "CLSS",
       "District": "Khandwa",
-      "ExpectedParticipants": 645.0,
+      "ExpectedParticipants": 1401.0,
       "FemaleAttendance": 178,
       "MaleAttendance": 245,
       "TotalActualAttendance": 423.0,
@@ -6398,7 +7198,7 @@
     {
       "Program": "CLSS",
       "District": "Khargone",
-      "ExpectedParticipants": 1155.0,
+      "ExpectedParticipants": 1141.0,
       "FemaleAttendance": 175,
       "MaleAttendance": 241,
       "TotalActualAttendance": 416.0,
@@ -6408,7 +7208,7 @@
     {
       "Program": "CLSS",
       "District": "Mandla",
-      "ExpectedParticipants": 1005.0,
+      "ExpectedParticipants": 1703.0,
       "FemaleAttendance": 262,
       "MaleAttendance": 362,
       "TotalActualAttendance": 624.0,
@@ -6418,7 +7218,7 @@
     {
       "Program": "CLSS",
       "District": "Mandsaur",
-      "ExpectedParticipants": 660.0,
+      "ExpectedParticipants": 1622.0,
       "FemaleAttendance": 231,
       "MaleAttendance": 319,
       "TotalActualAttendance": 550.0,
@@ -6428,7 +7228,7 @@
     {
       "Program": "CLSS",
       "District": "Morena",
-      "ExpectedParticipants": 960.0,
+      "ExpectedParticipants": 2334.0,
       "FemaleAttendance": 307,
       "MaleAttendance": 424,
       "TotalActualAttendance": 731.0,
@@ -6438,7 +7238,7 @@
     {
       "Program": "CLSS",
       "District": "Narmadapuram",
-      "ExpectedParticipants": 720.0,
+      "ExpectedParticipants": 1452.0,
       "FemaleAttendance": 246,
       "MaleAttendance": 339,
       "TotalActualAttendance": 585.0,
@@ -6448,7 +7248,7 @@
     {
       "Program": "CLSS",
       "District": "Narsinghpur",
-      "ExpectedParticipants": 780.0,
+      "ExpectedParticipants": 1153.0,
       "FemaleAttendance": 198,
       "MaleAttendance": 273,
       "TotalActualAttendance": 471.0,
@@ -6458,7 +7258,7 @@
     {
       "Program": "CLSS",
       "District": "Neemuch",
-      "ExpectedParticipants": 525.0,
+      "ExpectedParticipants": 809.0,
       "FemaleAttendance": 143,
       "MaleAttendance": 197,
       "TotalActualAttendance": 340.0,
@@ -6468,7 +7268,7 @@
     {
       "Program": "CLSS",
       "District": "Niwari",
-      "ExpectedParticipants": 285.0,
+      "ExpectedParticipants": 413.0,
       "FemaleAttendance": 60,
       "MaleAttendance": 83,
       "TotalActualAttendance": 143.0,
@@ -6478,7 +7278,7 @@
     {
       "Program": "CLSS",
       "District": "Panna",
-      "ExpectedParticipants": 945.0,
+      "ExpectedParticipants": 1653.0,
       "FemaleAttendance": 258,
       "MaleAttendance": 356,
       "TotalActualAttendance": 614.0,
@@ -6488,7 +7288,7 @@
     {
       "Program": "CLSS",
       "District": "Raisen",
-      "ExpectedParticipants": 1020.0,
+      "ExpectedParticipants": 1390.0,
       "FemaleAttendance": 229,
       "MaleAttendance": 317,
       "TotalActualAttendance": 546.0,
@@ -6498,7 +7298,7 @@
     {
       "Program": "CLSS",
       "District": "Rajgarh",
-      "ExpectedParticipants": 1080.0,
+      "ExpectedParticipants": 1638.0,
       "FemaleAttendance": 273,
       "MaleAttendance": 378,
       "TotalActualAttendance": 651.0,
@@ -6508,7 +7308,7 @@
     {
       "Program": "CLSS",
       "District": "Ratlam",
-      "ExpectedParticipants": 915.0,
+      "ExpectedParticipants": 2154.0,
       "FemaleAttendance": 319,
       "MaleAttendance": 441,
       "TotalActualAttendance": 760.0,
@@ -6518,7 +7318,7 @@
     {
       "Program": "CLSS",
       "District": "Rewa",
-      "ExpectedParticipants": 1260.0,
+      "ExpectedParticipants": 1606.0,
       "FemaleAttendance": 167,
       "MaleAttendance": 230,
       "TotalActualAttendance": 397.0,
@@ -6528,7 +7328,7 @@
     {
       "Program": "CLSS",
       "District": "Sagar",
-      "ExpectedParticipants": 1125.0,
+      "ExpectedParticipants": 1400.0,
       "FemaleAttendance": 201,
       "MaleAttendance": 278,
       "TotalActualAttendance": 479.0,
@@ -6538,7 +7338,7 @@
     {
       "Program": "CLSS",
       "District": "Satna",
-      "ExpectedParticipants": 1410.0,
+      "ExpectedParticipants": 2392.0,
       "FemaleAttendance": 235,
       "MaleAttendance": 324,
       "TotalActualAttendance": 559.0,
@@ -6548,7 +7348,7 @@
     {
       "Program": "CLSS",
       "District": "Sehore",
-      "ExpectedParticipants": 45.0,
+      "ExpectedParticipants": 760,
       "FemaleAttendance": 1,
       "MaleAttendance": 2,
       "TotalActualAttendance": 3.0,
@@ -6558,7 +7358,7 @@
     {
       "Program": "CLSS",
       "District": "Seoni",
-      "ExpectedParticipants": 1200.0,
+      "ExpectedParticipants": 1806.0,
       "FemaleAttendance": 289,
       "MaleAttendance": 398,
       "TotalActualAttendance": 687.0,
@@ -6568,7 +7368,7 @@
     {
       "Program": "CLSS",
       "District": "Shahdol",
-      "ExpectedParticipants": 825.0,
+      "ExpectedParticipants": 1048.0,
       "FemaleAttendance": 135,
       "MaleAttendance": 186,
       "TotalActualAttendance": 321.0,
@@ -6578,7 +7378,7 @@
     {
       "Program": "CLSS",
       "District": "Shajapur",
-      "ExpectedParticipants": 555.0,
+      "ExpectedParticipants": 1168.0,
       "FemaleAttendance": 162,
       "MaleAttendance": 223,
       "TotalActualAttendance": 385.0,
@@ -6588,7 +7388,7 @@
     {
       "Program": "CLSS",
       "District": "Sheopur",
-      "ExpectedParticipants": 435.0,
+      "ExpectedParticipants": 574.0,
       "FemaleAttendance": 98,
       "MaleAttendance": 136,
       "TotalActualAttendance": 234.0,
@@ -6598,7 +7398,7 @@
     {
       "Program": "CLSS",
       "District": "Shivpuri",
-      "ExpectedParticipants": 1125.0,
+      "ExpectedParticipants": 1238.0,
       "FemaleAttendance": 173,
       "MaleAttendance": 239,
       "TotalActualAttendance": 412.0,
@@ -6608,7 +7408,7 @@
     {
       "Program": "CLSS",
       "District": "Sidhi",
-      "ExpectedParticipants": 915.0,
+      "ExpectedParticipants": 1608.0,
       "FemaleAttendance": 217,
       "MaleAttendance": 300,
       "TotalActualAttendance": 517.0,
@@ -6618,7 +7418,7 @@
     {
       "Program": "CLSS",
       "District": "Singrauli",
-      "ExpectedParticipants": 660.0,
+      "ExpectedParticipants": 812.0,
       "FemaleAttendance": 105,
       "MaleAttendance": 146,
       "TotalActualAttendance": 251.0,
@@ -6628,7 +7428,7 @@
     {
       "Program": "CLSS",
       "District": "Tikamgarh",
-      "ExpectedParticipants": 645.0,
+      "ExpectedParticipants": 839.0,
       "FemaleAttendance": 112,
       "MaleAttendance": 154,
       "TotalActualAttendance": 266.0,
@@ -6638,7 +7438,7 @@
     {
       "Program": "CLSS",
       "District": "Ujjain",
-      "ExpectedParticipants": 900.0,
+      "ExpectedParticipants": 1230.0,
       "FemaleAttendance": 230,
       "MaleAttendance": 318,
       "TotalActualAttendance": 548.0,
@@ -6648,7 +7448,7 @@
     {
       "Program": "CLSS",
       "District": "Umaria",
-      "ExpectedParticipants": 465.0,
+      "ExpectedParticipants": 1026.0,
       "FemaleAttendance": 108,
       "MaleAttendance": 148,
       "TotalActualAttendance": 256.0,
@@ -6658,7 +7458,7 @@
     {
       "Program": "CLSS",
       "District": "Vidisha",
-      "ExpectedParticipants": 1035.0,
+      "ExpectedParticipants": 1589.0,
       "FemaleAttendance": 257,
       "MaleAttendance": 355,
       "TotalActualAttendance": 612.0,
@@ -335897,6 +336697,13 @@
           "expectedReleaseDate": "2026-09-28",
           "reachDeltaTargetPct": 40.2
         }
+      },
+      "varg2Metrics": {
+        "totalUniverse": 68427,
+        "targetCohort": 68369,
+        "actualAttendees": 23785,
+        "cadreSaturationPct": 34.8,
+        "cohortTurnoutPct": 34.8
       }
     },
     "SEP": {
@@ -504254,6 +505061,13 @@
           "expectedReleaseDate": "2026-09-28",
           "reachDeltaTargetPct": 40.2
         }
+      },
+      "varg2Metrics": {
+        "totalUniverse": 68427,
+        "targetCohort": 67222,
+        "actualAttendees": 23169,
+        "cadreSaturationPct": 33.9,
+        "cohortTurnoutPct": 34.5
       }
     },
     "CONSOLIDATED": {

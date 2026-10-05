@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RSK Madhya Pradesh — Shaikshik Samwaad Ground Reality &amp; Telemetry Picture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 8mm 10mm 8mm 10mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.3;
+      font-size: 8pt;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Executive Header */
+    .header-band {
+      background: linear-gradient(135deg, #008aab 0%, #00566b 55%, #0f172a 100%);
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 10px -2px rgba(0, 138, 171, 0.25);
+    }
+
+    .brand-title {
+      font-size: 13pt;
+      font-weight: 800;
+      margin: 0 0 1px 0;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-title span.serif {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 15pt;
+      color: #63d0df;
+    }
+
+    .brand-sub {
+      font-size: 7.2pt;
+      opacity: 0.92;
+      margin: 0;
+    }
+
+    .meta-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      text-align: right;
+      line-height: 1.25;
+    }
+
+    /* 4-Stat Ribbon */
+    .stat-ribbon {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 6px 8px;
+      border-left: 3px solid #008aab;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .stat-card.teal { border-left-color: #008aab; }
+    .stat-card.emerald { border-left-color: #059669; }
+    .stat-card.indigo { border-left-color: #4f46e5; }
+    .stat-card.amber { border-left-color: #d97706; }
+
+    .stat-label {
+      font-size: 6.2pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 1px;
+      letter-spacing: 0.03em;
+    }
+
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+    }
+
+    .stat-sub {
+      font-size: 6.2pt;
+      color: #64748b;
+      margin-top: 1px;
+    }
+
+    /* Section Banner */
+    .section-banner {
+      background: #f1f5f9;
+      border-left: 3px solid #008aab;
+      padding: 3px 6px;
+      font-size: 7.8pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 7px 0 5px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .section-banner span.tag {
+      font-size: 6.2pt;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #008aab;
+      background: #ffffff;
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* 2-Column Main Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 7px;
+      margin-bottom: 6px;
+    }
+
+    .panel-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 6px 8px;
+    }
+
+    /* Insight Card */
+    .insight-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 5px 6px;
+      margin-bottom: 5px;
+      background: #ffffff;
+    }
+
+    .insight-card.alert {
+      border-left: 3px solid #e11d48;
+      background: rgba(244, 63, 94, 0.02);
+    }
+
+    .insight-card.warn {
+      border-left: 3px solid #d97706;
+      background: rgba(245, 158, 11, 0.02);
+    }
+
+    .insight-card.good {
+      border-left: 3px solid #059669;
+      background: rgba(16, 185, 129, 0.02);
+    }
+
+    .insight-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 7.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .insight-body {
+      font-size: 6.8pt;
+      color: #334155;
+      line-height: 1.25;
+    }
+
+    .insight-body strong {
+      color: #0f172a;
+    }
+
+    .metric-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.2pt;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    .metric-badge.bad { background: #ffe4e6; color: #be123c; border: 1px solid #fecdd3; }
+    .metric-badge.warn { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .metric-badge.good { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
+    /* RF 7-Pillars Horizontal Strip */
+    .rf-strip {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .rf-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 4px 5px;
+      text-align: center;
+    }
+
+    .rf-name {
+      font-size: 5.8pt;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+
+    .rf-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5pt;
+      font-weight: 800;
+    }
+
+    .rf-desc {
+      font-size: 5.5pt;
+      color: #475569;
+      line-height: 1.15;
+    }
+
+    /* Quadrant Mini Table */
+    table.data-mini {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 6.5pt;
+    }
+
+    table.data-mini th {
+      background: #f8fafc;
+      color: #475569;
+      text-align: left;
+      padding: 2.5px 4px;
+      border: 1px solid #e2e8f0;
+      font-weight: 700;
+    }
+
+    table.data-mini td {
+      padding: 2.5px 4px;
+      border: 1px solid #e2e8f0;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+
+    /* Progress Bar */
+    .bar-container {
+      height: 4.5px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 2px 0 1px 0;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    .footer {
+      margin-top: 5px;
+      padding-top: 4px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 6.2pt;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. HEADER BAND -->
+  <div class="header-band">
+    <div>
+      <div class="brand-title">
+        राज्य शिक्षा केंद्र (RSK) मध्य प्रदेश × Peepul
+        <span class="serif">• Ground Reality &amp; Telemetry Picture</span>
+      </div>
+      <div class="brand-sub">Academic Dialogue (शैक्षिक संवाद - CLSS) &amp; District Orientation (DO) • Statewide Field Picture (Grades 6–8)</div>
+    </div>
+    <div class="meta-badge">
+      <div>Total Cadre: 33,702</div>
+      <div>Active Clusters: 4,814</div>
+      <div>52 Districts | 313 Blocks</div>
+    </div>
+  </div>
+
+  <!-- 2. FOUR CORE TELEMETRY NUMBERS -->
+  <div class="stat-ribbon">
+    <div class="stat-card teal">
+      <div class="stat-label">Teachers in CLSS</div>
+      <div class="stat-val">23,785</div>
+      <div class="stat-sub">31.6% of 80k Universe</div>
+    </div>
+    <div class="stat-card emerald">
+      <div class="stat-label">Facilitators Mobilized</div>
+      <div class="stat-val">4,814</div>
+      <div class="stat-sub">89.6% Talk-Ratio Adherence</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-label">Monitors Deployed</div>
+      <div class="stat-val">516</div>
+      <div class="stat-sub">35.1% Cluster Monitoring Deficit</div>
+    </div>
+    <div class="stat-card indigo">
+      <div class="stat-label">DO Master Cadre</div>
+      <div class="stat-val">4,587</div>
+      <div class="stat-sub">96% DIET In-Person Reach</div>
+    </div>
+  </div>
+
+  <!-- 3. RESULTS FRAMEWORK 7 CORE DIMENSIONS (WHAT THE SURVEY DENOTES) -->
+  <div class="section-banner">
+    <span>📋 WHAT THE RESULTS FRAMEWORK DATA DENOTES (7 STATEWIDE DIMENSIONS)</span>
+    <span class="tag">STATE SYNTHESIS</span>
+  </div>
+
+  <div class="rf-strip">
+    <div class="rf-card">
+      <div class="rf-name">1. Reach (Ind 7)</div>
+      <div class="rf-score" style="color: #059669;">96.0%</div>
+      <div class="rf-desc">DO Facilitator &amp; Observer attendance</div>
+    </div>
+    <div class="rf-card">
+      <div class="rf-name">2. Syllabus (Ind 8)</div>
+      <div class="rf-score" style="color: #059669;">86.5%</div>
+      <div class="rf-desc">DO Syllabus &amp; orientation mastery</div>
+    </div>
+    <div class="rf-card">
+      <div class="rf-name">3. Quality (Ind 10)</div>
+      <div class="rf-score" style="color: #059669;">82.4%</div>
+      <div class="rf-desc">Facilitation quality &amp; resource skills</div>
+    </div>
+    <div class="rf-card">
+      <div class="rf-name">4. Clarity (Ind 12)</div>
+      <div class="rf-score" style="color: #059669;">88.0%</div>
+      <div class="rf-desc">Teacher session purpose understanding</div>
+    </div>
+    <div class="rf-card">
+      <div class="rf-name">5. Utility (Ind 13)</div>
+      <div class="rf-score" style="color: #059669;">91.2%</div>
+      <div class="rf-desc">Classroom teaching tool usefulness</div>
+    </div>
+    <div class="rf-card">
+      <div class="rf-name">6. Dialogue (Ind 14)</div>
+      <div class="rf-score" style="color: #d97706;">51.5%</div>
+      <div class="rf-desc">Teacher peer discussion depth (GAP)</div>
+    </div>
+    <div class="rf-card">
+      <div class="rf-name">7. Pedagogy (Ind 18)</div>
+      <div class="rf-score" style="color: #008aab;">58.0%</div>
+      <div class="rf-desc">Composite 5-metric accuracy score</div>
+    </div>
+  </div>
+
+  <!-- 4. MAIN SPLIT: PEDAGOGY HEALTH vs. FIELD OPERATIONS & MONITORING -->
+  <div class="main-grid">
+    
+    <!-- LEFT: WHAT THE DATA DENOTES ABOUT TEACHING QUALITY & PEDAGOGY -->
+    <div class="panel-box">
+      <div style="font-size: 7.8pt; font-weight: 800; color: #0f172a; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+        <span>🧠 Pedagogical Health &amp; Classroom Practice (Teachers: 23,785)</span>
+        <span style="font-size: 6.2pt; color: #64748b; font-family: 'JetBrains Mono';">Q95 • Q97 • Q96 • Q82</span>
+      </div>
+
+      <!-- Q95: Agency vs Activity Trap -->
+      <div class="insight-card alert">
+        <div class="insight-head">
+          <span>1. The "Activity Trap" vs. Genuine Student Agency (Q95)</span>
+          <span class="metric-badge bad">48.1% Misconception</span>
+        </div>
+        <div class="bar-container"><div class="bar-fill" style="width: 48.1%; background: #e11d48;"></div></div>
+        <div class="insight-body">
+          • <strong>48.1% of teachers (11,450)</strong> believe active learning means keeping students busy with enjoyable activities without transferring thinking responsibility.<br>
+          • Only <strong>35.9% (8,548)</strong> understand that true agency requires giving students authentic responsibilities based on individual strengths and choices.
+        </div>
+      </div>
+
+      <!-- Q97: Belongingness vs Verbal Praise -->
+      <div class="insight-card warn">
+        <div class="insight-head">
+          <span>2. Classroom Belongingness: Confusion with Praise (Q97)</span>
+          <span class="metric-badge warn">66.1% Confusion</span>
+        </div>
+        <div class="bar-container"><div class="bar-fill" style="width: 66.1%; background: #d97706;"></div></div>
+        <div class="insight-body">
+          • Only <strong>33.9% (8,054)</strong> recognize that belonging comes from giving students real classroom duties where their impact is felt.<br>
+          • <strong>66.1% of teachers</strong> reduce belonging to oral praise (25.2%), playing games (28.5%), or enforcing identical rules (12.4%).
+        </div>
+      </div>
+
+      <!-- Q96: Psychological Safety & Error Normalization -->
+      <div class="insight-card good">
+        <div class="insight-head">
+          <span>3. Error Normalization &amp; Shy Student Support (Q96)</span>
+          <span class="metric-badge good">62.0% Baseline Mastery</span>
+        </div>
+        <div class="bar-container"><div class="bar-fill" style="width: 62.0%; background: #059669;"></div></div>
+        <div class="insight-body">
+          • <strong>62.0% (14,758)</strong> correctly treat errors as natural learning milestones without fear.<br>
+          • <strong>23.0% (5,472 teachers)</strong> dumb down questions for shy students (lowering cognitive challenge) instead of providing scaffolded probing.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: WHAT THE DATA DENOTES ABOUT FIELD GOVERNANCE & TECH -->
+    <div class="panel-box">
+      <div style="font-size: 7.8pt; font-weight: 800; color: #0f172a; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+        <span>👁️ Field Delivery &amp; Operational Reality</span>
+        <span style="font-size: 6.2pt; color: #64748b; font-family: 'JetBrains Mono';">Facilitators &amp; Monitors</span>
+      </div>
+
+      <!-- Monitoring Deficit -->
+      <div class="insight-card alert">
+        <div class="insight-head">
+          <span>1. Severe Monitoring Deficit (Q76 &amp; Q59)</span>
+          <span class="metric-badge bad">35.1% Unmonitored</span>
+        </div>
+        <div class="insight-body">
+          • <strong>1,688 clusters (35.1%)</strong> had <strong>ZERO monitors present</strong> during dialogue sessions.<br>
+          • Where monitors attended (516 clusters), 37.2% noted low teacher talk-time due to facilitator lecturing.
+        </div>
+      </div>
+
+      <!-- ICT Projection Paradox -->
+      <div class="insight-card warn">
+        <div class="insight-head">
+          <span>2. Technology Projection Paradox (Q65)</span>
+          <span class="metric-badge warn">59.1% PPTs Idle</span>
+        </div>
+        <div class="insight-body">
+          • <strong>71.6% had digital PPTs available</strong> on mobile, but in <strong>59.1% of monitored sessions</strong>, the PPT was never projected onto a screen due to power/screen unavailability.
+        </div>
+      </div>
+
+      <!-- Logistics & Printed Guides -->
+      <div class="insight-card good">
+        <div class="insight-head">
+          <span>3. Module Delivery &amp; Materials (Q71 &amp; Q77)</span>
+          <span class="metric-badge good">89.0% Guide Coverage</span>
+        </div>
+        <div class="insight-body">
+          • <strong>11.0% (529 clusters)</strong> lacked physical printed guides (334 soft-copy only, 173 zero guides).<br>
+          • <strong>728 facilitators</strong> requested concept cheat-sheets for complex teacher doubts.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 5. DISTRICT 4-QUADRANT LANDSCAPE & ACTIONABLE DIRECTIVES -->
+  <div class="section-banner">
+    <span>🗺️ STATEWIDE 52-DISTRICT PERFORMANCE LANDSCAPE (4-QUADRANTS &amp; DIRECTIVES)</span>
+    <span class="tag">52 DISTRICTS MAPPED</span>
+  </div>
+
+  <div class="main-grid" style="margin-bottom: 0;">
+    
+    <!-- Quadrant Table -->
+    <div class="panel-box">
+      <table class="data-mini">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Quadrant</th>
+            <th style="width: 12%;">Districts</th>
+            <th style="width: 38%;">Representative Districts</th>
+            <th style="width: 25%;">What Data Denotes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: #059669;">🏆 Q1: Champions</strong><br><span style="font-size: 5.5pt; color: #64748b;">(Turnout ≥350, Ped ≥58%)</span></td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #059669;">8 Districts</td>
+            <td>Chhindwara (863 | 61%), Indore (459 | 63%), Narsinghpur (471), Narmadapuram (585)</td>
+            <td>High mobilization &amp; strong pedagogy. Best-practice hubs.</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #008aab;">⚡ Q2: Scale Gap</strong><br><span style="font-size: 5.5pt; color: #64748b;">(Turnout ≥350, Ped &lt;58%)</span></td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #008aab;">26 Districts</td>
+            <td>Balaghat (802), Betul (951), Dhar (880), Sagar (796), Rewa (648), Satna (715)</td>
+            <td>Mobilizing well, but teachers struggle on student agency (Q95).</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #4f46e5;">📈 Q3: Mobilize</strong><br><span style="font-size: 5.5pt; color: #4f46e5;">(Turnout &lt;350, Ped ≥58%)</span></td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #4f46e5;">5 Districts</td>
+            <td>Agar Malwa (239 | 62%), Sheopur (234), Harda (181), Neemuch (263)</td>
+            <td>High pedagogy mastery but low turnout. Needs administrative push.</td>
+          </tr>
+          <tr>
+            <td><strong style="color: #e11d48;">⚠️ Q4: Support</strong><br><span style="font-size: 5.5pt; color: #e11d48;">(Turnout &lt;350, Ped &lt;58%)</span></td>
+            <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #e11d48;">13 Districts</td>
+            <td>Alirajpur (339), Anuppur (278), Ashoknagar (347), Bhopal (321), Burhanpur (147)</td>
+            <td>Double deficit in turnout and pedagogy. Direct RSK intervention.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Concrete RSK Directives -->
+    <div class="panel-box" style="background: rgba(0, 138, 171, 0.02); border-color: #cbd5e1;">
+      <div style="font-size: 7.2pt; font-weight: 800; color: #008aab; margin-bottom: 3px;">
+        ⚖️ 3 Core Administrative Directives for RSK Leadership
+      </div>
+      <div style="font-size: 6.5pt; color: #1e293b; line-height: 1.28;">
+        <strong>1. Shift from Activity to Agency (Academic):</strong> Release 1-page coaching guide on micro-role allocation to overcome the 48.1% activity trap.<br>
+        <strong>2. Mandatory 1-Teacher School Quorum (Policy):</strong> Rotational quota (Math/Sci in Cycle A, Lang/Soc in Cycle B) to reach 100% of the 80k universe in 120 days.<br>
+        <strong>3. 100% Monitoring Duty Rosters (Governance):</strong> DPCs must assign BRCs/BACs to eliminate the 1,688 unmonitored cluster gap.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 6. FOOTER -->
+  <div class="footer">
+    <span>RSK Madhya Pradesh × Peepul India • Ground Reality Intelligence Briefing</span>
+    <span>Sourced from 33,702 Field Responses across 52 Districts</span>
+    <span>Single-Page Visual Brief</span>
+  </div>
+
+</body>
+</html>

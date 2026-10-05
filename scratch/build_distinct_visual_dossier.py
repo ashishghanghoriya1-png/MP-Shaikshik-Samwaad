@@ -1,0 +1,991 @@
+"""
+Generate perfectly balanced, publication-grade Executive Visual Dossier for RSK Shaikshik Samwaad.
+Structured editorial layout, matching left & right column heights, 100% data fidelity.
+"""
+
+import subprocess
+import os
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RSK Madhya Pradesh — Shaikshik Samwaad Executive Visual Dossier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 6mm 7.5mm 6mm 7.5mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.28;
+      font-size: 7.5pt;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 1. Masthead & Editorial Header */
+    .masthead {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 5px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .org-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.4pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #0284c7;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .org-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      background: #0284c7;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .masthead-title {
+      font-size: 14.5pt;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .masthead-title span.serif {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17.5pt;
+      color: #0369a1;
+    }
+
+    .masthead-sub {
+      font-size: 7pt;
+      color: #475569;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .masthead-meta {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6pt;
+      color: #64748b;
+      line-height: 1.4;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 4.5px 8px;
+      border-radius: 4px;
+    }
+
+    .masthead-meta strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* 2. Hero Funnel & Universe Ground Truth Ribbon */
+    .funnel-container {
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 5px;
+      padding: 6.5px 9px 5.5px 9px;
+      margin-bottom: 6px;
+      box-shadow: 0 3px 10px -2px rgba(15, 23, 42, 0.12);
+    }
+
+    .funnel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      padding-bottom: 2.5px;
+    }
+
+    .funnel-title {
+      font-size: 7.6pt;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .funnel-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 5.6pt;
+      background: rgba(147, 197, 253, 0.15);
+      border: 1px solid rgba(147, 197, 253, 0.35);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #bfdbfe;
+    }
+
+    .funnel-stages {
+      display: grid;
+      grid-template-columns: 1.25fr 0.1fr 1.2fr 0.1fr 1.25fr 0.1fr 1.45fr;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .stage-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      padding: 4px 6px;
+    }
+
+    .stage-box.highlight {
+      background: rgba(3, 105, 161, 0.38);
+      border-color: #38bdf8;
+    }
+
+    .stage-box.warning {
+      background: rgba(225, 29, 72, 0.18);
+      border-color: #fb7185;
+    }
+
+    .stage-label {
+      font-size: 5.4pt;
+      text-transform: uppercase;
+      color: #94a3b8;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .stage-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10pt;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+      margin: 1px 0;
+    }
+
+    .stage-box.highlight .stage-val { color: #38bdf8; }
+    .stage-box.warning .stage-val { color: #fda4af; }
+
+    .stage-sub {
+      font-size: 5.3pt;
+      color: #cbd5e1;
+    }
+
+    .funnel-arrow {
+      text-align: center;
+      color: #64748b;
+      font-size: 8pt;
+      font-weight: bold;
+    }
+
+    .funnel-footer-note {
+      margin-top: 3.5px;
+      font-size: 5.4pt;
+      color: #cbd5e1;
+      border-top: 1px dashed rgba(255, 255, 255, 0.15);
+      padding-top: 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* 3. Main Editorial 2-Column Broadsheet Grid */
+    .broadsheet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6.5px;
+      margin-bottom: 6px;
+    }
+
+    .col-left, .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 5.5px;
+    }
+
+    .editorial-block {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 5.5px 7.5px;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2.5px;
+    }
+
+    .block-title {
+      font-size: 7.3pt;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .block-title .icon {
+      font-size: 8pt;
+    }
+
+    .block-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 5.6pt;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #1e293b;
+      padding: 1px 4.5px;
+      border-radius: 3px;
+    }
+
+    /* Pedagogy Misconception Visual Bars */
+    .pedagogy-row {
+      margin-bottom: 3.5px;
+    }
+
+    .ped-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 6.4pt;
+      font-weight: 700;
+      margin-bottom: 1.5px;
+      color: #0f172a;
+    }
+
+    .ped-top .pct {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+    }
+
+    .ped-bar-track {
+      height: 5.5px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .ped-bar-fill {
+      height: 100%;
+    }
+
+    .ped-desc {
+      font-size: 5.5pt;
+      color: #475569;
+      margin-top: 1.5px;
+      line-height: 1.2;
+    }
+
+    /* 4-Cell Operational Grid */
+    .ops-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3.5px;
+    }
+
+    .ops-cell {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 3.5px 4px;
+      text-align: center;
+    }
+
+    .ops-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1px;
+    }
+
+    .ops-lbl {
+      font-size: 5.2pt;
+      font-weight: 700;
+      color: #334155;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .ops-sub {
+      font-size: 4.8pt;
+      color: #64748b;
+      margin-top: 1px;
+      line-height: 1.1;
+    }
+
+    /* Perception Divergence Card */
+    .divergence-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 4.5px 6.5px;
+    }
+
+    .div-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 6pt;
+      font-weight: 700;
+      margin-bottom: 2.5px;
+    }
+
+    .div-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5px;
+      margin-bottom: 3px;
+    }
+
+    .div-bar-row {
+      display: grid;
+      grid-template-columns: 1.4fr 3fr 0.8fr;
+      align-items: center;
+      gap: 4px;
+      font-size: 5.3pt;
+    }
+
+    .div-track {
+      height: 5px;
+      background: #e2e8f0;
+      border-radius: 2.5px;
+      overflow: hidden;
+    }
+
+    .div-fill {
+      height: 100%;
+    }
+
+    /* Right Narrative Column: 52-District Strategic Matrix & Results Framework */
+    .quadrant-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+      margin-bottom: 3.5px;
+    }
+
+    .quad-card {
+      border-radius: 4px;
+      padding: 4px 5.5px;
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quad-card.q-champ { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+    .quad-card.q-scale { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .quad-card.q-supp { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .quad-card.q-crit { background: #fff1f2; border-color: #fecdd3; color: #9f1239; }
+
+    .quad-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .quad-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10pt;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .quad-name {
+      font-size: 5.6pt;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .quad-stats {
+      font-size: 5pt;
+      margin-top: 1px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .quad-ex {
+      font-size: 5pt;
+      opacity: 0.9;
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Results Framework 7-Pillars Horizontal Strip */
+    .rf-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 3px;
+    }
+
+    .rf-pill {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 3.5px;
+      padding: 2.5px 1.5px;
+      text-align: center;
+    }
+
+    .rf-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.2pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .rf-name {
+      font-size: 4.6pt;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    /* Qualitative Voice of Teacher Strip (4 Categorized Blocks) */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5px;
+    }
+
+    .quote-box {
+      background: #ffffff;
+      border-left: 2px solid #0284c7;
+      border-top: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 3px 4.5px;
+      border-radius: 0 3.5px 3.5px 0;
+    }
+
+    .quote-tag {
+      font-size: 4.6pt;
+      font-weight: 800;
+      color: #0284c7;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+
+    .quote-txt {
+      font-size: 5.2pt;
+      color: #334155;
+      line-height: 1.2;
+      font-style: italic;
+    }
+
+    .quote-vol {
+      font-size: 4.6pt;
+      font-weight: 700;
+      color: #64748b;
+      margin-top: 1px;
+    }
+
+    /* 4. Bottom Strategic Directive Banner */
+    .policy-banner {
+      background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+      border: 1.5px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 5px 8px;
+      margin-bottom: 4px;
+    }
+
+    .policy-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 2px;
+    }
+
+    .policy-title {
+      font-size: 6.8pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #0f172a;
+    }
+
+    .policy-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .policy-item {
+      display: flex;
+      gap: 4px;
+      align-items: flex-start;
+    }
+
+    .policy-num {
+      background: #0f172a;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 5.2pt;
+      font-weight: 800;
+      width: 12px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.5px;
+    }
+
+    .policy-content {
+      font-size: 5.4pt;
+      color: #334155;
+      line-height: 1.22;
+    }
+
+    .policy-content strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* 5. Micro Footer */
+    .dossier-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 5.1pt;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Editorial Masthead -->
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="org-eyebrow"><span class="dot"></span> Rajya Shiksha Kendra (RSK) • State Educational Research & Training</div>
+      <h1 class="masthead-title">Statewide Shaikshik Samwaad <span class="serif">Executive Intelligence Briefing</span></h1>
+      <div class="masthead-sub">Comprehensive Cross-Tab Synthesis: Teacher Universe Coverage, Pedagogical Diagnosis, Operational Blindspots & 52-District Framework</div>
+    </div>
+    <div class="masthead-meta">
+      <div><strong>SESSION COHORT:</strong> Middle School (Class 6-8)</div>
+      <div><strong>SUBJECT FOCUS:</strong> Math & Science (Varg-2)</div>
+      <div><strong>RECONCILED SOURCE:</strong> 52 Dist / 322 Blocks / 4,804 Clusters</div>
+    </div>
+  </div>
+
+  <!-- 2. Hero Funnel & Universe Ground Truth Ribbon -->
+  <div class="funnel-container">
+    <div class="funnel-header">
+      <div class="funnel-title">Statewide Participation Funnel & Reconciled Universe Saturation</div>
+      <div class="funnel-tag">Zero Delta Reconciled • Varg Wise Teacher Master 2026</div>
+    </div>
+    <div class="funnel-stages">
+      <div class="stage-box">
+        <div class="stage-label">Total Varg-2 Universe</div>
+        <div class="stage-val">68,427</div>
+        <div class="stage-sub">All Middle Teachers (322 Blocks)</div>
+      </div>
+      <div class="funnel-arrow">→</div>
+      <div class="stage-box">
+        <div class="stage-label">Target Subject Cohort</div>
+        <div class="stage-val">35,374</div>
+        <div class="stage-sub">Math & Science Specialist Base</div>
+      </div>
+      <div class="funnel-arrow">→</div>
+      <div class="stage-box highlight">
+        <div class="stage-label">Actual Turnout</div>
+        <div class="stage-val">23,785</div>
+        <div class="stage-sub">67.2% Cohort / 34.8% Universe</div>
+      </div>
+      <div class="funnel-arrow">→</div>
+      <div class="stage-box warning">
+        <div class="stage-label">Unreached Universe Gap</div>
+        <div class="stage-val">44,642</div>
+        <div class="stage-sub">11,589 Target + 33,053 Other Varg-2</div>
+      </div>
+    </div>
+    <div class="funnel-footer-note">
+      <span><strong>Key Metric Insight:</strong> While overall Varg-2 saturation is 34.8%, target Math/Science cohort turnout reached <strong>67.2%</strong> statewide.</span>
+      <span><strong>Universe Gap:</strong> 44,642 teachers unreached across subjects.</span>
+    </div>
+  </div>
+
+  <!-- 3. Broadsheet 2-Column Analytical Layout -->
+  <div class="broadsheet-grid">
+    
+    <!-- LEFT COLUMN: Classroom Reality & Operational Architecture -->
+    <div class="col-left">
+      
+      <!-- Block A: Classroom Pedagogy & Teacher Cognitive Realities -->
+      <div class="editorial-block">
+        <div class="block-header">
+          <div class="block-title"><span class="icon">🔬</span> Classroom Pedagogy & Misconception Reality</div>
+          <div class="block-badge">Overall Score: 72.8 / 100</div>
+        </div>
+        
+        <div class="pedagogy-row">
+          <div class="ped-top">
+            <span>Activity Trap Misconception (Q95)</span>
+            <span class="pct" style="color: #e11d48;">48.1% Trapped</span>
+          </div>
+          <div class="ped-bar-track">
+            <div class="ped-bar-fill" style="width: 48.1%; background: #e11d48;"></div>
+            <div class="ped-bar-fill" style="width: 51.9%; background: #059669;"></div>
+          </div>
+          <div class="ped-desc"><strong>Critical finding:</strong> Nearly half of teachers believe "doing hands-on activities automatically ensures conceptual learning", bypassing cognitive reflection.</div>
+        </div>
+
+        <div class="pedagogy-row">
+          <div class="ped-top">
+            <span>Classroom Belonging Misconception (Q97)</span>
+            <span class="pct" style="color: #d97706;">66.1% Misguided</span>
+          </div>
+          <div class="ped-bar-track">
+            <div class="ped-bar-fill" style="width: 66.1%; background: #d97706;"></div>
+            <div class="ped-bar-fill" style="width: 33.9%; background: #059669;"></div>
+          </div>
+          <div class="ped-desc">2 in 3 teachers equate belonging with "praising correct answers", failing to normalize productive academic struggle and intellectual inclusion.</div>
+        </div>
+
+        <div class="pedagogy-row">
+          <div class="ped-top">
+            <span>Psychological & Intellectual Safety (Q96)</span>
+            <span class="pct" style="color: #059669;">62.0% Aligned</span>
+          </div>
+          <div class="ped-bar-track">
+            <div class="ped-bar-fill" style="width: 62.0%; background: #059669;"></div>
+            <div class="ped-bar-fill" style="width: 38.0%; background: #cbd5e1;"></div>
+          </div>
+          <div class="ped-desc">Strong baseline in recognizing student mistakes as entry points for conceptual remediation.</div>
+        </div>
+
+        <div class="pedagogy-row" style="margin-bottom: 0;">
+          <div class="ped-top">
+            <span>Structured Peer Dialogue vs Solo Lecturing (Q98)</span>
+            <span class="pct" style="color: #0284c7;">54.2% Structured</span>
+          </div>
+          <div class="ped-bar-track">
+            <div class="ped-bar-fill" style="width: 54.2%; background: #0284c7;"></div>
+            <div class="ped-bar-fill" style="width: 45.8%; background: #e2e8f0;"></div>
+          </div>
+          <div class="ped-desc">45.8% of classrooms still default to unilateral teacher monologues rather than student group dialogue.</div>
+        </div>
+      </div>
+
+      <!-- Block B: Operational Delivery & Governance Blindspots -->
+      <div class="editorial-block">
+        <div class="block-header">
+          <div class="block-title"><span class="icon">⚙️</span> Field Execution & Operational Blindspots</div>
+          <div class="block-badge">Audit of 4,804 Clusters</div>
+        </div>
+        
+        <div class="ops-grid">
+          <div class="ops-cell">
+            <div class="ops-val" style="color: #e11d48;">1,688</div>
+            <div class="ops-lbl">Unmonitored</div>
+            <div class="ops-sub"><strong>35.1%</strong> clusters had 0 observer visits</div>
+          </div>
+          <div class="ops-cell">
+            <div class="ops-val" style="color: #d97706;">59.1%</div>
+            <div class="ops-lbl">Idle PPTs</div>
+            <div class="ops-sub">2,839 clusters did not project slides</div>
+          </div>
+          <div class="ops-cell">
+            <div class="ops-val" style="color: #0284c7;">57.0%</div>
+            <div class="ops-lbl">Facilitator Prep</div>
+            <div class="ops-sub">Completed all 4 pre-session modules</div>
+          </div>
+          <div class="ops-cell">
+            <div class="ops-val" style="color: #059669;">89.0%</div>
+            <div class="ops-lbl">Print Delivery</div>
+            <div class="ops-sub">11.0% physical printout shortage</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block C: Observer vs Teacher Perception Divergence -->
+      <div class="editorial-block">
+        <div class="block-header">
+          <div class="block-title"><span class="icon">⚖️</span> Trust & Perception Divergence</div>
+          <div class="block-badge">Execution Gap: 23.4%</div>
+        </div>
+
+        <div class="divergence-card">
+          <div class="div-header">
+            <span>Perception vs Objective Audit</span>
+            <span style="color: #e11d48; font-family: 'JetBrains Mono', monospace; font-weight: 800;">Δ 23.4% Variance</span>
+          </div>
+          <div class="div-bars">
+            <div class="div-bar-row">
+              <span style="font-weight: 600;">Teacher Rating</span>
+              <div class="div-track"><div class="div-fill" style="width: 94.6%; background: #059669;"></div></div>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: right;">94.6%</span>
+            </div>
+            <div class="div-bar-row">
+              <span style="font-weight: 600;">Observer Audit</span>
+              <div class="div-track"><div class="div-fill" style="width: 71.2%; background: #0284c7;"></div></div>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: right;">71.2%</span>
+            </div>
+          </div>
+          <div style="font-size: 5.2pt; color: #475569; line-height: 1.15; border-top: 1px solid #f1f5f9; padding-top: 2px;">
+            While teachers report high subjective satisfaction (94.6%), objective observers observe lower fidelity in active peer facilitation and lesson pacing (71.2%).
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: 52-District Strategic Quadrants & Results Framework -->
+    <div class="col-right">
+      
+      <!-- Block D: 52-District Strategic Quadrant Landscape -->
+      <div class="editorial-block">
+        <div class="block-header">
+          <div class="block-title"><span class="icon">🗺️</span> 52-District Strategic Quadrant Map</div>
+          <div class="block-badge">100% District Coverage</div>
+        </div>
+        
+        <div class="quadrant-grid">
+          <div class="quad-card q-champ">
+            <div class="quad-top">
+              <div class="quad-name">Champions</div>
+              <div class="quad-count">8</div>
+            </div>
+            <div class="quad-stats">Turnout: 82.4% | Quality: 84.2%</div>
+            <div class="quad-ex">Dhar, Rajgarh, Sehore, Shahdol</div>
+          </div>
+          <div class="quad-card q-scale">
+            <div class="quad-top">
+              <div class="quad-name">Scale Gap</div>
+              <div class="quad-count">26</div>
+            </div>
+            <div class="quad-stats">Turnout: 48.6% | Quality: 81.5%</div>
+            <div class="quad-ex">Indore, Bhopal, Ujjain, Gwalior</div>
+          </div>
+          <div class="quad-card q-supp">
+            <div class="quad-top">
+              <div class="quad-name">Needs Support</div>
+              <div class="quad-count">5</div>
+            </div>
+            <div class="quad-stats">Turnout: 78.1% | Quality: 64.3%</div>
+            <div class="quad-ex">Barwani, Jhabua, Singrauli</div>
+          </div>
+          <div class="quad-card q-crit">
+            <div class="quad-top">
+              <div class="quad-name">Critical Deficit</div>
+              <div class="quad-count">13</div>
+            </div>
+            <div class="quad-stats">Turnout: 42.1% | Quality: 61.8%</div>
+            <div class="quad-ex">Alirajpur, Sheopur, Bhind, Panna</div>
+          </div>
+        </div>
+
+        <div style="font-size: 5.4pt; color: #475569; line-height: 1.2; background: #ffffff; border: 1px solid #e2e8f0; padding: 2px 5px; border-radius: 3px;">
+          <strong>Strategic Finding:</strong> 26 districts have elite pedagogical quality (>80%) but suffer low teacher turnout. State directives must separate <em>turnout enforcement</em> from <em>instructional coaching</em>.
+        </div>
+      </div>
+
+      <!-- Block E: Results Framework 7-Pillar Health Scorecard -->
+      <div class="editorial-block">
+        <div class="block-header">
+          <div class="block-title"><span class="icon">📊</span> Results Framework 7-Pillar Index</div>
+          <div class="block-badge">State Avg: 78.3 / 100</div>
+        </div>
+
+        <div class="rf-grid">
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #0284c7;">78.4%</div>
+            <div class="rf-name">Syllabus</div>
+          </div>
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #059669;">81.2%</div>
+            <div class="rf-name">Clarity</div>
+          </div>
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #e11d48;">72.8%</div>
+            <div class="rf-name">Pedagogy</div>
+          </div>
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #059669;">86.1%</div>
+            <div class="rf-name">Utility</div>
+          </div>
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #d97706;">69.5%</div>
+            <div class="rf-name">Dialogue</div>
+          </div>
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #0284c7;">77.3%</div>
+            <div class="rf-name">Quality</div>
+          </div>
+          <div class="rf-pill">
+            <div class="rf-score" style="color: #059669;">82.6%</div>
+            <div class="rf-name">Teacher</div>
+          </div>
+        </div>
+
+        <div style="font-size: 5.2pt; color: #64748b; display: flex; justify-content: space-between;">
+          <span><strong>Strongest:</strong> Utility (86.1%) & Reach (82.6%)</span>
+          <span style="color: #e11d48;"><strong>Primary Bottleneck:</strong> Peer Dialogue (69.5%)</span>
+        </div>
+      </div>
+
+      <!-- Block F: Voice of the Teacher & Ground Realities -->
+      <div class="editorial-block">
+        <div class="block-header">
+          <div class="block-title"><span class="icon">💬</span> Qualitative Ground Feedback</div>
+          <div class="block-badge">18,450 Direct Responses</div>
+        </div>
+
+        <div class="quotes-grid">
+          <div class="quote-box">
+            <div class="quote-tag">Demo Videos</div>
+            <div class="quote-txt">"Need 2-minute live classroom videos of active learning rather than 40-page slide decks."</div>
+            <div class="quote-vol">42.8% Teacher Demand</div>
+          </div>
+          <div class="quote-box">
+            <div class="quote-tag">Hindi Worksheets</div>
+            <div class="quote-txt">"Provide ready-to-print student misconception worksheets in simple Hindi."</div>
+            <div class="quote-vol">31.5% Teacher Demand</div>
+          </div>
+          <div class="quote-box">
+            <div class="quote-tag">Peer Dialogue</div>
+            <div class="quote-txt">"Dedicate 45 minutes purely for subject-wise teacher discussions."</div>
+            <div class="quote-vol">16.2% Teacher Demand</div>
+          </div>
+          <div class="quote-box">
+            <div class="quote-tag">Kit Logistics</div>
+            <div class="quote-txt">"Ensure physical Math & Science kits arrive 3 days prior to session."</div>
+            <div class="quote-vol">9.5% Teacher Demand</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 4. Bottom Strategic Directive Banner -->
+  <div class="policy-banner">
+    <div class="policy-head">
+      <div class="policy-title">Three High-Leverage Strategic Directives for RSK Leadership</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 5.6pt; color: #475569;">Targeting 90%+ Cohort Saturation & Pedagogical Depth</div>
+    </div>
+    <div class="policy-cols">
+      <div class="policy-item">
+        <div class="policy-num">1</div>
+        <div class="policy-content">
+          <strong>Single-Scan Digital Attendance:</strong> Deploy individual Samagra / M-Shiksha Mitra QR check-in to close the 44.6k unreached teacher gap and accurately distinguish target cohort from general Varg-2.
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-num">2</div>
+        <div class="policy-content">
+          <strong>Cluster Observer Rebalancing:</strong> Enforce mandatory CAC / BRC rotation covering the 1,688 zero-monitoring clusters to eliminate district blindspots and ensure high facilitation fidelity.
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-num">3</div>
+        <div class="policy-content">
+          <strong>Misconception-Driven Agendas:</strong> Pivot next Samwaad from generic activity delivery to deconstructing Q95 (Activity Trap) and Q97 (Belonging Trap) with practical video anchors.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Micro Footer -->
+  <div class="dossier-footer">
+    <span>Statewide Educational Dashboard Synthesis • RSK Madhya Pradesh & Peepul Strategy</span>
+    <span>CONFIDENTIAL & PROPRIETARY • FOR ADMINISTRATIVE ACTION</span>
+    <span>Generated: October 2026</span>
+  </div>
+
+</body>
+</html>
+"""
+
+def main():
+    output_html = os.path.abspath("scratch/rsk_distinct_one_page_visual.html")
+    output_pdf = os.path.abspath("RSK_Shaikshik_Samwaad_Executive_Visual_Briefing.pdf")
+    output_png = os.path.abspath("scratch/rsk_distinct_one_page_visual.png")
+    
+    with open(output_html, "w", encoding="utf-8") as f:
+        f.write(HTML_CONTENT)
+    print(f"[OK] Wrote HTML to {output_html}")
+    
+    # 1. Compile to PDF using Edge Headless
+    edge_paths = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+    ]
+    edge_bin = next((p for p in edge_paths if os.path.exists(p)), "msedge.exe")
+    
+    cmd_pdf = [
+        edge_bin,
+        "--headless",
+        "--disable-gpu",
+        "--no-pdf-header-footer",
+        f"--print-to-pdf={output_pdf}",
+        output_html
+    ]
+    print("Compiling PDF with Edge headless...")
+    res = subprocess.run(cmd_pdf, capture_output=True, text=True)
+    if res.returncode == 0 and os.path.exists(output_pdf):
+        size_kb = os.path.getsize(output_pdf) / 1024
+        print(f"[SUCCESS] PDF generated: {output_pdf} ({size_kb:.1f} KB)")
+    else:
+        print(f"[ERROR] Edge PDF compilation failed: {res.stderr}")
+
+    # 2. Generate PNG snapshot via playwright
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page(viewport={"width": 1080, "height": 1460}, device_scale_factor=2)
+            page.goto(f"file:///{output_html.replace(os.sep, '/')}", wait_until="networkidle")
+            # Take screenshot of the exact content bounding box
+            page.screenshot(path=output_png, full_page=True)
+            browser.close()
+        print(f"[SUCCESS] High-res PNG snapshot generated: {output_png}")
+    except Exception as e:
+        print(f"[WARNING] Playwright screenshot error: {e}")
+
+if __name__ == "__main__":
+    main()

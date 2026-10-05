@@ -1,0 +1,51 @@
+{
+  "Cluster_August": {
+    "file": "SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx",
+    "sheets": {
+      "Question Master": {
+        "total_cols": 4,
+        "col_o_header": "N/A",
+        "data_rows": 44,
+        "numeric_count": 0,
+        "numeric_sum": 0,
+        "text_count": 0,
+        "sample_text": []
+      },
+      "Monitor": {
+        "total_cols": 21,
+        "col_o_header": "60",
+        "data_rows": 516,
+        "numeric_count": 0,
+        "numeric_sum": 0,
+        "text_count": 516,
+        "sample_text": [
+          "शिक्षक व्यावसायिक उन्नयन प्रक्रिया का वि",
+          "जनशिक्षा केंद्र स्तर पर फेस-टू-फेस प्रशि",
+          "जनशिक्षा केंद्र स्तर पर फेस-टू-फेस प्रशि"
+        ]
+      },
+      "Facilitator": {
+        "total_cols": 25,
+        "col_o_header": "72",
+        "data_rows": 4814,
+        "numeric_count": 4814,
+        "numeric_sum": 68369.0,
+        "text_count": 0,
+        "sample_text": []
+      },
+      "Participants": {
+        "total_cols": 25,
+        "col_o_header": "87",
+        "data_rows": 23785,
+        "numeric_count": 0,
+        "numeric_sum": 0,
+        "text_count": 23785,
+        "sample_text": [
+          "शिक्षक के रूप में आत्मविश्वास में वृद्धि",
+          "चर्चा की थीम पर समझ सुदृढ़ बनेगी,शिक्षक ",
+          "चर्चा की थीम पर समझ सुदृढ़ बनेगी,चर्चा क"
+        ]
+      }
+    }
+  }
+}

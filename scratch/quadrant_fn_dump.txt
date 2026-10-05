@@ -1,0 +1,63 @@
+argin-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <div id="quadrantTableTitle" style="font-size: 13px; font-weight: 800; color: var(--text-primary);">
+                Districts in Selected Quadrant: All 52 Districts
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);">
+                Showing all districts with real-time turnout, composite pedagogy accuracy, and tailored action recommendations.
+              </div>
+            </div>
+            <input class="search-input" id="quadSearchInput" oninput="filterQuadrantTableSearch()" placeholder="🔍 Search district in matrix..." style="min-width: 220px; font-size: 11.5px;" type="text"/>
+          </div>
+          <div class="table-viewport" style="max-height: 420px;">
+            <table class="kowalski-table" id="quadrantDistTable">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>District</th>
+                  <th>Quadrant Classification</th>
+                  <th>CLSS Turnout</th>
+                  <th>Pedagogy Score</th>
+                  <th>Blocks</th>
+                  <th>Clusters</th>
+                  <th>Avg / Cluster</th>
+                  <th>Recommended State Action</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. RESULTS FRAMEWORK (RF 7 to 18) SCORECARD -->
+<section class="tab-section" id="tab-rf">
+<div class="panel-head" style="border: none; margin-bottom: 14px; padding: 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+<div>
+<h2 id="rfScorecardHeading" style="font-size: 18px; font-weight: 800; color: var(--text-primary); font-family: var(--font-brand);">Program Results Framework (RF) Indicator Scorecard</h2>
+<p style="font-size: 12px; color: var(--text-secondary);">Click on any indicator below (7 through 18) to inspect its full diagnostic breakdown, data provenance, and district distribution.</p>
+</div>
+<div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); padding: 6px 14px; border-radius: var(--radius-sm); font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary);">
+          📁 <strong style="color: var(--peepul-teal);">Audit Lineage:</strong> <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> + 7 Field Survey Datasets
+        </div>
+</div>
+<!-- 12 Cards Grid -->
+<div class="indicator-catalog-grid" id="rfIndicatorCardsContainer">
+<!-- Rendered via JS -->
+</div>
+<!-- Detailed Indicator Inspector -->
+<div class="detail-container" id="rfIndicatorDetailBox">
+<!-- Populated via JS -->
+</div>
+<!-- Charts & Sub-metrics Grid -->
+<div class="bento-equal">
+<div class="panel-box">
+<div class="panel-head">
+<div class="panel-head-title" id="rfDetailChartTitle">Sub-Indicator Performance Breakdown</div>
+</div>
+<di

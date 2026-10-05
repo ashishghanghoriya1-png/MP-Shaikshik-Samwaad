@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RSK MP — Attendance Telemetry, 80k Unique Beneficiary Strategy & Governance Directives</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 14mm 14mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.45;
+      font-size: 10pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header-band {
+      background: linear-gradient(135deg, #008aab 0%, #0f172a 100%);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-size: 15pt;
+      font-weight: 800;
+      margin: 0 0 3px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-sub {
+      font-size: 8.5pt;
+      opacity: 0.92;
+      margin: 0;
+    }
+
+    .meta-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      text-align: right;
+    }
+
+    .section-title {
+      font-size: 11.5pt;
+      font-weight: 800;
+      color: #008aab;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin: 14px 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      border-left: 3px solid #008aab;
+    }
+
+    .kpi-card.blue { border-left-color: #0284c7; }
+    .kpi-card.emerald { border-left-color: #059669; }
+    .kpi-card.amber { border-left-color: #d97706; }
+    .kpi-card.rose { border-left-color: #e11d48; }
+
+    .kpi-label {
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 1px;
+    }
+
+    .kpi-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .kpi-desc {
+      font-size: 7pt;
+      color: #64748b;
+      margin-top: 1px;
+    }
+
+    .pillar-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      page-break-inside: avoid;
+    }
+
+    .pillar-box.critical {
+      border-left: 3.5px solid #e11d48;
+      background: rgba(244, 63, 94, 0.02);
+    }
+
+    .pillar-box.high {
+      border-left: 3.5px solid #d97706;
+      background: rgba(245, 158, 11, 0.02);
+    }
+
+    .pillar-box.medium {
+      border-left: 3.5px solid #008aab;
+      background: rgba(0, 138, 171, 0.02);
+    }
+
+    .pillar-box.success {
+      border-left: 3.5px solid #059669;
+      background: rgba(16, 185, 129, 0.02);
+    }
+
+    .pillar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .pillar-title {
+      font-size: 9.5pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .badge.critical { background: #ffe4e6; color: #be123c; border: 1px solid #fecdd3; }
+    .badge.high { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .badge.medium { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge.success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+
+    .evidence-box {
+      background: #f1f5f9;
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 8pt;
+      color: #334155;
+      margin: 4px 0;
+      line-height: 1.35;
+    }
+
+    .directive-box {
+      background: rgba(0, 138, 171, 0.07);
+      border-left: 3px solid #008aab;
+      border-radius: 0 5px 5px 0;
+      padding: 6px 8px;
+      font-size: 8pt;
+      color: #0f172a;
+      line-height: 1.35;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8pt;
+      margin: 6px 0 10px 0;
+    }
+
+    table.data-table th {
+      background: #f8fafc;
+      color: #475569;
+      text-align: left;
+      padding: 5px 6px;
+      border: 1px solid #e2e8f0;
+      font-weight: 700;
+    }
+
+    table.data-table td {
+      padding: 4px 6px;
+      border: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer {
+      margin-top: 14px;
+      padding-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7pt;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: EXECUTIVE SYNTHESIS, BENEFICIARY GAP & COHORT MODEL -->
+  <div class="header-band">
+    <div>
+      <div class="brand-title">Rajya Shiksha Kendra (RSK) × Peepul</div>
+      <div class="brand-sub">Executive Strategic Research Report: Attendance Telemetry, 80k Beneficiary Gap &amp; Governance Directives</div>
+    </div>
+    <div class="meta-badge">
+      <div>Universe: 80,000 (Varg-2)</div>
+      <div>Monthly Turnout: ~23,000 (35%)</div>
+      <div>Single-Cycle Gap: ~57,000</div>
+    </div>
+  </div>
+
+  <div class="bento-grid">
+    <div class="kpi-card blue">
+      <div class="kpi-label">Teacher Universe</div>
+      <div class="kpi-val">80,000</div>
+      <div class="kpi-desc">Middle School (Varg-2)</div>
+    </div>
+    <div class="kpi-card emerald">
+      <div class="kpi-label">Avg Monthly Turnout</div>
+      <div class="kpi-val">23,785</div>
+      <div class="kpi-desc">~31.6% - 35.0% Saturation</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Active monthly Clusters</div>
+      <div class="kpi-val">4,814</div>
+      <div class="kpi-desc">Across 313 Blocks</div>
+    </div>
+    <div class="kpi-card rose">
+      <div class="kpi-label">Single-Cycle Gap</div>
+      <div class="kpi-val">~56,215</div>
+      <div class="kpi-desc">Unreached in single cycle</div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <span>🎯 1. The 80k Unique Beneficiary Challenge &amp; Telemetry Architecture</span>
+  </div>
+  <p style="font-size: 8pt; color: #475569; margin: 0 0 8px 0;">
+    Across Madhya Pradesh's 52 districts, the total middle school teacher universe is <strong>~80,000 teachers</strong>. Current monthly Cluster Level Shaikshik Samwaad (CLSS) averages <strong>~23,000 attendees (~35%)</strong>.
+  </p>
+
+  <div class="pillar-box critical">
+    <div class="pillar-header">
+      <div class="pillar-title">1.1 The Core Problem: Anonymous Aggregates vs. Unique Beneficiary Tracking</div>
+      <span class="badge critical">ARCHITECTURAL ROOT CAUSE</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 Analytical Diagnosis:</strong><br>
+      • Attendance is currently captured as aggregate cluster totals, while survey responses are collected separately on mobile forms without a mandatory unique employee identifier.<br>
+      • Consequently, state leadership cannot determine whether the 23k monthly attendees are the <em>same recurring teachers</em> or a <em>rotating cohort</em> reaching new teachers.
+    </div>
+    <div class="directive-box">
+      <strong>🎯 Strategic Solution — Unique Identifier Standard:</strong><br>
+      Mandate the <strong>Treasury Employee Code (6–8 digits)</strong> paired with the <strong>School UDISE Code (11 digits)</strong> and Subject Domain (Math/Sci vs. Lang/Soc) as the primary check-in key. This immediately unifies CLSS cluster data and Block orientation logs into a single <strong>Master Teacher Telemetry Lake</strong>.
+    </div>
+  </div>
+
+  <div class="section-title">
+    <span>👥 2. Multi-Cycle Cohort Intelligence: Regulars vs. Rotational vs. Dark Cadre</span>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 22%;">Teacher Cohort Tier</th>
+        <th style="width: 18%;">Attendance Rate</th>
+        <th style="width: 32%;">Behavioral Profile &amp; Field Status</th>
+        <th style="width: 28%;">Targeted State Governance Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color: #059669;">🟢 Persistent Core</strong></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #059669;">≥80% (Aug &amp; Sep)</td>
+        <td>Highly motivated, regular attendees who actively drive cluster discussions.</td>
+        <td>Enlist as <strong>Peer Facilitators &amp; Cluster Anchors</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #d97706;">🟡 Rotational Cadre</strong></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #d97706;">40% – 60% (1 Cycle)</td>
+        <td>Attends alternatively, sharing responsibilities with school colleagues.</td>
+        <td>Formalize via an official <strong>State Rotational Calendar</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #ea580c;">🟠 Lapsed Attendees</strong></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #ea580c;">Attended Aug, Not Sep</td>
+        <td>Dropped out due to travel distance, school duties, or session fatigue.</td>
+        <td>Automated <strong>WhatsApp Re-engagement &amp; Schedule Push</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #e11d48;">🔴 Dark Schools / Cadre</strong></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #e11d48;">0% (Zero Cycles)</td>
+        <td>Estimated ~35,000–40,000 teachers with zero exposure to academic dialogue.</td>
+        <td><strong>Direct Administrative Notice</strong> to BEO &amp; Headmaster.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">
+    <span>📈 3. Mathematical Trajectory Simulation: Pathway to 80k Unique Beneficiaries</span>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Policy Scenario</th>
+        <th>Cycle 1 (M1)</th>
+        <th>Cycle 2 (M2)</th>
+        <th>Cycle 3 (M3)</th>
+        <th>Cycle 4 (M4)</th>
+        <th>Total Timeline to 100% Saturation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Scenario A: Status Quo</strong><br><span style="font-size: 6.5pt; color: #64748b;">(Unregulated, ~60% Repeat)</span></td>
+        <td>24,000 (30%)</td>
+        <td>33,600 (42%)</td>
+        <td>43,200 (54%)</td>
+        <td>52,800 (66%)</td>
+        <td><span style="color: #e11d48; font-weight: 700;">&gt;8 Months (Persistent ~30k Gap)</span></td>
+      </tr>
+      <tr>
+        <td><strong>Scenario B: Managed Rotation</strong><br><span style="font-size: 6.5pt; color: #64748b;">(70% New Cadre Focus)</span></td>
+        <td>24,000 (30%)</td>
+        <td>40,800 (51%)</td>
+        <td>57,600 (72%)</td>
+        <td>74,400 (93%)</td>
+        <td><span style="color: #d97706; font-weight: 700;">5 Months (150 Days)</span></td>
+      </tr>
+      <tr style="background: rgba(0, 138, 171, 0.06);">
+        <td><strong style="color: #008aab;">Scenario C: RSK 2-Cycle Quorum</strong><br><span style="font-size: 6.5pt; color: #64748b;">(Cycle A: Math/Sci | Cycle B: Lang/Soc)</span></td>
+        <td><strong>24,000 (30%)</strong></td>
+        <td><strong>48,000 (60%)</strong></td>
+        <td><strong>64,000 (80%)</strong></td>
+        <td><strong>80,000 (100%)</strong></td>
+        <td><strong style="color: #059669; font-weight: 800;">4 Cycles (120 Days - 100% Saturation)</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <span>Rajya Shiksha Kendra (RSK) MP • Strategic Research Dossier</span>
+    <span>Page 1 of 2</span>
+  </div>
+
+  <!-- PAGE 2: QR TELEMETRY, FEEDBACK UX & RSK DIRECTIVES -->
+  <div class="page-break"></div>
+
+  <div class="section-title">
+    <span>📱 4. Frictionless Feedback Architecture: Dynamic Cluster QR Codes</span>
+  </div>
+
+  <div class="pillar-box success">
+    <div class="pillar-header">
+      <div class="pillar-title">4.1 Dynamic QR Encoding &amp; Pre-Populated URL Schema</div>
+      <span class="badge success">SUBMISSION TIME: &lt;75 SECONDS</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 The Current Problem:</strong> Teachers spend 8–10 minutes entering long Google Forms with 40+ questions on poor mobile connections, frequently mistyping District, Block, and Cluster names.<br>
+      <strong>🛠️ The Engineering Architecture:</strong> Each Cluster Academic Center (CAC) receives a printed, laminated card with a unique QR code encoding:
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; background: #e2e8f0; padding: 4px 6px; border-radius: 4px; margin: 4px 0; word-break: break-all;">
+        https://rsk.mp.gov.in/clss/feedback?d=AgarMalwa&amp;b=AGAR&amp;c=CLUST04&amp;f=FAC102&amp;cyc=SEP2026
+      </div>
+      • <strong>100% Pre-Populated (Zero Manual Entry):</strong> District, Block, Cluster, Facilitator, Date &amp; Cycle Code.<br>
+      • <strong>Teacher Inputs Only 2 Touchpoints:</strong> Treasury Employee Code + 5 Core Likert Star Ratings.
+    </div>
+  </div>
+
+  <div class="section-title">
+    <span>⚖️ 5. Represented Number Analysis &amp; RSK Administrative Directives Playbook</span>
+  </div>
+
+  <!-- Directive 1 -->
+  <div class="pillar-box critical">
+    <div class="pillar-header">
+      <div class="pillar-title">Directive 1: Statewide Circular — Mandatory Rotational School Quorum</div>
+      <span class="badge critical">POLICY LEVER #1 • MANDATORY CIRCULAR</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 Field Telemetry Grounding:</strong> Schools currently send the same teacher repeatedly or send nobody due to lack of an explicit institutional mandate. Single-month turnout hovers at 35%.
+    </div>
+    <div class="directive-box">
+      <strong>📜 Executive Order Text:</strong><br>
+      Every Government Middle School with ≥2 teachers must depute at least <strong>one designated subject teacher</strong> to monthly Shaikshik Samwaad on a rotational basis (<strong>Cycle A: Math/Science</strong>; <strong>Cycle B: Language/Social Science</strong>). This guarantees <strong>100% reach across the 80,000 universe in 2 cycles</strong>. Attending teachers must conduct a mandatory 30-minute peer-briefing at their school within 3 days.
+    </div>
+  </div>
+
+  <!-- Directive 2 -->
+  <div class="pillar-box high">
+    <div class="pillar-header">
+      <div class="pillar-title">Directive 2: Cluster Academic Coordinator (CAC) 100-Point Accountability Scorecard</div>
+      <span class="badge high">GOVERNANCE LEVER #2 • MONTHLY CAC GRADING</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 Field Telemetry Grounding:</strong> Cluster performance varies wildly from &gt;90% saturation down to &lt;15% in low-monitoring zones (1,688 clusters had zero monitors present).
+    </div>
+    <div class="directive-box">
+      <strong>📊 Monthly 100-Point Scorecard Metrics:</strong><br>
+      1. <strong>Teacher Turnout Saturation (40 pts):</strong> ≥50% of mapped universe.<br>
+      2. <strong>Unique Beneficiary Expansion (25 pts):</strong> ≥30% first-time / rotational teachers per cycle.<br>
+      3. <strong>QR Digital Feedback Compliance (20 pts):</strong> ≥90% of attendees submit via QR code.<br>
+      4. <strong>Punctuality &amp; Session Adherence (15 pts):</strong> 30:70 talk ratio &amp; on-time completion.
+    </div>
+  </div>
+
+  <!-- Directive 3 -->
+  <div class="pillar-box medium">
+    <div class="pillar-header">
+      <div class="pillar-title">Directive 3: Automated 72-Hour Deficit Escalation to DPCs &amp; BEOs</div>
+      <span class="badge medium">ESCALATION LEVER #3 • REAL-TIME BI ALERT</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 Field Telemetry Grounding:</strong> Zero-attendance schools currently go unnoticed until quarterly reviews, entrenching chronic non-participation.
+    </div>
+    <div class="directive-box">
+      <strong>🤖 Automated Protocol:</strong> Exactly 72 hours post-Samwaad, the BI engine detects all schools with 0 attendees and dispatches an automated WhatsApp &amp; SMS escalation dossier directly to the concerned <strong>District Project Coordinator (DPC)</strong> and <strong>Block Education Officer (BEO)</strong> for mandatory follow-up.
+    </div>
+  </div>
+
+  <div class="section-title">
+    <span>🧠 6. Qwen AI Pedagogical Insights &amp; Strategic Synthesis</span>
+  </div>
+
+  <div class="pillar-box medium">
+    <div class="evidence-box" style="font-size: 8pt; line-height: 1.4;">
+      <strong>• Entertainment vs. Genuine Student Agency (Q95):</strong> 48.1% of teachers believe active learning means keeping students busy with enjoyable activities. Refresher sessions must focus on authentic responsibility.<br>
+      <strong>• Belongingness Beyond Praise (Q97):</strong> 66.1% of teachers reduce student belonging to verbal praise or rules. CACs must coach teachers on micro-role classroom allocation.<br>
+      <strong>• Psychological Safety &amp; Scaffolded Probing (Q96):</strong> 62% understand error normalization, but 23% dumb down questions for shy students. Introduce 'No-Opt-Out' protocols.
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>RSK MP × Peepul • Prepared by Ashish (ashish.ghanghoria@peepulindia.org)</span>
+    <span>Page 2 of 2</span>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>RSK Madhya Pradesh: Deep Pedagogical & Strategic Governance Intelligence Dossier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.45;
+      font-size: 11pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header-band {
+      background: linear-gradient(135deg, #008aab 0%, #005a70 100%);
+      color: #ffffff;
+      padding: 18px 24px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-family: 'Comfortaa', cursive, sans-serif;
+      font-size: 16pt;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-sub {
+      font-size: 9.5pt;
+      opacity: 0.92;
+      margin: 0;
+    }
+
+    .meta-badge {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5pt;
+      text-align: right;
+    }
+
+    .section-title {
+      font-size: 13pt;
+      font-weight: 800;
+      color: #008aab;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      margin: 20px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      border-left: 3px solid #008aab;
+    }
+
+    .kpi-card.blue { border-left-color: #1d4ed8; }
+    .kpi-card.emerald { border-left-color: #059669; }
+    .kpi-card.amber { border-left-color: #d97706; }
+    .kpi-card.rose { border-left-color: #e11d48; }
+
+    .kpi-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 2px;
+    }
+
+    .kpi-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .kpi-desc {
+      font-size: 7.5pt;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .pillar-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .pillar-box.critical {
+      border-left: 4px solid #e11d48;
+      background: rgba(244, 63, 94, 0.02);
+    }
+
+    .pillar-box.high {
+      border-left: 4px solid #d97706;
+      background: rgba(245, 158, 11, 0.02);
+    }
+
+    .pillar-box.medium {
+      border-left: 4px solid #008aab;
+      background: rgba(0, 138, 171, 0.02);
+    }
+
+    .pillar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .pillar-title {
+      font-size: 10.5pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .badge.critical { background: #ffe4e6; color: #be123c; border: 1px solid #fecdd3; }
+    .badge.high { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .badge.medium { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+
+    .evidence-box {
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 8.5pt;
+      color: #334155;
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+
+    .directive-box {
+      background: rgba(0, 138, 171, 0.08);
+      border-left: 3px solid #008aab;
+      border-radius: 0 6px 6px 0;
+      padding: 8px 10px;
+      font-size: 8.5pt;
+      color: #0f172a;
+      line-height: 1.4;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.5pt;
+      margin: 8px 0 14px 0;
+    }
+
+    table.data-table th {
+      background: #f8fafc;
+      color: #475569;
+      text-align: left;
+      padding: 6px 8px;
+      border: 1px solid #e2e8f0;
+      font-weight: 700;
+    }
+
+    table.data-table td {
+      padding: 5px 8px;
+      border: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: EXECUTIVE BRIEF & PEDAGOGY DIAGNOSTICS -->
+  <div class="header-band">
+    <div>
+      <div class="brand-title">राज्य शिक्षा केंद्र (RSK) मध्य प्रदेश × Peepul</div>
+      <div class="brand-sub">शैक्षिक संवाद एवं जिला अभिमुखीकरण (DO) • गहन शिक्षाशास्त्रीय एवं रणनीतिक विश्लेषण प्रतिवेदन</div>
+    </div>
+    <div class="meta-badge">
+      <div>Data Cycle: August 2026</div>
+      <div>Respondents: 33,702</div>
+      <div>Districts: 52 / 52</div>
+    </div>
+  </div>
+
+  <div class="bento-grid">
+    <div class="kpi-card blue">
+      <div class="kpi-label">Total Reach</div>
+      <div class="kpi-val">33,702</div>
+      <div class="kpi-desc">Across 52 MP Districts</div>
+    </div>
+    <div class="kpi-card emerald">
+      <div class="kpi-label">CLSS Teachers</div>
+      <div class="kpi-val">23,785</div>
+      <div class="kpi-desc">Cluster Participants</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Master Cadre</div>
+      <div class="kpi-val">5,463</div>
+      <div class="kpi-desc">Facilitators & Monitors</div>
+    </div>
+    <div class="kpi-card rose">
+      <div class="kpi-label">District Orientation</div>
+      <div class="kpi-val">4,454</div>
+      <div class="kpi-desc">DIET Level Participants</div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <span>🧠 1. गहन शिक्षाशास्त्रीय नैदानिकी एवं कक्षा शिक्षण विश्लेषण (Pedagogical Mastery Diagnostics)</span>
+  </div>
+  <p style="font-size: 8.5pt; color: #475569; margin: 0 0 10px 0;">
+    शैक्षिक संवाद में सहभागी <strong>23,785 शिक्षकों</strong> के प्रत्यक्ष प्रत्युत्तरों पर आधारित गहन शिक्षाशास्त्रीय विश्लेषण (Q95, Q96, Q97):
+  </p>
+
+  <!-- Pillar 1: Q95 -->
+  <div class="pillar-box critical">
+    <div class="pillar-header">
+      <div class="pillar-title">1.1 शिक्षाशास्त्रीय भ्रांति: गतिविधि का जाल बनाम वास्तविक छात्र उत्तरदायित्व (Q95)</div>
+      <span class="badge critical">CRITICAL PEDAGOGY GAP • 48.1% Misconception</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 डेटा प्रमाण (Master CLSS Participants Q95 - 23,785 शिक्षक):</strong><br>
+      • <strong>48.1% (11,450 शिक्षक)</strong> ने <em>"बच्चों को अधिक से अधिक गतिविधियों में शामिल करना ताकि कक्षा आनंददायक बनी रहे"</em> को चुना (सतही गतिविधि जाल)।<br>
+      • केवल <strong>35.9% (8,548 शिक्षक)</strong> ने सही उत्तर <em>"बच्चों की रुचियों-क्षमताओं को जानना, उन्हें वास्तविक जिम्मेदारियाँ देना और प्रयासों को महत्व देना"</em> चुना।<br>
+      • 8.7% ने शिक्षक-नियंत्रित कार्य और 7.3% ने सभी से एक जैसी अपेक्षाओं को चुना।
+    </div>
+    <div class="directive-box">
+      <strong>🎯 राज्य शिक्षा केंद्र अकादमिक निर्देश (Action Directive):</strong><br>
+      सक्रिय जुड़ाव (Active Engagement) और केवल व्यस्त रहने (Busy Activity) के बीच अंतर स्पष्ट करने हेतु 1-पृष्ठीय मार्गदर्शन पत्रक जारी किया जाए। सितंबर संवाद में छात्र उत्तरदायित्व एवं सूक्ष्म-भूमिका आवंटन पर आधारित सत्र अनिवार्य किया जाए।
+    </div>
+  </div>
+
+  <!-- Pillar 2: Q97 -->
+  <div class="pillar-box high">
+    <div class="pillar-header">
+      <div class="pillar-title">1.2 कक्षा में अपनापन (Belongingness): केवल प्रशंसा से परे वास्तविक योगदान की समझ (Q97)</div>
+      <span class="badge high">HIGH NEED • 66.1% Confusion Rate</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 डेटा प्रमाण (Master CLSS Participants Q97 - 23,785 शिक्षक):</strong><br>
+      • केवल <strong>33.9% (8,054 शिक्षक)</strong> ने समझा कि अपनापन का अर्थ <em>"बच्चों को कक्षा की वास्तविक जिम्मेदारियों में शामिल करना और उनके योगदान का प्रभाव अनुभव कराना"</em> है।<br>
+      • <strong>66.1% शिक्षकों</strong> ने अपनापन को केवल खेल-गतिविधियों (28.5%, 6,779) या कक्षा के सामने केवल प्रशंसा करने (25.2%, 5,999) अथवा समान नियमों (12.4%) तक सीमित माना।
+    </div>
+    <div class="directive-box">
+      <strong>🎯 राज्य शिक्षा केंद्र अकादमिक निर्देश (Action Directive):</strong><br>
+      संकुल सहजकर्ताओं को 'सूक्ष्म-दायित्व वास्तुकला' (Micro-Role Architecture - कक्षा प्रबंधन रोस्टर, पीयर-बड्डी प्रणाली) पर उन्मुख किया जाए ताकि शिक्षक केवल मौखिक प्रशंसा से आगे बढ़कर प्रत्येक बच्चे को कक्षा संचालन का महत्वपूर्ण अंग बना सकें।
+    </div>
+  </div>
+
+  <!-- Pillar 3: Q96 -->
+  <div class="pillar-box high">
+    <div class="pillar-header">
+      <div class="pillar-title">1.3 मनोवैज्ञानिक सुरक्षा एवं त्रुटि सामान्यीकरण द्वारा संकोची बच्चों का संबलन (Q96)</div>
+      <span class="badge high">HIGH PRIORITY • 62.0% Baseline Mastery</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 डेटा प्रमाण (Master CLSS Participants Q96 - 23,785 शिक्षक):</strong><br>
+      • <strong>62.0% (14,758 शिक्षक)</strong> ने सही दृष्टिकोण चुना: <em>"गलतियों को सीखने का स्वाभाविक हिस्सा मानते हुए बिना डर के दोबारा प्रयास का अवसर देना"</em>।<br>
+      • चिंताजनक रूप से <strong>23.0% (5,472 शिक्षक)</strong> संकोची बच्चे से केवल आसान सवाल पूछने का विकल्प चुनते हैं, जिससे संज्ञानात्मक चुनौती (Cognitive Rigor) का स्तर गिर जाता है। 11.3% शिक्षक उत्तर तक संकेत देते हैं।
+    </div>
+    <div class="directive-box">
+      <strong>🎯 राज्य शिक्षा केंद्र अकादमिक निर्देश (Action Directive):</strong><br>
+      संकोची बच्चों को बिना प्रश्न का बौद्धिक स्तर गिराए सही निष्कर्ष तक पहुँचाने हेतु 'स्कैफोल्डेड प्रोबिंग' (Scaffolded Probing) और 'नो-ऑप्ट-आउट' (No-Opt-Out) प्रोटोकॉल का संकुल स्तर पर अभ्यास कराया जाए।
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>RSK MP × Peepul • Confidential Intelligence Dossier</span>
+    <span>Page 1 of 2</span>
+  </div>
+
+  <!-- PAGE 2: FIELD GOVERNANCE, LOGISTICS & DISTRICT QUADRANTS -->
+  <div class="page-break"></div>
+
+  <div class="section-title">
+    <span>👁️ 2. मैदानी पर्यवेक्षण, लॉजिस्टिक्स एवं संवर्ग सक्षमता विश्लेषण (Field Governance & Logistics)</span>
+  </div>
+
+  <!-- Pillar 4: Q76 & Q59 -->
+  <div class="pillar-box critical">
+    <div class="pillar-header">
+      <div class="pillar-title">2.1 संकुल संवादों में प्रत्यक्ष पर्यवेक्षण का अभाव (35.1% अन-अवलोकित सत्र) (Q76 & Q59)</div>
+      <span class="badge critical">CRITICAL OBSERVATION DEFICIT • 1,688 Clusters</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 डेटा प्रमाण (Master CLSS Facilitator Q76 & Monitor Q59):</strong><br>
+      • <strong>1,688 संकुलों (35.1%)</strong> में सहजकर्ताओं ने दर्ज किया कि संवाद के दौरान कोई भी अवलोकनकर्ता/मॉनिटर उपस्थित नहीं था। 849 संकुलों में केवल आंशिक उपस्थिति रही।<br>
+      • जहाँ मॉनिटर उपस्थित थे (516 सत्र), वहाँ <strong>37.2% सत्रों (192 संकुल)</strong> में शिक्षक सहभागिता 80% से कम आंकी गई (सहजकर्ता द्वारा अत्यधिक बोलना)।
+    </div>
+    <div class="directive-box">
+      <strong>🎯 प्रशासनिक निर्देश:</strong> डाइट प्राचार्य एवं जिला परियोजना समन्वयक (DPC) बीएसी/बीआरसी एवं डाइट प्रवक्ताओं का विकासखंड-वार अग्रिम रोस्टर जारी कर प्रत्येक संकुल में 100% भौतिक पर्यवेक्षण सुनिश्चित करें।
+    </div>
+  </div>
+
+  <!-- Pillar 5: Q71 & Q77 -->
+  <div class="pillar-box high">
+    <div class="pillar-header">
+      <div class="pillar-title">2.2 मुद्रित मार्गदर्शिका उपलब्धता एवं सहजकर्ता विषयगत संबलन (Q71 & Q77)</div>
+      <span class="badge high">HIGH LOGISTICS & CONTENT NEED • 1,257 Cadre</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 डेटा प्रमाण (Master CLSS Facilitator Q71 & Q77):</strong><br>
+      • <strong>529 संकुलों (11.0%)</strong> में भौतिक मुद्रित मार्गदर्शिका उपलब्ध नहीं थी (334 केवल मोबाइल सॉफ्ट-कॉपी, 173 शून्य मार्गदर्शिका), जिससे सत्र संचालन बाधित हुआ।<br>
+      • <strong>728 सहजकर्ताओं</strong> ने शिक्षकों के जटिल प्रश्नों के उत्तर देने हेतु अतिरिक्त विषयगत सामग्री और संकल्पना मार्गदर्शन पत्रक की आवश्यकता बताई।
+    </div>
+    <div class="directive-box">
+      <strong>🎯 लॉजिस्टिक एवं अकादमिक निर्देश:</strong> बीआरसी मुद्रण बजट का उपयोग कर संवाद से 3 दिन पूर्व स्पाइरल-बाउंड प्रतियां उपलब्ध कराएं। राज्य विषय दल संवाद से 48 घंटे पूर्व 2-पृष्ठीय FAQ एवं विषय पत्रक व्हाट्सएप पर प्रेषित करे।
+    </div>
+  </div>
+
+  <!-- Pillar 6: Q65 & DO Q51 -->
+  <div class="pillar-box medium">
+    <div class="pillar-header">
+      <div class="pillar-title">2.3 आईसीटी प्रस्तुतीकरण अप्रयुक्त रहना एवं जिला कोर-समिति अनुपालन (Q65 & DO Q51)</div>
+      <span class="badge medium">MEDIUM GOVERNANCE GAP</span>
+    </div>
+    <div class="evidence-box">
+      <strong>🔍 डेटा प्रमाण (Master CLSS Monitor Q65 & DO Monitor Q51):</strong><br>
+      • मॉनिटर किए गए <strong>59.1% सत्रों (305 संकुल)</strong> में डिजिटल पीपीटी उपलब्ध होने के बावजूद पूर्णतः अप्रयुक्त रही (प्रोजेक्टर/विद्युत की अनुपलब्धता)।<br>
+      • जिला अभिमुखीकरण के दौरान <strong>6 जिलों</strong> ने उसी दिन अनिवार्य जिला कोर-समिति समीक्षा बैठक स्थगित कर दी।
+    </div>
+    <div class="directive-box">
+      <strong>🎯 सुधारात्मक निर्देश:</strong> डिजिटल पीपीटी के साथ बड़े मुद्रित चार्ट-शीट बैकअप दिए जाएं। डीपीसी उन्मुखीकरण के दिन ही कोर-समिति बैठक कर 24 घंटे में कार्यविवरण पोर्टल पर अपलोड करें।
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top: 16px;">
+    <span>🗺️ 3. राज्य स्तरीय 4-चतुर्भुज जिला प्राथमिकता मैट्रिक्स (State 4-Quadrant Priority Matrix)</span>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 25%;">चतुर्भुज (Quadrant)</th>
+        <th style="width: 12%;">जिला संख्या</th>
+        <th style="width: 38%;">प्रतिनिधि जिले</th>
+        <th style="width: 25%;">रणनीतिक कार्ययोजना (Intervention)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color: #059669;">🏆 Q1: मानक चैंपियंस (Benchmark Champions)</strong><br><span style="font-size: 7pt; color: #64748b;">(Turnout ≥350 & Pedagogy ≥58%)</span></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #059669;">8 जिले</td>
+        <td>छिंदवाड़ा (863 | 61%), इंदौर (459 | 63%), नर्मदापुरम (585 | 62%), नरसिंहपुर (471 | 61%), शाजापुर, रायसेन, रतलाम, सिवनी</td>
+        <td>सर्वोत्तम संवाद अभ्यासों का दस्तावेजीकरण एवं पड़ोसी जिलों में पीयर-लर्निंग प्रसार।</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #008aab;">⚡ Q2: उच्च प्रसार, पेडागोजी अंतर (Scale Gap)</strong><br><span style="font-size: 7pt; color: #64748b;">(Turnout ≥350 & Pedagogy <58%)</span></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #008aab;">26 जिले</td>
+        <td>बालाघाट (802), बैतूल (951), छतरपुर (720), धार (880), खरगोन (776), सागर (796), सतना (715), रीवा (648) आदि</td>
+        <td>Q95 (छात्र उत्तरदायित्व) एवं Q97 (अपनापन) पर लक्षित अकादमिक रिफ्रेशर सत्र।</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #4f46e5;">📈 Q3: सहभागिता वृद्धि आवश्यकता (Mobilization)</strong><br><span style="font-size: 7pt; color: #64748b;">(Turnout <350 & Pedagogy ≥58%)</span></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #4f46e5;">5 जिले</td>
+        <td>आगर मालवा (239 | 62%), श्योपुर (234 | 62%), हरदा (181 | 59%), नीमच (263 | 58%), देवास (1 | 60%)</td>
+        <td>संकुल प्रभारियों को शिक्षक उपस्थिति एवं मोबिलाइजेशन बढ़ाने हेतु विशेष निर्देश।</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #e11d48;">⚠️ Q4: लक्षित संबलन क्षेत्र (Support Zone)</strong><br><span style="font-size: 7pt; color: #64748b;">(Turnout <350 & Pedagogy <58%)</span></td>
+        <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #e11d48;">13 जिले</td>
+        <td>अलीराजपुर (339), अनूपपुर (278), अशोकनगर (347), भोपाल (321), बुरहानपुर (147), सीहोर (3), झाबुआ (288) आदि</td>
+        <td>सीएसी पदों की तात्कालिक व्यवस्था एवं वरिष्ठ मेंटर शिक्षकों की सीधी तैनाती।</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <span>RSK MP × Peepul • Prepared by Ashish (ashish.ghanghoria@peepulindia.org)</span>
+    <span>Page 2 of 2</span>
+  </div>
+
+</body>
+</html>

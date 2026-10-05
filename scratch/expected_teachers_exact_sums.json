@@ -1,0 +1,46 @@
+[
+  {
+    "workbook": "Cluster Level - August",
+    "sheet": "Facilitator",
+    "col_letter": "O",
+    "col_index": 15,
+    "col_header": "72",
+    "question_text": "इस संवाद समूह के लिए अपेक्षित प्रतिभागियों (शिक्षकों) की संख्या दर्ज करें। (दोनों सहजकर्ता आपसी समन्वय कर सही संख्या भरें)",
+    "rows": 4814,
+    "sum": 68369.0,
+    "average": 14.202118820108018
+  },
+  {
+    "workbook": "Cluster Level - August",
+    "sheet": "Facilitator",
+    "col_letter": "Y",
+    "col_index": 25,
+    "col_header": "98",
+    "question_text": "इस संवाद समूह के लिए अपेक्षित प्रतिभागियों (शिक्षकों) की संख्या दर्ज करें। (दोनों सहजकर्ता आपसी समन्वय कर सही संख्या भरें)",
+    "rows": 4385,
+    "sum": 63821.0,
+    "average": 14.554389965792474
+  },
+  {
+    "workbook": "Cluster Level - September",
+    "sheet": "Facilitator",
+    "col_letter": "O",
+    "col_index": 15,
+    "col_header": "72",
+    "question_text": "इस संवाद समूह के लिए अपेक्षित प्रतिभागियों (शिक्षकों) की संख्या दर्ज करें। (दोनों सहजकर्ता आपसी समन्वय कर सही संख्या भरें)",
+    "rows": 4740,
+    "sum": 67222.0,
+    "average": 14.181856540084388
+  },
+  {
+    "workbook": "Cluster Level - September",
+    "sheet": "Facilitator",
+    "col_letter": "Y",
+    "col_index": 25,
+    "col_header": "98",
+    "question_text": "इस संवाद समूह के लिए अपेक्षित प्रतिभागियों (शिक्षकों) की संख्या दर्ज करें। (दोनों सहजकर्ता आपसी समन्वय कर सही संख्या भरें)",
+    "rows": 4285,
+    "sum": 61679.0,
+    "average": 14.39416569428238
+  }
+]

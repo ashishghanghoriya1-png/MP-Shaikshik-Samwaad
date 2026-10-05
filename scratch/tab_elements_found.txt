@@ -1,0 +1,8 @@
+tab-overview -> <section id="tab-overview" class="tab-section active lang-fade-target">
+tab-rf -> <section id="tab-rf" class="tab-section">
+tab-d360 -> <section id="tab-d360" class="tab-section">
+tab-league -> <section id="tab-league" class="tab-section">
+tab-blocks -> <section id="tab-blocks" class="tab-section">
+tab-questions -> <section id="tab-questions" class="tab-section">
+tab-pedagogy -> <section id="tab-pedagogy" class="tab-section">
+tab-governance -> <section id="tab-governance" class="tab-section">

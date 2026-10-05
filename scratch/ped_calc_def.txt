@@ -1,0 +1,45 @@
+function calculateDistrictPedagogyScore(dname) {
+      const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
+      if (!surveys || surveys.length === 0) return 55;
+
+      function getQScore(qid, colOverride) {
+        const s = surveys.find(x => 
+          (x.program === 'CLSS' || (typeof activeProgram !== 'undefined' && x.program === activeProgram)) && 
+          (String(x.questionId) === String(qid) || String(x.questionId).replace('Q', '') === String(qid))
+        );
+        if (!s || !s.districtData) return 55;
+        const row = s.districtData.find(d => d.district === dname);
+        if (!row) return 55;
+        const tot = row.totalRespondents || 1;
+
+        if (colOverride && row[colOverride] !== undefined) {
+          return (row[colOverride] / tot) * 100;
+        }
+
+        const corrCol = s.columns ? s.columns.find(c => c.isCorrect) : null;
+        let val = 0;
+        if (corrCol && row[corrCol.code] !== undefined) {
+          val = row[corrCol.code];
+        } else if (String(qid) === '84' && row['Q84.1'] !== undefined) {
+          val = row['Q84.1'];
+        } else if (String(qid) === '178' && row['Q178.2'] !== undefined) {
+          val = row['Q178.2'];
+        } else {
+          val = row['Q' + qid + '.1'] || row[qid + '.1'] || row[qid + '_Correct'] || 0;
+        }
+        return (val / tot) * 100;
+      }
+
+      if (currentCycle === 'SEP') {
+        const p177 = getQScore('177', 'Q177.1');
+        const p178 = getQScore('178', 'Q178.2');
+        const p179 = getQScore('179', 'Q179.1');
+        const p82 = getQScore('82', 'Q82.1');
+        return Math.round((p177 + p178 + p179 + p82) / 4);
+      } else {
+        const p82 = getQScore('82', 'Q82.1');
+        const p84 = getQScore('84', 'Q84.1');
+        const p95 = getQScore('95', 'Q95.2');
+        const p96 = getQScore('96', 'Q96.1');
+        const p97 = getQScore('97', 'Q97.1');
+        return Math.round((p82 + p84 + p95 + p96 + 

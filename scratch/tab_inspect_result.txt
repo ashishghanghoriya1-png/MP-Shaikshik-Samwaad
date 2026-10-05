@@ -1,0 +1,10 @@
+Nav buttons found: 8
+  <button class="nav-item active" onclick="activateTab('tab-overview', this)"><span class="nav-dot"></span> 📊 1. Executive BI</button>
+  <button class="nav-item" onclick="activateTab('tab-rf', this)"><span class="nav-dot"></span> 📋 2. Results Framework</button>
+  <button class="nav-item" onclick="activateTab('tab-d360', this)"><span class="nav-dot"></span> 🔍 3. District 360°</button>
+  <button class="nav-item" onclick="activateTab('tab-league', this)"><span class="nav-dot"></span> 🗺️ 4. 50-District League</button>
+  <button class="nav-item" onclick="activateTab('tab-blocks', this)"><span class="nav-dot"></span> 🏢 5. 312-Block Directory</button>
+  <button class="nav-item" onclick="activateTab('tab-questions', this)"><span class="nav-dot"></span> 📋 6. Question Bank</button>
+  <button class="nav-item" onclick="activateTab('tab-pedagogy', this)"><span class="nav-dot"></span> 🧠 7. Pedagogy Benchmark</button>
+  <button class="nav-item" onclick="activateTab('tab-governance', this)"><span class="nav-dot"></span> ⚠️ 8. Field Bottlenecks</button>
+Tab sections found: 0

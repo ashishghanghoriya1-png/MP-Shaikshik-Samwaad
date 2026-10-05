@@ -1,0 +1,40 @@
+{
+  "universe": {
+    "total_varg2_middle_teachers": 136854,
+    "target_math_science_cohort": 52502,
+    "total_blocks": 323,
+    "total_districts": 56
+  },
+  "participants": {
+    "cluster_level_teachers_attended": 23785,
+    "district_level_officials_attended": 4454,
+    "total_participants_all_levels": 28239
+  },
+  "districts_covered": {
+    "cluster_districts": 52,
+    "district_level_districts": 48,
+    "total_state_districts": 52
+  },
+  "training_centres": {
+    "active_cluster_centres_with_samwaad": 2822,
+    "total_cluster_centres_in_state": 4804,
+    "district_training_centres": 48,
+    "total_training_centres_active": 2870
+  },
+  "observers": {
+    "cluster_monitors_count": 516,
+    "district_monitors_count": 56,
+    "total_observers_deployed": 572
+  },
+  "facilitators": {
+    "cluster_facilitators_count": 4814,
+    "district_facilitators_count": 77,
+    "total_facilitators_deployed": 4891
+  },
+  "district_officials_do": {
+    "do_participants": 4454,
+    "do_monitors": 56,
+    "do_facilitators": 77,
+    "total_district_stakeholders": 4587
+  }
+}

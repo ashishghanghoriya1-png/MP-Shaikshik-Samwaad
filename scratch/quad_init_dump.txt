@@ -1,0 +1,58 @@
+}
+        else { targetCont = q4Container; c4++; }
+
+        const chip = document.createElement('span');
+        chip.style.cssText = `${qInfo.bgChip} font-size: 10.5px; font-weight: 600; padding: 3px 7px; border-radius: 4px; cursor: pointer; white-space: nowrap; transition: transform 0.15s ease;`;
+        chip.title = `${d.district}: Turnout = ${t.toLocaleString()} teachers | Pedagogy Accuracy = ${ped}%. Click to view 360 profile.`;
+        chip.innerHTML = `${d.district} <span style="opacity: 0.75; font-size: 9.5px;">(${t.toLocaleString()})</span>`;
+        chip.onclick = () => openDistrictIn360(d.district);
+        targetCont.appendChild(chip);
+      });
+
+      // Dynamically update card badges and slicer button counts
+      const b1 = document.getElementById('q1Badge'); if (b1) b1.innerText = `${c1} Districts`;
+      const b2 = document.getElementById('q2Badge'); if (b2) b2.innerText = `${c2} Districts`;
+      const b3 = document.getElementById('q3Badge'); if (b3) b3.innerText = `${c3} Districts`;
+      const b4 = document.getElementById('q4Badge'); if (b4) b4.innerText = `${c4} Districts`;
+
+      const btn1 = document.getElementById('q1BtnCount'); if (btn1) btn1.innerText = `${c1}`;
+      const btn2 = document.getElementById('q2BtnCount'); if (btn2) btn2.innerText = `${c2}`;
+      const btn3 = document.getElementById('q3BtnCount'); if (btn3) btn3.innerText = `${c3}`;
+      const btn4 = document.getElementById('q4BtnCount'); if (btn4) btn4.innerText = `${c4}`;
+    }
+
+    function initQuadrantTable() {
+      populateQuadrantBentoCards();
+      if (typeof initResearchTab === 'function') initResearchTab();
+
+      const tbody = document.querySelector('#quadrantDistTable tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let idx = 1;
+      const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
+
+      const filtered = dists.filter(d => {
+        const pedScore = calculateDistrictPedagogyScore(d.district);
+        const turnout = d.attendees;
+        const qInfo = getDistrictQuadrantInfo(turnout, pedScore);
+        return (currentQuadFilter === 'ALL' || qInfo.quad === currentQuadFilter);
+      });
+
+      filtered.forEach(d => {
+        const pedScore = calculateDistrictPedagogyScore(d.district);
+        const turnout = d.attendees;
+        const avgPerCluster = d.totalClusters > 0 ? (d.attendees / d.totalClusters).toFixed(1) : '-';
+        const qInfo = getDistrictQuadrantInfo(turnout, pedScore);
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="font-mono">${idx++}</td>
+          <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
+          <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
+          <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${turnout.toLocaleString()}</td>
+          <td class="font-mono" style="color: ${pedScore >= PEDAGOGY_BENCHMARK ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
+          <td class="font-mono">${d.totalBlocks}</td>
+          <td class="font-mono">${d.totalClusters}</td>
+          <td class="font-mono">${avgPerCluster}</td>
+          <td st
