@@ -3141,22 +3141,42 @@
 
         <!-- Thematic Breakdown Progress Meter -->
         <div style="margin-top: 16px; background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px 16px;">
-          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 10px;">
-            Multi-Cycle Thematic Distribution Spectrum ($30,000+$ Submissions)
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">
+              Multi-Cycle Thematic Distribution Spectrum ($30,000+$ Submissions) • Click bar or tags to filter
+            </div>
+            <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--peepul-teal); font-weight: 600;" id="resActiveThemeCounter">
+              Showing All 12 Curated Voices
+            </div>
           </div>
-          <div style="display: flex; height: 16px; border-radius: 8px; overflow: hidden; gap: 2px;">
-            <div style="width: 39.5%; background: var(--peepul-teal);" title="Academic Utility: 39.5% (11,840)"></div>
-            <div style="width: 14.0%; background: #10b981;" title="Joyful Pedagogies: 14.0% (4,210)"></div>
-            <div style="width: 4.3%; background: #f59e0b;" title="Infrastructure & Tech: 4.3% (1,280)"></div>
-            <div style="width: 1.3%; background: #8b5cf6;" title="Emotional Motivation: 1.3% (380)"></div>
-            <div style="width: 41.3%; background: #cbd5e1;" title="General Classroom Feedback: 41.3%"></div>
+          <div style="display: flex; height: 18px; border-radius: 9px; overflow: hidden; gap: 2px; cursor: pointer;" id="resSpectrumBar">
+            <div onclick="filterResearchThemes('ACADEMIC')" style="width: 39.5%; background: var(--peepul-teal); transition: opacity 0.2s;" title="Academic Utility: 39.5% (11,840 Submissions)"></div>
+            <div onclick="filterResearchThemes('JOYFUL')" style="width: 14.0%; background: #10b981; transition: opacity 0.2s;" title="Joyful Pedagogies: 14.0% (4,210 Submissions)"></div>
+            <div onclick="filterResearchThemes('INFRA')" style="width: 4.3%; background: #f59e0b; transition: opacity 0.2s;" title="Infrastructure & Tech: 4.3% (1,280 Submissions)"></div>
+            <div onclick="filterResearchThemes('MOTIVATION')" style="width: 1.3%; background: #8b5cf6; transition: opacity 0.2s;" title="Emotional Motivation: 1.3% (380 Submissions)"></div>
+            <div onclick="filterResearchThemes('ALL')" style="width: 41.3%; background: #cbd5e1; transition: opacity 0.2s;" title="General Classroom Context: 41.3%"></div>
           </div>
-          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 11.5px; font-family: var(--font-mono);">
-            <span style="color: var(--peepul-teal); font-weight: 700;">● Academic Utility: 11,840 (39.5%)</span>
-            <span style="color: #059669; font-weight: 700;">● Joyful Pedagogies: 4,210 (14.0%)</span>
-            <span style="color: #d97706; font-weight: 700;">● Infra &amp; Tech Constraints: 1,280 (4.3%)</span>
-            <span style="color: #7c3aed; font-weight: 700;">● Emotional Motivation: 380 (1.3%)</span>
+          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 12px; font-size: 11.5px; font-family: var(--font-mono);">
+            <button onclick="filterResearchThemes('ACADEMIC')" class="res-theme-tag-btn" style="background: none; border: none; cursor: pointer; color: var(--peepul-teal); font-weight: 700; padding: 2px 6px; border-radius: 4px;">
+              ● Academic Utility: 11,840 (39.5%)
+            </button>
+            <button onclick="filterResearchThemes('JOYFUL')" class="res-theme-tag-btn" style="background: none; border: none; cursor: pointer; color: #059669; font-weight: 700; padding: 2px 6px; border-radius: 4px;">
+              ● Joyful Pedagogies: 4,210 (14.0%)
+            </button>
+            <button onclick="filterResearchThemes('INFRA')" class="res-theme-tag-btn" style="background: none; border: none; cursor: pointer; color: #d97706; font-weight: 700; padding: 2px 6px; border-radius: 4px;">
+              ● Infra &amp; Tech: 1,280 (4.3%)
+            </button>
+            <button onclick="filterResearchThemes('MOTIVATION')" class="res-theme-tag-btn" style="background: none; border: none; cursor: pointer; color: #7c3aed; font-weight: 700; padding: 2px 6px; border-radius: 4px;">
+              ● Motivation &amp; Trust: 380 (1.3%)
+            </button>
           </div>
+        </div>
+
+        <!-- Live Search Box for Ground Voices -->
+        <div style="margin-top: 14px; display: flex; gap: 10px; align-items: center; background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 6px 12px;">
+          <span style="font-size: 14px; color: var(--text-muted);">🔍</span>
+          <input type="text" id="resQuoteSearchInput" placeholder="Search field voices by keyword, subject, teacher, or district (e.g. TLM, Sehore, गणित, Safety)..." oninput="searchResearchQuotes(this.value)" style="flex: 1; border: none; background: transparent; font-size: 12px; color: var(--text-primary); outline: none; font-family: var(--font-sans);" />
+          <button onclick="clearResearchQuoteSearch()" id="resQuoteSearchClear" style="display: none; background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer;">✕ Clear</button>
         </div>
 
         <!-- Ground Voices Quotes Bento Container -->
@@ -10142,62 +10162,90 @@ function renderQuestionBankTable() {
 
 
     // ==========================================
-    // TAB 10: QUALITATIVE RESEARCH MODULE
-    // ==========================================
+    // TAB 10: QUALITATIVE RESEARCH MODULE & THEMATIC TOPOLOGY ENGINE
+    // =========================================================================
     let currentAbstractLang = 'en';
     let activeResearchTheme = 'ALL';
+    let researchSearchQuery = '';
 
     const researchQuotesData = [
+      // 1. ACADEMIC UTILITY & CLASSROOM APPLICATION (39.5% - 11,840 responses)
       {
         theme: 'ACADEMIC',
-        themeNameEn: 'Academic Utility & Classroom Application',
-        themeNameHi: 'अकादमिक एवं कक्षा अनुप्रयोग',
-        quoteHi: 'शैक्षणिक स्तर पर इसका उपयोग करेंगे, बच्चों की जिज्ञासा को ध्यान में रखना चाहिए।',
-        quoteEn: 'We will utilize these pedagogical tools at the classroom level, keeping students\' innate curiosity at the core.',
+        themeNameEn: 'Academic Utility & Lesson Design',
+        themeNameHi: 'अकादमिक उपयोगिता एवं पाठ योजना',
+        quoteHi: 'शैक्षणिक स्तर पर इसका उपयोग करेंगे, बच्चों की जिज्ञासा को ध्यान में रखकर पाठ योजना तैयार करेंगे।',
+        quoteEn: 'We will utilize these pedagogical tools in our classrooms, structuring lesson plans around students’ natural curiosity.',
         speakerHi: 'माध्यमिक शिक्षक, छिंदवाड़ा',
         speakerEn: 'Middle School Teacher, Chhindwara',
-        tag: 'Pedagogy',
+        tag: 'Pedagogy Design',
         tagColor: 'var(--peepul-teal)'
       },
       {
         theme: 'ACADEMIC',
-        themeNameEn: 'Academic Utility & Classroom Application',
-        themeNameHi: 'अकादमिक एवं कक्षा अनुप्रयोग',
-        quoteHi: 'पाठ योजना निर्माण में सहकर्मियों के अनुभवों से कठिन अवधारणाओं को सरल बनाने में बहुत मदद मिली।',
-        quoteEn: 'Shared experiences from peers substantially aided in deconstructing difficult mathematical concepts during lesson planning.',
+        themeNameEn: 'Academic Utility & Lesson Design',
+        themeNameHi: 'अकादमिक उपयोगिता एवं पाठ योजना',
+        quoteHi: 'गणित और विज्ञान में सहकर्मियों के अनुभवों से कठिन अवधारणाओं को गतिविधि के माध्यम से सरल बनाना सीखा।',
+        quoteEn: 'Learned from peer experiences how to deconstruct abstract math and science concepts into accessible student activities.',
         speakerHi: 'गणित शिक्षक, सीहोर',
         speakerEn: 'Math Teacher, Sehore',
-        tag: 'Lesson Design',
+        tag: 'Concept Deconstruction',
         tagColor: 'var(--peepul-teal)'
       },
+      {
+        theme: 'ACADEMIC',
+        themeNameEn: 'Academic Utility & Lesson Design',
+        themeNameHi: 'अकादमिक उपयोगिता एवं पाठ योजना',
+        quoteHi: 'टीएलएम निर्माण के बाद उसका उपयोग केवल दिखाने के लिए नहीं, बल्कि बच्चों के चिंतन को प्रेरित करने के लिए करना है।',
+        quoteEn: 'TLMs are not merely display props; their primary purpose is to trigger reflective questioning and deeper pupil thinking.',
+        speakerHi: 'विज्ञान शिक्षिका, नरसिंहपुर',
+        speakerEn: 'Science Teacher, Narsinghpur',
+        tag: 'TLM Pedagogy',
+        tagColor: 'var(--peepul-teal)'
+      },
+
+      // 2. JOYFUL PEDAGOGIES & STUDENT AGENCY (14.0% - 4,210 responses)
       {
         theme: 'JOYFUL',
         themeNameEn: 'Joyful Pedagogies & Student Agency',
-        themeNameHi: 'आनंददायी शिक्षण और बच्चों की व्यक्तिगतता',
-        quoteHi: 'बच्चों को एक अच्छा माहौल तैयार करने के लिए प्रेरित करना एवं उनके ज्ञान के अनुसार शिक्षण कार्य में व्यस्त रखना।',
-        quoteEn: 'Motivating students by establishing an inviting classroom environment and engaging them according to their prior knowledge.',
+        themeNameHi: 'आनंददायी शिक्षण और बच्चों की सहभागिता',
+        quoteHi: 'बच्चों को एक अच्छा माहौल तैयार करने के लिए प्रेरित करना एवं उनके पूर्वज्ञान के अनुसार शिक्षण कार्य में व्यस्त रखना।',
+        quoteEn: 'Motivating students through a supportive classroom culture and scaffolding tasks according to their prior knowledge.',
         speakerHi: 'विज्ञान शिक्षक, देवास',
         speakerEn: 'Science Teacher, Dewas',
-        tag: 'Joyful Learning',
+        tag: 'Scaffolded Learning',
         tagColor: '#10b981'
       },
       {
         theme: 'JOYFUL',
         themeNameEn: 'Joyful Pedagogies & Student Agency',
-        themeNameHi: 'आनंददायी शिक्षण और बच्चों की व्यक्तिगतता',
-        quoteHi: 'गतिविधि-आधारित शिक्षण से बच्चों में झिझक खत्म हुई और वे स्वयं आगे आकर प्रश्न पूछने लगे।',
-        quoteEn: 'Activity-based pedagogies dismantled learner hesitation, encouraging students to step forward and ask inquiry questions.',
+        themeNameHi: 'आनंददायी शिक्षण और बच्चों की सहभागिता',
+        quoteHi: 'कक्षा में सभी बच्चों को समान अवसर देने से जो बच्चे शांत रहते थे, वे भी खुलकर बोलने लगे हैं।',
+        quoteEn: 'Ensuring equitable participation transformed the classroom dynamic—even previously silent students now voice ideas openly.',
         speakerHi: 'माध्यमिक शिक्षिका, जबलपुर',
         speakerEn: 'Middle School Teacher, Jabalpur',
         tag: 'Student Agency',
         tagColor: '#10b981'
       },
       {
+        theme: 'JOYFUL',
+        themeNameEn: 'Joyful Pedagogies & Student Agency',
+        themeNameHi: 'आनंददायी शिक्षण और बच्चों की सहभागिता',
+        quoteHi: 'खेल-खेल में अवधारणा स्पष्ट करने से बच्चों का डर खत्म हुआ और उपस्थिति में भी सुधार देखा गया।',
+        quoteEn: 'Activity-based conceptual learning removed fear of difficulty, leading to noticeable gains in daily student attendance.',
+        speakerHi: 'माध्यमिक शिक्षक, बैतूल',
+        speakerEn: 'Middle School Teacher, Betul',
+        tag: 'Joyful Engagement',
+        tagColor: '#10b981'
+      },
+
+      // 3. INFRASTRUCTURE & TECH CONSTRAINTS (4.3% - 1,280 responses)
+      {
         theme: 'INFRA',
-        themeNameEn: 'Infrastructure & Tech Constraints',
-        themeNameHi: 'अधोसंरचना, समय-सारणी एवं तकनीकी बाधाएं',
-        quoteHi: 'बिजली और प्रोजेक्टर की समस्या के कारण PPT का पूरा लाभ नहीं मिल सका।',
-        quoteEn: 'Due to cluster power outages and projector constraints, the full visual potential of PPT decks could not be realized.',
+        themeNameEn: 'Infrastructure & Digital Delivery',
+        themeNameHi: 'अधोसंरचना एवं तकनीकी चुनौतियाँ',
+        quoteHi: 'बिजली और प्रोजेक्टर की समस्या के कारण डिजिटल PPT और वीडियो का पूरा लाभ समय पर नहीं मिल सका।',
+        quoteEn: 'Due to intermittent power and projector shortages, the visual potential of digital PPT decks was constrained in remote clusters.',
         speakerHi: 'संकुल समन्वयक (CAC), बड़वानी',
         speakerEn: 'Cluster Academic Coordinator, Barwani',
         tag: 'Hardware Gap',
@@ -10205,35 +10253,59 @@ function renderQuestionBankTable() {
       },
       {
         theme: 'INFRA',
-        themeNameEn: 'Infrastructure & Tech Constraints',
-        themeNameHi: 'अधोसंरचना, समय-सारणी एवं तकनीकी बाधाएं',
-        quoteHi: 'ग्रामीण क्षेत्रों में नेटवर्क समस्या के कारण सामग्री को ऑफलाइन मोड में उपलब्ध कराना अत्यंत आवश्यक है।',
-        quoteEn: 'Given rural connectivity challenges, pre-downloading and caching instructional modules in offline format is essential.',
+        themeNameEn: 'Infrastructure & Digital Delivery',
+        themeNameHi: 'अधोसंरचना एवं तकनीकी चुनौतियाँ',
+        quoteHi: 'ग्रामीण क्षेत्रों में नेटवर्क समस्या के कारण शिक्षण सामग्री को ऑफलाइन मोड में उपलब्ध कराना अत्यंत आवश्यक है।',
+        quoteEn: 'Given remote connectivity constraints, pre-downloading and offline caching of training modules is an absolute necessity.',
         speakerHi: 'शिक्षक, डिंडोरी',
         speakerEn: 'Teacher, Dindori',
-        tag: 'Digital Offline',
+        tag: 'Offline Sync',
         tagColor: '#f59e0b'
       },
       {
+        theme: 'INFRA',
+        themeNameEn: 'Infrastructure & Digital Delivery',
+        themeNameHi: 'अधोसंरचना एवं तकनीकी चुनौतियाँ',
+        quoteHi: 'संवाद के लिए समय सीमा कम से कम 3 घंटे होनी चाहिए ताकि सभी शिक्षकों को बोलने का पूरा अवसर मिले।',
+        quoteEn: 'Cluster dialogue duration should be expanded to at least 3 hours so every participating teacher gets adequate speaking time.',
+        speakerHi: 'माध्यमिक शिक्षक, श्योपुर',
+        speakerEn: 'Teacher, Sheopur',
+        tag: 'Time Allocation',
+        tagColor: '#f59e0b'
+      },
+
+      // 4. EMOTIONAL MOTIVATION & PSYCHOLOGICAL SAFETY (1.3% - 380 responses)
+      {
         theme: 'MOTIVATION',
-        themeNameEn: 'Practitioner Emotional Topology & Motivation',
-        themeNameHi: 'शिक्षकों की भावनात्मक स्थिति एवं प्रेरणा',
-        quoteHi: 'संवाद को और अधिक प्रभावी बनाया जाए, बिंदुओं पर अधिक से अधिक चर्चा होना चाहिए।',
-        quoteEn: 'The dialogue format should be made even more interactive, dedicating maximum session time to open peer deliberation.',
-        speakerHi: 'वरिष्ठ शिक्षक, सागर',
-        speakerEn: 'Senior Teacher, Sagar',
-        tag: 'Peer Dialogue',
+        themeNameEn: 'Psychological Safety & Peer Trust',
+        themeNameHi: 'मनोवैज्ञानिक सुरक्षा एवं शिक्षक प्रेरणा',
+        quoteHi: 'बिना किसी प्रशासनिक दबाव या डर के जब हम अपनी कक्षागत कठिनाइयों पर बात करते हैं, तो नया सीखने का उत्साह बढ़ता है।',
+        quoteEn: 'Discussing classroom struggles in a non-punitive, supportive peer space dramatically elevates our intrinsic motivation.',
+        speakerHi: 'शिक्षिका, रीवा',
+        speakerEn: 'Teacher, Rewa',
+        tag: 'Psych Safety',
         tagColor: '#8b5cf6'
       },
       {
         theme: 'MOTIVATION',
-        themeNameEn: 'Practitioner Emotional Topology & Motivation',
-        themeNameHi: 'शिक्षकों की भावनात्मक स्थिति एवं प्रेरणा',
-        quoteHi: 'बिना किसी प्रशासनिक दबाव के जब हम अपनी कक्षागत कठिनाइयों पर बात करते हैं, तो आत्मविश्वास बढ़ता है।',
-        quoteEn: 'Discussing classroom struggles in a non-evaluative, supportive atmosphere significantly bolsters our pedagogical confidence.',
-        speakerHi: 'शिक्षिका, रीवा',
-        speakerEn: 'Teacher, Rewa',
-        tag: 'Psych Safety',
+        themeNameEn: 'Psychological Safety & Peer Trust',
+        themeNameHi: 'मनोवैज्ञानिक सुरक्षा एवं शिक्षक प्रेरणा',
+        quoteHi: 'संवाद में यह महसूस हुआ कि हम अकेले नहीं हैं, राज्यभर के शिक्षक ऐसी ही चुनौतियों से जूझ रहे हैं और साथ मिलकर हल कर रहे हैं।',
+        quoteEn: 'The dialogue fostered solidarity—realizing we are not isolated, and that peers statewide share and solve similar pedagogical challenges.',
+        speakerHi: 'वरिष्ठ शिक्षक, सागर',
+        speakerEn: 'Senior Teacher, Sagar',
+        tag: 'Professional Camaraderie',
+        tagColor: '#8b5cf6'
+      },
+      {
+        theme: 'MOTIVATION',
+        themeNameEn: 'Psychological Safety & Peer Trust',
+        themeNameHi: 'मनोवैज्ञानिक सुरक्षा एवं शिक्षक प्रेरणा',
+        quoteHi: 'अधिकारियों द्वारा केवल निरीक्षण करने के बजाय अकादमिक मेंटर की तरह मार्गदर्शन देने से हमारे सम्मान में वृद्धि हुई।',
+        quoteEn: 'Shifting administrative interaction from punitive inspection to appreciative academic mentoring restored professional dignity.',
+        speakerHi: 'माध्यमिक शिक्षक, झाबुआ',
+        speakerEn: 'Teacher, Jhabua',
+        tag: 'Empowering Mentorship',
         tagColor: '#8b5cf6'
       }
     ];
@@ -10252,10 +10324,10 @@ function renderQuestionBankTable() {
             📄 शोध सारांश (Bilingual Abstract — हिन्दी)
           </div>
           <p style="margin: 0 0 10px 0; line-height: 1.65; color: var(--text-primary);">
-            यह अनुभवजन्य एवं गुणात्मक शोध मध्य प्रदेश के राज्य शिक्षा केंद्र (RSK) द्वारा उच्च प्राथमिक स्तर (कक्षा 6–8) के शिक्षकों हेतु संचालित <strong>'शैक्षिक संवाद'</strong> कार्यक्रम के माध्यम से शिक्षक निरंतर व्यावसायिक विकास (CPD) में आए व्यवस्थागत बदलाव का गहन विश्लेषण प्रस्तुत करता है। पारंपरिक पदानुक्रमित कैस्केड प्रशिक्षण प्रणाली के स्थान पर, यह पहल सभी 52 जिलों और 309 विकासखंडों में क्लस्टर-स्तरीय <strong>'प्रोफेशनल लर्निंग कम्युनिटी' (PLC)</strong> मॉडल को सात प्रमुख डिज़ाइन सिद्धांतों और 30:70 के संवाद अनुपात (फैसिलिटेटर 30% : शिक्षक 70%) पर क्रियान्वित करती है। 
+            यह अनुभवजन्य एवं गुणात्मक शोध मध्य प्रदेश के राज्य शिक्षा केंद्र (RSK) द्वारा संचालित <strong>शिक्षक संवाद</strong> कार्यक्रम के माध्यम से माध्यमिक शालाओं (कक्षा 6–8) के इन-सर्विस शिक्षकों के सतत व्यावसायिक विकास (CPD) में आए व्यवस्थागत बदलाव का गहन विश्लेषण प्रस्तुत करता है। पारंपरिक पदानुक्रमित प्रशिक्षण विधियों से इतर, यह पहल राज्य के सभी 52 जिलों और 309 विकासखंडों में विकेंद्रीकृत, मासिक संकुल-स्तरीय प्रोफेशनल लर्निंग कम्युनिटीज (PLCs) को सक्रिय करती है, जो 30:70 के सुगमकर्ता-से-प्रतिभागी टॉक-टाइम अनुपात पर आधारित है।
           </p>
           <p style="margin: 0 0 10px 0; line-height: 1.65; color: var(--text-secondary);">
-            लगातार दो अकादमिक चक्रों (अगस्त 2026 में 33,702 एवं सितंबर 2026 में 32,864 — <strong>कुल N = 66,566 बहु-स्तरीय फील्ड रिकॉर्ड्स</strong>) तथा मध्य प्रदेश के कुल 68,427 वर्ग-2 (माध्यमिक शिक्षक) संवर्ग के व्यापक डेटासेट के आधार पर, यह अध्ययन शैक्षणिक समझ, अनुदैर्ध्य (Longitudinal) शिक्षक अवधारण एवं संस्थागत विश्वास का मूल्यांकन करता है। अनुदैर्ध्य कोहॉर्ट विश्लेषण से ज्ञात होता है कि <strong>13,088 शिक्षकों का एक 'स्थिर कोर' (Persistent Core)</strong> दोनों चक्रों में लगातार उपस्थित रहा, जबकि सितंबर चक्र में <strong>10,697 नए शिक्षक</strong> सम्मिलित हुए, जिससे संचयी पहुंच <strong>33,866 अद्वितीय शिक्षकों (49.49% संतृप्ति)</strong> तक पहुंच गई। साइकोमेट्रिक प्रश्नों एवं 30,000 से अधिक खुले गुणात्मक प्रत्युत्तरों का विषयगत (Thematic) विश्लेषण दर्शाता है कि गैर-मूल्यांकनकारी मनोवैज्ञानिक सुरक्षा (Psychological Safety) ने शिक्षकों में कक्षा-नवाचार को बढ़ावा दिया है।
+            अगस्त एवं सितंबर 2026 के दो क्रमिक चक्रों में संकलित <strong>N = 66,566 सत्यापित क्षेत्रीय आंकड़ों</strong> तथा 68,427 शिक्षकों के समग्र राज्य काडर ट्रैकिंग डेटा के आधार पर, यह शोध शिक्षाशास्त्रीय प्रभावशीलता, कोहॉर्ट निरंतरता और संस्थागत विश्वास का मूल्यांकन करता है। अनुदैर्ध्य (longitudinal) कोहॉर्ट विश्लेषण से स्पष्ट होता है कि <strong>13,088 शिक्षक (38.65%)</strong> दोनों चक्रों में निरंतर उपस्थित रहकर एक मजबूत आधार का निर्माण करते हैं, जबकि सितंबर में <strong>10,697 नए शिक्षकों (31.58%)</strong> का जुड़ाव हुआ है। 30,000 से अधिक मुक्त प्रतिक्रियाओं के विषयगत विश्लेषण से यह सिद्ध होता है कि गैर-दंडात्मक, मनोवैज्ञानिक रूप से सुरक्षित वातावरण शिक्षकों के आत्मविश्वास एवं नवाचार के लिए उत्प्रेरक का कार्य करता है।
           </p>
           <div style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px dashed var(--border-hairline); padding-top: 8px; margin-top: 8px;">
             <strong>प्रमुख शब्द (Keywords):</strong> शिक्षक व्यावसायिक विकास (CPD), प्रोफेशनल लर्निंग कम्युनिटीज (PLCs), विकेंद्रीकृत शैक्षणिक शासन, राज्य शिक्षा केंद्र मध्य प्रदेश, राष्ट्रीय शिक्षा नीति 2020, मनोवैज्ञानिक सुरक्षा, कोहॉर्ट विश्लेषण।
@@ -10278,41 +10350,123 @@ function renderQuestionBankTable() {
         `;
       }
     }
+    window.toggleAbstractLang = toggleAbstractLang;
+
+    function filterResearchThemes(theme, el) {
+      activeResearchTheme = theme || 'ALL';
+      
+      // Update pills active state
+      const pillsContainer = document.getElementById('resThemeFilterPills');
+      if (pillsContainer) {
+        pillsContainer.querySelectorAll('.slicer-pill').forEach(btn => {
+          const btnTheme = btn.getAttribute('data-theme');
+          btn.classList.toggle('active', btnTheme === activeResearchTheme);
+        });
+      }
+
+      // Update Tag Buttons active style
+      document.querySelectorAll('.res-theme-tag-btn').forEach(btn => {
+        btn.style.opacity = '1';
+        btn.style.textDecoration = 'none';
+      });
+
+      renderResearchQuotes();
+    }
+    window.filterResearchThemes = filterResearchThemes;
+
+    function searchResearchQuotes(query) {
+      researchSearchQuery = (query || '').toLowerCase().trim();
+      const clearBtn = document.getElementById('resQuoteSearchClear');
+      if (clearBtn) {
+        clearBtn.style.display = researchSearchQuery ? 'inline-block' : 'none';
+      }
+      renderResearchQuotes();
+    }
+    window.searchResearchQuotes = searchResearchQuotes;
+
+    function clearResearchQuoteSearch() {
+      const input = document.getElementById('resQuoteSearchInput');
+      if (input) input.value = '';
+      researchSearchQuery = '';
+      const clearBtn = document.getElementById('resQuoteSearchClear');
+      if (clearBtn) clearBtn.style.display = 'none';
+      renderResearchQuotes();
+    }
+    window.clearResearchQuoteSearch = clearResearchQuoteSearch;
 
     function renderResearchQuotes() {
       const c = document.getElementById('resQuotesGrid');
       if (!c) return;
 
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
-      const filtered = activeResearchTheme === 'ALL' 
+      
+      let filtered = activeResearchTheme === 'ALL' 
         ? researchQuotesData 
         : researchQuotesData.filter(q => q.theme === activeResearchTheme);
 
+      if (researchSearchQuery) {
+        filtered = filtered.filter(q => {
+          const matchHi = (q.quoteHi || '').toLowerCase().includes(researchSearchQuery);
+          const matchEn = (q.quoteEn || '').toLowerCase().includes(researchSearchQuery);
+          const matchSpkHi = (q.speakerHi || '').toLowerCase().includes(researchSearchQuery);
+          const matchSpkEn = (q.speakerEn || '').toLowerCase().includes(researchSearchQuery);
+          const matchTag = (q.tag || '').toLowerCase().includes(researchSearchQuery);
+          return matchHi || matchEn || matchSpkHi || matchSpkEn || matchTag;
+        });
+      }
+
+      const counterEl = document.getElementById('resActiveThemeCounter');
+      if (counterEl) {
+        const themeLabels = {
+          ALL: isHi ? 'सभी 12 चयनित अनुभव' : 'All 12 Curated Voices',
+          ACADEMIC: isHi ? 'अकादमिक अनुप्रयोग (3 उद्धरण)' : 'Academic Utility (3 Voices)',
+          JOYFUL: isHi ? 'आनंददायी शिक्षण (3 उद्धरण)' : 'Joyful Pedagogies (3 Voices)',
+          INFRA: isHi ? 'तकनीकी बाधाएं (3 उद्धरण)' : 'Infra & Tech (3 Voices)',
+          MOTIVATION: isHi ? 'प्रेरणा व विश्वास (3 उद्धरण)' : 'Motivation & Trust (3 Voices)'
+        };
+        counterEl.innerText = `${isHi ? 'प्रदर्शित' : 'Showing'}: ${themeLabels[activeResearchTheme] || activeResearchTheme} (${filtered.length} ${isHi ? 'परिणाम' : 'results'})`;
+      }
+
       if (filtered.length === 0) {
-        c.innerHTML = `<div style="grid-column: 1 / -1; padding: 24px; text-align: center; color: var(--text-muted);">${isHi ? 'कोई उद्धरण नहीं मिला।' : 'No quotes match this filter.'}</div>`;
+        c.innerHTML = `
+          <div style="grid-column: 1 / -1; padding: 36px 20px; text-align: center; background: var(--bg-surface-1); border-radius: 8px; border: 1px dashed var(--border-subtle); color: var(--text-muted);">
+            <div style="font-size: 28px; margin-bottom: 8px;">🔍</div>
+            <div style="font-weight: 700; font-size: 13.5px; color: var(--text-primary); margin-bottom: 4px;">
+              ${isHi ? 'कोई प्रतिक्रिया नहीं मिली' : 'No field responses match this criteria'}
+            </div>
+            <div style="font-size: 11.5px;">
+              ${isHi ? 'कृपया अन्य थीम चुनें या खोज शब्द बदलें।' : 'Try selecting another theme filter or clearing your search term.'}
+            </div>
+            <button onclick="filterResearchThemes('ALL'); clearResearchQuoteSearch();" class="slicer-pill" style="margin-top: 12px;">
+              ${isHi ? 'सभी उद्धरण रीसेट करें' : 'Reset All Filters'}
+            </button>
+          </div>
+        `;
         return;
       }
 
       c.innerHTML = filtered.map(q => {
         return `
-          <div class="bento-card" style="display: flex; flex-direction: column; justify-content: space-between; border-left: 3px solid ${q.tagColor}; padding: 14px 16px;">
+          <div class="bento-card" style="display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid ${q.tagColor}; padding: 14px 16px; background: var(--bg-surface-1); transition: transform 0.2s, box-shadow 0.2s;">
             <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
                 <span class="pill-badge" style="background: rgba(0, 138, 171, 0.08); color: ${q.tagColor}; font-size: 10.5px; font-weight: 700;">
                   ${isHi ? q.themeNameHi : q.themeNameEn}
                 </span>
-                <span class="badge" style="background: var(--bg-surface-2); font-size: 10px; font-family: var(--font-mono); color: var(--text-muted);">${q.tag}</span>
+                <span class="badge" style="background: var(--bg-surface-2); font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); font-weight: 700;">${q.tag}</span>
               </div>
-              <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.5; margin-bottom: 6px;">
+              <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.5; margin-bottom: 8px;">
                 "${q.quoteHi}"
               </div>
-              ${!isHi ? `<div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.45; font-style: italic;">"${q.quoteEn}"</div>` : ''}
+              ${!isHi ? `<div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.45; font-style: italic; margin-bottom: 8px;">"${q.quoteEn}"</div>` : ''}
             </div>
-            <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border-hairline); display: flex; justify-content: space-between; align-items: center;">
+            <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border-hairline); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
               <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono);">
                 📍 ${isHi ? q.speakerHi : q.speakerEn}
               </span>
-              <span style="font-size: 10px; color: #059669; font-weight: 700;">✓ Verified Voice</span>
+              <span style="font-size: 10px; color: #059669; font-weight: 700; display: inline-flex; align-items: center; gap: 3px;">
+                <span>✓</span> Verified Submission
+              </span>
             </div>
           </div>
         `;
@@ -10330,19 +10484,19 @@ function renderQuestionBankTable() {
       const pillsContainer = document.getElementById('resThemeFilterPills');
       if (pillsContainer) {
         pillsContainer.innerHTML = `
-          <button class="slicer-pill ${activeResearchTheme === 'ALL' ? 'active' : ''}" onclick="filterResearchThemes('ALL', this)">
+          <button class="slicer-pill ${activeResearchTheme === 'ALL' ? 'active' : ''}" data-theme="ALL" onclick="filterResearchThemes('ALL', this)">
             🌐 ${isHi ? 'सभी थीम (30,000+)' : 'All Themes (30,000+)'}
           </button>
-          <button class="slicer-pill ${activeResearchTheme === 'ACADEMIC' ? 'active' : ''}" onclick="filterResearchThemes('ACADEMIC', this)">
+          <button class="slicer-pill ${activeResearchTheme === 'ACADEMIC' ? 'active' : ''}" data-theme="ACADEMIC" onclick="filterResearchThemes('ACADEMIC', this)">
             📖 ${isHi ? 'अकादमिक अनुप्रयोग (39.5%)' : 'Academic Utility (39.5%)'}
           </button>
-          <button class="slicer-pill ${activeResearchTheme === 'JOYFUL' ? 'active' : ''}" onclick="filterResearchThemes('JOYFUL', this)">
+          <button class="slicer-pill ${activeResearchTheme === 'JOYFUL' ? 'active' : ''}" data-theme="JOYFUL" onclick="filterResearchThemes('JOYFUL', this)">
             ✨ ${isHi ? 'आनंददायी शिक्षण (14.0%)' : 'Joyful Pedagogies (14.0%)'}
           </button>
-          <button class="slicer-pill ${activeResearchTheme === 'INFRA' ? 'active' : ''}" onclick="filterResearchThemes('INFRA', this)">
+          <button class="slicer-pill ${activeResearchTheme === 'INFRA' ? 'active' : ''}" data-theme="INFRA" onclick="filterResearchThemes('INFRA', this)">
             ⚡ ${isHi ? 'तकनीकी बाधाएं (4.3%)' : 'Infra & Tech (4.3%)'}
           </button>
-          <button class="slicer-pill ${activeResearchTheme === 'MOTIVATION' ? 'active' : ''}" onclick="filterResearchThemes('MOTIVATION', this)">
+          <button class="slicer-pill ${activeResearchTheme === 'MOTIVATION' ? 'active' : ''}" data-theme="MOTIVATION" onclick="filterResearchThemes('MOTIVATION', this)">
             ❤️ ${isHi ? 'शिक्षकों की प्रेरणा (1.3%)' : 'Motivation (1.3%)'}
           </button>
         `;
@@ -10351,6 +10505,7 @@ function renderQuestionBankTable() {
       // 3. Render Quotes
       renderResearchQuotes();
     }
+    window.initResearchTab = initResearchTab;
     
   // =========================================================================
   // TAB 11: TEACHER ATTENDANCE & TRAJECTORY JAVASCRIPT ENGINE
