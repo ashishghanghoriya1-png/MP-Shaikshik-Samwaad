@@ -1691,6 +1691,29 @@
 <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">🎯 Priority Support (<span id="q4BtnCount">13</span>)</button>
 </div>
 </div>
+<!-- 2D Visual Coordinate Scatter Matrix -->
+<div style="background: var(--bg-surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px 20px; margin-top: 14px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+    <div>
+      <div style="font-size: 13.5px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
+        <span>📊</span> <span id="lblQuadrantScatterTitle">2D State Matrix Coordinate Map (Turnout vs. Pedagogy Accuracy)</span>
+      </div>
+      <div id="lblQuadrantScatterSub" style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+        Each point represents one district plotted by Total Attendance (X-axis) and Composite Pedagogy Score (Y-axis). Click any point to open District 360°.
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 600; flex-wrap: wrap;">
+      <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #059669; display: inline-block;"></span> 🏆 Q1: Champions (≥450, ≥55%)</span>
+      <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #008aab; display: inline-block;"></span> ⚡ Q2: Scale Gap (≥450, &lt;55%)</span>
+      <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #4f46e5; display: inline-block;"></span> 📈 Q3: Mobilize (&lt;450, ≥55%)</span>
+      <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #dc2626; display: inline-block;"></span> 🎯 Q4: Priority Support (&lt;450, &lt;55%)</span>
+    </div>
+  </div>
+  <div style="position: relative; height: 320px; width: 100%;">
+    <canvas id="ovQuadrantScatterChart"></canvas>
+  </div>
+</div>
+
 <!-- Dynamic 4-Quadrant Interactive Bento Cards -->
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px;">
 <div id="cardQuad1" onclick="filterQuadrant('Q1')" style="background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
@@ -1698,7 +1721,7 @@
 <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH ATTENDANCE &amp; HIGH SCORE</div>
 <span class="pill-badge" id="q1Badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;">25 Districts</span>
 </div>
-<div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥400) + High Teaching Score (≥58%)</div>
+<div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + High Teaching Score (≥55%)</div>
 <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
 </div>
 <div id="cardQuad2" onclick="filterQuadrant('Q2')" style="background: rgba(0, 138, 171, 0.06); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
@@ -8667,11 +8690,13 @@
     }
 
     // ==========================================
+    // ==========================================
     // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER
     // ==========================================
     let currentQuadFilter = 'ALL';
     const TURNOUT_BENCHMARK = 450;
-    const PEDAGOGY_BENCHMARK = 56;
+    const PEDAGOGY_BENCHMARK = 55;
+    let quadrantScatterChartInstance = null;
 
     function calculateDistrictPedagogyScore(dname) {
       const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
@@ -8736,7 +8761,7 @@
           label: 'Q2: Scale, Pedagogy Gap',
           color: 'var(--peepul-teal)',
           bgChip: 'background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.3);',
-          action: 'Conduct targeted refresher on Q95 & Q97'
+          action: 'Conduct targeted refresher on core teaching competencies'
         };
       } else if (turnout < TURNOUT_BENCHMARK && pedScore >= PEDAGOGY_BENCHMARK) {
         return {
@@ -8744,17 +8769,164 @@
           label: 'Q3: Mobilization Need',
           color: 'var(--accent-indigo)',
           bgChip: 'background: rgba(79, 70, 229, 0.12); color: var(--accent-indigo); border: 1px solid rgba(79, 70, 229, 0.3);',
-          action: 'Drive teacher attendance & CAC monitoring'
+          action: 'Drive teacher attendance & CAC monitoring follow-up'
         };
       } else {
         return {
           quad: 'Q4',
           label: 'Q4: Targeted Support Zone',
           color: 'var(--accent-rose)',
-          bgChip: 'background: rgba(220, 38, 38, 0.12); color: var(--accent-rose); border: 1px solid rgba(29, 78, 216, 0.3);',
-          action: 'Urgent administrative resolution & CAC appointment'
+          bgChip: 'background: rgba(220, 38, 38, 0.12); color: var(--accent-rose); border: 1px solid rgba(220, 38, 38, 0.3);',
+          action: 'Urgent administrative resolution & dedicated cluster support'
         };
       }
+    }
+
+    function renderQuadrantScatterChart() {
+      const canvas = document.getElementById('ovQuadrantScatterChart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
+      if (!dists || dists.length === 0) return;
+
+      const datasetQ1 = [];
+      const datasetQ2 = [];
+      const datasetQ3 = [];
+      const datasetQ4 = [];
+
+      dists.forEach(d => {
+        const ped = calculateDistrictPedagogyScore(d.district);
+        const t = d.attendees;
+        const qInfo = getDistrictQuadrantInfo(t, ped);
+        const point = { x: t, y: ped, district: d.district, clusters: d.totalClusters, quad: qInfo.quad };
+
+        if (qInfo.quad === 'Q1') datasetQ1.push(point);
+        else if (qInfo.quad === 'Q2') datasetQ2.push(point);
+        else if (qInfo.quad === 'Q3') datasetQ3.push(point);
+        else datasetQ4.push(point);
+      });
+
+      const isFilterActive = (currentQuadFilter !== 'ALL');
+      const getOpacity = (q) => (!isFilterActive || currentQuadFilter === q) ? 0.9 : 0.15;
+      const getBorderWidth = (q) => (currentQuadFilter === q) ? 2.5 : 1;
+
+      if (quadrantScatterChartInstance) {
+        quadrantScatterChartInstance.destroy();
+        quadrantScatterChartInstance = null;
+      }
+
+      const isDark = document.documentElement.classList.contains('dark') || (typeof currentTheme !== 'undefined' && currentTheme === 'dark');
+      const textColor = isDark ? '#94a3b8' : '#64748b';
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.05)';
+
+      quadrantScatterChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: 'Q1: Champions',
+              data: datasetQ1,
+              backgroundColor: `rgba(5, 150, 105, ${getOpacity('Q1')})`,
+              borderColor: '#059669',
+              borderWidth: getBorderWidth('Q1'),
+              pointRadius: (currentQuadFilter === 'Q1') ? 7 : 5.5,
+              pointHoverRadius: 9
+            },
+            {
+              label: 'Q2: Scale Gap',
+              data: datasetQ2,
+              backgroundColor: `rgba(0, 138, 171, ${getOpacity('Q2')})`,
+              borderColor: '#008aab',
+              borderWidth: getBorderWidth('Q2'),
+              pointRadius: (currentQuadFilter === 'Q2') ? 7 : 5.5,
+              pointHoverRadius: 9
+            },
+            {
+              label: 'Q3: Mobilize',
+              data: datasetQ3,
+              backgroundColor: `rgba(79, 70, 229, ${getOpacity('Q3')})`,
+              borderColor: '#4f46e5',
+              borderWidth: getBorderWidth('Q3'),
+              pointRadius: (currentQuadFilter === 'Q3') ? 7 : 5.5,
+              pointHoverRadius: 9
+            },
+            {
+              label: 'Q4: Priority Support',
+              data: datasetQ4,
+              backgroundColor: `rgba(220, 38, 38, ${getOpacity('Q4')})`,
+              borderColor: '#dc2626',
+              borderWidth: getBorderWidth('Q4'),
+              pointRadius: (currentQuadFilter === 'Q4') ? 7 : 5.5,
+              pointHoverRadius: 9
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 350, easing: 'easeOutQuart' },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleFont: { size: 12, weight: 'bold' },
+              bodyFont: { size: 11 },
+              padding: 10,
+              cornerRadius: 6,
+              callbacks: {
+                title: function(items) {
+                  const raw = items[0].raw;
+                  return `📍 ${raw.district}`;
+                },
+                label: function(item) {
+                  const raw = item.raw;
+                  return [
+                    `• Turnout: ${raw.x.toLocaleString()} Attending Teachers`,
+                    `• Pedagogy Mastery: ${raw.y}% Composite Score`,
+                    `• Quadrant: ${raw.quad} (${raw.x >= TURNOUT_BENCHMARK ? 'High Att.' : 'Low Att.'}, ${raw.y >= PEDAGOGY_BENCHMARK ? 'High Ped.' : 'Needs Focus'})`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Teacher Turnout (State Attendance Benchmark: 450)',
+                color: textColor,
+                font: { size: 11, weight: '600' }
+              },
+              grid: { color: gridColor },
+              ticks: { color: textColor }
+            },
+            y: {
+              min: 0,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Composite Pedagogy Score % (Benchmark: 55%)',
+                color: textColor,
+                font: { size: 11, weight: '600' }
+              },
+              grid: { color: gridColor },
+              ticks: {
+                color: textColor,
+                callback: function(v) { return v + '%'; }
+              }
+            }
+          },
+          onClick: function(evt, elements) {
+            if (elements.length > 0) {
+              const el = elements[0];
+              const raw = el.element.$context.raw;
+              if (raw && raw.district) {
+                openDistrictIn360(raw.district);
+              }
+            }
+          }
+        }
+      });
     }
 
     function populateQuadrantBentoCards() {
@@ -8792,10 +8964,20 @@
         targetCont.appendChild(chip);
       });
 
-      const b1 = document.getElementById('quadBadge1'); if (b1) b1.innerText = `${c1} Districts`;
-      const b2 = document.getElementById('quadBadge2'); if (b2) b2.innerText = `${c2} Districts`;
-      const b3 = document.getElementById('quadBadge3'); if (b3) b3.innerText = `${c3} Districts`;
-      const b4 = document.getElementById('quadBadge4'); if (b4) b4.innerText = `${c4} Districts`;
+      // Update Card Badges
+      const b1 = document.getElementById('q1Badge') || document.getElementById('quadBadge1'); if (b1) b1.innerText = `${c1} Districts`;
+      const b2 = document.getElementById('q2Badge') || document.getElementById('quadBadge2'); if (b2) b2.innerText = `${c2} Districts`;
+      const b3 = document.getElementById('q3Badge') || document.getElementById('quadBadge3'); if (b3) b3.innerText = `${c3} Districts`;
+      const b4 = document.getElementById('q4Badge') || document.getElementById('quadBadge4'); if (b4) b4.innerText = `${c4} Districts`;
+
+      // Update Button Badges
+      const btnC1 = document.getElementById('q1BtnCount'); if (btnC1) btnC1.innerText = `${c1}`;
+      const btnC2 = document.getElementById('q2BtnCount'); if (btnC2) btnC2.innerText = `${c2}`;
+      const btnC3 = document.getElementById('q3BtnCount'); if (btnC3) btnC3.innerText = `${c3}`;
+      const btnC4 = document.getElementById('q4BtnCount'); if (btnC4) btnC4.innerText = `${c4}`;
+
+      // Render 2D Scatter Chart
+      renderQuadrantScatterChart();
     }
 
     function initQuadrantTable() {
@@ -8837,11 +9019,11 @@
     function filterQuadrant(q) {
       currentQuadFilter = q;
       document.querySelectorAll('#btnQuadAll, #btnQuad1, #btnQuad2, #btnQuad3, #btnQuad4').forEach(b => b.classList.remove('active'));
-      if (q === 'ALL') document.getElementById('btnQuadAll').classList.add('active');
-      else if (q === 'Q1') document.getElementById('btnQuad1').classList.add('active');
-      else if (q === 'Q2') document.getElementById('btnQuad2').classList.add('active');
-      else if (q === 'Q3') document.getElementById('btnQuad3').classList.add('active');
-      else if (q === 'Q4') document.getElementById('btnQuad4').classList.add('active');
+      if (q === 'ALL') document.getElementById('btnQuadAll')?.classList.add('active');
+      else if (q === 'Q1') document.getElementById('btnQuad1')?.classList.add('active');
+      else if (q === 'Q2') document.getElementById('btnQuad2')?.classList.add('active');
+      else if (q === 'Q3') document.getElementById('btnQuad3')?.classList.add('active');
+      else if (q === 'Q4') document.getElementById('btnQuad4')?.classList.add('active');
 
       const cardMap = { 'Q1': 'cardQuad1', 'Q2': 'cardQuad2', 'Q3': 'cardQuad3', 'Q4': 'cardQuad4' };
       ['cardQuad1', 'cardQuad2', 'cardQuad3', 'cardQuad4'].forEach(cid => {
