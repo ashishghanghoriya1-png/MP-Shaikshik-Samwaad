@@ -3938,10 +3938,11 @@
       initQuadrantTable();
       if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
       if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
-      if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+      if (typeof renderRFIndicatorCards === 'function') { renderRFIndicatorCards(); setTimeout(() => animateNumbersInContainer(document.getElementById('tab-rf')), 50); }
       if (typeof initDistrict360 === 'function') initDistrict360();
       updateDistrict360View();
       updateDistrictComparison();
+      setTimeout(() => animateNumbersInContainer(document.getElementById('tab-d360')), 50);
       initDistrictLeague();
       initBlockDirectory();
       filterBlockDirectory();
@@ -4684,7 +4685,7 @@
           initQuadrantTable();
           if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
         } else if (activeTabId === 'tab-rf') {
-          if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+          if (typeof renderRFIndicatorCards === 'function') { renderRFIndicatorCards(); setTimeout(() => animateNumbersInContainer(document.getElementById('tab-rf')), 50); }
           if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
           selectRFIndicator(activeRFIndicatorId);
         } else if (activeTabId === 'tab-d360') {
@@ -4718,7 +4719,7 @@
         setTimeout(() => {
           if (activeTabId !== 'tab-blocks') filterBlockDirectory();
           if (activeTabId !== 'tab-rf') {
-            if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+            if (typeof renderRFIndicatorCards === 'function') { renderRFIndicatorCards(); setTimeout(() => animateNumbersInContainer(document.getElementById('tab-rf')), 50); }
             if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
           }
         }, 120);
@@ -4824,7 +4825,7 @@
       initQuadrantTable();
       if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
       if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
-      if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+      if (typeof renderRFIndicatorCards === 'function') { renderRFIndicatorCards(); setTimeout(() => animateNumbersInContainer(document.getElementById('tab-rf')), 50); }
       initDistrictLeague();
       refreshQuestionBankDropdown();
       updateDistrict360View();
@@ -5122,21 +5123,85 @@
       }
     }
 
-    function animateValue(elemId, start, end, duration = 450, suffix = '') {
-      const obj = document.getElementById(elemId);
+    function animateValue(elemOrId, start, end, duration = 500, suffix = '', decimals = 0) {
+      const obj = typeof elemOrId === 'string' ? document.getElementById(elemOrId) : elemOrId;
       if (!obj) return;
+
+      const endNum = typeof end === 'number' ? end : (parseFloat(String(end).replace(/[^0-9.-]+/g, '')) || 0);
+      const startNum = typeof start === 'number' ? start : (parseFloat(String(start).replace(/[^0-9.-]+/g, '')) || 0);
+
       if (window.Motion && window.Motion.animate) {
-        window.Motion.animate(start, end, {
-          duration: duration / 1000,
-          ease: [0.16, 1, 0.3, 1],
-          onUpdate: (latest) => {
-            obj.innerText = Math.round(latest).toLocaleString() + suffix;
-          }
-        });
-      } else {
-        obj.innerText = end.toLocaleString() + suffix;
+        try {
+          window.Motion.animate(startNum, endNum, {
+            duration: duration / 1000,
+            ease: [0.16, 1, 0.3, 1],
+            onUpdate: (latest) => {
+              if (decimals > 0) {
+                obj.innerText = latest.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+              } else {
+                obj.innerText = Math.round(latest).toLocaleString() + suffix;
+              }
+            }
+          });
+          return;
+        } catch(e) {}
       }
+
+      // High-performance requestAnimationFrame count-up fallback
+      const startTime = performance.now();
+      function step(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const currentVal = startNum + (endNum - startNum) * ease;
+
+        if (decimals > 0) {
+          obj.innerText = currentVal.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+        } else {
+          obj.innerText = Math.round(currentVal).toLocaleString() + suffix;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          if (decimals > 0) {
+            obj.innerText = endNum.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+          } else {
+            obj.innerText = Math.round(endNum).toLocaleString() + suffix;
+          }
+        }
+      }
+      requestAnimationFrame(step);
     }
+    window.animateValue = animateValue;
+
+    function animateNumbersInContainer(container, duration = 500) {
+      if (!container) return;
+      const selector = '.kpi-huge-val, .count-up, .stat-val, .kpi-val, .badge, .status-chip, [data-animate-number], .ind-score-val, .bento-card .font-mono';
+      const targets = container.querySelectorAll(selector);
+      targets.forEach(target => {
+        if (target.getAttribute('data-animating') === 'true') return;
+        if (target.querySelector('.font-mono') && target.querySelectorAll('*').length > 1) return;
+
+        const text = target.innerText.trim();
+        if (!text || text === '-' || text === 'N/A' || text.includes('/') || text.length > 25) return;
+
+        const match = text.match(/^([^0-9.-]*)([0-9,]+(?:\.[0-9]+)?)([^0-9]*)$/);
+        if (match) {
+          const prefix = match[1];
+          const numStr = match[2].replace(/,/g, '');
+          const suffix = match[3];
+          const targetVal = parseFloat(numStr);
+          if (!isNaN(targetVal) && targetVal > 0) {
+            const decimals = (numStr.includes('.')) ? numStr.split('.')[1].length : 0;
+            target.setAttribute('data-animating', 'true');
+            animateValue(target, 0, targetVal, duration, suffix, decimals);
+            setTimeout(() => target.removeAttribute('data-animating'), duration + 60);
+          }
+        }
+      });
+    }
+    window.animateNumbersInContainer = animateNumbersInContainer;
 
     function activateTab(tabId, el) {
       window.activateTab = activateTab;
@@ -5176,8 +5241,13 @@
         }
       }
 
+      // Trigger rolling count-up animations on all numeric elements in this tab
+      if (activeSec && typeof animateNumbersInContainer === 'function') {
+        setTimeout(() => animateNumbersInContainer(activeSec, 520), 40);
+      }
+
       if (tabId === 'tab-rf') {
-        if (typeof renderRFIndicatorCards === 'function') renderRFIndicatorCards();
+        if (typeof renderRFIndicatorCards === 'function') { renderRFIndicatorCards(); setTimeout(() => animateNumbersInContainer(document.getElementById('tab-rf')), 50); }
         if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
       } else if (tabId === 'tab-d360') {
         if (typeof populateD360BlockDropdown === 'function') populateD360BlockDropdown();
