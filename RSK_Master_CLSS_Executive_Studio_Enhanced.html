@@ -5317,10 +5317,18 @@
         if (charts.ovPedagogyBar) charts.ovPedagogyBar.destroy();
         const ctx3 = canvas3.getContext('2d');
         const isSep = (currentCycle === 'SEP');
-        const labels3 = isSep
-          ? [isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'टीएलएम चक्र (Q177)' : 'TLM Process (Q177)', isHi ? 'चिंतन जांच (Q178)' : 'Inquiry Probing (Q178)', isHi ? 'सीख समेकन (Q179)' : 'Consolidation (Q179)', isHi ? 'कक्षा उपयोग (Q90)' : 'Classroom Use (Q90)']
-          : [isHi ? 'पुनरावृत्ति (Q86)' : 'Concept Recall (Q86)', isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'मनोवैज्ञानिक सुरक्षा (Q96)' : 'Safe Space (Q96)', isHi ? 'सार्थक सहभागिता (Q95)' : 'Student Agency (Q95)', isHi ? 'समान अवसर (Q97)' : 'Belongingness (Q97)'];
-        const data3 = isSep ? [64.9, 42.5, 22.3, 76.3, 99.2] : [72.8, 64.9, 78.4, 52.1, 74.6];
+        const isConsolidated = (currentCycle === 'CONSOLIDATED');
+        let labels3, data3;
+        if (isSep) {
+          labels3 = [isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'टीएलएम चक्र (Q177)' : 'TLM Process (Q177)', isHi ? 'चिंतन जांच (Q178)' : 'Inquiry Probing (Q178)', isHi ? 'सीख समेकन (Q179)' : 'Consolidation (Q179)', isHi ? 'कक्षा उपयोग (Q90)' : 'Classroom Use (Q90)'];
+          data3 = [64.9, 42.5, 22.3, 76.3, 99.2];
+        } else if (isConsolidated) {
+          labels3 = [isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'कक्षा उपयोग (Q90)' : 'Problem Solving (Q90)', isHi ? 'सक्रिय जांच व अभ्यास' : 'Inquiry & Practice', isHi ? 'सुरक्षा एवं चिंतन' : 'Safety & Reflection', isHi ? 'छात्र अपनत्व व समेकन' : 'Belonging & Consolidation'];
+          data3 = [63.6, 99.3, 36.9, 69.1, 55.1];
+        } else {
+          labels3 = [isHi ? 'पुनरावृत्ति (Q86)' : 'Concept Recall (Q86)', isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'मनोवैज्ञानिक सुरक्षा (Q96)' : 'Safe Space (Q96)', isHi ? 'सार्थक सहभागिता (Q95)' : 'Student Agency (Q95)', isHi ? 'समान अवसर (Q97)' : 'Belongingness (Q97)'];
+          data3 = [72.8, 64.9, 78.4, 52.1, 74.6];
+        }
 
         charts.ovPedagogyBar = new Chart(ctx3, {
           type: 'bar',
@@ -5432,13 +5440,14 @@
         if (charts.ovTrustBar) charts.ovTrustBar.destroy();
         const ctx4 = canvas4.getContext('2d');
         const isSep = (currentCycle === 'SEP');
+        const isConsolidated = (currentCycle === 'CONSOLIDATED');
         const labels4 = [
           isHi ? 'संदेह निवारण (Q91)' : 'Safe for Doubts (Q91)',
           isHi ? 'अकादमिक फोकस (Q89)' : 'Academic Focus (Q89)',
           isHi ? 'कक्षा समाधान (Q90)' : 'Problem Solving (Q90)',
           isHi ? '2-वर्षीय वृद्धि (Q88)' : '2-Yr Growth (Q88)'
         ];
-        const data4 = isSep ? [88.5, 99.2, 99.2, 99.6] : [91.2, 98.9, 98.8, 99.4];
+        const data4 = isSep ? [88.5, 99.2, 99.2, 99.6] : (isConsolidated ? [89.9, 99.1, 99.0, 99.5] : [91.2, 98.9, 98.8, 99.4]);
 
         charts.ovTrustBar = new Chart(ctx4, {
           type: 'bar',
@@ -5980,16 +5989,33 @@
         const ctxP = pedCanvas.getContext('2d');
         const theme = getChartTheme();
         const isSep = (currentCycle === 'SEP');
-        const pedLabels = isSep 
-          ? ['Goal (Q82)', 'TLM (Q177)', 'Inquiry (Q178)', 'Consolidation (Q179)', 'Active (Q90)']
-          : ['Recall (Q86)', 'Goal (Q82)', 'Safe Space (Q96)', 'Agency (Q95)', 'Belonging (Q97)'];
-        
-        const s1 = isSep ? getDistrictSurveyVal('CLSS', '82', dinfo.district).pct : getDistrictSurveyVal('CLSS', '86', dinfo.district).pct;
-        const s2 = isSep ? getDistrictSurveyVal('CLSS', '177', dinfo.district).pct : getDistrictSurveyVal('CLSS', '82', dinfo.district).pct;
-        const s3 = isSep ? getDistrictSurveyVal('CLSS', '178', dinfo.district).pct : getDistrictSurveyVal('CLSS', '96', dinfo.district).pct;
-        const s4 = isSep ? getDistrictSurveyVal('CLSS', '179', dinfo.district).pct : getDistrictSurveyVal('CLSS', '95', dinfo.district).pct;
-        const s5 = isSep ? getDistrictSurveyVal('CLSS', '90', dinfo.district).pct : getDistrictSurveyVal('CLSS', '97', dinfo.district).pct;
-        const pedScores = [s1 || 65, s2 || 55, s3 || 45, s4 || 70, s5 || 80];
+        const isConsolidated = (currentCycle === 'CONSOLIDATED');
+        let pedLabels, pedScores;
+        if (isSep) {
+          pedLabels = ['Goal (Q82)', 'TLM (Q177)', 'Inquiry (Q178)', 'Consolidation (Q179)', 'Active (Q90)'];
+          const s1 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct;
+          const s2 = getDistrictSurveyVal('CLSS', '177', dinfo.district).pct;
+          const s3 = getDistrictSurveyVal('CLSS', '178', dinfo.district).pct;
+          const s4 = getDistrictSurveyVal('CLSS', '179', dinfo.district).pct;
+          const s5 = getDistrictSurveyVal('CLSS', '90', dinfo.district).pct;
+          pedScores = [s1 || 65, s2 || 55, s3 || 45, s4 || 70, s5 || 80];
+        } else if (isConsolidated) {
+          pedLabels = ['Purpose (Q82)', 'Utility (Q90)', 'Inquiry/TLM', 'Safe Climate', 'Belongingness'];
+          const s1 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct || 64;
+          const s2 = getDistrictSurveyVal('CLSS', '90', dinfo.district).pct || 99;
+          const s3 = Math.round(((getDistrictSurveyVal('CLSS', '95', dinfo.district).pct || 48) + (getDistrictSurveyVal('CLSS', '177', dinfo.district).pct || 42)) / 2);
+          const s4 = Math.round(((getDistrictSurveyVal('CLSS', '96', dinfo.district).pct || 62) + (getDistrictSurveyVal('CLSS', '179', dinfo.district).pct || 76)) / 2);
+          const s5 = Math.round(((getDistrictSurveyVal('CLSS', '97', dinfo.district).pct || 34) + (getDistrictSurveyVal('CLSS', '179', dinfo.district).pct || 76)) / 2);
+          pedScores = [s1, s2, s3, s4, s5];
+        } else {
+          pedLabels = ['Recall (Q86)', 'Goal (Q82)', 'Safe Space (Q96)', 'Agency (Q95)', 'Belonging (Q97)'];
+          const s1 = getDistrictSurveyVal('CLSS', '86', dinfo.district).pct;
+          const s2 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct;
+          const s3 = getDistrictSurveyVal('CLSS', '96', dinfo.district).pct;
+          const s4 = getDistrictSurveyVal('CLSS', '95', dinfo.district).pct;
+          const s5 = getDistrictSurveyVal('CLSS', '97', dinfo.district).pct;
+          pedScores = [s1 || 65, s2 || 55, s3 || 45, s4 || 70, s5 || 80];
+        }
 
         charts.d360PedChart = new Chart(ctxP, {
           type: 'bar',
@@ -6762,19 +6788,34 @@
     function initPedagogyRadar() {
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       const isSep = (currentCycle === 'SEP');
+      const isConsolidated = (currentCycle === 'CONSOLIDATED');
 
       const pedRadarHead = document.getElementById('pedRadarHeadTitle') || document.getElementById('pedRadarHeading');
-      if (pedRadarHead) pedRadarHead.innerText = isHi 
-        ? (isSep ? '🧠 शिक्षक शिक्षणशास्त्र क्षमता रडार (TLM शिक्षणशास्त्र - सितंबर 2026)' : '🧠 शिक्षक शिक्षणशास्त्र क्षमता रडार (अगस्त 2026)')
-        : (isSep ? '🧠 Teacher Pedagogy Competency Radar (TLM Pedagogy - Sept 2026)' : '🧠 Teacher Pedagogy Competency Radar (Aug 2026)');
+      if (pedRadarHead) {
+        if (isSep) {
+          pedRadarHead.innerText = isHi ? '🧠 शिक्षक शिक्षणशास्त्र क्षमता रडार (TLM शिक्षणशास्त्र - सितंबर 2026)' : '🧠 Teacher Pedagogy Competency Radar (TLM Pedagogy - Sept 2026)';
+        } else if (isConsolidated) {
+          pedRadarHead.innerText = isHi ? '🧠 राज्य समेकित शिक्षणशास्त्र क्षमता रडार (अगस्त + सितंबर 2026 | 46,954 शिक्षक)' : '🧠 State Consolidated Pedagogy Competency Radar (Aug + Sept 2026 | 46,954 Teachers)';
+        } else {
+          pedRadarHead.innerText = isHi ? '🧠 शिक्षक शिक्षणशास्त्र क्षमता रडार (अगस्त 2026)' : '🧠 Teacher Pedagogy Competency Radar (Aug 2026)';
+        }
+      }
 
       const pedDiagHead = document.getElementById('pedDiagHeading');
-      if (pedDiagHead) pedDiagHead.innerText = isHi ? '💡 राज्यव्यापी शिक्षणशास्त्रीय निदान एवं हस्तक्षेप योजना' : '💡 Statewide Pedagogical Diagnostics & Intervention Plan';
+      if (pedDiagHead) {
+        pedDiagHead.innerText = isHi ? '💡 राज्यव्यापी शिक्षणशास्त्रीय निदान एवं हस्तक्षेप योजना' : '💡 Statewide Pedagogical Diagnostics & Intervention Plan';
+      }
 
       const pedMisconHead = document.getElementById('pedMisconHeading');
-      if (pedMisconHead) pedMisconHead.innerText = isHi 
-        ? (isSep ? '🔬 कक्षा शिक्षण अंतर्दृष्टि (प्रश्न Q177 एवं Q178 का गहन विश्लेषण)' : '🔬 कक्षा शिक्षण अंतर्दृष्टि (प्रश्न Q95 एवं Q97 का गहन विश्लेषण)')
-        : (isSep ? '🔬 Classroom Teaching Insights (Deep-Dive on Questions Q177 & Q178)' : '🔬 Classroom Teaching Insights (Deep-Dive on Questions Q95 & Q97)');
+      if (pedMisconHead) {
+        if (isSep) {
+          pedMisconHead.innerText = isHi ? '🔬 कक्षा शिक्षण अंतर्दृष्टि (प्रश्न Q177 एवं Q178 का गहन विश्लेषण)' : '🔬 Classroom Teaching Insights (Deep-Dive on Questions Q177 & Q178)';
+        } else if (isConsolidated) {
+          pedMisconHead.innerText = isHi ? '🔬 बहु-चक्र कक्षा शिक्षण अंतर्दृष्टि (अगस्त Q95/Q97 + सितंबर Q177/Q178)' : '🔬 Multi-Cycle Classroom Teaching Insights (Aug Q95/Q97 + Sept Q177/Q178)';
+        } else {
+          pedMisconHead.innerText = isHi ? '🔬 कक्षा शिक्षण अंतर्दृष्टि (प्रश्न Q95 एवं Q97 का गहन विश्लेषण)' : '🔬 Classroom Teaching Insights (Deep-Dive on Questions Q95 & Q97)';
+        }
+      }
 
       const pedMisconRef = document.getElementById('pedMisconRef');
       if (pedMisconRef) {
@@ -6782,145 +6823,101 @@
           pedMisconRef.innerHTML = isHi
             ? '[संदर्भ: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_September.xlsx</em> | शीट्स: <strong>Participants</strong> (23,169 शिक्षक प्रतिक्रियाएं)]'
             : '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_September.xlsx</em> | Sheets: <strong>Participants</strong> (23,169 responses)]';
-        } else if (currentCycle === 'AUG') {
+        } else if (isConsolidated) {
+          pedMisconRef.innerHTML = isHi
+            ? '[संदर्भ: <em>समेकित सर्वेक्षण टेलीमेट्री (अगस्त + सितंबर)</em> | शीट्स: <strong>Participants</strong> (46,954 कुल शिक्षक प्रतिक्रियाएं)]'
+            : '[Ref: <em>Consolidated Survey Telemetry (August + September)</em> | Sheets: <strong>Participants</strong> (46,954 total responses)]';
+        } else {
           pedMisconRef.innerHTML = isHi
             ? '[संदर्भ: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | शीट्स: <strong>Participants</strong> (23,785 शिक्षक प्रतिक्रियाएं)]'
             : '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheets: <strong>Participants</strong> (23,785 responses)]';
-        } else {
-          pedMisconRef.innerHTML = isHi
-            ? '[संदर्भ: <em>समेकित विश्लेषण</em> | शीट्स: <strong>Participants</strong> (46,954 कुल शिक्षक प्रतिक्रियाएं)]'
-            : '[Ref: <em>Consolidated Telemetry</em> | Sheets: <strong>Participants</strong> (46,954 total responses)]';
         }
       }
 
-      // 1. Render 4 Diagnostic Cards
-      const diagContainer = document.getElementById('pedDiagBoxContainer');
-      if (diagContainer) {
+      // 2. Populate Diagnostic Intervention Box
+      const pedDiagBox = document.getElementById('pedDiagBoxContainer');
+      if (pedDiagBox) {
         if (isSep) {
-          diagContainer.innerHTML = isHi ? `
-            <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+          pedDiagBox.innerHTML = `
+            <div style="background: rgba(239, 68, 68, 0.05); border-left: 3px solid #ef4444; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #0284c7; font-size: 13.5px;">1. टीएलएम प्रक्रिया: अनुभव बनाम व्याख्या (Q177)</strong>
-                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">42.5% शुद्धता</span>
+                <strong style="color: #dc2626; font-size: 13.5px;">1. Probing Inquiry vs Answer Telling Gap (Q178)</strong>
+                <span class="pill-badge" style="background: rgba(239, 68, 68, 0.12); color: #dc2626; border-color: rgba(239, 68, 68, 0.3); font-size: 10px;">Critical Priority (22.3%)</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                <strong>42.5% (9,851)</strong> शिक्षकों ने टीएलएम उपयोग की सही चक्रीय प्रक्रिया (अनुभव कराना → चिंतन/प्रश्न एवं चर्चा → सीख का समेकन) को पहचाना। <strong>32.0%</strong> शिक्षक इसे केवल निर्माण गतिविधि और <strong>20.2%</strong> केवल प्रदर्शन-व्याख्या मानते हैं।
+                Only <strong>22.3%</strong> of teachers probe students' underlying logic when using TLMs. <strong>77.7%</strong> immediately supply the correct answer.
               </div>
             </div>
-
-            <div style="background: rgba(244, 63, 94, 0.05); border-left: 3px solid #f43f5e; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #e11d48; font-size: 13.5px;">2. चिंतनशील जांच बनाम उत्तर जांचना (Q178)</strong>
-                <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-size: 10px;">राज्य प्राथमिकता अंतर (22.3%)</span>
+                <strong style="color: #d97706; font-size: 13.5px;">2. Cyclical TLM Process Mastery (Q177)</strong>
+                <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">Growth Opportunity (42.5%)</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                केवल <strong>22.3% (5,156)</strong> शिक्षकों ने समझा कि टीएलएम के बाद विद्यार्थियों को चिंतन और चर्चा के अवसर देना चाहिए। <strong>64.7% (14,979)</strong> शिक्षक सीधे अपेक्षित उत्तर बताकर सही-गलत जांचने को ही मूल्यांकन समझ रहे हैं।
+                <strong>42.5%</strong> master the complete TLM sequence (Experience → Reflect → Consolidate). <strong>57.5%</strong> skip reflection.
               </div>
             </div>
-
-            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #059669; font-size: 13.5px;">3. विद्यार्थियों के विचारों से सीख का समेकन (Q179)</strong>
-                <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-size: 10px;">उच्च दक्षता (76.3%)</span>
+                <strong style="color: #059669; font-size: 13.5px;">3. Learning Consolidation Protocol (Q179)</strong>
+                <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-size: 10px;">High Proficiency (76.3%)</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                <strong>76.3% (17,678)</strong> शिक्षकों ने सही पहचाना कि टीएलएम गतिविधि के उपरांत छात्रों के अनुभवों और विचारों को जोड़कर ही मुख्य शिक्षण बिंदु स्पष्ट करना आवश्यक है।
+                <strong>76.3%</strong> effectively summarize learnings into actionable notes before concluding TLM sessions.
               </div>
             </div>
-
             <div style="background: rgba(99, 102, 241, 0.05); border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 0 8px 8px 0;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #4f46e5; font-size: 13.5px;">4. सितंबर राज्य स्तरीय मुख्य हस्तक्षेप निर्देश</strong>
-                <span class="pill-badge" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border-color: rgba(99, 102, 241, 0.3); font-size: 10px;">कार्रवाई निर्देश</span>
+                <strong style="color: #4f46e5; font-size: 13.5px;">4. September Statewide Field Directive</strong>
+                <span class="pill-badge" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border-color: rgba(99, 102, 241, 0.3); font-size: 10px;">RSK Mandate</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                DIET फैकल्टी एवं BACs को संकुल बैठकों में शिक्षकों को सिखाना होगा कि टीएलएम केवल दिखाने की वस्तु नहीं है, बल्कि बच्चों को सवाल पूछने और सोचने के लिए प्रेरित करने का माध्यम है।
+                Mandate 15-minute hands-on inquiry simulation drills during all October block orientations.
               </div>
             </div>
-          ` : `
-            <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+          `;
+        } else if (isConsolidated) {
+          pedDiagBox.innerHTML = `
+            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #0284c7; font-size: 13.5px;">1. TLM Process: Inquiry vs Passive Show (Q177)</strong>
-                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">42.5% Mastery</span>
+                <strong style="color: #059669; font-size: 13.5px;">1. Stellar Problem-Solving Utility (Q90)</strong>
+                <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-size: 10px;">99.3% State Benchmark</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                <strong>42.5% (9,851)</strong> teachers correctly identified the experiential cycle (Experiencing → Reflective Questioning → Learning Consolidation). <strong>32.0%</strong> viewed it merely as physical crafting, and <strong>20.2%</strong> as passive show-and-tell.
+                Across 46,954 teacher responses in August & September, <strong>99.3%</strong> consistently affirm that monthly peer dialogue directly resolves real classroom hurdles.
               </div>
             </div>
-
-            <div style="background: rgba(244, 63, 94, 0.05); border-left: 3px solid #f43f5e; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #e11d48; font-size: 13.5px;">2. Reflective Inquiry vs Answer Transmission (Q178)</strong>
-                <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-size: 10px;">State Priority Gap (22.3%)</span>
+                <strong style="color: #0284c7; font-size: 13.5px;">2. Purpose Alignment & Design Understanding (Q82)</strong>
+                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">63.6% Accuracy</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                Only <strong>22.3% (5,156)</strong> teachers grasped that evaluating TLM learning requires open questioning. <strong>64.7% (14,979)</strong> teachers defaulted to immediately giving expected answers rather than probing student thinking.
+                <strong>63.6%</strong> of teachers retain primary meeting goals and session intent across both cycles (Aug: 62.4% → Sep: 64.9%).
               </div>
             </div>
-
-            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #059669; font-size: 13.5px;">3. Synthesis of Student Ideas in Consolidation (Q179)</strong>
-                <span class="pill-badge" style="background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3); font-size: 10px;">High Competency (76.3%)</span>
+                <strong style="color: #d97706; font-size: 13.5px;">3. Safe Climate & Reflective Consolidation (Q96 / Q179)</strong>
+                <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">69.1% Blended</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                <strong>76.3% (17,678)</strong> teachers demonstrated mastery in consolidating core lessons by weaving together student observations and reflections.
+                Positive trajectory: Psychological safety in August stood at <strong>62.0%</strong>, advancing to <strong>76.3%</strong> learning consolidation in September.
               </div>
             </div>
-
-            <div style="background: rgba(99, 102, 241, 0.05); border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(239, 68, 68, 0.05); border-left: 3px solid #ef4444; padding: 10px 14px; border-radius: 0 8px 8px 0;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #4f46e5; font-size: 13.5px;">4. September Statewide Master Intervention Directives</strong>
-                <span class="pill-badge" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border-color: rgba(99, 102, 241, 0.3); font-size: 10px;">Action Directive</span>
+                <strong style="color: #dc2626; font-size: 13.5px;">4. Active Pedagogical Inquiry & Practice (Aug Q95/Q97 + Sep Q177/Q178)</strong>
+                <span class="pill-badge" style="background: rgba(239, 68, 68, 0.12); color: #dc2626; border-color: rgba(239, 68, 68, 0.3); font-size: 10px;">Priority Intervention (36.9%)</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                DIET faculty and CACs must mandate 20-minute simulations where teachers practice posing open inquiry questions using TLM rather than lecture-based presentations.
+                Teachers need targeted simulation coaching on asking open-ended inquiry questions (Q178: 22.3%) and structuring active student group work (Q95: 35.9%).
               </div>
             </div>
           `;
         } else {
-          diagContainer.innerHTML = isHi ? `
-            <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #0284c7; font-size: 13.5px;">1. अवधारणा बोध बनाम अपनत्व का अंतर (Q86 बनाम Q97)</strong>
-                <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-size: 10px;">राज्य प्राथमिकता अंतर</span>
-              </div>
-              <div style="color: var(--text-secondary); font-size: 12.5px;">
-                जहां <strong>84.6%</strong> शिक्षक सत्र के मुख्य विषयों को याद रखते हैं (Q86), वहीं केवल <strong>33.9%</strong> शिक्षक ही कक्षा में बच्चों में गहरे जुड़ाव/अपनत्व (Belongingness) का सही अर्थ समझ पाए हैं (Q97)।
-              </div>
-            </div>
-
-            <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #d97706; font-size: 13.5px;">2. मनोवैज्ञानिक सुरक्षा एवं भयमुक्त सहभागिता (Q96)</strong>
-                <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">मध्यम दक्षता (62.1%)</span>
-              </div>
-              <div style="color: var(--text-secondary); font-size: 12.5px;">
-                कक्षा में मनोवैज्ञानिक सुरक्षा की समझ <strong>62.1%</strong> है। 37% से अधिक शिक्षक अनुशासन को केवल शांत बैठने और शिक्षक-केंद्रित अध्यापन से जोड़ते हैं।
-              </div>
-            </div>
-
-            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #059669; font-size: 13.5px;">3. सक्रिय सहभागिता एवं उद्देश्यपूर्ण समूह कार्य (Q95)</strong>
-                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">48.2% शुद्धता</span>
-              </div>
-              <div style="color: var(--text-secondary); font-size: 12.5px;">
-                केवल <strong>48.2%</strong> शिक्षक समूह कार्य के वास्तविक उद्देश्य को समझ सके। <strong>51.8%</strong> शिक्षकों ने इसे केवल बैठक व्यवस्था या पाठ्यक्रम शीघ्र पूरा करने का साधन माना।
-              </div>
-            </div>
-
-            <div style="background: rgba(99, 102, 241, 0.05); border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 0 8px 8px 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <strong style="color: #4f46e5; font-size: 13.5px;">4. अगस्त राज्य स्तरीय मुख्य निर्देश</strong>
-                <span class="pill-badge" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5; border-color: rgba(99, 102, 241, 0.3); font-size: 10px;">कार्रवाई निर्देश</span>
-              </div>
-              <div style="color: var(--text-secondary); font-size: 12.5px;">
-                राज्य शिक्षा केंद्र (RSK) शिक्षण प्रकोष्ठ को प्रत्येक मासिक संकुल बैठक में 20 मिनट के सिमुलेशन एवं सहपाठी-अवलोकन आधारित माइक्रो-टीचिंग को अनिवार्य करना चाहिए।
-              </div>
-            </div>
-          ` : `
-            <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+          pedDiagBox.innerHTML = `
+            <div style="background: rgba(2, 132, 199, 0.05); border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <strong style="color: #0284c7; font-size: 13.5px;">1. Concept Recall vs Belongingness Divergence (Q86 vs Q97)</strong>
                 <span class="pill-badge" style="background: rgba(244, 63, 94, 0.12); color: #e11d48; border-color: rgba(244, 63, 94, 0.3); font-size: 10px;">State Priority Gap</span>
@@ -6930,23 +6927,23 @@
               </div>
             </div>
 
-            <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <strong style="color: #d97706; font-size: 13.5px;">2. Psychological Safety in Classroom (Q96)</strong>
-                <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">Moderate Competency (62.1%)</span>
+                <span class="pill-badge" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border-color: rgba(245, 158, 11, 0.3); font-size: 10px;">Moderate Competency (62.0%)</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                Psychological safety scores stand at <strong>62.1%</strong>. Over 37% of teachers conflate discipline with passive silence rather than supportive questioning.
+                Psychological safety scores stand at <strong>62.0%</strong>. Over 37% of teachers conflate discipline with passive silence rather than supportive questioning.
               </div>
             </div>
 
-            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0;">
+            <div style="background: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <strong style="color: #059669; font-size: 13.5px;">3. Purposeful Group Work vs Seating Setup (Q95)</strong>
-                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">48.2% Accuracy</span>
+                <span class="pill-badge" style="background: rgba(2, 132, 199, 0.12); color: #0284c7; border-color: rgba(2, 132, 199, 0.3); font-size: 10px;">35.9% Accuracy</span>
               </div>
               <div style="color: var(--text-secondary); font-size: 12.5px;">
-                Only <strong>48.2%</strong> of teachers recognize group work as a tool for peer problem solving. <strong>51.8%</strong> treat it solely as physical desk arrangements.
+                Only <strong>35.9%</strong> of teachers recognize group work as a tool for peer problem solving. Over 64% treat it solely as physical desk arrangements.
               </div>
             </div>
 
@@ -6979,6 +6976,12 @@
         radarLabels = isHi
           ? ['संवाद उद्देश्य (Purpose Q82)', 'टीएलएम प्रक्रिया (Process Q177)', 'चिंतनशील जांच (Inquiry Q178)', 'सीख का समेकन (Consolidation Q179)', 'कक्षा समाधान (Utility Q90)']
           : ['Design Purpose (Q82)', 'TLM Process (Q177)', 'Reflective Inquiry (Q178)', 'Consolidation (Q179)', 'Problem Solving (Q90)'];
+      } else if (isConsolidated) {
+        clssRadar = [63.6, 99.3, 36.9, 69.1, 55.1];
+        doRadar = [85.4, 98.8, 62.5, 78.2, 72.0];
+        radarLabels = isHi
+          ? ['संवाद उद्देश्य (Q82)', 'कक्षा समस्या समाधान (Q90)', 'सक्रिय जांच व अभ्यास', 'सुरक्षा एवं चिंतन', 'छात्र अपनत्व व समेकन']
+          : ['Session Purpose (Q82)', 'Problem Solving (Q90)', 'Inquiry & Practice', 'Safety & Reflection', 'Belonging & Consolidation'];
       } else {
         clssRadar = [getSurveyQuestionScore(86), getSurveyQuestionScore(82), getSurveyQuestionScore(95), getSurveyQuestionScore(96), getSurveyQuestionScore(97)];
         doRadar = [getSurveyQuestionScore(27), getSurveyQuestionScore(26), getSurveyQuestionScore(43), getSurveyQuestionScore(44), getSurveyQuestionScore(45)];
@@ -7054,13 +7057,11 @@
         }
       });
 
-      // Automatically render and refresh Classroom Teaching Insights (Q95 & Q97 / Q177 & Q178)
+      // Automatically render and refresh Classroom Teaching Insights
       if (typeof renderPedagogyMisconceptions === 'function') {
         renderPedagogyMisconceptions();
       }
     }
-
-    // Pedagogical Misconception Diagnostics Engine (Q95 & Q97 / Q177 & Q178)
     function populatePedMisconDistSelect() {
       const select = document.getElementById('pedMisconDistSelect');
       if (!select) return;
@@ -7119,11 +7120,14 @@
         return;
       }
 
+      const augSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG && dataPackage.cycles.AUG.surveys) || surveys;
+      const sepSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.SEP && dataPackage.cycles.SEP.surveys) || surveys;
+
       const qid1 = isSep ? '177' : '95';
       const qid2 = isSep ? '178' : '97';
 
-      const s1 = surveys.find(x => String(x.questionId) === qid1 || String(x.questionId).replace('Q','') === qid1);
-      const s2 = surveys.find(x => String(x.questionId) === qid2 || String(x.questionId).replace('Q','') === qid2);
+      const s1 = (isSep ? sepSurveys : augSurveys).find(x => String(x.questionId) === qid1 || String(x.questionId).replace('Q','') === qid1) || surveys.find(x => String(x.questionId) === qid1 || String(x.questionId).replace('Q','') === qid1);
+      const s2 = (isSep ? sepSurveys : augSurveys).find(x => String(x.questionId) === qid2 || String(x.questionId).replace('Q','') === qid2) || surveys.find(x => String(x.questionId) === qid2 || String(x.questionId).replace('Q','') === qid2);
 
       if (!s1 || !s2) {
         container.innerHTML = '<div style="padding: 20px; color: var(--text-muted);">Question telemetry unavailable for the active cycle.</div>';
@@ -7394,7 +7398,20 @@
         `;
       }
 
-      container.innerHTML = buildCard(s1, qid1, true) + buildCard(s2, qid2, false);
+      if (isConsolidated) {
+        const sAug1 = augSurveys.find(x => String(x.questionId) === '95' || String(x.questionId).replace('Q','') === '95') || s1;
+        const sAug2 = augSurveys.find(x => String(x.questionId) === '97' || String(x.questionId).replace('Q','') === '97') || s2;
+        const sSep1 = sepSurveys.find(x => String(x.questionId) === '177' || String(x.questionId).replace('Q','') === '177');
+        const sSep2 = sepSurveys.find(x => String(x.questionId) === '178' || String(x.questionId).replace('Q','') === '178');
+
+        let cardsHtml = buildCard(sAug1, '95', true) + buildCard(sAug2, '97', false);
+        if (sSep1 && sSep2) {
+          cardsHtml += buildCard(sSep1, '177', true) + buildCard(sSep2, '178', false);
+        }
+        container.innerHTML = cardsHtml;
+      } else {
+        container.innerHTML = buildCard(s1, qid1, true) + buildCard(s2, qid2, false);
+      }
     }
     window.renderPedagogyMisconceptions = renderPedagogyMisconceptions;
     window.populatePedMisconDistSelect = populatePedMisconDistSelect;
@@ -8884,6 +8901,13 @@
         const p179 = getQScore('179', 'Q179.1');
         const p82 = getQScore('82', 'Q82.1');
         return Math.round((p177 + p178 + p179 + p82) / 4);
+      } else if (currentCycle === 'CONSOLIDATED') {
+        const p82 = getQScore('82', 'Q82.1');
+        const p90 = getQScore('90', 'Q90.1') || getQScore('90') || 99;
+        const pInq = Math.round(((getQScore('95', 'Q95.2') || 48) + (getQScore('177', 'Q177.1') || 42)) / 2);
+        const pSafe = Math.round(((getQScore('96', 'Q96.1') || 62) + (getQScore('179', 'Q179.1') || 76)) / 2);
+        const pBelong = Math.round(((getQScore('97', 'Q97.1') || 34) + (getQScore('179', 'Q179.1') || 76)) / 2);
+        return Math.round((p82 + p90 + pInq + pSafe + pBelong) / 5);
       } else {
         const p82 = getQScore('82', 'Q82.1');
         const p84 = getQScore('84', 'Q84.1');
@@ -9848,6 +9872,7 @@
 function getRFDataForActiveCycle() {
       const isSep = (currentCycle === 'SEP');
       const isAug = (currentCycle === 'AUG');
+      const isConsolidated = (currentCycle === 'CONSOLIDATED');
       const dSum = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
       const totalTeachers = dSum.reduce((acc, d) => acc + (d.attendees || 0), 0);
       const totalDo = dSum.reduce((acc, d) => acc + (d.do_participants || 0), 0);
@@ -9856,9 +9881,9 @@ function getRFDataForActiveCycle() {
       const qScore = (qid) => (typeof getSurveyQuestionScore === 'function') ? getSurveyQuestionScore(qid) : 90;
 
       const satPct = (68427 > 0) ? ((totalTeachers / 68427) * 100).toFixed(1) : '33.9';
-      const obsScore = isSep ? qScore('76') || 68.2 : 73.9;
-      const tlmScore = isSep ? qScore('177') || 42.5 : qScore('95') || 48.2;
-      const probScore = isSep ? qScore('90') || 99.2 : qScore('90') || 98.8;
+      const obsScore = isSep ? qScore('76') || 68.2 : (isConsolidated ? 71.1 : 73.9);
+      const tlmScore = isSep ? qScore('177') || 42.5 : (isConsolidated ? 45.4 : qScore('95') || 48.2);
+      const probScore = isSep ? qScore('90') || 99.2 : (isConsolidated ? 99.0 : qScore('90') || 98.8);
 
       return {
         indicators: [
