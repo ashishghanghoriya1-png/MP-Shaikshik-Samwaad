@@ -1387,6 +1387,90 @@
         color: var(--peepul-cyan) !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
       }
+
+    /* =========================================================================
+       UNIVERSAL PRO-MAX TACTILE EFFECTS ACROSS ALL TABS
+       ========================================================================= */
+    .tab-section {
+      display: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tab-section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      animation: tabEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes tabEnter {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Universal tactile cards across all 11 tabs */
+    .panel-box, .bento-card, .ind-card, .chart-card {
+      background: var(--bg-surface-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-lg);
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease !important;
+      position: relative;
+    }
+
+    .panel-box:hover, .ind-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 138, 171, 0.35) !important;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 12px 28px -6px rgba(0, 138, 171, 0.14) !important;
+    }
+
+    html.dark .panel-box:hover, html.dark .ind-card:hover {
+      border-color: rgba(99, 208, 223, 0.4) !important;
+      box-shadow: 0 8px 28px -4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 208, 223, 0.15) !important;
+    }
+
+    /* Interactive status chips & pill badges */
+    .status-chip, .pill-badge {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .status-chip:hover, .pill-badge:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    /* Universal Table Row Hover & Interactive Elevation */
+    .kowalski-table tbody tr {
+      transition: background 0.16s ease, transform 0.16s ease;
+    }
+    .kowalski-table tbody tr:hover {
+      background: var(--bg-surface-2) !important;
+    }
+    .kowalski-table tbody tr:hover td {
+      color: var(--text-primary);
+    }
+
+    /* Glow pulse animation for all pulse-dots */
+    .pulse-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7);
+      animation: pulseAnim 2s infinite;
+      margin-right: 5px;
+      flex-shrink: 0;
+      vertical-align: middle;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 7px rgba(0, 138, 171, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0); }
+    }
 </style>
 </head>
 <body>
@@ -5078,9 +5162,17 @@
       }
 
       if (window.Motion && window.Motion.animate && activeSec) {
-        const targets = activeSec.querySelectorAll('.bento-card, .chart-card, .panel-box, .ind-card');
+        const targets = activeSec.querySelectorAll('.bento-card, .chart-card, .panel-box, .ind-card, .panel-head, .table-viewport');
         if (targets.length > 0) {
-          window.Motion.animate(targets, { opacity: [0.75, 1] }, { duration: 0.22, ease: [0.16, 1, 0.3, 1] });
+          try {
+            window.Motion.animate(
+              targets, 
+              { opacity: [0.2, 1], transform: ['translateY(8px)', 'translateY(0px)'] }, 
+              { duration: 0.28, delay: (window.Motion.stagger ? window.Motion.stagger(0.03) : 0), ease: [0.16, 1, 0.3, 1] }
+            );
+          } catch(e) {
+            window.Motion.animate(targets, { opacity: [0.75, 1] }, { duration: 0.22, ease: [0.16, 1, 0.3, 1] });
+          }
         }
       }
 
