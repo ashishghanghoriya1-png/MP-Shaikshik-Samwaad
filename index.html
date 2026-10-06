@@ -2245,7 +2245,7 @@
 </div>
 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
 <div style="display: flex; align-items: center; gap: 6px;">
-<label for="blockDistrictSelect" style="font-size: 11.5px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); text-transform: uppercase;">Filter District:</label>
+<label for="blockDistrictSelect" id="blockDistrictFilterLabel" style="font-size: 11.5px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal); text-transform: uppercase;">Filter District:</label>
 <select class="select-tactile" id="blockDistrictSelect" onchange="filterBlockDirectory()" style="font-size: 12.5px; font-weight: 700; padding: 6px 12px;">
 <option value="ALL">All 52 Districts (309 Blocks)</option>
 </select>
@@ -4261,16 +4261,20 @@
         cadreTeach: '👨‍🏫 Teachers',
         cadreFac: '🤝 Facilitators',
         cadreMon: '👁️ Monitors',
+        cycleAug: '📅 August 2026',
+        cycleSep: '📅 September 2026',
+        cycleCons: '🌐 Consolidated (Aug + Sep)',
         navOverview: '📊 1. Overview & Summary',
         navRf: '🎯 2. Key Goals & RF',
-        navD360: '🔍 3. District Profile',
-        navLeague: '🗺️ 4. District Rankings',
-        navBlocks: '🏢 5. Block Directory',
-        navQuestions: '📋 6. Survey Questions',
-        navPedagogy: '🧠 7. Teaching Quality',
-        navGov: '⚖️ 8. Key Actions',
-        navInsights: '🤖 9. AI Insights',
-        navResearch: '📚 10. Qualitative Research',
+        navPedagogy: '🧠 3. Teaching Quality',
+        navD360: '🔍 4. District Profile',
+        navCohort: '🔄 5. Cohort Analysis',
+        navLeague: '🗺️ 6. District Rankings',
+        navBlocks: '🏢 7. Block Directory',
+        navQuestions: '📋 8. Survey Questions',
+        navGov: '⚖️ 9. Key Actions',
+        navInsights: '🤖 10. AI Insights',
+        navResearch: '📚 11. Qualitative Research',
         
         // KPI Micro Labels & Descs
         kpiCoverageLbl: 'COVERAGE RATE',
@@ -4307,174 +4311,560 @@
 
         // Quadrant Buttons & Badges
         btnQuadAll: 'All 52 Districts',
-        btnQuad1: '🏆 High Attendance & High Score',
-        btnQuad2: '⚡ High Attendance, Needs Pedagogy Focus',
-        btnQuad3: '📈 High Score, Needs Attendance Boost',
-        btnQuad4: '🎯 Priority Support Needed',
-        quadSearchPl: '🔍 Search district in matrix...',
+        btnQuadQ1: '🌟 Champions (High Turnout & Score)',
+        btnQuadQ2: '⚡ Scale Gap (High Turnout, Low Score)',
+        btnQuadQ3: '🎯 Reach Gap (Low Turnout, High Score)',
+        btnQuadQ4: '🚨 Priority Support (Low Turnout & Score)',
 
-        // Results Framework
-        rfScorecardHeading: 'Program Key Indicators (RF) Scorecard',
-        rfScorecardSub: 'Click on any indicator below (7 through 18) to inspect its detailed breakdown, data source, and district performance.',
-        rfDetailChartTitle: 'Indicator Performance Breakdown',
-        rfSubMetricsHeading: 'Indicator Summary & Data Source Verification',
-        rfMatrixHeading: '🗺️ Statewide 52-District Indicator Matrix',
-        rfMatrixSearchPl: 'Search district...',
+        // Tab 2: RF
+        rfScorecardHead: 'Program Results Framework (RF) Indicator Scorecard',
+        rfSubHead: 'Sub-Indicator Performance Breakdown',
+        rfVerifHead: 'Sub-Indicators & Data Source Verification',
+        rfMatrixHead: '🗺️ Statewide 52-District Results Framework Matrix',
 
-        // District 360
-        d360Title: 'District Profile & Block-by-Block Breakdown',
-        d360Sub: 'View overall district totals or select a block to inspect block-level attendance and metrics.',
-        d360LblDist: 'SELECT DISTRICT:',
-        d360LblMode: 'VIEW MODE:',
-        d360BtnSum: '📊 District Overview',
-        d360BtnBif: '🔀 Block Breakdown',
-        d360LblBlock: 'BLOCK FOCUS:',
-        d360BlockChartHead: '📊 Block Attendance & Teacher Count Chart',
-        d360TableHead: '🏢 Block Attendance Summary Table',
-        d360PedHead: '📊 District Teaching & Pedagogy Scores',
+        // Tab 3: Pedagogy
+        pedRadarHead: '🧠 Teacher Pedagogy Competency Radar',
+        pedDiagHead: '💡 Statewide Pedagogical Diagnostics & Intervention Plan',
+        pedMisconHead: '🔬 Classroom Teaching Insights (Diagnostic Questions)',
+
+        // Tab 4: D360
+        d360CadreBarHead: '📊 Block-Level Cadre Comparison Chart (District)',
+        d360CadreTableHead: '🏢 Block-Level Cadre Roster & Contribution Table (District)',
+        d360PedHead: '📊 District Pedagogy Assessment Scores',
         d360GenderHead: '🚻 Attendance Gender Split (Female vs Male)',
-        d360CompHead: '⚖️ Compare Any 2 Districts',
-        d360CompDistA: 'SELECT DISTRICT A:',
-        d360CompDistB: 'SELECT DISTRICT B:',
+        d360CompHead: '⚖️ Side-by-Side District Comparator (Benchmark Any 2 Districts)',
 
-        // League & Blocks
-        leagueHead: '🗺️ District Rankings & Performance Matrix',
-        leagueSearchPl: '🔍 Search district...',
-        blockDirHead: '🏢 Madhya Pradesh Block Directory (312 Blocks)',
-        blockFilterDist: 'Filter District:',
-        blockSearchPl: '🔍 Search block name...',
-        printBtn: '🖨️ Print Briefing',
-        exportBtn: 'Export CSV',
+        // Tab 5: Cohort
+        cohortFlowHead: '🔄 Month-Over-Month Teacher Flow (August ➔ September)',
+        cohortCallsHead: '📋 Actionable Calling Sheets for Blocks & Districts',
+        cohortMatrixHead: '🗺️ 52-District Teacher Attendance & Reach Matrix',
 
-        // Questions, Pedagogy, Governance
-        qBankHead: '📋 Survey Questions & Response Explorer (All 74 Questions)',
+        // Tab 6: League
+        leagueHeadCLSS: '🗺️ State League Performance Matrix (CLSS View)',
+        leagueHeadDO: '🗺️ District Orientation League Performance Matrix (DO View)',
+        leagueHeadALL: '🗺️ Consolidated Statewide League Performance Matrix (CLSS + DO)',
+
+        // Tab 7: Blocks
+        blockHead: '🏢 Madhya Pradesh Block Directory (322 Blocks)',
+
+        // Tab 8: Questions
+        qBankHead: '📋 Universal Survey & Question Explorer (All Questions)',
         qRespDistHead: 'Statewide Response Distribution',
-        qMetaHead: 'Option Details & Categories',
-        qDistHeatmapHead: 'District-by-District Response Heatmap',
-        pedRadarHead: '🧠 Teaching Quality & Pedagogy Competencies',
-        pedDiagHead: '💡 Statewide Teaching Quality Diagnostics & Action Plan',
-        pedMisconHead: '🔬 Classroom Understanding Analysis (Questions Q95 & Q97)',
-        govHead: '⚠️ Key Actions & Directives for Field Operations'
+        qMetaHead: 'Option Metadata & Categories',
+        qDistHeatmapHead: '🌐 District Breakdown',
+
+        // Tab 9: Governance
+        govHead: '⚠️ Key Actions & Directives for Field Operations',
+
+        // Common UI Actions
+        view360: 'View 360°',
+        expand: '⤢ Expand',
+        exportCsv: '📥 Export CSV',
+        searchPlaceholder: 'Search district or block name...'
       },
       hi: {
-        title: 'राज्य शिक्षा केंद्र मध्य प्रदेश — <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">शैक्षिक संवाद</span> एवं डीओ कार्यकारी डैशबोर्ड',
-        subtitle: 'विकेंद्रीकृत शैक्षणिक संवाद एवं जिला अभिमुखीकरण (DO) • कक्षा 6–8 चक्र • पीपुल × राज्य शिक्षा केंद्र मध्य प्रदेश',
-        progSlicerLabel: 'कार्यक्रम चयन:',
+        title: 'मध्य प्रदेश <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">शैक्षिक संवाद</span> इंटेलीजेंस स्टूडियो',
+        subtitle: 'विकेंद्रीकृत शैक्षणिक संवाद एवं ज़िला उन्मुखीकरण (DO) • कक्षा 6-8 चक्र • पीपुल × राज्य शिक्षा केंद्र मध्य प्रदेश',
+        progSlicerLabel: 'कार्यक्रम स्लाइसर:',
         progAll: '🌐 समेकित (सभी)',
-        progClss: '🏫 संकुल शैक्षिक संवाद (CLSS)',
-        progDo: '🏛️ जिला अभिमुखीकरण (DO)',
+        progClss: '🏫 संवाद (संकुल स्तर)',
+        progDo: '🏛️ उन्मुखीकरण (ज़िला स्तर)',
         cadreLabel: 'संवर्ग / भूमिका:',
         cadreAll: 'सभी हितधारक',
         cadreTeach: '👨‍🏫 शिक्षक',
-        cadreFac: '🤝 फैसिलिटेटर (प्रशिक्षक)',
-        cadreMon: '👁️ मॉनिटर (पर्यवेक्षक)',
-        navOverview: '📊 1. मुख्य सारांश एवं अवलोकन',
-        navRf: '📋 2. मुख्य लक्ष्य एवं संकेतक',
-        navD360: '🔍 3. जिला प्रोफाइल एवं विवरण',
-        navLeague: '🗺️ 4. जिला रैंकिंग एवं प्रदर्शन',
-        navBlocks: '🏢 5. ब्लॉक डायरेक्टरी',
-        navQuestions: '📋 6. सर्वेक्षण प्रश्न एवं डेटा',
-        navPedagogy: '🧠 7. शिक्षण गुणवत्ता एवं मूल्यांकन',
-        navGov: '⚠️ 8. मुख्य निष्कर्ष एवं निर्देश',
+        cadreFac: '🤝 फैसिलिटेटर',
+        cadreMon: '👁️ मॉनिटर',
+        cycleAug: '📅 अगस्त 2026',
+        cycleSep: '📅 सितंबर 2026',
+        cycleCons: '🌐 समेकित (अगस्त + सितंबर)',
+        navOverview: '📊 1. समग्र अवलोकन',
+        navRf: '🎯 2. मुख्य लक्ष्य एवं RF',
+        navPedagogy: '🧠 3. शिक्षण गुणवत्ता',
+        navD360: '🔍 4. ज़िला प्रोफ़ाइल',
+        navCohort: '🔄 5. कोहोर्ट विश्लेषण',
+        navLeague: '🗺️ 6. ज़िला रैंकिंग',
+        navBlocks: '🏢 7. ब्लॉक डायरेक्टरी',
+        navQuestions: '📋 8. सर्वे प्रश्नोत्तरी',
+        navGov: '⚖️ 9. मुख्य कार्ययोजना',
+        navInsights: '🤖 10. एआई अंतर्दृष्टि',
+        navResearch: '📚 11. गुणात्मक शोध',
 
         // KPI Micro Labels & Descs
         kpiCoverageLbl: 'कवरेज दर',
-        kpiDistDesc: 'सक्रिय रिपोर्टिंग जिले',
-        kpiReachLbl: 'प्रशिक्षण केंद्र',
-        kpiReachDesc: 'संकुल केंद्र एवं डायट स्थल',
+        kpiDistDesc: 'सक्रिय रिपोर्टिंग ज़िले',
+        kpiReachLbl: 'प्रशिक्षण केंद्र / स्थल',
+        kpiReachDesc: 'संकुल (CRC) एवं डाइट (DIET) स्थल',
         kpiTeachLbl: 'उपस्थित शिक्षक',
         kpiTeachDesc: '23,785 वास्तविक / 68,369 अपेक्षित शिक्षक',
-        kpiDoLbl: 'जिला उन्मुखीकरण प्रतिभागी',
-        kpiDoDesc: 'जिला प्रतिभागी (सीएसी/शिक्षक — शैक्षिक संवाद फैसिलिटेटर)',
+        kpiDoLbl: 'ज़िला उन्मुखीकरण प्रतिभागी',
+        kpiDoDesc: 'ज़िला प्रतिभागी (CAC / शिक्षक जो संवाद संचालित करेंगे)',
         kpiCadreLbl: 'प्रशिक्षक एवं पर्यवेक्षक',
         kpiCadreDesc: '4,918 फैसिलिटेटर + 572 मॉनिटर',
-        kpiTotLbl: 'कुल राज्य सहभागिता',
-        kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,490 कैडर',
+        kpiTotLbl: 'राज्य सहभागिता',
+        kpiTotDesc: '23,785 शिक्षक + 4,454 डीओ + 5,490 संवर्ग',
         kpiVarg2Lbl: 'शिक्षक यूनिवर्स',
         kpiVarg2Badge: '34.8% यूनिवर्स संतृप्ति',
         kpiVarg2Desc: '68,427 कुल शिक्षक यूनिवर्स → 68,369 लक्षित (51.7%) → 23,785 उपस्थित (67.2%)',
 
         // Overview Panel Titles
-        ovTopTitleCLSS: '🏆 शिक्षक उपस्थिति अनुसार शीर्ष जिले (शैक्षिक संवाद)',
-        ovTopTitleDO: '🏆 जिला अभिमुखीकरण (DO) उपस्थिति मैट्रिक्स',
-        ovTopTitleALL: '🏆 कुल उपस्थिति अनुसार शीर्ष जिले (शैक्षिक संवाद + DO)',
-        ovCadreBreakdownTitle: '👥 भूमिका अनुसार उपस्थिति विभाजन',
+        ovTopTitleCLSS: '🏆 शिक्षक उपस्थिति अनुसार शीर्ष ज़िले (संवाद)',
+        ovTopTitleDO: '🏆 ज़िला उन्मुखीकरण सहभागिता मैट्रिक्स (डीओ)',
+        ovTopTitleALL: '🏆 कुल सहभागिता अनुसार शीर्ष ज़िले (संवाद + डीओ)',
+        ovCadreBreakdownTitle: '👥 भूमिका अनुसार सहभागिता विवरण',
         ovPedagogyBenchmarkTitle: '🎯 शिक्षण गुणवत्ता बेंचमार्क',
         ovTrustIndexTitle: '✨ शिक्षक विश्वास सूचकांक',
         ovTrustBadge: '🛡️ शुद्ध विश्वास स्कोर (NTS): +93.8%',
-        ovQuadrantMatrixTitle: '🎯 जिला प्रदर्शन वर्गीकरण (उपस्थिति बनाम शिक्षण गुणवत्ता)',
+        ovQuadrantMatrixTitle: '🎯 राज्यस्तरीय ज़िला प्राथमिकता समूह (उपस्थिति बनाम शिक्षण स्कोर)',
 
-        btnScopeAll: 'सभी 52 जिले',
+        btnScopeAll: 'सभी 52 ज़िले',
         btnScopeTop15: 'शीर्ष 15',
-        btnScopeBottom15: 'निचले 15',
+        btnScopeBottom15: 'अंतिम 15',
         btnTrustChart: '📊 राज्य चार्ट',
-        btnTrustHeatmap: '🗺️ 52-जिला हीटमैप',
+        btnTrustHeatmap: '🗺️ 52-ज़िला हीटमैप',
 
         // Quadrant Buttons & Badges
-        btnQuadAll: 'सभी 52 जिले',
-        btnQuad1: '🏆 उच्च उपस्थिति एवं उच्च प्राप्तांक',
-        btnQuad2: '⚡ उच्च उपस्थिति, शिक्षण सुधार की आवश्यकता',
-        btnQuad3: '📈 उच्च प्राप्तांक, उपस्थिति वृद्धि की आवश्यकता',
-        btnQuad4: '🎯 प्राथमिकता संबलन क्षेत्र',
-        quadSearchPl: '🔍 मैट्रिक्स में जिला खोजें...',
+        btnQuadAll: 'सभी 52 ज़िले',
+        btnQuadQ1: '🌟 चैंपियंस (उच्च उपस्थिति एवं उच्च गुणवत्ता)',
+        btnQuadQ2: '⚡ स्केल गैप (उच्च उपस्थिति, शिक्षण में सुधार आवश्यक)',
+        btnQuadQ3: '🎯 रीच गैप (उच्च गुणवत्ता, उपस्थिति में वृद्धि आवश्यक)',
+        btnQuadQ4: '🚨 प्राथमिकता सहायता (कम उपस्थिति एवं कम गुणवत्ता)',
 
-        // Results Framework
-        rfScorecardHeading: 'कार्यक्रम मुख्य संकेतक (RF) स्कोरकार्ड',
-        rfScorecardSub: 'विस्तृत विवरण, डेटा स्रोत एवं जिलावार स्थिति देखने हेतु नीचे किसी भी संकेतक (7 से 18) पर क्लिक करें।',
-        rfDetailChartTitle: 'उप-संकेतक प्रदर्शन विश्लेषण',
-        rfSubMetricsHeading: 'उप-संकेतक एवं डेटा स्रोत सत्यापन तालिका',
-        rfMatrixHeading: '🗺️ राज्य स्तरीय 52-जिला परिणाम मैट्रिक्स',
-        rfMatrixSearchPl: 'जिला खोजें...',
+        // Tab 2: RF
+        rfScorecardHead: 'कार्यक्रम परिणाम रूपरेखा (RF) संकेतक स्कोरकार्ड',
+        rfSubHead: 'उप-संकेतक प्रदर्शन विवरण',
+        rfVerifHead: 'उप-संकेतक एवं डेटा स्रोत सत्यापन',
+        rfMatrixHead: '🗺️ राज्यस्तरीय 52-ज़िला परिणाम रूपरेखा मैट्रिक्स',
 
-        // District 360
-        d360Title: 'जिला प्रोफाइल एवं ब्लॉक-वार विवरण',
-        d360Sub: 'जिले के कुल आंकड़े देखें अथवा ब्लॉक-वार विवरण टॉगल कर प्रत्येक ब्लॉक का विवरण देखें।',
-        d360LblDist: 'जिला चुनें:',
-        d360LblMode: 'दृश्य मोड:',
-        d360BtnSum: '📊 जिला कुल सारांश',
-        d360BtnBif: '🔀 ब्लॉक विवरण',
-        d360LblBlock: 'ब्लॉक फोकस:',
-        d360BlockChartHead: '📊 ब्लॉक-वार उपस्थिति तुलना चार्ट',
-        d360TableHead: '🏢 ब्लॉक-वार उपस्थिति तालिका',
-        d360PedHead: '📊 जिला शिक्षण गुणवत्ता मूल्यांकन प्राप्तांक',
+        // Tab 3: Pedagogy
+        pedRadarHead: '🧠 शिक्षक शिक्षाशास्त्र दक्षता रडार',
+        pedDiagHead: '💡 राज्यस्तरीय शैक्षणिक निदान एवं हस्तक्षेप योजना',
+        pedMisconHead: '🔬 कक्षा शिक्षण अंतर्दृष्टि (निदानात्मक प्रश्न)',
+
+        // Tab 4: D360
+        d360CadreBarHead: '📊 ब्लॉक-स्तरीय संवर्ग तुलना चार्ट (ज़िला)',
+        d360CadreTableHead: '🏢 ब्लॉक-स्तरीय संवर्ग रोस्टर एवं योगदान तालिका (ज़िला)',
+        d360PedHead: '📊 ज़िला शिक्षाशास्त्र मूल्यांकन स्कोर',
         d360GenderHead: '🚻 उपस्थिति लिंग विभाजन (महिला बनाम पुरुष)',
-        d360CompHead: '⚖️ दो जिलों की तुलना करें',
-        d360CompDistA: 'जिला A चुनें:',
-        d360CompDistB: 'जिला B चुनें:',
+        d360CompHead: '⚖️ समकक्ष ज़िला तुलना (किन्हीं 2 ज़िलों की तुलना करें)',
 
-        // League & Blocks
-        leagueHead: '🗺️ राज्य स्तरीय जिला रैंकिंग एवं प्रदर्शन मैट्रिक्स',
-        leagueSearchPl: '🔍 जिला खोजें...',
-        blockDirHead: '🏢 मध्य प्रदेश ब्लॉक डायरेक्टरी (312 ब्लॉक)',
-        blockFilterDist: 'जिला फिल्टर:',
-        blockSearchPl: '🔍 ब्लॉक का नाम खोजें...',
-        printBtn: '🖨️ रिपोर्ट प्रिंट करें',
-        exportBtn: 'सीएसवी डाउनलोड करें',
+        // Tab 5: Cohort
+        cohortFlowHead: '🔄 माह-दर-माह शिक्षक प्रवाह (अगस्त ➔ सितंबर)',
+        cohortCallsHead: '📋 ब्लॉक एवं ज़िलों हेतु कार्ययोजना एवं कॉलिंग शीट',
+        cohortMatrixHead: '🗺️ 52-ज़िला शिक्षक उपस्थिति एवं पहुँच मैट्रिक्स',
 
-        // Questions, Pedagogy, Governance
-        qBankHead: '📋 सर्वेक्षण प्रश्न एवं उत्तर (सभी 74 प्रश्न)',
-        qRespDistHead: 'राज्य स्तरीय प्रतिक्रिया वितरण',
-        qMetaHead: 'विकल्प विवरण एवं श्रेणियां',
-        qDistHeatmapHead: 'जिलावार प्रतिक्रिया वितरण हीटमैप',
-        pedRadarHead: '🧠 शिक्षण गुणवत्ता एवं मूल्यांकन रडार',
-        pedDiagHead: '💡 राज्य स्तरीय शिक्षण गुणवत्ता एवं कार्य योजना',
-        pedMisconHead: '🔬 प्राथमिकता शैक्षणिक भ्रांति विश्लेषण इंजन (Q95 एवं Q97 गैप्स)',
-        govHead: '⚠️ रणनीतिक मैदानी चुनौतियाँ एवं प्रशासनिक मुद्दे (शीट 2)'
+        // Tab 6: League
+        leagueHeadCLSS: '🗺️ राज्य लीग प्रदर्शन मैट्रिक्स (संवाद दृष्टिकोण)',
+        leagueHeadDO: '🗺️ ज़िला उन्मुखीकरण लीग प्रदर्शन मैट्रिक्स (डीओ दृष्टिकोण)',
+        leagueHeadALL: '🗺️ समेकित राज्यस्तरीय लीग प्रदर्शन मैट्रिक्स (संवाद + डीओ)',
+
+        // Tab 7: Blocks
+        blockHead: '🏢 मध्य प्रदेश ब्लॉक डायरेक्टरी (322 ब्लॉक)',
+
+        // Tab 8: Questions
+        qBankHead: '📋 सार्वभौमिक सर्वे एवं प्रश्नोत्तरी अन्वेषक (सभी प्रश्न)',
+        qRespDistHead: 'राज्यस्तरीय प्रतिक्रिया वितरण',
+        qMetaHead: 'विकल्प मेटाडेटा एवं श्रेणियाँ',
+        qDistHeatmapHead: '🌐 ज़िलावार विवरण',
+
+        // Tab 9: Governance
+        govHead: '⚠️ क्षेत्रीय संचालन हेतु मुख्य कार्ययोजना एवं निर्देश',
+
+        // Common UI Actions
+        view360: '360° देखें',
+        expand: '⤢ विस्तार करें',
+        exportCsv: '📥 डेटा डाउनलोड (.CSV)',
+        searchPlaceholder: 'ज़िला या ब्लॉक का नाम खोजें...'
       }
     };
+
+    
+    // Comprehensive UI Translation Dictionary
+    const UI_TRANSLATIONS = {
+      // Slicers & Globals
+      'PROGRAM SLICER:': { hi: 'कार्यक्रम स्लाइसर:', en: 'PROGRAM SLICER:' },
+      'CADRE / ROLE:': { hi: 'संवर्ग / भूमिका:', en: 'CADRE / ROLE:' },
+      'SELECT DISTRICT:': { hi: 'ज़िला चुनें:', en: 'SELECT DISTRICT:' },
+      'VIEW MODE:': { hi: 'देखने का प्रकार:', en: 'VIEW MODE:' },
+      'BLOCK FOCUS:': { hi: 'ब्लॉक फ़िल्टर:', en: 'BLOCK FOCUS:' },
+      'SELECT DISTRICT A:': { hi: 'ज़िला A चुनें:', en: 'SELECT DISTRICT A:' },
+      'SELECT DISTRICT B:': { hi: 'ज़िला B चुनें:', en: 'SELECT DISTRICT B:' },
+      'BLOCK SCALE:': { hi: 'ब्लॉक पैमाना:', en: 'BLOCK SCALE:' },
+      'FILTER DISTRICT:': { hi: 'ज़िला फ़िल्टर:', en: 'FILTER DISTRICT:' },
+      'SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):': { hi: 'प्रश्न / शीट चुनें (सक्रिय फ़िल्टर के अनुसार):', en: 'SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):' },
+
+      // Headings & Titles
+      'District 360° Comprehensive Profile & Block Bifurcation': { hi: 'ज़िला 360° समग्र प्रोफ़ाइल एवं ब्लॉक विभाजन', en: 'District 360° Comprehensive Profile & Block Bifurcation' },
+      'In Plain Words: What Happened in August vs. September?': { hi: 'अगस्त बनाम सितंबर का सीधा हिसाब (सरल विश्लेषण)', en: 'In Plain Words: What Happened in August vs. September?' },
+      'Month-Over-Month Teacher Flow (August ➔ September)': { hi: 'माह-दर-माह शिक्षक प्रवाह (अगस्त ➔ सितंबर)', en: 'Month-Over-Month Teacher Flow (August ➔ September)' },
+      'Actionable Calling Sheets for Blocks & Districts': { hi: 'ब्लॉक एवं ज़िलों हेतु कार्ययोजना एवं कॉलिंग शीट', en: 'Actionable Calling Sheets for Blocks & Districts' },
+      '52-District Teacher Attendance & Reach Matrix': { hi: '52-ज़िला शिक्षक उपस्थिति एवं पहुँच मैट्रिक्स', en: '52-District Teacher Attendance & Reach Matrix' },
+      'Decentralized Professional Learning Communities and Pedagogical Transformation: An Empirical and Qualitative Study of Madhya Pradesh\'s Shikshak Samvad (Grades 6–8)': { hi: 'विकेंद्रीकृत व्यावसायिक शिक्षण समुदाय एवं शैक्षणिक परिवर्तन: मध्य प्रदेश के शिक्षक संवाद (कक्षा 6–8) का अनुभवजन्य एवं गुणात्मक अध्ययन', en: 'Decentralized Professional Learning Communities and Pedagogical Transformation: An Empirical and Qualitative Study of Madhya Pradesh\'s Shikshak Samvad (Grades 6–8)' },
+
+      // Buttons & Controls
+      'All 52 Districts': { hi: 'सभी 52 ज़िले', en: 'All 52 Districts' },
+      'Top 15': { hi: 'शीर्ष 15', en: 'Top 15' },
+      'Bottom 15': { hi: 'अंतिम 15', en: 'Bottom 15' },
+      'State Chart': { hi: 'राज्य चार्ट', en: 'State Chart' },
+      '52-District Heatmap': { hi: '52-ज़िला हीटमैप', en: '52-District Heatmap' },
+      'District Sum': { hi: 'ज़िला योग', en: 'District Sum' },
+      'Block Bifurcation': { hi: 'ब्लॉक विभाजन', en: 'Block Bifurcation' },
+      'Jump to Peer Comparator & Chart ↓': { hi: 'समकक्ष ज़िला तुलना एवं चार्ट देखें ↓', en: 'Jump to Peer Comparator & Chart ↓' },
+      'Open in Block Directory': { hi: 'ब्लॉक डायरेक्टरी में खोलें', en: 'Open in Block Directory' },
+      'Same-Block Peer Match: ON': { hi: 'समान ब्लॉक मिलान: चालू', en: 'Same-Block Peer Match: ON' },
+      'Same-Block Peer Match: OFF': { hi: 'समान ब्लॉक मिलान: बंद', en: 'Same-Block Peer Match: OFF' },
+      'Low Universe Saturation (<40%)': { hi: 'कम संतृप्ति (<40%)', en: 'Low Universe Saturation (<40%)' },
+      'District Breakdown': { hi: 'ज़िलावार विवरण', en: 'District Breakdown' },
+      'Block-Wise Breakdown': { hi: 'ब्लॉकवार विवरण', en: 'Block-Wise Breakdown' },
+      'English Abstract': { hi: 'अंग्रेज़ी सारांश', en: 'English Abstract' },
+      'Hindi Abstract': { hi: 'हिन्दी सारांश', en: 'Hindi Abstract' },
+      'Academic Utility': { hi: 'शैक्षणिक उपयोगिता', en: 'Academic Utility' },
+      'Joyful Pedagogies': { hi: 'आनंदमयी शिक्षण पद्धतियाँ', en: 'Joyful Pedagogies' },
+      'Infra & Tech': { hi: 'अधोसंरचना एवं तकनीकी', en: 'Infra & Tech' },
+      'Motivation & Trust': { hi: 'प्रेरणा एवं विश्वास', en: 'Motivation & Trust' },
+      'Clear': { hi: 'साफ़ करें', en: 'Clear' },
+      'View 360°': { hi: '360° देखें', en: 'View 360°' },
+      'Expand': { hi: 'विस्तार करें', en: 'Expand' },
+      'Export CSV': { hi: 'डेटा डाउनलोड (.CSV)', en: 'Export CSV' },
+      'Export District Matrix (.CSV)': { hi: 'ज़िला मैट्रिक्स डाउनलोड करें (.CSV)', en: 'Export District Matrix (.CSV)' },
+      'Coming Back >60%': { hi: 'पुनः सहभागिता >60%', en: 'Coming Back >60%' },
+      'New Joining >50%': { hi: 'नए शिक्षक >50%', en: 'New Joining >50%' },
+      'Reached <80%': { hi: 'कुल पहुँच <80%', en: 'Reached <80%' },
+
+      // Table Headers
+      'DISTRICT': { hi: 'ज़िला', en: 'DISTRICT' },
+      'District': { hi: 'ज़िला', en: 'District' },
+      'District Name': { hi: 'ज़िले का नाम', en: 'District Name' },
+      'DISTRICT NAME': { hi: 'ज़िले का नाम', en: 'DISTRICT NAME' },
+      'BLOCK NAME': { hi: 'ब्लॉक का नाम', en: 'BLOCK NAME' },
+      'Block Name': { hi: 'ब्लॉक का नाम', en: 'Block Name' },
+      'MONITORS': { hi: 'मॉनिटर', en: 'MONITORS' },
+      'Monitors': { hi: 'मॉनिटर', en: 'Monitors' },
+      'FACILITATORS': { hi: 'फैसिलिटेटर', en: 'FACILITATORS' },
+      'Facilitators': { hi: 'फैसिलिटेटर', en: 'Facilitators' },
+      'TEACHER PARTICIPANTS': { hi: 'उपस्थित शिक्षक', en: 'TEACHER PARTICIPANTS' },
+      'Teacher Participants': { hi: 'उपस्थित शिक्षक', en: 'Teacher Participants' },
+      'TEACHER UNIVERSE': { hi: 'कुल शिक्षक संख्या', en: 'TEACHER UNIVERSE' },
+      'Teacher Universe': { hi: 'कुल शिक्षक संख्या', en: 'Teacher Universe' },
+      'TOTAL MOBILIZED': { hi: 'कुल सहभागिता', en: 'TOTAL MOBILIZED' },
+      'Total Mobilized': { hi: 'कुल सहभागिता', en: 'Total Mobilized' },
+      '% OF DISTRICT MOBILIZATION': { hi: 'ज़िला सहभागिता का %', en: '% OF DISTRICT MOBILIZATION' },
+      '% of District Mobilization': { hi: 'ज़िला सहभागिता का %', en: '% of District Mobilization' },
+      'SATURATION %': { hi: 'संतृप्ति %', en: 'SATURATION %' },
+      'Saturation %': { hi: 'संतृप्ति %', en: 'Saturation %' },
+      'Saturation Rate': { hi: 'संतृप्ति दर', en: 'Saturation Rate' },
+      'Turnout': { hi: 'सहभागिता', en: 'Turnout' },
+      'Trust %': { hi: 'विश्वास %', en: 'Trust %' },
+      'Academic %': { hi: 'शैक्षणिक %', en: 'Academic %' },
+      'Problem %': { hi: 'समस्या निवारण %', en: 'Problem %' },
+      'Growth %': { hi: 'वृद्धि %', en: 'Growth %' },
+      'Rating': { hi: 'रेटिंग', en: 'Rating' },
+      'S.No': { hi: 'क्र.सं.', en: 'S.No' },
+      'S.NO': { hi: 'क्र.सं.', en: 'S.NO' },
+      'QUADRANT CLASSIFICATION': { hi: 'चतुर्थांश वर्गीकरण', en: 'QUADRANT CLASSIFICATION' },
+      'Quadrant Classification': { hi: 'चतुर्थांश वर्गीकरण', en: 'Quadrant Classification' },
+      'Pedagogy Score': { hi: 'शिक्षाशास्त्र स्कोर', en: 'Pedagogy Score' },
+      'PEDAGOGY SCORE': { hi: 'शिक्षाशास्त्र स्कोर', en: 'PEDAGOGY SCORE' },
+      'Strategic Action': { hi: 'रणनीतिक कार्ययोजना', en: 'Strategic Action' },
+      'STRATEGIC ACTION': { hi: 'रणनीतिक कार्ययोजना', en: 'STRATEGIC ACTION' },
+      'SUB-INDICATOR (FROM CLSS AUG_RF REVIEW)': { hi: 'उप-संकेतक (समीक्षा आधारित)', en: 'SUB-INDICATOR (FROM CLSS AUG_RF REVIEW)' },
+      'OFFICIAL TARGET': { hi: 'आधिकारिक लक्ष्य', en: 'OFFICIAL TARGET' },
+      'AUGUST ACHIEVEMENT': { hi: 'अगस्त उपलब्धि', en: 'AUGUST ACHIEVEMENT' },
+      'STATUS TAG': { hi: 'स्थिति', en: 'STATUS TAG' },
+      'NEXT STEPS / ACTION ITEMS': { hi: 'अगले कदम / कार्ययोजना', en: 'NEXT STEPS / ACTION ITEMS' },
+      'ASPIRATIONAL DISTRICT': { hi: 'आकांक्षी ज़िला', en: 'ASPIRATIONAL DISTRICT' },
+      'Aspirational District': { hi: 'आकांक्षी ज़िला', en: 'Aspirational District' },
+      'AUGUST ATTENDEES': { hi: 'अगस्त उपस्थिति', en: 'AUGUST ATTENDEES' },
+      'August Attendees': { hi: 'अगस्त उपस्थिति', en: 'August Attendees' },
+      'SEPTEMBER ATTENDEES': { hi: 'सितंबर उपस्थिति', en: 'SEPTEMBER ATTENDEES' },
+      'September Attendees': { hi: 'सितंबर उपस्थिति', en: 'September Attendees' },
+      'NET CHANGE': { hi: 'शुद्ध परिवर्तन', en: 'NET CHANGE' },
+      'Net Change': { hi: 'शुद्ध परिवर्तन', en: 'Net Change' },
+      'TRAJECTORY STATUS': { hi: 'प्रगति स्थिति', en: 'TRAJECTORY STATUS' },
+      'Trajectory Status': { hi: 'प्रगति स्थिति', en: 'Trajectory Status' },
+      'AUG ATTENDED': { hi: 'अगस्त उपस्थिति', en: 'AUG ATTENDED' },
+      'SEP ATTENDED': { hi: 'सितंबर उपस्थिति', en: 'SEP ATTENDED' },
+      'REGULAR TEACHERS': { hi: 'नियमित शिक्षक', en: 'REGULAR TEACHERS' },
+      'COMING BACK %': { hi: 'पुनः सहभागिता %', en: 'COMING BACK %' },
+      'NEW TEACHERS': { hi: 'नए शिक्षक', en: 'NEW TEACHERS' },
+      'NEW JOINING %': { hi: 'नए शिक्षक %', en: 'NEW JOINING %' },
+      'MISSED LAST MONTH': { hi: 'पिछले माह अनुपस्थित', en: 'MISSED LAST MONTH' },
+      'TOTAL REACHED SO FAR': { hi: 'अब तक कुल पहुँचे शिक्षक', en: 'TOTAL REACHED SO FAR' },
+      'TARGET UNIVERSE': { hi: 'लक्षित शिक्षक संख्या', en: 'TARGET UNIVERSE' },
+      'STATUS': { hi: 'स्थिति', en: 'STATUS' }
+    };
+
+    function translateAllDOMElements(lang) {
+      const isHi = (lang === 'hi');
+
+      // 1. Slicer Labels & Global Controls
+      const cadreLblEl = document.getElementById('lblCadreSlicer') || document.querySelector('.slicer-group:nth-child(2) .slicer-label');
+      if (cadreLblEl) cadreLblEl.innerText = isHi ? 'संवर्ग / भूमिका:' : 'CADRE / ROLE:';
+      const progLblEl = document.getElementById('lblProgramSlicer') || document.querySelector('.slicer-group:nth-child(1) .slicer-label');
+      if (progLblEl) progLblEl.innerText = isHi ? 'कार्यक्रम स्लाइसर:' : 'PROGRAM SLICER:';
+
+      // 2. Tab 4: D360 Labels & Sorters
+      document.querySelectorAll('#tab-d360 label, #tab-d360 .stat-lbl, #tab-d360 .slicer-label').forEach(el => {
+        const t = el.innerText.trim();
+        if (t.includes('SELECT DISTRICT:') || t.includes('ज़िला चुनें:')) el.innerText = isHi ? 'ज़िला चुनें:' : 'SELECT DISTRICT:';
+        if (t.includes('VIEW MODE:') || t.includes('देखने का प्रकार:')) el.innerText = isHi ? 'देखने का प्रकार:' : 'VIEW MODE:';
+        if (t.includes('BLOCK FOCUS:') || t.includes('ब्लॉक फ़िल्टर:')) el.innerText = isHi ? 'ब्लॉक फ़िल्टर:' : 'BLOCK FOCUS:';
+        if (t.includes('SELECT DISTRICT A:') || t.includes('ज़िला A चुनें:')) el.innerText = isHi ? 'ज़िला A चुनें:' : 'SELECT DISTRICT A:';
+        if (t.includes('SELECT DISTRICT B:') || t.includes('ज़िला B चुनें:')) el.innerText = isHi ? 'ज़िला B चुनें:' : 'SELECT DISTRICT B:';
+        if (t.includes('BLOCK SCALE:') || t.includes('ब्लॉक पैमाना:')) el.innerText = isHi ? '🏢 ब्लॉक पैमाना:' : '🏢 BLOCK SCALE:';
+      });
+
+      // 3. Tab 5: Cohort Titles & Headers
+      document.querySelectorAll('#tab-cohort h2, #tab-cohort h3, #tab-cohort .sec-title, #tab-cohort .panel-head-title').forEach(el => {
+        const t = el.innerText.trim();
+        if (t.includes('In Plain Words') || t.includes('अगस्त बनाम सितंबर का सीधा हिसाब')) el.innerText = isHi ? 'अगस्त बनाम सितंबर का सीधा हिसाब (सरल विश्लेषण)' : 'In Plain Words: What Happened in August vs. September?';
+        if (t.includes('Month-Over-Month Teacher Flow') || t.includes('माह-दर-माह शिक्षक प्रवाह')) el.innerText = isHi ? '🔄 माह-दर-माह शिक्षक प्रवाह (अगस्त ➔ सितंबर)' : '🔄 Month-Over-Month Teacher Flow (August ➔ September)';
+        if (t.includes('Actionable Calling Sheets') || t.includes('कॉलिंग शीट')) el.innerText = isHi ? '📋 ब्लॉक एवं ज़िलों हेतु कार्ययोजना एवं कॉलिंग शीट' : '📋 Actionable Calling Sheets for Blocks & Districts';
+        if (t.includes('Teacher Attendance & Reach Matrix') || t.includes('उपस्थिति एवं पहुँच मैट्रिक्स')) el.innerText = isHi ? '🗺️ 52-ज़िला शिक्षक उपस्थिति एवं पहुँच मैट्रिक्स' : '🗺️ 52-District Teacher Attendance & Reach Matrix';
+      });
+
+      // 4. Tab 11: Research Paper Title & Abstract
+      document.querySelectorAll('#tab-research h2, #tab-research .panel-head-title').forEach(el => {
+        const t = el.innerText.trim();
+        if (t.includes('Decentralized Professional Learning') || t.includes('विकेंद्रीकृत व्यावसायिक शिक्षण')) {
+          el.innerText = isHi 
+            ? 'विकेंद्रीकृत व्यावसायिक शिक्षण समुदाय एवं शैक्षणिक परिवर्तन: मध्य प्रदेश के शिक्षक संवाद (कक्षा 6–8) का अनुभवजन्य एवं गुणात्मक अध्ययन' 
+            : "Decentralized Professional Learning Communities and Pedagogical Transformation: An Empirical and Qualitative Study of Madhya Pradesh's Shikshak Samvad (Grades 6–8)";
+        }
+      });
+
+      // 5. Button Patterns & Text Replacements
+      const rules = [
+        { test: /State Chart/i, hi: '📊 राज्य चार्ट', en: '📊 State Chart' },
+        { test: /52-District Heatmap/i, hi: '🗺️ 52-ज़िला हीटमैप', en: '🗺️ 52-District Heatmap' },
+        { test: /High Att\.\s*&\s*High Score/i, hiPrefix: '🏆 उच्च उपस्थिति एवं उच्च गुणवत्ता', enPrefix: '🏆 High Att. & High Score' },
+        { test: /High Att\.,\s*Needs Pedagogy/i, hiPrefix: '📈 उच्च उपस्थिति, शिक्षाशास्त्र सुधार', enPrefix: '📈 High Att., Needs Pedagogy' },
+        { test: /High Score,\s*Needs Att\./i, hiPrefix: '🎯 उच्च गुणवत्ता, उपस्थिति वृद्धि', enPrefix: '🎯 High Score, Needs Att.' },
+        { test: /Priority Support Zone/i, hiPrefix: '🚨 प्राथमिकता सहायता क्षेत्र', enPrefix: '🚨 Priority Support Zone' },
+        { test: /All 52 Districts/i, hi: 'सभी 52 ज़िले', en: 'All 52 Districts' },
+        { test: /Top 15/i, hi: 'शीर्ष 15', en: 'Top 15' },
+        { test: /Bottom 15/i, hi: 'अंतिम 15', en: 'Bottom 15' },
+        { test: /District Sum/i, hi: '📊 ज़िला योग', en: '📊 District Sum' },
+        { test: /Block Bifurcation/i, hi: '🔀 ब्लॉक विभाजन', en: '🔀 Block Bifurcation' },
+        { test: /Jump to Peer Comparator/i, hi: '⚖️ समकक्ष ज़िला तुलना देखें ↓', en: '⚖️ Jump to Peer Comparator & Chart ↓' },
+        { test: /Open in Block Directory/i, hi: '🏢 ब्लॉक डायरेक्टरी में खोलें', en: '🏢 Open in Block Directory' },
+        { test: /Same-Block Peer Match:\s*ON/i, hi: '🔒 समान ब्लॉक मिलान: चालू', en: '🔒 Same-Block Peer Match: ON' },
+        { test: /Same-Block Peer Match:\s*OFF/i, hi: '🔓 समान ब्लॉक मिलान: बंद', en: '🔓 Same-Block Peer Match: OFF' },
+        { test: /Low Universe Saturation/i, hi: '🚨 कम संतृप्ति (<40%)', en: '🚨 Low Universe Saturation (<40%)' },
+        { test: /District Breakdown/i, hi: '🌐 ज़िलावार विवरण', en: '🌐 District Breakdown' },
+        { test: /Block-Wise Breakdown/i, hi: '🏢 ब्लॉकवार विवरण', en: '🏢 Block-Wise Breakdown' },
+        { test: /English Abstract/i, hi: 'अंग्रेज़ी सारांश', en: 'English Abstract' },
+        { test: /Hindi Abstract/i, hi: 'हिन्दी सारांश', en: 'Hindi Abstract' },
+        { test: /Academic Utility:/i, hiPrefix: '● शैक्षणिक उपयोगिता:', enPrefix: '● Academic Utility:' },
+        { test: /Joyful Pedagogies:/i, hiPrefix: '● आनंदमयी शिक्षण पद्धतियाँ:', enPrefix: '● Joyful Pedagogies:' },
+        { test: /Infra & Tech:/i, hiPrefix: '● अधोसंरचना एवं तकनीकी:', enPrefix: '● Infra & Tech:' },
+        { test: /Motivation & Trust:/i, hiPrefix: '● प्रेरणा एवं विश्वास:', enPrefix: '● Motivation & Trust:' },
+        { test: /^✕\s*Clear/i, hi: '✕ साफ़ करें', en: '✕ Clear' },
+        { test: /^All\s*\(\d+\)/i, hiPrefix: 'सभी', enPrefix: 'All' },
+        { test: /Coming Back/i, hi: 'पुनः सहभागिता >60%', en: 'Coming Back >60%' },
+        { test: /New Joining/i, hi: 'नए शिक्षक >50%', en: 'New Joining >50%' },
+        { test: /Reached\s*<\s*80%/i, hi: 'कुल पहुँच <80%', en: 'Reached <80%' },
+        { test: /Export District Matrix/i, hi: '📥 ज़िला मैट्रिक्स डाउनलोड (.CSV)', en: '📥 Export District Matrix (.CSV)' },
+        { test: /View 360°|360° देखें/i, hi: '360° देखें', en: 'View 360°' },
+        { test: /👥\s*Turnout/i, hi: '👥 सहभागिता', en: '👥 Turnout' },
+        { test: /🎯\s*Saturation\s*%/i, hi: '🎯 संतृप्ति %', en: '🎯 Saturation %' },
+        { test: /📈\s*Pedagogy\s*%/i, hi: '📈 शिक्षाशास्त्र %', en: '📈 Pedagogy %' },
+        { test: /🏫\s*Avg\/Block/i, hi: '🏫 औसत/ब्लॉक', en: '🏫 Avg/Block' }
+      ];
+
+      document.querySelectorAll('button, .badge, .status-chip, .slicer-label, label, th').forEach(el => {
+        const rawText = el.innerText.trim();
+        if (!rawText) return;
+
+        for (const rule of rules) {
+          if (rule.test.test(rawText)) {
+            if (rule.hiPrefix) {
+              const matchCount = rawText.match(/\(([^)]+)\)|(:\s*[0-9,]+(\.[0-9]+%?)?(\s*\([0-9.]+%)?\)?)/);
+              const suffix = matchCount ? ' ' + matchCount[0] : '';
+              el.innerText = isHi ? (rule.hiPrefix + suffix) : (rule.enPrefix + suffix);
+            } else if (rule.hi && rule.en) {
+              el.innerText = isHi ? rule.hi : rule.en;
+            }
+            break;
+          }
+        }
+      });
+
+      // 6. Global Table Headers Map (including RF Matrix & Cohort Matrix)
+      document.querySelectorAll('th').forEach(th => {
+        let clean = th.innerText.trim().replace(/[⇅⬍↓↑]/g, '').trim();
+        const icon = th.innerText.includes('⬍') ? ' ⬍' : (th.innerText.includes('⇅') ? ' ⇅' : '');
+        const map = {
+          'TOTAL REACH %': 'कुल पहुँच %',
+          'TOTAL REACHED SO FAR': 'अब तक कुल पहुँचे शिक्षक',
+          'DISTRICT': 'ज़िला',
+          'District': 'ज़िला',
+          'District Name': 'ज़िले का नाम',
+          'DISTRICT NAME': 'ज़िले का नाम',
+          'BLOCK NAME': 'ब्लॉक का नाम',
+          'Block Name': 'ब्लॉक का नाम',
+          'MONITORS': 'मॉनिटर',
+          'Monitors': 'मॉनिटर',
+          'FACILITATORS': 'फैसिलिटेटर',
+          'Facilitators': 'फैसिलिटेटर',
+          'TEACHERS': 'शिक्षक',
+          'Teachers': 'शिक्षक',
+          'TEACHER PARTICIPANTS': 'उपस्थित शिक्षक',
+          'Teacher Participants': 'उपस्थित शिक्षक',
+          'TEACHER UNIVERSE': 'कुल शिक्षक संख्या',
+          'Teacher Universe': 'कुल शिक्षक संख्या',
+          'TOTAL MOBILIZED': 'कुल सहभागिता',
+          'Total Mobilized': 'कुल सहभागिता',
+          '% OF DISTRICT MOBILIZATION': 'ज़िला सहभागिता का %',
+          '% of District Mobilization': 'ज़िला सहभागिता का %',
+          'SATURATION %': 'संतृप्ति %',
+          'Saturation %': 'संतृप्ति %',
+          'Saturation Rate': 'संतृप्ति दर',
+          'TURNOUT': 'सहभागिता',
+          'Turnout': 'सहभागिता',
+          'Trust %': 'विश्वास %',
+          'Academic %': 'शैक्षणिक %',
+          'Problem %': 'समस्या निवारण %',
+          'Growth %': 'वृद्धि %',
+          'Rating': 'रेटिंग',
+          'Action': 'कार्यवाही',
+          'S.NO': 'क्र.सं.',
+          'S.No': 'क्र.सं.',
+          'QUADRANT CLASSIFICATION': 'चतुर्थांश वर्गीकरण',
+          'Quadrant Classification': 'चतुर्थांश वर्गीकरण',
+          'Pedagogy Score': 'शिक्षाशास्त्र स्कोर',
+          'PEDAGOGY SCORE': 'शिक्षाशास्त्र स्कोर',
+          'Strategic Action': 'रणनीतिक कार्ययोजना',
+          'SUB-INDICATOR (FROM CLSS AUG_RF REVIEW)': 'उप-संकेतक (समीक्षा आधारित)',
+          'OFFICIAL TARGET': 'आधिकारिक लक्ष्य',
+          'AUGUST ACHIEVEMENT': 'अगस्त उपलब्धि',
+          'STATUS TAG': 'स्थिति',
+          'NEXT STEPS / ACTION ITEMS': 'अगले कदम / कार्ययोजना',
+          'ASPIRATIONAL DISTRICT': 'आकांक्षी ज़िला',
+          'Aspirational District': 'आकांक्षी ज़िला',
+          'AUGUST ATTENDEES': 'अगस्त उपस्थिति',
+          'August Attendees': 'अगस्त उपस्थिति',
+          'SEPTEMBER ATTENDEES': 'सितंबर उपस्थिति',
+          'September Attendees': 'सितंबर उपस्थिति',
+          'NET CHANGE': 'शुद्ध परिवर्तन',
+          'Net Change': 'शुद्ध परिवर्तन',
+          'TRAJECTORY STATUS': 'प्रगति स्थिति',
+          'Trajectory Status': 'प्रगति स्थिति',
+          'AUG ATTENDED': 'अगस्त उपस्थिति',
+          'SEP ATTENDED': 'सितंबर उपस्थिति',
+          'REGULAR TEACHERS': 'नियमित शिक्षक',
+          'COMING BACK %': 'पुनः सहभागिता %',
+          'NEW TEACHERS': 'नए शिक्षक',
+          'NEW JOINING %': 'नए शिक्षक %',
+          'MISSED LAST MONTH': 'पिछले माह अनुपस्थित',
+          'TARGET UNIVERSE': 'लक्षित शिक्षक संख्या',
+          'STATUS': 'स्थिति',
+          'CLUSTERS': 'क्लस्टर',
+          'ATTENDEES': 'उपस्थित',
+          'Ind 7 (DO Reach)': 'पहुंच (IND 7)',
+          'Ind 8 (DO Knowledge)': 'ज्ञान (IND 8)',
+          'Ind 10 (Fac. Skills)': 'दक्षता (IND 10)',
+          'Ind 12 (CLSS Clarity)': 'स्पष्टता (IND 12)',
+          'Ind 13 (Pedagogy)': 'गुणवत्ता (IND 13)',
+          'IND 13 (PED. UTILITY)': 'उपयोगिता (IND 13)',
+          'IND 14 (DIALOGUE QUALITY)': 'संवाद गुणवत्ता (IND 14)',
+          'IND 15 (TEACHER TRUST)': 'शिक्षक विश्वास (IND 15)',
+          'IND 18 (PEDAGOGY DIAGNOSTIC)': 'शिक्षाशास्त्र निदान (IND 18)'
+        };
+        if (isHi && map[clean]) {
+          th.innerText = map[clean] + icon;
+        }
+      });
+
+      // 7. Translate Search Placeholders
+      document.querySelectorAll('input[type="text"], input[type="search"]').forEach(inp => {
+        inp.placeholder = isHi ? '🔍 ज़िला या ब्लॉक का नाम खोजें...' : '🔍 Search district or block...';
+      });
+    }
+    
+      // Final 3 elements precision mapping
+      const d360TitleEl = document.getElementById('d360MainHeaderTitle') || document.querySelector('#tab-d360 .panel-head-title') || document.querySelector('#tab-d360 div[style*="font-size: 18px"]');
+      if (d360TitleEl) d360TitleEl.innerText = isHi ? 'ज़िला 360° समग्र प्रोफ़ाइल एवं ब्लॉक विभाजन' : 'District 360° Comprehensive Profile & Block Bifurcation';
+
+      document.querySelectorAll('label[for="blockDistrictSelect"], #blockFilterDistrictLabel').forEach(el => {
+        el.innerText = isHi ? 'ज़िला फ़िल्टर:' : 'Filter District:';
+      });
+
+      const qbSelectLbl = document.getElementById('qbSelectLabel') || document.querySelector('label[for="questionSelect"]');
+      if (qbSelectLbl) qbSelectLbl.innerText = isHi ? 'प्रश्न / शीट चुनें (सक्रिय फ़िल्टर के अनुसार):' : 'SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):';
+
+    // Final explicit ID targets
+
+      const d360Heading = document.getElementById('d360MainHeaderHeading') || document.querySelector('#tab-d360 h2');
+      if (d360Heading) d360Heading.innerText = isHi ? 'ज़िला 360° समग्र प्रोफ़ाइल एवं ब्लॉक विभाजन' : 'District 360° Comprehensive Profile & Block Bifurcation';
+
+      const blkFiltLabel = document.getElementById('blockDistrictFilterLabel') || document.querySelector('label[for="blockDistrictSelect"]');
+      if (blkFiltLabel) blkFiltLabel.innerText = isHi ? 'ज़िला फ़िल्टर:' : 'Filter District:';
+
+      const qbLblTarget = document.getElementById('qbSelectLabel') || document.querySelector('label[for="questionSelect"]');
+      if (qbLblTarget) qbLblTarget.innerText = isHi ? 'प्रश्न / शीट चुनें (सक्रिय फ़िल्टर के अनुसार):' : 'SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):';
+
+    
+      // Complete Panel Headings & Titles Translation Engine
+      const allTitlesMap = [
+        { test: /Stakeholder Cadre Breakdown/i, hi: '👥 संवर्ग अनुसार सहभागिता विवरण', en: '👥 Stakeholder Cadre Breakdown' },
+        { test: /Pedagogy Benchmark/i, hi: '🎯 शिक्षण गुणवत्ता बेंचमार्क', en: '🎯 Pedagogy Benchmark' },
+        { test: /Teacher Trust Index/i, hi: '✨ शिक्षक विश्वास सूचकांक', en: '✨ Teacher Trust Index' },
+        { test: /4-Quadrant District Priority Matrix/i, hi: '📊 राज्यस्तरीय 4-चतुर्थांश ज़िला प्राथमिकता मैट्रिक्स (सहभागिता बनाम शिक्षण गुणवत्ता)', en: '📊 Statewide 4-Quadrant District Priority Matrix (Turnout vs. Pedagogy Accuracy)' },
+        { test: /Sub-Indicator Performance Breakdown/i, hi: 'उप-संकेतक प्रदर्शन विवरण', en: 'Sub-Indicator Performance Breakdown' },
+        { test: /Sub-Indicators\s*&\s*Data Source Verification/i, hi: 'उप-संकेतक एवं डेटा स्रोत सत्यापन', en: 'Sub-Indicators & Data Source Verification' },
+        { test: /Ground Classroom Reality/i, hi: '🏫 ज़मीनी कक्षा वास्तविकता एवं शिक्षण त्रिकोणीय सत्यापन (CRO डेटासेट)', en: '🏫 Ground Classroom Reality & Pedagogy Triangulation (CRO Dataset)' },
+        { test: /Block-Level Cadre Comparison Chart/i, hiPrefix: '📊 ब्लॉक-स्तरीय संवर्ग तुलना चार्ट', enPrefix: '📊 Block-Level Cadre Comparison Chart' },
+        { test: /Block-Level Cadre Roster/i, hiPrefix: '🏢 ब्लॉक-स्तरीय संवर्ग रोस्टर एवं योगदान तालिका', enPrefix: '🏢 Block-Level Cadre Roster & Contribution Table' },
+        { test: /District Pedagogy Assessment Scores/i, hi: '📊 ज़िला शिक्षाशास्त्र मूल्यांकन स्कोर', en: '📊 District Pedagogy Assessment Scores' },
+        { test: /Attendance Gender Split/i, hi: '🚻 उपस्थिति लिंग विभाजन (महिला बनाम पुरुष)', en: '🚻 Attendance Gender Split (Female vs Male)' },
+        { test: /Side-by-Side District Comparator/i, hi: '⚖️ समकक्ष ज़िला तुलना (किन्हीं 2 ज़िलों की तुलना करें)', en: '⚖️ Side-by-Side District Comparator (Benchmark Any 2 Districts)' },
+        { test: /Madhya Pradesh Block Directory/i, hiPrefix: '🏢 मध्य प्रदेश ब्लॉक डायरेक्टरी', enPrefix: '🏢 Madhya Pradesh Block Directory' },
+        { test: /Universal Survey\s*&\s*Question Explorer/i, hiPrefix: '📋 सार्वभौमिक सर्वे एवं प्रश्नोत्तरी अन्वेषक', enPrefix: '📋 Universal Survey & Question Explorer' },
+        { test: /Top Breakthrough Turnarounds/i, hi: '🚀 शीर्ष प्रगतिशील एवं उल्लेखनीय सुधार वाले ज़िले (सितंबर बनाम अगस्त)', en: '🚀 Top Breakthrough Turnarounds & Gainers (Sep vs. Aug)' },
+        { test: /Districts Requiring Focus/i, hi: '⚠️ विशेष ध्यान एवं त्वरित हस्तक्षेप हेतु चिन्हित ज़िले', en: '⚠️ Districts Requiring Focus & Rapid Intervention' },
+        { test: /NITI Aspirational Districts/i, hiPrefix: '⭐ नीति आयोग आकांक्षी ज़िले (8) — बहु-चक्रीय प्रगति मैट्रिक्स', enPrefix: '⭐ NITI Aspirational Districts (8) — Multi-Cycle Trajectory Matrix' },
+        { test: /Pedagogical Competencies\s*&\s*Survey/i, hi: '🧠 शैक्षणिक दक्षताएँ एवं सर्वे समझ में वृद्धि', en: '🧠 Pedagogical Competencies & Survey Understanding Growth' },
+        { test: /Priority Governance Directives/i, hi: '🎯 अक्टूबर 2026 चक्र हेतु प्राथमिकता प्रशासनिक निर्देश', en: '🎯 Priority Governance Directives for October 2026 Cycle' },
+        { test: /Theoretical\s*&\s*Conceptual Foundations/i, hi: '🏛️ सैद्धांतिक एवं अवधारणात्मक आधार', en: '🏛️ Theoretical & Conceptual Foundations' },
+        { test: /Multi-Cadre Empirical Sample Architecture/i, hiPrefix: '📊 बहु-संवर्ग अनुभवजन्य नमूना संरचना', enPrefix: '📊 Multi-Cadre Empirical Sample Architecture' },
+        { test: /Longitudinal Teacher Retention/i, hiPrefix: '👥 दीर्घकालिक शिक्षक प्रतिधारण एवं कोहोर्ट विश्लेषण', enPrefix: '👥 Longitudinal Teacher Retention & Churn Cohorts' },
+        { test: /Thematic Topology of Field Voices/i, hiPrefix: '🗣️ मैदानी आवाज़ों की विषयगत टोपोलॉजी (30,000+ प्रविष्टियाँ)', enPrefix: '🗣️ Thematic Topology of Field Voices' },
+        { test: /Cadre Alignment:\s*DO Leaders/i, hi: '⚖️ संवर्ग समन्वय: ज़िला नेतृत्व बनाम कक्षा शिक्षक', en: '⚖️ Cadre Alignment: DO Leaders vs Classroom Teachers' },
+        { test: /Diagnostic Distractor Deconstruction/i, hi: '🛑 निदानात्मक विकर्षक विश्लेषण (भ्रांतियों का मूल कारण)', en: '🛑 Diagnostic Distractor Deconstruction' }
+      ];
+
+      document.querySelectorAll('.panel-head-title, .panel-title, .bento-title, h1, h2, h3, h4, .sec-title').forEach(el => {
+        const txt = el.innerText.trim();
+        for (const item of allTitlesMap) {
+          if (item.test.test(txt)) {
+            if (item.hiPrefix) {
+              const matchExtra = txt.match(/\([^)]+\)/);
+              const extra = matchExtra ? ' ' + matchExtra[0] : '';
+              el.innerText = isHi ? (item.hiPrefix + extra) : (item.enPrefix + extra);
+            } else if (item.hi && item.en) {
+              el.innerText = isHi ? item.hi : item.en;
+            }
+            break;
+          }
+        }
+      });
+
+    window.translateAllDOMElements = translateAllDOMElements;
+
 
     function setLanguage(lang) {
       if (currentLang === lang) return;
       currentLang = lang;
 
+      const isHi = (lang === 'hi');
       const btnEn = document.getElementById('langBtnEn');
       const btnHi = document.getElementById('langBtnHi');
       const pill = document.getElementById('langSliderPill');
       if (pill) {
-        pill.style.transform = (lang === 'hi') ? 'translateX(64px)' : 'translateX(0px)';
+        pill.style.transform = isHi ? 'translateX(64px)' : 'translateX(0px)';
       }
-      if (btnEn) btnEn.classList.toggle('active', lang === 'en');
-      if (btnHi) btnHi.classList.toggle('active', lang === 'hi');
+      if (btnEn) btnEn.classList.toggle('active', !isHi);
+      if (btnHi) btnHi.classList.toggle('active', isHi);
 
       const fadeTargets = document.querySelectorAll('.title-group, .studio-nav, .slicer-ribbon, .bento-kpi-grid, .tab-section.active');
       fadeTargets.forEach(el => el.classList.add('lang-fading'));
@@ -4482,37 +4872,15 @@
       requestAnimationFrame(() => {
         const t = translations[lang] || translations.en;
 
-        // 1. Update KPI labels
-        const kpiCovLblEl = document.getElementById('kpiCoverageLabel');
-        if (kpiCovLblEl) kpiCovLblEl.innerText = t.kpiCoverageLbl;
-        const kpiRchLblEl = document.getElementById('kpiReachLabel');
-        if (kpiRchLblEl) kpiRchLblEl.innerText = t.kpiReachLbl;
-        const kpiTeachLblEl = document.getElementById('kpiTeachersLabel');
-        if (kpiTeachLblEl) kpiTeachLblEl.innerText = t.kpiTeachLbl;
-        const kpiDoLblEl = document.getElementById('kpiDoLabel');
-        if (kpiDoLblEl) kpiDoLblEl.innerText = t.kpiDoLbl;
-        const kpiCadreLblEl = document.getElementById('kpiCadreLabel');
-        if (kpiCadreLblEl) kpiCadreLblEl.innerText = t.kpiCadreLbl;
-        const kpiDoBdgEl = document.getElementById('kpiDoBadge');
-        if (kpiDoBdgEl && t.kpiDoBadge) kpiDoBdgEl.innerText = t.kpiDoBadge;
-        const kpiCadreBdgEl = document.getElementById('kpiCadreBadge');
-        if (kpiCadreBdgEl && t.kpiCadreBadge) kpiCadreBdgEl.innerText = t.kpiCadreBadge;
-        const kpiVarg2LblEl = document.getElementById('kpiVarg2Label');
-        if (kpiVarg2LblEl && t.kpiVarg2Lbl) kpiVarg2LblEl.innerText = t.kpiVarg2Lbl;
-        const kpiVarg2BdgEl = document.getElementById('kpiVarg2Badge');
-        if (kpiVarg2BdgEl && t.kpiVarg2Badge) kpiVarg2BdgEl.innerText = t.kpiVarg2Badge;
-        const kpiVarg2DescEl = document.getElementById('kpiVarg2Desc');
-        if (kpiVarg2DescEl && t.kpiVarg2Desc) kpiVarg2DescEl.innerText = t.kpiVarg2Desc;
+        // 1. Cycle Slicers
+        const cycleAugBtn = document.querySelector('button[onclick*="\'AUG\'"]');
+        if (cycleAugBtn) cycleAugBtn.innerText = t.cycleAug;
+        const cycleSepBtn = document.querySelector('button[onclick*="\'SEP\'"]');
+        if (cycleSepBtn) cycleSepBtn.innerText = t.cycleSep;
+        const cycleConsBtn = document.querySelector('button[onclick*="\'CONSOLIDATED\'"]');
+        if (cycleConsBtn) cycleConsBtn.innerText = t.cycleCons;
 
-        // 2. Header Title & Subtitle
-        const titleEl = document.querySelector('.title-group h1');
-        if (titleEl) titleEl.innerHTML = t.title;
-        const subEl = document.querySelector('.title-group p');
-        if (subEl) {
-          subEl.innerHTML = `${t.subtitle} <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
-        }
-
-        // 3. Program & Role Slicers
+        // 2. Program & Role Slicers
         const pSlicerLbl = document.querySelector('.slicer-group:nth-child(1) .slicer-label');
         if (pSlicerLbl) pSlicerLbl.innerText = t.progSlicerLabel;
         const pBtns = document.querySelectorAll('#programSlicer .slicer-btn');
@@ -4532,122 +4900,114 @@
           rBtns[3].innerText = t.cadreMon;
         }
 
-        // 4. Navigation Ribbon (All 10 Tabs - Clean, Polished, Zero-Overlap)
-        const navItems = document.querySelectorAll('.studio-nav .nav-item');
-        if (navItems.length >= 8) {
-          navItems[0].innerHTML = t.navOverview;
-          navItems[1].innerHTML = t.navRf;
-          navItems[2].innerHTML = t.navD360;
-          navItems[3].innerHTML = t.navLeague;
-          navItems[4].innerHTML = t.navBlocks;
-          navItems[5].innerHTML = t.navQuestions;
-          navItems[6].innerHTML = t.navPedagogy;
-          navItems[7].innerHTML = t.navGov;
-        }
-        const btnInsights = document.getElementById('navTabInsights') || (navItems.length >= 9 ? navItems[8] : null);
-        if (btnInsights) {
-          btnInsights.innerHTML = t.navInsights || (lang === 'hi' ? '🤖 9. एआई अंतर्दृष्टि' : '🤖 9. AI Insights');
-        }
-        const btnResearch = document.getElementById('navTabResearch') || (navItems.length >= 10 ? navItems[9] : null);
-        if (btnResearch) {
-          btnResearch.innerHTML = t.navResearch || (lang === 'hi' ? '📚 10. गुणात्मक शोध' : '📚 10. Qualitative Research');
-        }
-        const btnCohort = document.getElementById('navTabCohort') || (navItems.length >= 11 ? navItems[10] : null);
-        if (btnCohort) {
-          btnCohort.innerHTML = (lang === 'hi' ? '👥 11. शिक्षक उपस्थिति प्रवाह' : '👥 11. Teacher Attendance Flow');
-        }
-        const lblCohortTitle = document.getElementById('lblCohortTitle');
-        if (lblCohortTitle) {
-          lblCohortTitle.innerHTML = (lang === 'hi' ? 'अगस्त बनाम सितंबर का सीधा हिसाब (In Plain Words)' : 'In Plain Words: What Happened in August vs. September?');
-        }
-        const lblCohortSubtitle = document.getElementById('lblCohortSubtitle');
-        if (lblCohortSubtitle) {
-          lblCohortSubtitle.innerHTML = (lang === 'hi' ? 'अगस्त और सितंबर सत्रों के बीच वास्तविक शिक्षक उपस्थिति का सीधा और स्पष्ट विवरण। ब्लॉक और जिला अधिकारियों के लिए तुरंत कार्रवाई योग्य डेटा।' : 'Clear, easy-to-understand breakdown of teacher participation across August and September using verified EmployeeCode records. Designed for teachers, block officers, and district officials to take immediate action.');
-        }
-        if (typeof initInsightsTab === 'function') {
-          initInsightsTab();
-        }
-        if (typeof initResearchTab === 'function') {
-          initResearchTab();
+        // 3. Navigation Ribbon (All 11 Tabs)
+        const navMap = [
+          { sel: 'button[onclick*="tab-overview"]', text: t.navOverview },
+          { sel: 'button[onclick*="tab-rf"]', text: t.navRf },
+          { sel: 'button[onclick*="tab-pedagogy"]', text: t.navPedagogy },
+          { sel: 'button[onclick*="tab-d360"]', text: t.navD360 },
+          { sel: 'button[onclick*="tab-cohort"]', text: t.navCohort },
+          { sel: 'button[onclick*="tab-league"]', text: t.navLeague },
+          { sel: 'button[onclick*="tab-blocks"]', text: t.navBlocks },
+          { sel: 'button[onclick*="tab-questions"]', text: t.navQuestions },
+          { sel: 'button[onclick*="tab-governance"]', text: t.navGov },
+          { sel: 'button[onclick*="tab-insights"]', text: t.navInsights },
+          { sel: 'button[onclick*="tab-research"]', text: t.navResearch }
+        ];
+        navMap.forEach(n => {
+          const btn = document.querySelector(n.sel);
+          if (btn) btn.innerText = n.text;
+        });
+
+        // 4. Header Title & Subtitle
+        const titleEl = document.querySelector('.title-group h1');
+        if (titleEl) titleEl.innerHTML = t.title;
+        const subEl = document.querySelector('.title-group p');
+        if (subEl) {
+          subEl.innerHTML = `${t.subtitle} <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
         }
 
-        // 5. Tab 1: Overview Panel Titles & Scope Buttons
-        const ovCadreEl = document.getElementById('ovCadreBreakdownTitle');
-        if (ovCadreEl) ovCadreEl.innerText = t.ovCadreBreakdownTitle;
-        const ovPedEl = document.getElementById('ovPedagogyBenchmarkTitle');
-        if (ovPedEl) ovPedEl.innerText = t.ovPedagogyBenchmarkTitle;
-        const ovTrustEl = document.getElementById('ovTrustIndexTitle');
-        if (ovTrustEl) ovTrustEl.innerText = t.ovTrustIndexTitle;
-        const ovTrustBadgeEl = document.getElementById('ovTrustBadge');
-        if (ovTrustBadgeEl) ovTrustBadgeEl.innerText = t.ovTrustBadge;
-        const ovQuadEl = document.getElementById('ovQuadrantMatrixTitle');
-        if (ovQuadEl) ovQuadEl.innerText = t.ovQuadrantMatrixTitle;
+        // 5. Update KPI labels
+        const kpiCovLblEl = document.getElementById('kpiCoverageLabel');
+        if (kpiCovLblEl) kpiCovLblEl.innerText = t.kpiCoverageLbl;
+        const kpiRchLblEl = document.getElementById('kpiReachLabel');
+        if (kpiRchLblEl) kpiRchLblEl.innerText = t.kpiReachLbl;
+        const kpiTeachLblEl = document.getElementById('kpiTeachersLabel');
+        if (kpiTeachLblEl) kpiTeachLblEl.innerText = t.kpiTeachLbl;
+        const kpiDoLblEl = document.getElementById('kpiDoLabel');
+        if (kpiDoLblEl) kpiDoLblEl.innerText = t.kpiDoLbl;
+        const kpiCadreLblEl = document.getElementById('kpiCadreLabel');
+        if (kpiCadreLblEl) kpiCadreLblEl.innerText = t.kpiCadreLbl;
+        const kpiVarg2LblEl = document.getElementById('kpiVarg2Label');
+        if (kpiVarg2LblEl && t.kpiVarg2Lbl) kpiVarg2LblEl.innerText = t.kpiVarg2Lbl;
 
-        const btnAll = document.getElementById('btnScopeAll');
-        if (btnAll) btnAll.innerText = t.btnScopeAll;
-        const btnT15 = document.getElementById('btnScopeTop15');
-        if (btnT15) btnT15.innerText = t.btnScopeTop15;
-        const btnB15 = document.getElementById('btnScopeBottom15');
-        if (btnB15) btnB15.innerText = t.btnScopeBottom15;
+        // 6. Tab 1 Panel Titles & Buttons
+        const cadreBreakdownH = document.getElementById('cadreBreakdownHeading');
+        if (cadreBreakdownH) cadreBreakdownH.innerText = t.ovCadreBreakdownTitle;
+        const pedBenchH = document.getElementById('pedagogyBenchmarkHeading');
+        if (pedBenchH) pedBenchH.innerText = t.ovPedagogyBenchmarkTitle;
+        const trustIdxH = document.getElementById('trustIndexHeading');
+        if (trustIdxH) trustIdxH.innerText = t.ovTrustIndexTitle;
+        const quadMatrixH = document.getElementById('quadrantMatrixHeading');
+        if (quadMatrixH) quadMatrixH.innerText = t.ovQuadrantMatrixTitle;
 
-        const btnTrustCh = document.getElementById('btnTrustChart');
-        if (btnTrustCh) btnTrustCh.innerText = t.btnTrustChart;
-        const btnTrustHm = document.getElementById('btnTrustHeatmap');
-        if (btnTrustHm) btnTrustHm.innerText = t.btnTrustHeatmap;
+        // Quadrant Filter Buttons
+        const quadBtns = document.querySelectorAll('#tab-overview .quad-filter-btn');
+        if (quadBtns.length >= 5) {
+          quadBtns[0].innerText = t.btnQuadAll;
+          quadBtns[1].innerText = t.btnQuadQ1;
+          quadBtns[2].innerText = t.btnQuadQ2;
+          quadBtns[3].innerText = t.btnQuadQ3;
+          quadBtns[4].innerText = t.btnQuadQ4;
+        }
 
-        // 6. Tab 2: Results Framework
-        const rfHead = document.getElementById('rfScorecardHeading');
-        if (rfHead) rfHead.innerText = t.rfScorecardHeading;
-        const rfSub = document.querySelector('#tab-rf p');
-        if (rfSub) rfSub.innerText = t.rfScorecardSub;
-        const rfDetChart = document.getElementById('rfDetailChartTitle');
-        if (rfDetChart) rfDetChart.innerText = t.rfDetailChartTitle;
-        const rfSubMetHead = document.getElementById('rfSubMetricsHeading');
-        if (rfSubMetHead) rfSubMetHead.innerText = t.rfSubMetricsHeading;
-        const rfMatHead = document.getElementById('rfMatrixHeading');
-        if (rfMatHead) rfMatHead.innerText = t.rfMatrixHeading;
-        const rfMatSearch = document.getElementById('rfMatrixSearch');
-        if (rfMatSearch) rfMatSearch.placeholder = t.rfMatrixSearchPl;
+        // 7. Tab 2: RF Headings
+        const rfScoreH = document.getElementById('rfScorecardHeading');
+        if (rfScoreH) rfScoreH.innerText = t.rfScorecardHead;
+        const rfSubH = document.getElementById('rfSubIndicatorHeading');
+        if (rfSubH) rfSubH.innerText = t.rfSubHead;
+        const rfVerifH = document.getElementById('rfVerificationHeading');
+        if (rfVerifH) rfVerifH.innerText = t.rfVerifHead;
+        const rfMatrixH = document.getElementById('rfMatrixHeading');
+        if (rfMatrixH) rfMatrixH.innerText = t.rfMatrixHead;
 
-        // 7. Tab 3: District 360
-        const d360Head = document.getElementById('d360MainHeading') || document.querySelector('#tab-d360 h2');
-        if (d360Head) d360Head.innerText = t.d360Title;
-        const d360P = document.querySelector('#tab-d360 p');
-        if (d360P) d360P.innerText = t.d360Sub;
-        const d360DistLbl = document.querySelector('label[for="d360Dropdown"]');
-        if (d360DistLbl) d360DistLbl.innerText = t.d360LblDist;
-        const d360ModeLbl = document.querySelector('#tab-d360 .slicer-pills')?.previousElementSibling;
-        if (d360ModeLbl) d360ModeLbl.innerText = t.d360LblMode;
-        const btnSum = document.getElementById('d360BtnSum');
-        if (btnSum) btnSum.innerText = t.d360BtnSum;
-        const btnBif = document.getElementById('d360BtnBifurcate');
-        if (btnBif) btnBif.innerText = t.d360BtnBif;
-        const d360BlockLbl = document.querySelector('label[for="d360BlockDropdown"]');
-        if (d360BlockLbl) d360BlockLbl.innerText = t.d360LblBlock;
-        if (typeof populateD360BlockDropdown === 'function') populateD360BlockDropdown();
+        // 8. Tab 3: Pedagogy
+        const pedRadH = document.getElementById('pedRadarHeading') || document.getElementById('pedRadarHeadTitle');
+        if (pedRadH) pedRadH.innerText = t.pedRadarHead;
+        const pedDiagH = document.getElementById('pedDiagHeading');
+        if (pedDiagH) pedDiagH.innerText = t.pedDiagHead;
+        const pedMisH = document.getElementById('pedMisconHeading');
+        if (pedMisH) pedMisH.innerText = t.pedMisconHead;
 
+        // 9. Tab 4: D360
+        const d360CadreH = document.getElementById('d360CadreHeading');
+        if (d360CadreH) d360CadreH.innerText = t.d360CadreBarHead;
+        const d360TableH = document.getElementById('d360BlockTableHeading');
+        if (d360TableH) d360TableH.innerText = t.d360CadreTableHead;
         const d360PedH = document.getElementById('d360PedHeading');
         if (d360PedH) d360PedH.innerText = t.d360PedHead;
-        const d360GenH = document.getElementById('d360GenderHeading');
-        if (d360GenH) d360GenH.innerText = t.d360GenderHead;
-        const d360CmpH = document.getElementById('d360CompHeading');
-        if (d360CmpH) d360CmpH.innerText = t.d360CompHead;
+        const d360GenderH = document.getElementById('d360GenderHeading');
+        if (d360GenderH) d360GenderH.innerText = t.d360GenderHead;
+        const d360CompH = document.getElementById('d360ComparatorHeading');
+        if (d360CompH) d360CompH.innerText = t.d360CompHead;
 
-        // 8. Tab 4: District League
-        const leagueHeadEl = document.getElementById('leagueTableHeading');
-        if (leagueHeadEl) leagueHeadEl.innerText = t.leagueHead;
-        const leagueInput = document.getElementById('leagueFilter');
-        if (leagueInput) leagueInput.placeholder = t.leagueSearchPl;
+        // 10. Tab 5: Cohort Headings
+        const cohortFlowH = document.getElementById('cohortFlowHeading');
+        if (cohortFlowH) cohortFlowH.innerText = t.cohortFlowHead;
+        const cohortCallsH = document.getElementById('cohortCallsHeading');
+        if (cohortCallsH) cohortCallsH.innerText = t.cohortCallsHead;
+        const cohortMatrixH = document.getElementById('cohortMatrixHeading');
+        if (cohortMatrixH) cohortMatrixH.innerText = t.cohortMatrixHead;
 
-        // 9. Tab 5: Block Directory
-        const blockHeadEl = document.getElementById('blockTableHeading');
-        if (blockHeadEl) blockHeadEl.innerText = t.blockDirHead;
-        const blockDistLbl = document.querySelector('label[for="blockDistrictSelect"]');
-        if (blockDistLbl) blockDistLbl.innerText = t.blockFilterDist;
-        const blockInput = document.getElementById('blockFilter');
-        if (blockInput) blockInput.placeholder = t.blockSearchPl;
+        // 11. Tab 6: League Headings
+        const leagueH = document.getElementById('leagueTableHeading');
+        if (leagueH) leagueH.innerText = (activeProgram === 'DO') ? t.leagueHeadDO : ((activeProgram === 'CLSS') ? t.leagueHeadCLSS : t.leagueHeadALL);
 
-        // 10. Tab 6: Question Bank
+        // 12. Tab 7: Blocks
+        const blockH = document.getElementById('blockDirectoryHeading');
+        if (blockH) blockH.innerText = t.blockHead;
+
+        // 13. Tab 8: Questions
         const qBankH = document.getElementById('qBankHeading');
         if (qBankH) qBankH.innerText = t.qBankHead;
         const qRespH = document.getElementById('qRespDistHeading');
@@ -4657,21 +5017,37 @@
         const qHeatH = document.getElementById('qDistHeatmapHeading');
         if (qHeatH) qHeatH.innerText = t.qDistHeatmapHead;
 
-        // 11. Tab 7: Pedagogy Radar & Misconception Engine
-        const pedRadH = document.getElementById('pedRadarHeading') || document.getElementById('pedRadarHeadTitle');
-        if (pedRadH) pedRadH.innerText = t.pedRadarHead;
-        const pedDiagH = document.getElementById('pedDiagHeading');
-        if (pedDiagH) pedDiagH.innerText = t.pedDiagHead;
-        const pedMisH = document.getElementById('pedMisconHeading');
-        if (pedMisH) pedMisH.innerText = t.pedMisconHead;
-
-        // 12. Tab 8: Governance
+        // 14. Tab 9: Governance
         const govH = document.getElementById('govHeading');
         if (govH) govH.innerText = t.govHead;
 
+        // 15. Translate All Static Table Headers (thead th)
+        translateStaticTableHeaders(isHi);
+        translateAllDOMElements(lang);
+
+        // 16. Translate Inputs & Search Placeholders
+        const searchInputs = document.querySelectorAll('input[type="text"], input[type="search"]');
+        searchInputs.forEach(inp => {
+          if (inp.placeholder && (inp.placeholder.includes('Search') || inp.placeholder.includes('खोजें'))) {
+            inp.placeholder = isHi ? 'ज़िला या ब्लॉक का नाम खोजें...' : 'Search district or block name...';
+          }
+        });
+
+        // 17. Translate Action Buttons (View 360, Expand, CSV)
+        document.querySelectorAll('button').forEach(btn => {
+          const txt = btn.innerText.trim();
+          if (txt === 'View 360°' || txt === '360° देखें') {
+            btn.innerText = isHi ? '360° देखें' : 'View 360°';
+          } else if (txt === '⤢ Expand' || txt === '⤢ विस्तार करें') {
+            btn.innerText = isHi ? '⤢ विस्तार करें' : '⤢ Expand';
+          } else if (txt.includes('Export') && txt.includes('CSV')) {
+            btn.innerText = isHi ? '📥 डेटा डाउनलोड (.CSV)' : '📥 Export CSV';
+          }
+        });
+
         if (typeof updateBriefingDrawerLanguage === 'function') updateBriefingDrawerLanguage(lang);
 
-        // Active Tab First Update (Immediate 60fps)
+        // Refresh dropdowns and re-render active/background tables
         refreshDistrictDropdownsHindi();
         updateKPIs();
 
@@ -4681,7 +5057,6 @@
         if (activeTabId === 'tab-overview') {
           initOverviewCharts();
           populateQuadrantBentoCards();
-      if (typeof initResearchTab === 'function') initResearchTab();
           initQuadrantTable();
           if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
         } else if (activeTabId === 'tab-rf') {
@@ -4700,20 +5075,24 @@
           renderQuestionBankActive();
         } else if (activeTabId === 'tab-pedagogy') {
           initPedagogyRadar();
+        } else if (activeTabId === 'tab-cohort') {
+          if (typeof renderCohortTab === 'function') renderCohortTab();
         } else if (activeTabId === 'tab-governance') {
           initGovernance();
+        } else if (activeTabId === 'tab-research') {
+          if (typeof initResearchTab === 'function') initResearchTab();
         }
 
-        // Staggered background refresh for inactive tabs to eliminate frame drops
+        // Staggered background refresh for inactive tabs
         setTimeout(() => {
           if (activeTabId !== 'tab-overview') {
             initOverviewCharts();
             populateQuadrantBentoCards();
-      if (typeof initResearchTab === 'function') initResearchTab();
             initQuadrantTable();
           }
           if (activeTabId !== 'tab-league') initDistrictLeague();
           if (activeTabId !== 'tab-governance') initGovernance();
+          if (activeTabId !== 'tab-research' && typeof initResearchTab === 'function') initResearchTab();
         }, 60);
 
         setTimeout(() => {
@@ -4722,6 +5101,7 @@
             if (typeof renderRFIndicatorCards === 'function') { renderRFIndicatorCards(); setTimeout(() => animateNumbersInContainer(document.getElementById('tab-rf')), 50); }
             if (typeof initRFMatrixTable === 'function') initRFMatrixTable();
           }
+          if (activeTabId !== 'tab-cohort' && typeof renderCohortTab === 'function') renderCohortTab();
         }, 120);
 
         setTimeout(() => {
@@ -4740,6 +5120,98 @@
         }, 70);
       });
     }
+
+    function translateStaticTableHeaders(isHi) {
+      // 1. Trust Heatmap Table Header
+      const trustThead = document.querySelector('#trustHeatmapTable thead');
+      if (trustThead) {
+        trustThead.innerHTML = `<tr>
+          <th title="Serial Number" style="width: 45px;">#</th>
+          <th title="District Name">${isHi ? 'ज़िला' : 'District'}</th>
+          <th title="Teacher Turnout" style="text-align: right;">${isHi ? 'सहभागिता' : 'Turnout'}</th>
+          <th title="Q91 Net Trust Index" style="text-align: right;">${isHi ? 'विश्वास %' : 'Trust %'}</th>
+          <th title="Q89 Academic Utility" style="text-align: right;">${isHi ? 'शैक्षणिक %' : 'Academic %'}</th>
+          <th title="Q90 Problem Resolution" style="text-align: right;">${isHi ? 'समस्या निवारण %' : 'Problem %'}</th>
+          <th title="Q88 Professional Growth" style="text-align: right;">${isHi ? 'वृद्धि %' : 'Growth %'}</th>
+          <th title="Overall Rating" style="text-align: center;">${isHi ? 'रेटिंग' : 'Rating'}</th>
+          <th style="text-align: center; width: 90px;">${isHi ? 'कार्यवाही' : 'Action'}</th>
+        </tr>`;
+      }
+
+      // 2. Quadrant Table Header
+      const quadThead = document.querySelector('#quadrantDistTable thead');
+      if (quadThead) {
+        quadThead.innerHTML = `<tr>
+          <th style="width: 50px;">${isHi ? 'क्र.सं.' : 'S.No'}</th>
+          <th>${isHi ? 'ज़िला' : 'District'}</th>
+          <th>${isHi ? 'चतुर्थांश वर्गीकरण' : 'Quadrant Classification'}</th>
+          <th style="text-align: right;">${isHi ? 'उपस्थित शिक्षक' : 'Attending Teachers'}</th>
+          <th style="text-align: right;">${isHi ? 'औसत/क्लस्टर' : 'Avg / Cluster'}</th>
+          <th style="text-align: right;">${isHi ? 'शिक्षाशास्त्र स्कोर' : 'Pedagogy Score'}</th>
+          <th>${isHi ? 'रणनीतिक कार्ययोजना' : 'Strategic Action'}</th>
+        </tr>`;
+      }
+
+      // 3. Block Directory Table Header
+      const blockThead = document.querySelector('#blockDirectoryTable thead');
+      if (blockThead) {
+        blockThead.innerHTML = `<tr>
+          <th style="width: 50px;">#</th>
+          <th>${isHi ? 'ज़िले का नाम' : 'District Name'}</th>
+          <th>${isHi ? 'ब्लॉक का नाम' : 'Block Name'}</th>
+          <th style="text-align: right;">${isHi ? 'मॉनिटर' : 'Monitors'}</th>
+          <th style="text-align: right;">${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
+          <th style="text-align: right;">${isHi ? 'उपस्थित शिक्षक' : 'Teacher Participants'}</th>
+          <th style="text-align: right;">${isHi ? 'कुल सहभागिता' : 'Total Mobilized'}</th>
+          <th style="text-align: right;">${isHi ? 'ज़िला सहभागिता का %' : '% of District Mobilization'}</th>
+        </tr>`;
+      }
+
+      // 4. District 360 Block Table Header
+      const d360BlockThead = document.querySelector('#d360BlockTable thead');
+      if (d360BlockThead) {
+        d360BlockThead.innerHTML = `<tr>
+          <th style="width: 50px;">#</th>
+          <th>${isHi ? 'ब्लॉक का नाम' : 'Block Name'}</th>
+          <th style="text-align: right;">${isHi ? 'मॉनिटर' : 'Monitors'}</th>
+          <th style="text-align: right;">${isHi ? 'फैसिलिटेटर' : 'Facilitators'}</th>
+          <th style="text-align: right;">${isHi ? 'कुल शिक्षक संख्या' : 'Teacher Universe'}</th>
+          <th style="text-align: right;">${isHi ? 'उपस्थित शिक्षक' : 'Teacher Participants'}</th>
+          <th style="text-align: right;">${isHi ? 'संतृप्ति %' : 'Saturation %'}</th>
+          <th style="text-align: right;">${isHi ? 'कुल सहभागिता' : 'Total Mobilized'}</th>
+          <th style="text-align: right;">${isHi ? 'ज़िला सहभागिता का %' : '% of District Mobilization'}</th>
+        </tr>`;
+      }
+
+      // 5. RF Matrix Table Header
+      const rfMatrixThead = document.querySelector('#rfStatewideMatrix thead');
+      if (rfMatrixThead) {
+        rfMatrixThead.innerHTML = `<tr>
+          <th>${isHi ? 'ज़िला' : 'District'}</th>
+          <th style="text-align: right;">${isHi ? 'क्लस्टर' : 'Clusters'}</th>
+          <th style="text-align: right;">${isHi ? 'उपस्थित' : 'Attendees'}</th>
+          <th style="text-align: right;">${isHi ? 'पहुंच (IND 7)' : 'Ind 7 (DO Reach)'}</th>
+          <th style="text-align: right;">${isHi ? 'ज्ञान (IND 8)' : 'Ind 8 (DO Knowledge)'}</th>
+          <th style="text-align: right;">${isHi ? 'दक्षता (IND 10)' : 'Ind 10 (Fac. Skills)'}</th>
+          <th style="text-align: right;">${isHi ? 'स्पष्टता (IND 12)' : 'Ind 12 (CLSS Clarity)'}</th>
+          <th style="text-align: right;">${isHi ? 'गुणवत्ता (IND 13)' : 'Ind 13 (Pedagogy)'}</th>
+        </tr>`;
+      }
+
+      // 6. Aspirational Districts Table Header (Tab 10)
+      const aspThead = document.querySelector('#aspirationalTable thead');
+      if (aspThead) {
+        aspThead.innerHTML = `<tr>
+          <th>${isHi ? 'आकांक्षी ज़िला' : 'Aspirational District'}</th>
+          <th style="text-align: right;">${isHi ? 'अगस्त उपस्थिति' : 'August Attendees'}</th>
+          <th style="text-align: right;">${isHi ? 'सितंबर उपस्थिति' : 'September Attendees'}</th>
+          <th style="text-align: right;">${isHi ? 'शुद्ध परिवर्तन' : 'Net Change'}</th>
+          <th style="text-align: right;">${isHi ? 'संतृप्ति दर' : 'Saturation Rate'}</th>
+          <th style="text-align: center;">${isHi ? 'प्रगति स्थिति' : 'Trajectory Status'}</th>
+        </tr>`;
+      }
+    }
+    window.translateStaticTableHeaders = translateStaticTableHeaders;
 
     function refreshDistrictDropdownsHindi() {
       const isHi = (currentLang === 'hi');
@@ -5204,6 +5676,7 @@
     window.animateNumbersInContainer = animateNumbersInContainer;
 
     function activateTab(tabId, el) {
+      if (typeof translateAllDOMElements === 'function') translateAllDOMElements(currentLang);
       window.activateTab = activateTab;
       window.activeTabId = tabId;
       document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
@@ -5242,6 +5715,9 @@
       }
 
       // Trigger rolling count-up animations on all numeric elements in this tab
+      if (activeSec && typeof translateAllDOMElements === 'function') {
+        translateAllDOMElements(currentLang);
+      }
       if (activeSec && typeof animateNumbersInContainer === 'function') {
         setTimeout(() => animateNumbersInContainer(activeSec, 520), 40);
       }
@@ -6383,7 +6859,7 @@
               <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${(d.do_participants || 0).toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${(d.do_total || 0).toLocaleString()}</td>
               <td>${status}</td>
-              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
+              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">${isHi ? "360° देखें" : "View 360°"}</button></td>
             </tr>
           `;
         });
@@ -6438,7 +6914,7 @@
               <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${d.attendees.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${d.total.toLocaleString()}</td>
               <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
-              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
+              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">${isHi ? "360° देखें" : "View 360°"}</button></td>
             </tr>
           `;
         });
@@ -6501,7 +6977,7 @@
               <td class="font-mono">${dCadre.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${comb.toLocaleString()}</td>
               <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
-              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
+              <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">${isHi ? "360° देखें" : "View 360°"}</button></td>
             </tr>
           `;
         });
@@ -9198,7 +9674,7 @@
           <td class="font-mono">${d.totalClusters}</td>
           <td class="font-mono">${avgPerCluster}</td>
           <td style="font-size: 11px; color: var(--text-secondary); max-width: 260px;">${qInfo.action}</td>
-          <td style="text-align: right;"><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
+          <td style="text-align: right;"><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">${isHi ? "360° देखें" : "View 360°"}</button></td>
         `;
         tbody.appendChild(tr);
       });
