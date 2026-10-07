@@ -7547,12 +7547,16 @@
 
       const filtered = surveys.filter(s => {
         if (progFilter !== 'ALL' && s.program && s.program !== progFilter) return false;
-        if (roleFilter !== 'ALL' && s.cadre) {
-          const cLower = s.cadre.toLowerCase();
+        if (roleFilter !== 'ALL') {
+          const rawRole = (s.role || s.cadre || '').toLowerCase();
           const rLower = roleFilter.toLowerCase();
-          if (rLower.includes('part') && !cLower.includes('part') && !cLower.includes('teach')) return false;
-          if (rLower.includes('fac') && !cLower.includes('fac')) return false;
-          if (rLower.includes('obs') && !cLower.includes('mon') && !cLower.includes('obs')) return false;
+          if (rLower.includes('part') || rLower.includes('teach')) {
+            if (!rawRole.includes('part') && !rawRole.includes('teach')) return false;
+          } else if (rLower.includes('fac')) {
+            if (!rawRole.includes('fac')) return false;
+          } else if (rLower.includes('obs') || rLower.includes('mon')) {
+            if (!rawRole.includes('mon') && !rawRole.includes('obs')) return false;
+          }
         }
         return true;
       });
