@@ -1812,41 +1812,41 @@
           </div>
         </div>
 
-        <!-- Dynamic 4-Quadrant Interactive Bento Cards -->
+                <!-- Dynamic 4-Quadrant Interactive Bento Cards -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px;">
           <div id="cardQuad1" onclick="filterQuadrant('Q1')" style="background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH ATTENDANCE & HIGH SCORE</div>
               <span class="pill-badge" id="q1Badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;">15 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + High Teaching Score (≥56%)</div>
+            <div id="q1Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + High Teaching Score (≥56%)</div>
             <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad2" onclick="filterQuadrant('Q2')" style="background: rgba(0, 138, 171, 0.06); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">📈 Q2: HIGH ATTENDANCE, NEEDS PEDAGOGY FOCUS</div>
+              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: HIGH ATTENDANCE, NEEDS PEDAGOGY FOCUS</div>
               <span class="pill-badge" id="q2Badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;">10 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + Teaching Score Gap (&lt;56%)</div>
+            <div id="q2Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + Teaching Score Gap (&lt;56%)</div>
             <div id="q2Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad3" onclick="filterQuadrant('Q3')" style="background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.25); border-left: 4px solid var(--accent-indigo); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">🎯 Q3: HIGH SCORE, NEEDS ATTENDANCE BOOST</div>
+              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">🚀 Q3: HIGH SCORE, NEEDS ATTENDANCE BOOST</div>
               <span class="pill-badge" id="q3Badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;">13 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Teaching Score (≥56%) + Attendance &lt;450</div>
+            <div id="q3Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Attendance Boost Needed (&lt;450) + High Score (≥56%)</div>
             <div id="q3Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad4" onclick="filterQuadrant('Q4')" style="background: rgba(220, 38, 38, 0.06); border: 1px solid rgba(220, 38, 38, 0.25); border-left: 4px solid var(--accent-rose); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">🚨 Q4: PRIORITY SUPPORT ZONE</div>
+              <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">⚠️ Q4: PRIORITY SUPPORT ZONE</div>
               <span class="pill-badge" id="q4Badge" style="background: rgba(220, 38, 38, 0.18); color: var(--accent-rose); font-weight: 700;">14 Districts</span>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance &lt;450 + Teaching Score Gap (&lt;56%)</div>
+            <div id="q4Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance (&lt;450) + Teaching Score Gap (&lt;56%)</div>
             <div id="q4Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
         </div>
@@ -9022,8 +9022,34 @@
     // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER
     // ==========================================
     let currentQuadFilter = 'ALL';
-    const TURNOUT_BENCHMARK = 450;
-    const PEDAGOGY_BENCHMARK = 56;
+
+    function getActiveQuadrantBenchmarks() {
+      if (currentCycle === 'CONSOLIDATED') {
+        return {
+          turnout: 900,
+          pedagogy: 62,
+          turnoutLabel: '900+ Teachers (2-Cycle Combined)',
+          pedagogyLabel: '62% Accuracy (Composite Benchmark)',
+          cycleDescription: 'Combined August + September (2-Cycle Scale: Turnout ≥ 900, Pedagogy ≥ 62%)'
+        };
+      } else if (currentCycle === 'SEP') {
+        return {
+          turnout: 450,
+          pedagogy: 56,
+          turnoutLabel: '450+ Teachers (Monthly Benchmark)',
+          pedagogyLabel: '56% Accuracy (Subject Benchmark)',
+          cycleDescription: 'September 2026 (Monthly Scale: Turnout ≥ 450, Pedagogy ≥ 56%)'
+        };
+      } else {
+        return {
+          turnout: 450,
+          pedagogy: 56,
+          turnoutLabel: '450+ Teachers (Monthly Benchmark)',
+          pedagogyLabel: '56% Accuracy (Subject Benchmark)',
+          cycleDescription: 'August 2026 (Monthly Scale: Turnout ≥ 450, Pedagogy ≥ 56%)'
+        };
+      }
+    }
 
     function calculateDistrictPedagogyScore(dname) {
       const surveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
@@ -9081,7 +9107,8 @@
     }
 
     function getDistrictQuadrantInfo(turnout, pedScore) {
-      if (turnout >= TURNOUT_BENCHMARK && pedScore >= PEDAGOGY_BENCHMARK) {
+      const bench = getActiveQuadrantBenchmarks();
+      if (turnout >= bench.turnout && pedScore >= bench.pedagogy) {
         return {
           quad: 'Q1',
           label: 'Q1: Benchmark Champion',
@@ -9089,7 +9116,7 @@
           bgChip: 'background: rgba(5, 150, 105, 0.12); color: var(--accent-emerald); border: 1px solid rgba(5, 150, 105, 0.3);',
           action: 'Document & scale peer dialogue best practices'
         };
-      } else if (turnout >= TURNOUT_BENCHMARK && pedScore < PEDAGOGY_BENCHMARK) {
+      } else if (turnout >= bench.turnout && pedScore < bench.pedagogy) {
         return {
           quad: 'Q2',
           label: 'Q2: Scale, Pedagogy Gap',
@@ -9097,7 +9124,7 @@
           bgChip: 'background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.3);',
           action: 'Conduct targeted refresher on core competencies'
         };
-      } else if (turnout < TURNOUT_BENCHMARK && pedScore >= PEDAGOGY_BENCHMARK) {
+      } else if (turnout < bench.turnout && pedScore >= bench.pedagogy) {
         return {
           quad: 'Q3',
           label: 'Q3: Mobilization Need',
@@ -9131,6 +9158,7 @@
 
       let c1 = 0, c2 = 0, c3 = 0, c4 = 0;
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
+      const bench = getActiveQuadrantBenchmarks();
 
       dists.forEach(d => {
         const ped = calculateDistrictPedagogyScore(d.district);
@@ -9161,6 +9189,16 @@
       const btn2 = document.getElementById('q2BtnCount'); if (btn2) btn2.innerText = `${c2}`;
       const btn3 = document.getElementById('q3BtnCount'); if (btn3) btn3.innerText = `${c3}`;
       const btn4 = document.getElementById('q4BtnCount'); if (btn4) btn4.innerText = `${c4}`;
+
+      const s1 = document.getElementById('q1Subtext'); if (s1) s1.innerText = `High Attendance (≥${bench.turnout}) + High Teaching Score (≥${bench.pedagogy}%)`;
+      const s2 = document.getElementById('q2Subtext'); if (s2) s2.innerText = `High Attendance (≥${bench.turnout}) + Teaching Score Gap (<${bench.pedagogy}%)`;
+      const s3 = document.getElementById('q3Subtext'); if (s3) s3.innerText = `Attendance Boost Needed (<${bench.turnout}) + High Teaching Score (≥${bench.pedagogy}%)`;
+      const s4 = document.getElementById('q4Subtext'); if (s4) s4.innerText = `Priority Support: Low Turnout (<${bench.turnout}) + Pedagogy Gap (<${bench.pedagogy}%)`;
+
+      const refEl = document.getElementById('ovQuadrantChartRef');
+      if (refEl) {
+        refEl.innerHTML = `[Ref: <em>${bench.cycleDescription}</em> — Turnout from CLSS Participant Attendance vs Pedagogy Score Accuracy]`;
+      }
     }
 
     function initQuadrantTable() {
@@ -9173,6 +9211,7 @@
 
       let idx = 1;
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
+      const bench = getActiveQuadrantBenchmarks();
 
       const filtered = dists.filter(d => {
         const pedScore = calculateDistrictPedagogyScore(d.district);
@@ -9193,12 +9232,12 @@
           <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
           <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
           <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${turnout.toLocaleString()}</td>
-          <td class="font-mono" style="color: ${pedScore >= PEDAGOGY_BENCHMARK ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
+          <td class="font-mono" style="color: ${pedScore >= bench.pedagogy ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
           <td class="font-mono">${d.totalBlocks}</td>
           <td class="font-mono">${d.totalClusters}</td>
           <td class="font-mono">${avgPerCluster}</td>
           <td style="font-size: 11px; color: var(--text-secondary); max-width: 260px;">${qInfo.action}</td>
-          <td style="text-align: right;"><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
+          <td style="text-align: right;"><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360→</button></td>
         `;
         tbody.appendChild(tr);
       });
