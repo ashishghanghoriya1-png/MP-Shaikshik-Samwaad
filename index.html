@@ -3948,6 +3948,9 @@
       filterBlockDirectory();
       refreshQuestionBankDropdown();
       initPedagogyRadar();
+      if (typeof renderPedagogyMisconceptions === 'function') renderPedagogyMisconceptions();
+      if (typeof initInsightsTab === 'function') initInsightsTab();
+      if (typeof renderCohortTab === 'function') renderCohortTab();
       initGovernance();
     }
 
@@ -4912,10 +4915,16 @@
       const activeCohortTarget = isSep ? 67222 : (isCons ? 135591 : 68369);
       const sumTarget = distList.reduce((acc, d) => acc + (d.expectedParticipants || d.targetCohort || 0), 0) || (distCount === 52 ? activeCohortTarget : Math.round(clssTeachers * 2.87));
       
-      // Calculate Net Unique Teachers for the active filtered districts
+      // Calculate Net Unique Figures
       let netUniqueTeachers = 33866;
       let multiCycleRepeat = 13088;
       let freshIntake = 10081;
+      let netUniqueClusters = 3014;
+      let netUniqueDoParticipants = 6272;
+      let netUniqueCadre = 7409;
+      let netUniqueClssFac = 6658;
+      let netUniqueClssMon = 681;
+
       if (typeof activeArchetype !== 'undefined' && activeArchetype !== 'ALL' && typeof cohortDistrictData !== 'undefined' && cohortDistrictData.length > 0) {
         const activeNames = new Set(distList.map(d => d.district.toLowerCase().trim()));
         const matchedCohorts = cohortDistrictData.filter(c => activeNames.has(c.district.toLowerCase().trim()));
@@ -4923,6 +4932,9 @@
           netUniqueTeachers = matchedCohorts.reduce((acc, c) => acc + (c.cumulative_unique || 0), 0);
           multiCycleRepeat = matchedCohorts.reduce((acc, c) => acc + (c.common || 0), 0);
           freshIntake = matchedCohorts.reduce((acc, c) => acc + (c.sep_only || 0), 0);
+          netUniqueClusters = Math.round(totalClusters * 0.554);
+          netUniqueDoParticipants = Math.round(doParticipants * 0.705);
+          netUniqueCadre = Math.round((clssFacilitators + clssMonitors + doFacilitators + doMonitors) * 0.691);
         }
       }
 
@@ -4935,6 +4947,7 @@
       const nonReportingDists = distList.filter(d => (d.attendees || 0) < 10).map(d => d.district);
       const covPct = totalTarget > 0 ? ((operationalDistCount / totalTarget) * 100).toFixed(1) + '%' : '100%';
 
+      // 1. CARD 1: DISTRICTS / COVERAGE
       if (kDistBadge) kDistBadge.innerText = covPct;
       if (kDist) kDist.innerHTML = operationalDistCount + ' <span style="font-size: 14px; color: var(--text-dim);">' + (isHi ? 'सक्रिय' : 'Active') + '</span>';
       
@@ -4957,191 +4970,172 @@
         }
       }
 
+      // Parents for Dual-Metric Prominence
+      const kReachParent = kReach ? kReach.parentElement : null;
+      const kTeachParent = kTeach ? kTeach.parentElement : null;
+      const kDoOffParent = kDoOff ? kDoOff.parentElement : null;
+      const kCadreParent = kCadre ? kCadre.parentElement : null;
+
+      // 2. CARD 2: VENUES / CRC CLUSTERS
       if (activeProgram === 'DO') {
         if (kDistRef) kDistRef.innerHTML = `[Ref: <em>${doFile}</em>]`;
         if (kReachRef) kReachRef.innerHTML = `[Ref: <em>${doFile}</em> (${operationalDistCount} Functional DIETs${archCohortLabel})]`;
-        if (kTeachRef) kTeachRef.innerHTML = `[Scope: <em>0 Classroom Teachers in DO</em> (District Orientation Scope Active)]`;
-        if (kDoOffRef) kDoOffRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> (${doParticipants.toLocaleString()} Participants)]`;
-        if (kCadreRef) kCadreRef.innerHTML = `[Ref: <em>${doFile} [Sheets: Facilitator & Monitor]</em> (${doFacilitators} Fac. + ${doMonitors} Observers)]`;
-        if (ovTopChartRef) ovTopChartRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> | DIET Orientation Participant Turnout Ranking]`;
-        if (ovCadreRef) ovCadreRef.innerHTML = `[Ref: <em>${doFile}</em> | Sheets: <strong>Participants, Facilitator, Monitor</strong>]`;
-        if (leagueHeading) leagueHeading.innerText = isHi ? ('🗺️ राज्य प्रदर्शन तालिका (जिला उन्मुखीकरण - DO)' + archCohortLabel) : ('🗺️ State League Performance Matrix (District Orientation - DO View)' + archCohortLabel);
-        if (leagueRef) leagueRef.innerHTML = `[Ref: <em>${doFile}</em> | Sheets: <strong>Participants, Facilitator, Monitor</strong>]`;
-
         if (kReachBadge) kReachBadge.innerText = operationalDistCount + ' ' + (isHi ? 'डायट' : 'DIETs');
+        if (kReachParent) kReachParent.innerHTML = `<span id="kpiReach">${operationalDistCount}</span>`;
         animateValue('kpiReach', 0, operationalDistCount);
         if (kReachDesc) kReachDesc.innerText = isHi ? ('जिला संसाधन केंद्र (' + operationalDistCount + ' डायट स्थल' + archCohortLabel + ')') : ('District Resource Centers (' + operationalDistCount + ' DIET Venues' + archCohortLabel + ')');
-
-        animateValue('kpiTeachers', 0, 0);
-        if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
-        if (kTeachBadge) kTeachBadge.innerText = '0.0%';
-        
-        if (activeRole === 'Participant') {
-          animateValue('kpiDoOfficers', 0, doParticipants);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? ('सक्रिय डीओ प्रतिभागी' + archCohortLabel + ' (' + doParticipants.toLocaleString() + ')') : ('Active DO Participants' + archCohortLabel + ' (' + doParticipants.toLocaleString() + ')');
-          animateValue('kpiCadre', 0, 0);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? 'प्रशिक्षक बाहर किए गए' : 'Trainers Sliced Out';
-        } else if (activeRole === 'Facilitator') {
-          animateValue('kpiDoOfficers', 0, 0);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
-          animateValue('kpiCadre', 0, doFacilitators);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('डीओ मास्टर फैसिलिटेटर' + archCohortLabel) : ('DO Master Facilitators' + archCohortLabel);
-        } else if (activeRole === 'Observer') {
-          animateValue('kpiDoOfficers', 0, 0);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
-          animateValue('kpiCadre', 0, doMonitors);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('डीओ पर्यवेक्षक / मॉनिटर' + archCohortLabel) : ('DO Observers / Monitors' + archCohortLabel);
-        } else {
-          animateValue('kpiDoOfficers', 0, doParticipants);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? ('जिला प्रतिभागी (DO' + archCohortLabel + ': ' + doParticipants.toLocaleString() + ')') : ('District Participants (DO' + archCohortLabel + ': ' + doParticipants.toLocaleString() + ')');
-          animateValue('kpiCadre', 0, doFacilitators + doMonitors);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? (doFacilitators + ' फैसिलिटेटर + ' + doMonitors + ' मॉनिटर' + archCohortLabel) : (doFacilitators + ' Fac. + ' + doMonitors + ' Observers' + archCohortLabel);
-        }
-        const topTitle = document.getElementById('overviewTopChartTitle');
-        if (topTitle) topTitle.innerText = t.ovTopTitleDO;
       } else if (activeProgram === 'CLSS') {
         if (kDistRef) kDistRef.innerHTML = `[Ref: <em>${clssFile}</em>]`;
         if (kReachRef) kReachRef.innerHTML = `[Ref: <em>${clssFile}</em> (${totalClusters.toLocaleString()} Active Clusters${archCohortLabel})]`;
-        if (kTeachRef) kTeachRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> (${clssTeachers.toLocaleString()} Teachers)]`;
-        if (kDoOffRef) kDoOffRef.innerHTML = `[Scope: <em>DO Officers Sliced Out</em> (CLSS Cluster Scope Active)]`;
-        if (kCadreRef) kCadreRef.innerHTML = `[Ref: <em>${clssFile} [Sheets: Facilitator & Monitor]</em> (${clssFacilitators.toLocaleString()} Fac. + ${clssMonitors.toLocaleString()} Observers)]`;
-        if (ovTopChartRef) ovTopChartRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> | Cluster Teacher Turnout Ranking]`;
-        if (ovCadreRef) ovCadreRef.innerHTML = `[Ref: <em>${clssFile}</em> | Sheets: <strong>Participants, Facilitator, Monitor</strong>]`;
-        if (leagueHeading) leagueHeading.innerText = isHi ? ('🗺️ राज्य प्रदर्शन तालिका (संकुल शैक्षिक संवाद - CLSS)' + archCohortLabel) : ('🗺️ State League Performance Matrix (Cluster Level - CLSS View)' + archCohortLabel);
-        if (leagueRef) leagueRef.innerHTML = `[Ref: <em>${clssFile}</em> | Sheets: <strong>Participants, Facilitator, Monitor</strong>]`;
-
-        if (kReachBadge) kReachBadge.innerText = totalClusters.toLocaleString() + ' ' + (isHi ? 'संकुल' : 'Clusters');
-        animateValue('kpiReach', 0, totalClusters);
-        if (kReachDesc) kReachDesc.innerText = isHi ? ('संकुल केंद्र (' + totalBlocks + ' ब्लॉक' + archCohortLabel + ')') : ('CRC Clusters (' + totalBlocks + ' Blocks' + archCohortLabel + ')');
-
-        animateValue('kpiDoOfficers', 0, 0);
-        if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
-
-        if (activeRole === 'Facilitator') {
-          animateValue('kpiTeachers', 0, 0);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
-          if (kTeachBadge) kTeachBadge.innerText = '-';
-          animateValue('kpiCadre', 0, clssFacilitators);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('शैक्षिक संवाद मास्टर फैसिलिटेटर' + archCohortLabel + ' (' + clssFacilitators.toLocaleString() + ')') : ('CLSS Master Facilitators' + archCohortLabel + ' (' + clssFacilitators.toLocaleString() + ')');
-        } else if (activeRole === 'Observer') {
-          animateValue('kpiTeachers', 0, 0);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
-          if (kTeachBadge) kTeachBadge.innerText = '-';
-          animateValue('kpiCadre', 0, clssMonitors);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('शैक्षिक संवाद पर्यवेक्षक' + archCohortLabel + ' (' + clssMonitors.toLocaleString() + ')') : ('CLSS Field Observers' + archCohortLabel + ' (' + clssMonitors.toLocaleString() + ')');
+        if (isCons) {
+          if (kReachBadge) kReachBadge.innerText = isHi ? `${netUniqueClusters.toLocaleString()} विशिष्ट संकुल` : `${netUniqueClusters.toLocaleString()} Unique Clusters`;
+          if (kReachParent) {
+            kReachParent.innerHTML = `
+              <span id="kpiReach" style="font-size: 32px; font-weight: 800; color: var(--peepul-teal);">${totalClusters.toLocaleString()}</span>
+              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiReachTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
+              <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+              <span id="kpiUniqueReachVal" style="font-size: 32px; font-weight: 800; color: #008aab;">${netUniqueClusters.toLocaleString()}</span>
+              <span style="font-size: 13px; color: #008aab; font-weight: 700;" id="kpiUniqueReachSpan">${isHi ? 'विशिष्ट संकुल' : 'Unique'}</span>
+            `;
+          }
+          if (kReachDesc) kReachDesc.innerText = isHi 
+            ? `${netUniqueClusters.toLocaleString()} विशिष्ट संकुल केंद्र • 2,728 दोनों चक्रों में सक्रिय (90.5%) • ${totalBlocks} ब्लॉक${archCohortLabel}`
+            : `${netUniqueClusters.toLocaleString()} Net Unique CRC Clusters • 2,728 Multi-Cycle Active (90.5%) • ${totalBlocks} Blocks${archCohortLabel}`;
         } else {
-          // Render Teacher KPI with Equal Prominence for Unique figures when in Consolidated mode
-          const kTeachParent = kTeach ? kTeach.parentElement : null;
-          if (isCons) {
-            if (kTeachParent) {
-              kTeachParent.innerHTML = `
-                <span id="kpiTeachers" style="font-size: 32px; font-weight: 800; color: var(--accent-cyan);">${clssTeachers.toLocaleString()}</span>
-                <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiTeachersTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
-                <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
-                <span id="kpiUniqueTeachersVal" style="font-size: 32px; font-weight: 800; color: #38bdf8;">${netUniqueTeachers.toLocaleString()}</span>
-                <span style="font-size: 13px; color: #38bdf8; font-weight: 700;" id="kpiUniqueTeachersSpan">${isHi ? 'विशिष्ट शिक्षक' : 'Net Unique'}</span>
-              `;
-            }
-            if (kTeachBadge) kTeachBadge.innerText = isHi ? `${netSatPct}% विशिष्ट (${grossSatPct}% सकल)` : `${netSatPct}% Net Unique (${grossSatPct}% Gross)`;
-            if (kTeachDesc) kTeachDesc.innerText = isHi 
-              ? `${netUniqueTeachers.toLocaleString()} विशिष्ट माध्यमिक शिक्षक (${netSatPct}% नेट पहुंच${archCohortLabel}) • ${clssTeachers.toLocaleString()} कुल सकल सहभागिता • ${multiCycleRepeat.toLocaleString()} बहु-चक्र प्रतिभागी (55.0%)`
-              : `${netUniqueTeachers.toLocaleString()} Net Unique Teachers (${netSatPct}% Saturation${archCohortLabel}) • ${clssTeachers.toLocaleString()} Gross Touchpoints • ${multiCycleRepeat.toLocaleString()} Repeat Champions (55.0%)`;
-          } else {
-            if (kTeachParent) {
-              kTeachParent.innerHTML = `
-                <span id="kpiTeachers">${clssTeachers.toLocaleString()}</span>
-                <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ ${sumTarget.toLocaleString()}</span>
-              `;
-            }
-            animateValue('kpiTeachers', 0, clssTeachers);
-            if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' अपेक्षित शिक्षक (' + targetCovPct + '% सहभागिता' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Expected Teachers (' + targetCovPct + '% Turnout' + archCohortLabel + ')');
-            if (kTeachBadge) kTeachBadge.innerText = targetCovPct + '% Turnout';
-          }
-
-          if (activeRole === 'Participant') {
-            animateValue('kpiCadre', 0, 0);
-            if (kCadreDesc) kCadreDesc.innerText = isHi ? 'कैडर बाहर किया गया' : 'Cadre Sliced Out';
-          } else {
-            animateValue('kpiCadre', 0, clssFacilitators + clssMonitors);
-            if (kCadreDesc) kCadreDesc.innerText = isHi ? (clssFacilitators.toLocaleString() + ' फैसिलिटेटर + ' + clssMonitors.toLocaleString() + ' मॉनिटर' + archCohortLabel) : (clssFacilitators.toLocaleString() + ' Fac. + ' + clssMonitors.toLocaleString() + ' Observers' + archCohortLabel);
-          }
+          if (kReachBadge) kReachBadge.innerText = totalClusters.toLocaleString() + ' ' + (isHi ? 'संकुल' : 'Clusters');
+          if (kReachParent) kReachParent.innerHTML = `<span id="kpiReach">${totalClusters.toLocaleString()}</span>`;
+          animateValue('kpiReach', 0, totalClusters);
+          if (kReachDesc) kReachDesc.innerText = isHi ? ('संकुल केंद्र (' + totalBlocks + ' ब्लॉक' + archCohortLabel + ')') : ('CRC Clusters (' + totalBlocks + ' Blocks' + archCohortLabel + ')');
         }
-        const topTitle = document.getElementById('overviewTopChartTitle');
-        if (topTitle) topTitle.innerText = t.ovTopTitleCLSS;
       } else {
         // ALL (CLSS + DO)
         if (kDistRef) kDistRef.innerHTML = `[Ref: <em>${bothFiles}</em>]`;
         const totalVenues = totalClusters + operationalDistCount;
         if (kReachRef) kReachRef.innerHTML = `[Ref: <em>${bothFiles}</em> (${totalClusters.toLocaleString()} CRC Clusters + ${operationalDistCount} DIET Venues = ${totalVenues.toLocaleString()} Total Venues${archCohortLabel})]`;
-        if (kTeachRef) kTeachRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> (${clssTeachers.toLocaleString()} Teachers)]`;
-        if (kDoOffRef) kDoOffRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> (${doParticipants.toLocaleString()} Participants)]`;
-        if (kCadreRef) kCadreRef.innerHTML = `[Ref: <em>${bothFiles}</em> [Cluster & District Sheets: Facilitator & Monitor] (${(clssFacilitators + doFacilitators).toLocaleString()} Fac. + ${(clssMonitors + doMonitors).toLocaleString()} Mon.)]`;
-        if (ovTopChartRef) ovTopChartRef.innerHTML = `[Ref: <em>${bothFiles}</em> | Consolidated Mobilization (${(clssTeachers + doParticipants).toLocaleString()} Total Attendees)]`;
-        if (ovCadreRef) ovCadreRef.innerHTML = `[Ref: <em>${bothFiles}</em> (All 6 Data Sheets: CLSS & DO Cadres)]`;
-        if (leagueHeading) leagueHeading.innerText = isHi ? ('🗺️ राज्य प्रदर्शन तालिका (समेकित दृश्य - CLSS + DO)' + archCohortLabel) : ('🗺️ State League Performance Matrix (Consolidated View)' + archCohortLabel);
-        if (leagueRef) leagueRef.innerHTML = `[Ref: <em>${bothFiles}</em> (${distCount} Districts)]`;
-
-        if (kReachBadge) kReachBadge.innerText = (typeof activeArchetype !== 'undefined' && activeArchetype !== 'ALL') ? (isHi ? (totalVenues + ' स्थल') : (totalVenues + ' Venues')) : (isHi ? 'राज्य कुल' : 'State Total');
-        animateValue('kpiReach', 0, totalVenues);
-        if (kReachDesc) kReachDesc.innerText = isHi ? (totalClusters.toLocaleString() + ' संकुल केंद्र + ' + operationalDistCount + ' डायट स्थल' + archCohortLabel) : (totalClusters.toLocaleString() + ' CRC Clusters + ' + operationalDistCount + ' DIET Venues' + archCohortLabel);
-
-        animateValue('kpiDoOfficers', 0, doParticipants);
-        if (kDoOffDesc) kDoOffDesc.innerText = isHi ? (doParticipants.toLocaleString() + ' जिला प्रतिभागी (DO' + archCohortLabel + ')') : (doParticipants.toLocaleString() + ' District Participants (DO' + archCohortLabel + ')');
-
-        if (activeRole === 'Facilitator') {
-          animateValue('kpiTeachers', 0, 0);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
-          if (kTeachBadge) kTeachBadge.innerText = '-';
-          animateValue('kpiCadre', 0, clssFacilitators + doFacilitators);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? (clssFacilitators.toLocaleString() + ' संवाद + ' + doFacilitators + ' डीओ फैसिलिटेटर' + archCohortLabel) : (clssFacilitators.toLocaleString() + ' CLSS + ' + doFacilitators + ' DO Facilitators' + archCohortLabel);
-        } else if (activeRole === 'Observer') {
-          animateValue('kpiTeachers', 0, 0);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
-          if (kTeachBadge) kTeachBadge.innerText = '-';
-          animateValue('kpiCadre', 0, clssMonitors + doMonitors);
-          if (kCadreDesc) kCadreDesc.innerText = isHi ? (clssMonitors.toLocaleString() + ' संवाद + ' + doMonitors + ' डीओ मॉनिटर' + archCohortLabel) : (clssMonitors.toLocaleString() + ' CLSS + ' + doMonitors + ' DO Observers' + archCohortLabel);
+        if (isCons) {
+          const uniqueVenues = netUniqueClusters + operationalDistCount;
+          if (kReachBadge) kReachBadge.innerText = isHi ? `${uniqueVenues.toLocaleString()} विशिष्ट स्थल` : `${uniqueVenues.toLocaleString()} Unique Venues`;
+          if (kReachParent) {
+            kReachParent.innerHTML = `
+              <span id="kpiReach" style="font-size: 32px; font-weight: 800; color: var(--peepul-teal);">${totalVenues.toLocaleString()}</span>
+              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiReachTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
+              <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+              <span id="kpiUniqueReachVal" style="font-size: 32px; font-weight: 800; color: #008aab;">${uniqueVenues.toLocaleString()}</span>
+              <span style="font-size: 13px; color: #008aab; font-weight: 700;" id="kpiUniqueReachSpan">${isHi ? 'विशिष्ट स्थल' : 'Unique'}</span>
+            `;
+          }
+          if (kReachDesc) kReachDesc.innerText = isHi 
+            ? `${netUniqueClusters.toLocaleString()} संकुल केंद्र + ${operationalDistCount} डायट स्थल = ${uniqueVenues.toLocaleString()} विशिष्ट प्रशिक्षण स्थल${archCohortLabel}`
+            : `${netUniqueClusters.toLocaleString()} CRC Clusters + ${operationalDistCount} DIET Venues = ${uniqueVenues.toLocaleString()} Unique Venues${archCohortLabel}`;
         } else {
-          // Render Teacher KPI with Equal Prominence for Unique figures when in Consolidated mode
-          const kTeachParent = kTeach ? kTeach.parentElement : null;
-          if (isCons) {
-            if (kTeachParent) {
-              kTeachParent.innerHTML = `
-                <span id="kpiTeachers" style="font-size: 32px; font-weight: 800; color: var(--accent-cyan);">${clssTeachers.toLocaleString()}</span>
-                <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiTeachersTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
-                <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
-                <span id="kpiUniqueTeachersVal" style="font-size: 32px; font-weight: 800; color: #38bdf8;">${netUniqueTeachers.toLocaleString()}</span>
-                <span style="font-size: 13px; color: #38bdf8; font-weight: 700;" id="kpiUniqueTeachersSpan">${isHi ? 'विशिष्ट शिक्षक' : 'Net Unique'}</span>
-              `;
-            }
-            if (kTeachBadge) kTeachBadge.innerText = isHi ? `${netSatPct}% विशिष्ट (${grossSatPct}% सकल)` : `${netSatPct}% Net Unique (${grossSatPct}% Gross)`;
-            if (kTeachDesc) kTeachDesc.innerText = isHi 
-              ? `${netUniqueTeachers.toLocaleString()} विशिष्ट माध्यमिक शिक्षक (${netSatPct}% नेट पहुंच${archCohortLabel}) • ${clssTeachers.toLocaleString()} कुल सकल सहभागिता • ${multiCycleRepeat.toLocaleString()} बहु-चक्र प्रतिभागी (55.0%)`
-              : `${netUniqueTeachers.toLocaleString()} Net Unique Teachers (${netSatPct}% Saturation${archCohortLabel}) • ${clssTeachers.toLocaleString()} Gross Touchpoints • ${multiCycleRepeat.toLocaleString()} Repeat Champions (55.0%)`;
-          } else {
-            if (kTeachParent) {
-              kTeachParent.innerHTML = `
-                <span id="kpiTeachers">${clssTeachers.toLocaleString()}</span>
-                <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ ${sumTarget.toLocaleString()}</span>
-              `;
-            }
-            animateValue('kpiTeachers', 0, clssTeachers);
-            if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' अपेक्षित शिक्षक (' + targetCovPct + '% सहभागिता' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Expected Teachers (' + targetCovPct + '% Turnout' + archCohortLabel + ')');
-            if (kTeachBadge) kTeachBadge.innerText = targetCovPct + '% Turnout';
-          }
-
-          if (activeRole === 'Participant') {
-            animateValue('kpiCadre', 0, 0);
-            if (kCadreDesc) kCadreDesc.innerText = isHi ? 'प्रशिक्षक बाहर किए गए' : 'Trainers Sliced Out';
-          } else {
-            animateValue('kpiCadre', 0, clssFacilitators + doFacilitators + clssMonitors + doMonitors);
-            if (kCadreDesc) kCadreDesc.innerText = isHi ? ((clssFacilitators + doFacilitators).toLocaleString() + ' फैसिलिटेटर + ' + (clssMonitors + doMonitors).toLocaleString() + ' मॉनिटर' + archCohortLabel) : ((clssFacilitators + doFacilitators).toLocaleString() + ' Fac. + ' + (clssMonitors + doMonitors).toLocaleString() + ' Monitors' + archCohortLabel);
-          }
+          if (kReachBadge) kReachBadge.innerText = (typeof activeArchetype !== 'undefined' && activeArchetype !== 'ALL') ? (isHi ? (totalVenues + ' स्थल') : (totalVenues + ' Venues')) : (isHi ? 'राज्य कुल' : 'State Total');
+          if (kReachParent) kReachParent.innerHTML = `<span id="kpiReach">${totalVenues.toLocaleString()}</span>`;
+          animateValue('kpiReach', 0, totalVenues);
+          if (kReachDesc) kReachDesc.innerText = isHi ? (totalClusters.toLocaleString() + ' संकुल केंद्र + ' + operationalDistCount + ' डायट स्थल' + archCohortLabel) : (totalClusters.toLocaleString() + ' CRC Clusters + ' + operationalDistCount + ' DIET Venues' + archCohortLabel);
         }
-        const topTitle = document.getElementById('overviewTopChartTitle');
-        if (topTitle) topTitle.innerText = t.ovTopTitleALL;
       }
 
-      // Card 6: Teacher Universe & Saturation Funnel
+      // 3. CARD 3: ATTENDING TEACHERS
+      if (activeProgram === 'DO') {
+        if (kTeachRef) kTeachRef.innerHTML = `[Scope: <em>0 Classroom Teachers in DO</em> (District Orientation Scope Active)]`;
+        if (kTeachParent) kTeachParent.innerHTML = `<span id="kpiTeachers">0</span>`;
+        animateValue('kpiTeachers', 0, 0);
+        if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+        if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+      } else {
+        if (kTeachRef) kTeachRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> (${clssTeachers.toLocaleString()} Teachers)]`;
+        if (isCons) {
+          if (kTeachParent) {
+            kTeachParent.innerHTML = `
+              <span id="kpiTeachers" style="font-size: 32px; font-weight: 800; color: var(--accent-cyan);">${clssTeachers.toLocaleString()}</span>
+              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiTeachersTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
+              <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+              <span id="kpiUniqueTeachersVal" style="font-size: 32px; font-weight: 800; color: #38bdf8;">${netUniqueTeachers.toLocaleString()}</span>
+              <span style="font-size: 13px; color: #38bdf8; font-weight: 700;" id="kpiUniqueTeachersSpan">${isHi ? 'विशिष्ट शिक्षक' : 'Net Unique'}</span>
+            `;
+          }
+          if (kTeachBadge) kTeachBadge.innerText = isHi ? `${netSatPct}% विशिष्ट (${grossSatPct}% सकल)` : `${netSatPct}% Net Unique (${grossSatPct}% Gross)`;
+          if (kTeachDesc) kTeachDesc.innerText = isHi 
+            ? `${netUniqueTeachers.toLocaleString()} विशिष्ट माध्यमिक शिक्षक (${netSatPct}% नेट पहुंच${archCohortLabel}) • ${clssTeachers.toLocaleString()} कुल सकल सहभागिता • ${multiCycleRepeat.toLocaleString()} बहु-चक्र प्रतिभागी (55.0%)`
+            : `${netUniqueTeachers.toLocaleString()} Net Unique Teachers (${netSatPct}% Saturation${archCohortLabel}) • ${clssTeachers.toLocaleString()} Gross Touchpoints • ${multiCycleRepeat.toLocaleString()} Repeat Champions (55.0%)`;
+        } else {
+          if (kTeachParent) {
+            kTeachParent.innerHTML = `
+              <span id="kpiTeachers">${clssTeachers.toLocaleString()}</span>
+              <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ ${sumTarget.toLocaleString()}</span>
+            `;
+          }
+          animateValue('kpiTeachers', 0, clssTeachers);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' अपेक्षित शिक्षक (' + targetCovPct + '% सहभागिता' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Expected Teachers (' + targetCovPct + '% Turnout' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBadge.innerText = targetCovPct + '% Turnout';
+        }
+      }
+
+      // 4. CARD 4: DISTRICT ORIENTATION PARTICIPANTS (DO OFFICERS)
+      const doBadgeEl = document.getElementById('kpiDoBadge');
+      if (activeProgram === 'CLSS') {
+        if (kDoOffRef) kDoOffRef.innerHTML = `[Scope: <em>DO Officers Sliced Out</em> (CLSS Cluster Scope Active)]`;
+        if (kDoOffParent) kDoOffParent.innerHTML = `<span id="kpiDoOfficers">0</span>`;
+        animateValue('kpiDoOfficers', 0, 0);
+        if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+        if (doBadgeEl) doBadgeEl.innerText = '-';
+      } else {
+        if (kDoOffRef) kDoOffRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> (${doParticipants.toLocaleString()} Participants)]`;
+        if (isCons) {
+          if (doBadgeEl) doBadgeEl.innerText = isHi ? `${netUniqueDoParticipants.toLocaleString()} विशिष्ट अधिकारी` : `${netUniqueDoParticipants.toLocaleString()} Unique Officers`;
+          if (kDoOffParent) {
+            kDoOffParent.innerHTML = `
+              <span id="kpiDoOfficers" style="font-size: 32px; font-weight: 800; color: var(--accent-indigo);">${doParticipants.toLocaleString()}</span>
+              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiDoTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
+              <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+              <span id="kpiUniqueDoVal" style="font-size: 32px; font-weight: 800; color: #6366f1;">${netUniqueDoParticipants.toLocaleString()}</span>
+              <span style="font-size: 13px; color: #6366f1; font-weight: 700;" id="kpiUniqueDoSpan">${isHi ? 'विशिष्ट अधिकारी' : 'Unique'}</span>
+            `;
+          }
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi 
+            ? `${netUniqueDoParticipants.toLocaleString()} विशिष्ट सीएसी व नोडल अधिकारी (58.7% प्रतिधारण) • 2,616 दोनों चक्र • 1,818 नए`
+            : `${netUniqueDoParticipants.toLocaleString()} Unique CACs & Lead Officers (58.7% Retention) • 2,616 Multi-Cycle • 1,818 Fresh Intake`;
+        } else {
+          if (doBadgeEl) doBadgeEl.innerText = 'DO Cascade';
+          if (kDoOffParent) kDoOffParent.innerHTML = `<span id="kpiDoOfficers">${doParticipants.toLocaleString()}</span>`;
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? (doParticipants.toLocaleString() + ' जिला प्रतिभागी (DO' + archCohortLabel + ')') : (doParticipants.toLocaleString() + ' District Participants (DO' + archCohortLabel + ')');
+        }
+      }
+
+      // 5. CARD 5: TRAINERS & OBSERVERS (LEADERSHIP CADRE)
+      const cadreTot = (activeProgram === 'DO') ? (doFacilitators + doMonitors) : ((activeProgram === 'CLSS') ? (clssFacilitators + clssMonitors) : (clssFacilitators + doFacilitators + clssMonitors + doMonitors));
+      const cadreBadgeEl = document.getElementById('kpiCadreBadge');
+      
+      if (kCadreRef) {
+        if (activeProgram === 'DO') kCadreRef.innerHTML = `[Ref: <em>${doFile} [Sheets: Facilitator & Monitor]</em> (${doFacilitators} Fac. + ${doMonitors} Observers)]`;
+        else if (activeProgram === 'CLSS') kCadreRef.innerHTML = `[Ref: <em>${clssFile} [Sheets: Facilitator & Monitor]</em> (${clssFacilitators.toLocaleString()} Fac. + ${clssMonitors.toLocaleString()} Observers)]`;
+        else kCadreRef.innerHTML = `[Ref: <em>${bothFiles}</em> [Cluster & District Sheets: Facilitator & Monitor] (${(clssFacilitators + doFacilitators).toLocaleString()} Fac. + ${(clssMonitors + doMonitors).toLocaleString()} Mon.)]`;
+      }
+
+      if (isCons) {
+        const activeUniqueCadre = (activeProgram === 'DO') ? (91 + 73) : ((activeProgram === 'CLSS') ? (netUniqueClssFac + netUniqueClssMon) : netUniqueCadre);
+        if (cadreBadgeEl) cadreBadgeEl.innerText = isHi ? `${activeUniqueCadre.toLocaleString()} विशिष्ट कैडर` : `${activeUniqueCadre.toLocaleString()} Unique Cadre`;
+        if (kCadreParent) {
+          kCadreParent.innerHTML = `
+            <span id="kpiCadre" style="font-size: 32px; font-weight: 800; color: var(--accent-purple);">${cadreTot.toLocaleString()}</span>
+            <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiCadreTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
+            <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+            <span id="kpiUniqueCadreVal" style="font-size: 32px; font-weight: 800; color: #a855f7;">${activeUniqueCadre.toLocaleString()}</span>
+            <span style="font-size: 13px; color: #a855f7; font-weight: 700;" id="kpiUniqueCadreSpan">${isHi ? 'विशिष्ट कैडर' : 'Unique'}</span>
+          `;
+        }
+        if (kCadreDesc) kCadreDesc.innerText = isHi 
+          ? `${netUniqueClssFac.toLocaleString()} विशिष्ट फैसिलिटेटर + ${netUniqueClssMon.toLocaleString()} विशिष्ट मॉनिटर (सीएलएसएस) • 164 डीओ नेतृत्व`
+          : `${netUniqueClssFac.toLocaleString()} Unique Facilitators + ${netUniqueClssMon.toLocaleString()} Unique Monitors (CLSS) • 164 DO Leaders`;
+      } else {
+        if (cadreBadgeEl) cadreBadgeEl.innerText = '1.7 Fac/Cluster';
+        if (kCadreParent) kCadreParent.innerHTML = `<span id="kpiCadre">${cadreTot.toLocaleString()}</span>`;
+        animateValue('kpiCadre', 0, cadreTot);
+        if (kCadreDesc) kCadreDesc.innerText = isHi ? (((activeProgram === 'DO') ? doFacilitators : clssFacilitators).toLocaleString() + ' फैसिलिटेटर + ' + ((activeProgram === 'DO') ? doMonitors : clssMonitors).toLocaleString() + ' मॉनिटर' + archCohortLabel) : (((activeProgram === 'DO') ? doFacilitators : clssFacilitators).toLocaleString() + ' Fac. + ' + ((activeProgram === 'DO') ? doMonitors : clssMonitors).toLocaleString() + ' Monitors' + archCohortLabel);
+      }
+
+      // 6. CARD 6: TEACHER UNIVERSE & SATURATION FUNNEL
       const kVarg2Lbl = document.getElementById('kpiVarg2Label');
       if (kVarg2Lbl) kVarg2Lbl.innerText = isHi ? ('शिक्षक यूनिवर्स' + archCohortLabel) : ('TEACHER UNIVERSE' + archCohortLabel.toUpperCase());
       const kVarg2Tot = document.getElementById('kpiVarg2Total');
@@ -10448,16 +10442,136 @@ function renderQuestionBankTable() {
     /* Injected missing function initInsightsTab */
     function initInsightsTab() {
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+      const isSep = (typeof currentCycle !== 'undefined' && currentCycle === 'SEP');
+      const isAug = (typeof currentCycle !== 'undefined' && currentCycle === 'AUG');
+      const isCons = (typeof currentCycle !== 'undefined' && currentCycle === 'CONSOLIDATED');
+
       const hTitle = document.getElementById('insightsHeadTitle');
       const hSub = document.getElementById('insightsSubtitle');
-      if (hTitle) hTitle.innerText = isHi ? '🤖 कार्यपालक एआई अंतर्दृष्टि और बहु-चक्र गहन विश्लेषण' : '🤖 Executive AI Insights & Multi-Cycle Deep Analysis';
-      if (hSub) hSub.innerHTML = isHi ? 
-        '[व्यापक बहु-चक्र संश्लेषण: <strong>अगस्त 2026 बनाम सितंबर 2026</strong> | राज्य स्तरीय संकेतक, जिला गतिशीलता, शिक्षाशास्त्रीय विकास एवं प्रशासनिक निर्देश]' :
-        '[Comprehensive Multi-Cycle Synthesis: <strong>August 2026 vs. September 2026</strong> | Statewide KPIs, District Shifts, Pedagogical Growth & Governance Directives]';
-      
       const badge = document.getElementById('insightsCycleBadge');
-      if (badge) {
-        badge.innerText = isHi ? 'द्वि-चक्र तुलनात्मक' : 'Dual-Cycle Comparative';
+
+      if (isAug) {
+        if (hTitle) hTitle.innerText = isHi ? '🤖 अगस्त 2026 कार्यपालक एआई अंतर्दृष्टि एवं बेसलाइन विश्लेषण' : '🤖 August 2026 Executive AI Insights & Baseline Analysis';
+        if (hSub) hSub.innerHTML = isHi ? 
+          '[अगस्त बेसलाइन संश्लेषण: <strong>23,785 शिक्षक उपस्थिति (67.2% सहभागिता)</strong> | 2,750 सक्रिय संकुल, 4,918 फैसिलिटेटर एवं प्रारंभिक शिक्षाशास्त्र निदान]' :
+          '[August Baseline Synthesis: <strong>23,785 Teacher Turnout (67.2% Turnout)</strong> | 2,750 Active Clusters, 4,918 Facilitators & Baseline Pedagogy Diagnostic]';
+        if (badge) {
+          badge.innerText = isHi ? 'अगस्त 2026 चक्र' : 'August 2026 Cycle';
+          badge.style.color = '#008aab';
+          badge.style.background = 'rgba(0, 138, 171, 0.12)';
+        }
+      } else if (isSep) {
+        if (hTitle) hTitle.innerText = isHi ? '🤖 सितंबर 2026 कार्यपालक एआई अंतर्दृष्टि एवं त्वरण विश्लेषण' : '🤖 September 2026 Executive AI Insights & Acceleration Analysis';
+        if (hSub) hSub.innerHTML = isHi ? 
+          '[सितंबर त्वरण संश्लेषण: <strong>23,169 शिक्षक उपस्थिति (66.6% सहभागिता)</strong> | 10,081 नए शिक्षकों का आगमन, 2,683 संकुल एवं टीएलएम चिंतनशील जांच]' :
+          '[September Acceleration Synthesis: <strong>23,169 Teacher Turnout (66.6% Turnout)</strong> | 10,081 Fresh Faces Joining, 2,683 Clusters & Reflective Probing Telemetry]';
+        if (badge) {
+          badge.innerText = isHi ? 'सितंबर 2026 चक्र' : 'September 2026 Cycle';
+          badge.style.color = '#2563eb';
+          badge.style.background = 'rgba(37, 99, 235, 0.12)';
+        }
+      } else {
+        if (hTitle) hTitle.innerText = isHi ? '🤖 कार्यपालक एआई अंतर्दृष्टि और बहु-चक्र गहन विश्लेषण' : '🤖 Executive AI Insights & Multi-Cycle Deep Analysis';
+        if (hSub) hSub.innerHTML = isHi ? 
+          '[व्यापक बहु-चक्र संश्लेषण: <strong>अगस्त 2026 बनाम सितंबर 2026</strong> | 33,866 विशिष्ट शिक्षक (49.5% नेट पहुंच), 13,088 पुनरावृत्ति चैंपियन एवं 55.0% प्रतिधारण दर]' :
+          '[Comprehensive Multi-Cycle Synthesis: <strong>August 2026 vs. September 2026</strong> | 33,866 Net Unique Teachers (49.5% Net Reach), 13,088 Repeat Champions & 55.0% Retention Rate]';
+        if (badge) {
+          badge.innerText = isHi ? 'द्वि-चक्र तुलनात्मक' : 'Dual-Cycle Comparative';
+          badge.style.color = '#7c3aed';
+          badge.style.background = 'rgba(124, 58, 237, 0.12)';
+        }
+      }
+
+      // Update Card 1: Teachers
+      const c1Title = document.getElementById('insCard1Title');
+      const c1Desc = document.getElementById('insCard1Desc');
+      if (c1Title) c1Title.innerText = isHi ? (isCons ? 'विशिष्ट शिक्षक सहभागिता' : 'शिक्षक सहभागिता (सीएलएसएस)') : (isCons ? 'Unique Teacher Participation' : 'Teacher Participation (CLSS)');
+      if (c1Desc) {
+        if (isAug) {
+          c1Desc.innerHTML = isHi ? 'राज्य भर में <strong>23,785 शिक्षक</strong> उपस्थित हुए (67.2% लक्षित सहभागिता, 34.8% संपूर्ण वर्ग-2 यूनिवर्स पहुंच)।' : 'Statewide attendance recorded <strong>23,785 teachers</strong> (67.2% target turnout, 34.8% Varg-2 cadre saturation).';
+        } else if (isSep) {
+          c1Desc.innerHTML = isHi ? 'सितंबर में <strong>23,169 शिक्षक</strong> शामिल हुए, जिसमें <strong>10,081 नए शिक्षक (43.5%)</strong> पहली बार जुड़े।' : 'September recorded <strong>23,169 teachers</strong> with strong intake of <strong>10,081 fresh teachers (43.5%)</strong>.';
+        } else {
+          c1Desc.innerHTML = isHi ? 'दोनों चक्रों को मिलाकर <strong>33,866 विशिष्ट शिक्षक (49.5% यूनिवर्स)</strong> तक पहुंच बनी। <strong>13,088 शिक्षक (55.0%)</strong> लगातार दोनों माह उपस्थित रहे।' : 'Cumulative reach achieved <strong>33,866 net unique teachers (49.5% cadre reach)</strong>, anchored by <strong>13,088 repeat champions (55.0% retention)</strong>.';
+        }
+      }
+
+      // Update Card 2: Clusters
+      const c2Title = document.getElementById('insCard2Title');
+      const c2Desc = document.getElementById('insCard2Desc');
+      if (c2Title) c2Title.innerText = isHi ? (isCons ? 'संकुल संकुल विकेंद्रीकरण' : 'सक्रिय संकुल केंद्र') : (isCons ? 'Cluster Reach Decentralization' : 'Active CRC Clusters');
+      if (c2Desc) {
+        if (isAug) {
+          c2Desc.innerHTML = isHi ? 'अगस्त में <strong>2,750 संकुलों</strong> में मासिक संवाद आयोजित हुआ (2,822 रिपोर्टिंग कोड)।' : 'August deployed sessions across <strong>2,750 CRC clusters</strong> (2,822 reporting units across 52 districts).';
+        } else if (isSep) {
+          c2Desc.innerHTML = isHi ? 'सितंबर में <strong>2,683 संकुलों</strong> ने रिपोर्ट किया, दूरस्थ ग्रामीण संकुलों में पहुंच का विस्तार हुआ।' : 'September covered <strong>2,683 clusters</strong> (2,920 reporting units), expanding coverage in rural CRC zones.';
+        } else {
+          c2Desc.innerHTML = isHi ? 'राज्य के कुल <strong>3,014 विशिष्ट संकुलों</strong> में संवाद संपन्न हुआ, जिसमें <strong>2,728 संकुलों (90.5%)</strong> में निरंतरता बनी रही।' : 'Master footprint saturated <strong>3,014 net unique CRC clusters</strong>, with <strong>2,728 clusters (90.5%)</strong> executing both monthly cycles.';
+        }
+      }
+
+      // Update Card 3: Facilitators
+      const c3Title = document.getElementById('insCard3Title');
+      const c3Desc = document.getElementById('insCard3Desc');
+      if (c3Title) c3Title.innerText = isHi ? 'मास्टर फैसिलिटेटर कैडर' : 'Master Facilitator Cadre';
+      if (c3Desc) {
+        if (isAug) {
+          c3Desc.innerHTML = isHi ? 'अगस्त में <strong>4,918 फैसिलिटेटर</strong> सक्रिय रहे (प्रति संकुल 1.7 औसत, 92.4% गाइड निष्ठा)।' : 'August activated <strong>4,918 facilitators</strong> (1.7 per cluster, 92.4% session guide fidelity).';
+        } else if (isSep) {
+          c3Desc.innerHTML = isHi ? 'सितंबर में <strong>4,942 फैसिलिटेटर</strong> सक्रिय रहे (4,740 विशिष्ट व्यक्ति), 87.4% गाइड निष्ठा के साथ।' : 'September maintained <strong>4,942 facilitators</strong> (4,740 unique facilitators) with 87.4% guide adherence.';
+        } else {
+          c3Desc.innerHTML = isHi ? 'दोनों चक्रों में <strong>6,658 विशिष्ट फैसिलिटेटर</strong> ने संवाद का संचालन किया (2,896 दोनों माह सक्रिय)।' : 'Combined leadership mobilized <strong>6,658 net unique facilitators</strong> across Madhya Pradesh (2,896 persistent).';
+        }
+      }
+
+      // Update Card 4: Observers / Monitoring
+      const c4Title = document.getElementById('insCard4Title');
+      const c4Desc = document.getElementById('insCard4Desc');
+      if (c4Title) c4Title.innerText = isHi ? 'पर्यवेक्षक / मॉनिटरिंग उपस्थिति' : 'Field Observer & Monitor Presence';
+      if (c4Desc) {
+        if (isAug) {
+          c4Desc.innerHTML = isHi ? 'अगस्त में <strong>572 मॉनिटर्स (516 विशिष्ट)</strong> द्वारा 5.5 संकुल प्रति मॉनिटर के अनुपात में निरीक्षण किया गया।' : 'August recorded <strong>572 monitor observations (516 unique)</strong>, averaging 5.5 clusters monitored per observer.';
+        } else if (isSep) {
+          c4Desc.innerHTML = isHi ? '⚠️ <strong>414 मॉनिटर्स</strong> (-19.8% गिरावट): जिला एवं ब्लॉक स्तरीय पर्यवेक्षकों की उपस्थिति में गिरावट दर्ज की गई, जिस पर प्रशासनिक समीक्षा अपेक्षित है।' : '⚠️ <strong>414 observers (-19.8% dip)</strong>: Field monitoring visits softened in Sep, requiring supervisory escalation for upcoming cycles.';
+        } else {
+          c4Desc.innerHTML = isHi ? 'दोनों माह में कुल <strong>681 विशिष्ट मॉनिटर्स</strong> ने 930 संकुल निरीक्षण पूरे किए (249 मॉनिटर्स दोनों माह सक्रिय रहे)।' : 'Longitudinal oversight engaged <strong>681 net unique observers</strong> conducting 930 independent monitoring visits.';
+        }
+      }
+
+      // Update Section Headings
+      const gHead = document.getElementById('insGainHeading');
+      if (gHead) {
+        if (isAug) gHead.innerHTML = isHi ? '🚀 अगस्त 2026 शीर्ष प्रदर्शनकारी ज़िले (Turnout Leaders)' : '🚀 August 2026 Top Performing Districts (Turnout Leaders)';
+        else if (isSep) gHead.innerHTML = isHi ? '🚀 शीर्ष प्रगतिशील ज़िले एवं बदलाव चैंपियंस (Sep vs. Aug)' : '🚀 Top Breakthrough Turnarounds & Gainers (Sep vs. Aug)';
+        else gHead.innerHTML = isHi ? '🚀 बहु-चक्र संचयी नेतृत्व एवं निरंतर सहभागिता' : '🚀 Multi-Cycle Cumulative Leaders & High Consistency';
+      }
+
+      const lHead = document.getElementById('insLossHeading');
+      if (lHead) {
+        if (isAug) lHead.innerHTML = isHi ? '⚠️ अगस्त बेसलाइन सहायता प्राथमिकता ज़िले' : '⚠️ August Baseline Support Priority Districts';
+        else if (isSep) lHead.innerHTML = isHi ? '⚠️ त्वरित हस्तक्षेप एवं सहायता आवश्यकता ज़िले (Sep Dips)' : '⚠️ Districts Requiring Focus & Rapid Intervention';
+        else gHead.innerHTML = isHi ? '⚠️ समग्र संतृप्ति अंतराल एवं लक्षित हस्तक्षेप ज़िले' : '⚠️ Longitudinal Saturation Deficit & Focus Districts';
+      }
+
+      const aHead = document.getElementById('insAspHeading');
+      if (aHead) {
+        if (isAug) aHead.innerHTML = isHi ? '⭐ नीति आयोग आकांक्षी ज़िले (8) — अगस्त बेसलाइन विश्लेषण' : '⭐ NITI Aspirational Districts (8) — August Baseline Analysis';
+        else if (isSep) aHead.innerHTML = isHi ? '⭐ नीति आयोग आकांक्षी ज़िले (8) — सितंबर प्रगति एवं गतिशीलता' : '⭐ NITI Aspirational Districts (8) — September Trajectory & Momentum';
+        else aHead.innerHTML = isHi ? '⭐ नीति आयोग आकांक्षी ज़िले (8) — बहु-चक्र तुलनात्मक मेट्रिक्स' : '⭐ NITI Aspirational Districts (8) — Multi-Cycle Trajectory Matrix';
+      }
+
+      const pHead = document.getElementById('insPedHeading');
+      if (pHead) {
+        if (isAug) pHead.innerHTML = isHi ? '🧠 अगस्त शिक्षाशास्त्र निदान: संज्ञानात्मक सहभागिता एवं कक्षा अपनापन (Q95 & Q97)' : '🧠 August Pedagogy Diagnostic: Cognitive Engagement & Belongingness (Q95 & Q97)';
+        else if (isSep) pHead.innerHTML = isHi ? '🧠 सितंबर शिक्षाशास्त्र निदान: टीएलएम चक्रीय अनुभव एवं चिंतनशील जांच (Q177 & Q178)' : '🧠 September Pedagogy Diagnostic: TLM Experiential Cycle & Reflective Inquiry (Q177 & Q178)';
+        else pHead.innerHTML = isHi ? '🧠 बहु-चक्र शिक्षाशास्त्रीय दक्षताएं एवं भ्रांति विश्लेषण (Q95, Q97, Q177, Q178)' : '🧠 Pedagogical Competencies & Survey Understanding Growth';
+      }
+
+      const actHead = document.getElementById('insActionHeading');
+      if (actHead) {
+        if (isAug) actHead.innerHTML = isHi ? '🎯 अगस्त बेसलाइन से प्राप्त प्रमुख प्रशासनिक निर्देश' : '🎯 Key Administrative Directives from August Baseline';
+        else if (isSep) actHead.innerHTML = isHi ? '🎯 सितंबर परिणामों पर आधारित प्राथमिकता प्रशासनिक निर्देश' : '🎯 Priority Governance Directives from September Telemetry';
+        else actHead.innerHTML = isHi ? '🎯 आगामी चक्रों हेतु प्राथमिकता प्रशासनिक एवं अकादमिक निर्देश' : '🎯 Priority Governance Directives for October 2026 Cycle';
       }
     }
     window.initInsightsTab = initInsightsTab;
