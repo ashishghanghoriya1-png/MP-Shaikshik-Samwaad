@@ -1527,7 +1527,7 @@
 </div>
 </div>
 <!-- Cadre / Role Slicer -->
-<div class="slicer-group">
+<div class="slicer-group" id="cadreSlicerGroup">
 <span class="slicer-label" id="lblCadreSlicer">CADRE / ROLE:</span>
 <div class="slicer-pills" id="roleSlicer">
 <button class="slicer-btn active" onclick="setRoleSlicer('ALL', this)">All Stakeholders</button>
@@ -5705,6 +5705,29 @@
 
       // 5. CARD 5: TRAINERS & OBSERVERS (LEADERSHIP CADRE)
       if (kCadreLabel) kCadreLabel.innerText = isHi ? 'सुगमकर्ता एवं पर्यवेक्षक कैडर' : 'TRAINERS & OBSERVERS';
+
+      const card3El = document.querySelector('#tab-overview .bento-grid .bento-card:nth-child(3)') || document.getElementById('kpiTeachers')?.closest('.bento-card');
+      const card5El = document.querySelector('#tab-overview .bento-grid .bento-card:nth-child(5)') || document.getElementById('kpiCadre')?.closest('.bento-card');
+      
+      if (card3El) {
+        if (activeRole === 'Participant') {
+          card3El.style.borderColor = '#2563eb';
+          card3El.style.boxShadow = '0 0 0 2px rgba(37,99,235,0.25)';
+        } else {
+          card3El.style.borderColor = '';
+          card3El.style.boxShadow = '';
+        }
+      }
+      
+      if (card5El) {
+        if (activeRole === 'Facilitator' || activeRole === 'Observer') {
+          card5El.style.borderColor = activeRole === 'Facilitator' ? '#008aab' : '#4f46e5';
+          card5El.style.boxShadow = '0 0 0 2px rgba(0,138,171,0.25)';
+        } else {
+          card5El.style.borderColor = '';
+          card5El.style.boxShadow = '';
+        }
+      }
       const cadreTot = (activeProgram === 'DO') ? (doFacilitators + doMonitors) : ((activeProgram === 'CLSS') ? (clssFacilitators + clssMonitors) : (clssFacilitators + doFacilitators + clssMonitors + doMonitors));
       
       if (kCadreRef) {
@@ -5862,6 +5885,17 @@
       document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       const activeSec = document.getElementById(tabId);
+      
+      // Dynamic Slicer Visibility: Show Cadre/Role slicer only when applicable to the active tab
+      const cadreGroup = document.getElementById('cadreSlicerGroup');
+      if (cadreGroup) {
+        const roleApplicableTabs = ['tab-overview', 'tab-rf', 'tab-questions', 'tab-governance', 'tab-insights'];
+        if (roleApplicableTabs.includes(tabId)) {
+          cadreGroup.style.display = 'flex';
+        } else {
+          cadreGroup.style.display = 'none';
+        }
+      }
       if (activeSec) activeSec.classList.add('active');
       
       let activeBtn = el;
@@ -5978,34 +6012,51 @@
         let chartLabels = displayList.map(d => isHi ? getDistName(d.district) : d.district);
         let datasets = [];
 
-        if (activeProgram === 'DO') {
-          if (activeRole === 'Participant') {
-            datasets.push({ label: isHi ? 'DO जिला प्रतिभागी' : 'DO Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#008aab', borderRadius: 4 });
-          } else if (activeRole === 'Facilitator') {
-            datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#63d0df', borderRadius: 4 });
-          } else if (activeRole === 'Observer') {
-            datasets.push({ label: isHi ? 'DO पर्यवेक्षक / मॉनिटर' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+        if (activeRole === 'Participant') {
+          // 👨‍🏫 TEACHERS ONLY
+          if (activeProgram === 'DO') {
+            datasets.push({ label: isHi ? 'DO जिला शिक्षक/प्रतिभागी' : 'DO Teacher Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
+          } else if (activeProgram === 'CLSS') {
+            datasets.push({ label: isHi ? 'CLSS सहभागी शिक्षक' : 'CLSS Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
           } else {
+            datasets.push({ label: isHi ? 'CLSS सहभागी शिक्षक' : 'CLSS Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO शिक्षक/प्रतिभागी' : 'DO Teacher Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#3b82f6', borderRadius: 4 });
+          }
+        } else if (activeRole === 'Facilitator') {
+          // 🤝 FACILITATORS ONLY
+          if (activeProgram === 'DO') {
+            datasets.push({ label: isHi ? 'DO सहजकर्ता' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
+          } else if (activeProgram === 'CLSS') {
+            datasets.push({ label: isHi ? 'CLSS सहजकर्ता' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
+          } else {
+            datasets.push({ label: isHi ? 'CLSS सहजकर्ता' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO सहजकर्ता' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#2dd4bf', borderRadius: 4 });
+          }
+        } else if (activeRole === 'Observer') {
+          // 👁️ MONITORS/OBSERVERS ONLY
+          if (activeProgram === 'DO') {
+            datasets.push({ label: isHi ? 'DO पर्यवेक्षक / मॉनिटर' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+          } else if (activeProgram === 'CLSS') {
+            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+          } else {
+            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'DO पर्यवेक्षक' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#818cf8', borderRadius: 4 });
+          }
+        } else {
+          // ALL ROLES
+          if (activeProgram === 'DO') {
             datasets.push({ label: isHi ? 'DO जिला प्रतिभागी' : 'DO Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#008aab', borderRadius: 4 });
             datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#63d0df', borderRadius: 4 });
             datasets.push({ label: isHi ? 'DO पर्यवेक्षक' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
-          }
-        } else if (activeProgram === 'CLSS') {
-          if (activeRole === 'Participant') {
+          } else if (activeProgram === 'CLSS') {
             datasets.push({ label: isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
-          } else if (activeRole === 'Facilitator') {
             datasets.push({ label: isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
-          } else if (activeRole === 'Observer') {
             datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
           } else {
-            datasets.push({ label: isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+            // Consolidated - Rich 2-Tone Visual Structure
+            datasets.push({ label: isHi ? 'शैक्षिक संवाद सहभागिता (CLSS)' : 'CLSS Turnout', data: displayList.map(d => d.attendees || d.total || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
+            datasets.push({ label: isHi ? 'जिला अभिमुखीकरण सहभागिता (DO)' : 'DO Turnout', data: displayList.map(d => d.do_participants || d.do_total || 0), backgroundColor: '#008aab', borderRadius: 4 });
           }
-        } else {
-          // Consolidated - Rich 2-Tone Visual Structure
-          datasets.push({ label: isHi ? 'शैक्षिक संवाद सहभागिता (CLSS)' : 'CLSS Turnout', data: displayList.map(d => d.attendees || d.total || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
-          datasets.push({ label: isHi ? 'जिला अभिमुखीकरण सहभागिता (DO)' : 'DO Turnout', data: displayList.map(d => d.do_participants || d.do_total || 0), backgroundColor: '#008aab', borderRadius: 4 });
         }
 
         charts.ovTopDistricts = new Chart(ctx1, {
