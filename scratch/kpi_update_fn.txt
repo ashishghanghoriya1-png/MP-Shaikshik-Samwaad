@@ -1,0 +1,56 @@
+st Workbooks (Cluster & District Level)' : 'Consolidated (August + September Master Workbooks)');
+
+      const kDist = document.getElementById('kpiDistricts');
+      const kDistDesc = document.getElementById('kpiDistDesc');
+      const kDistBadge = document.getElementById('kpiCoverageBadge');
+      
+      const kReach = document.getElementById('kpiReach');
+      const kReachDesc = document.getElementById('kpiReachDesc');
+      const kReachBadge = document.getElementById('kpiReachBadge');
+
+      const kTeach = document.getElementById('kpiTeachers');
+      const kTeachDesc = document.getElementById('kpiTeachersDesc');
+      const kTeachBadge = document.getElementById('kpiTeacherTurnoutBadge');
+      
+      const kDoOff = document.getElementById('kpiDoOfficers');
+      const kDoOffDesc = document.getElementById('kpiDoOfficersDesc');
+      const kCadre = document.getElementById('kpiCadre');
+      const kCadreDesc = document.getElementById('kpiCadreDesc');
+
+      const kDistRef = document.getElementById('kpiCoverageRef');
+      const kReachRef = document.getElementById('kpiReachRef');
+      const kTeachRef = document.getElementById('kpiTeachersRef');
+      const kDoOffRef = document.getElementById('kpiDoOfficersRef');
+      const kCadreRef = document.getElementById('kpiCadreRef');
+      const ovTopChartRef = document.getElementById('overviewTopChartRef');
+      const ovCadreRef = document.getElementById('ovCadreBreakdownRef');
+      const leagueRef = document.getElementById('leagueTableRef');
+      const leagueHeading = document.getElementById('leagueTableHeading');
+
+      let distList = [...((typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : (dataPackage.districtSummary || []))];
+      let totalTarget = 52;
+      let archCohortLabel = '';
+      if (typeof activeArchetype !== 'undefined' && activeArchetype !== 'ALL') {
+        if (activeArchetype === 'ASPIRATIONAL') {
+          distList = distList.filter(d => d.isAspirational);
+          totalTarget = distList.length || 8;
+          archCohortLabel = isHi ? ' (आकांक्षी ज़िले)' : ' (Aspirational)';
+        } else if (activeArchetype === 'TRIBAL') {
+          distList = distList.filter(d => d.isTribal);
+          totalTarget = distList.length || 15;
+          archCohortLabel = isHi ? ' (जनजातीय ज़िले)' : ' (Tribal Focus)';
+        } else if (activeArchetype === 'URBAN') {
+          distList = distList.filter(d => d.isUrban);
+          totalTarget = distList.length || 5;
+          archCohortLabel = isHi ? ' (शहरी केंद्र)' : ' (Urban Hubs)';
+        } else if (activeArchetype === 'GENERAL') {
+          distList = distList.filter(d => !d.isAspirational && !d.isTribal && !d.isUrban);
+          totalTarget = distList.length;
+        }
+      }
+
+      const distCount = distList.length;
+      const totalClusters = distList.reduce((acc, d) => acc + (d.totalClusters || 0), 0);
+      const totalBlocks = distList.reduce((acc, d) => acc + (d.totalBlocks || 0), 0);
+      
+      const clssTeache

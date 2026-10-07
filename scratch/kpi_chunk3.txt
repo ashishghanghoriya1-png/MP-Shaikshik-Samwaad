@@ -1,0 +1,31 @@
+kTeachRef = document.getElementById('kpiTeachersRef');
+      if (kTeachRef) {
+        if (curProg === 'DO') kTeachRef.innerHTML = `[Scope: <em>0 Classroom Teachers in DO</em>]`;
+        else kTeachRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> (${clssTeach.toLocaleString()} Teachers)]`;
+      }
+
+      // 4. KPI DO Officers Ref
+      const kDoOffRef = document.getElementById('kpiDoOfficersRef');
+      if (kDoOffRef) {
+        if (curProg === 'CLSS') kDoOffRef.innerHTML = `[Scope: <em>DO Officers Sliced Out</em>]`;
+        else kDoOffRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> (${doPart.toLocaleString()} Participants)]`;
+      }
+
+      // 5. KPI Cadre Ref
+      const kCadreRef = document.getElementById('kpiCadreRef');
+      if (kCadreRef) {
+        if (curProg === 'DO') kCadreRef.innerHTML = `[Ref: <em>${doFile} [Sheets: Facilitator & Monitor]</em> (${doFac} Fac. + ${doMon} Observers)]`;
+        else if (curProg === 'CLSS') kCadreRef.innerHTML = `[Ref: <em>${clssFile} [Sheets: Facilitator & Monitor]</em> (${clssFac.toLocaleString()} Fac. + ${clssMon.toLocaleString()} Observers)]`;
+        else kCadreRef.innerHTML = `[Ref: <em>${bothFiles}</em> [Facilitators & Monitors] (${(clssFac + doFac).toLocaleString()} Fac. + ${(clssMon + doMon).toLocaleString()} Observers)]`;
+      }
+
+      // 6. Tab 1 Overview Charts
+      const ovTopChartRef = document.getElementById('overviewTopChartRef');
+      if (ovTopChartRef) {
+        if (curProg === 'DO') ovTopChartRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> | DIET Orientation Turnout Ranking]`;
+        else if (curProg === 'CLSS') ovTopChartRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> | Cluster Teacher Turnout Ranking]`;
+        else ovTopChartRef.innerHTML = `[Ref: <em>${bothFiles}</em> | Consolidated Mobilization (${(clssTeach + doPart).toLocaleString()} Attendees)]`;
+      }
+
+      const ovCadreRef = document.getElementById('ovCadreBreakdownRef');
+     

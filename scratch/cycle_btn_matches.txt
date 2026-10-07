@@ -1,0 +1,66 @@
+=== CYCLE BTN CONTEXT ===
+ING CYCLE:</span>
+<div class="slicer-pills" id="monthSlicer">
+<button class="slicer-btn active" id="btnCycleAug" onclick="setMonthSlicer('AUG', this)" style="font-weight: 700;">📅 August 2026</button>
+<button class="slicer-btn" id="btnCycleSep" onclick="setMonthSlicer('SEP', this)" style="font-weight: 700;">📅 September 2026</button>
+<button class="slicer-btn" id="btnCycleConsolidated" onclick="setMonthSlicer('CONSOLIDATED', this)" style="font-weight: 700;">🌐 Consolidated (Aug + Sep)</button>
+</di
+=== CYCLE BTN CONTEXT ===
+licer('AUG', this)" style="font-weight: 700;">📅 August 2026</button>
+<button class="slicer-btn" id="btnCycleSep" onclick="setMonthSlicer('SEP', this)" style="font-weight: 700;">📅 September 2026</button>
+<button class="slicer-btn" id="btnCycleConsolidated" onclick="setMonthSlicer('CONSOLIDATED', this)" style="font-weight: 700;">🌐 Consolidated (Aug + Sep)</button>
+</div>
+</div>
+<!-- Program Slicer -->
+<div class="slicer-group">
+<span class="slicer-label" id="lblProgramSlicer">PROGRAM:</span>
+<div 
+=== CYCLE BTN CONTEXT ===
+er('SEP', this)" style="font-weight: 700;">📅 September 2026</button>
+<button class="slicer-btn" id="btnCycleConsolidated" onclick="setMonthSlicer('CONSOLIDATED', this)" style="font-weight: 700;">🌐 Consolidated (Aug + Sep)</button>
+</div>
+</div>
+<!-- Program Slicer -->
+<div class="slicer-group">
+<span class="slicer-label" id="lblProgramSlicer">PROGRAM:</span>
+<div class="slicer-pills" id="programSlicer">
+<button class="slicer-btn active" onclick="setProgramSlicer('ALL', this)">Consolidated (All)<
+=== CYCLE BTN CONTEXT ===
+lassList.add('active');
+      else {
+        const btn = document.getElementById(cycle === 'SEP' ? 'btnCycleSep' : (cycle === 'CONSOLIDATED' ? 'btnCycleConsolidated' : 'btnCycleAug'));
+        if (btn) btn.classList.add('active');
+      }
+
+      updateBriefingDrawerLanguage(typeof currentLang !== 'undefined' ? currentLang : 'en');
+      
+      // Trigger dynamic re-rendering across ALL tabs immediately
+      updateKPIs();
+      initOverviewCharts();
+      populateQuadrantBentoCards();
+      if (
+=== CYCLE BTN CONTEXT ===
+ const btn = document.getElementById(cycle === 'SEP' ? 'btnCycleSep' : (cycle === 'CONSOLIDATED' ? 'btnCycleConsolidated' : 'btnCycleAug'));
+        if (btn) btn.classList.add('active');
+      }
+
+      updateBriefingDrawerLanguage(typeof currentLang !== 'undefined' ? currentLang : 'en');
+      
+      // Trigger dynamic re-rendering across ALL tabs immediately
+      updateKPIs();
+      initOverviewCharts();
+      populateQuadrantBentoCards();
+      if (typeof initResearchTab === 'function') initR
+=== CYCLE BTN CONTEXT ===
+ElementById(cycle === 'SEP' ? 'btnCycleSep' : (cycle === 'CONSOLIDATED' ? 'btnCycleConsolidated' : 'btnCycleAug'));
+        if (btn) btn.classList.add('active');
+      }
+
+      updateBriefingDrawerLanguage(typeof currentLang !== 'undefined' ? currentLang : 'en');
+      
+      // Trigger dynamic re-rendering across ALL tabs immediately
+      updateKPIs();
+      initOverviewCharts();
+      populateQuadrantBentoCards();
+      if (typeof initResearchTab === 'function') initResearchTab();
+      initQ

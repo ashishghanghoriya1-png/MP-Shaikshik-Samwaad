@@ -1,0 +1,188 @@
+=== MATCH ===
+Venues' + archCohortLabel + ')');
+
+        if (activeRole === 'Participant') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? ('सक्रिय डीओ प्रतिभागी' + archCohortLabel + ' (' + doParticipants.toLocaleString
+=== MATCH ===
+;
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? ('सक्रिय डीओ प्रतिभागी' + archCohortLabel + ' (' + doParticipants.toLocaleString() + ')') : ('Active DO Participants' + archCohortLabel + ' (' + doParticipants.toLocaleString() + ')');
+          animate
+=== MATCH ===
+ए' : 'Trainers Sliced Out';
+        } else if (activeRole === 'Facilitator') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, do
+=== MATCH ===
+;
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, doFacilitators);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('डीओ मास्टर फैसिलिटेटर' + archCohortLabel) : ('DO 
+=== MATCH ===
+ilitators' + archCohortLabel);
+        } else if (activeRole === 'Observer') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, do
+=== MATCH ===
+;
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, doMonitors);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('डीओ पर्यवेक्षक / मॉनिटर' + archCohortLabel) : ('DO Ob
+=== MATCH ===
+CohortLabel) : ('DO Observers / Monitors' + archCohortLabel);
+        } else {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? ('जिला प्रतिभागी (DO' + archCohortLabel + ': ' + doParticipants.toLocaleString()
+=== MATCH ===
+;
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'डीओ में कोई कक्षा शिक्षक नहीं' : 'No Classroom Teachers in DO';
+          if (kTeachBadge) kTeachBadge.innerText = '0.0%';
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? ('जिला प्रतिभागी (DO' + archCohortLabel + ': ' + doParticipants.toLocaleString() + ')') : ('District Participants (DO' + archCohortLabel + ': ' + doParticipants.toLocaleString() + ')');
+          animat
+=== MATCH ===
+rchCohortLabel + ')');
+
+        if (activeRole === 'Participant') {
+          animateValue('kpiTeachers', 0, clssTeachers);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' लक्षित (' + satPct + '% यूनिवर्स' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBad
+=== MATCH ===
+aleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBadge.innerText = satPct + '% of Universe';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+          animateValue('kpiCadre', 0, 0);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? 'कैडर बाहर किया गया' : 'Cadre Sliced Out';
+ 
+=== MATCH ===
+ गया' : 'Cadre Sliced Out';
+        } else if (activeRole === 'Facilitator') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+          animateValue('kpiCadre', 0, clssFacilitators);
+   
+=== MATCH ===
+kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+          animateValue('kpiCadre', 0, clssFacilitators);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('शैक्षिक संवाद मास्टर फैसिलिटेटर' + archCohortLab
+=== MATCH ===
+ators.toLocaleString() + ')');
+        } else if (activeRole === 'Observer') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+          animateValue('kpiCadre', 0, clssMonitors);
+       
+=== MATCH ===
+kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+          animateValue('kpiCadre', 0, clssMonitors);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? ('शैक्षिक संवाद पर्यवेक्षक' + archCohortLabel + ' (' +
+=== MATCH ===
+bel + ' (' + clssMonitors.toLocaleString() + ')');
+        } else {
+          animateValue('kpiTeachers', 0, clssTeachers);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' लक्षित (' + satPct + '% यूनिवर्स' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBad
+=== MATCH ===
+aleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBadge.innerText = satPct + '% of Universe';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
+          animateValue('kpiCadre', 0, clssFacilitators + clssMonitors);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? (clssFacilitat
+=== MATCH ===
+s' + archCohortLabel);
+
+        if (activeRole === 'Participant') {
+          animateValue('kpiTeachers', 0, clssTeachers);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' लक्षित (' + satPct + '% यूनिवर्स' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBad
+=== MATCH ===
+aleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBadge.innerText = satPct + '% of Universe';
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? (doParticipants.toLocaleString() + ' जिला प्रतिभागी (DO' + archCohortLabel + ')') : (doParticipants.toLocaleString() + ' District Participants (DO' + archCohortLabel + ')');
+          
+=== MATCH ===
+ए' : 'Trainers Sliced Out';
+        } else if (activeRole === 'Facilitator') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, clssFacilitators + doFac
+=== MATCH ===
+kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, clssFacilitators + doFacilitators);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? (clssFacilitators.toLocaleString() 
+=== MATCH ===
+ilitators' + archCohortLabel);
+        } else if (activeRole === 'Observer') {
+          animateValue('kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, clssMonitors + doMonitor
+=== MATCH ===
+kpiTeachers', 0, 0);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? 'शिक्षक बाहर किए गए' : 'Teachers Sliced Out';
+          if (kTeachBadge) kTeachBadge.innerText = '-';
+          animateValue('kpiDoOfficers', 0, 0);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'प्रतिभागी बाहर किए गए' : 'Participants Sliced Out';
+          animateValue('kpiCadre', 0, clssMonitors + doMonitors);
+          if (kCadreDesc) kCadreDesc.innerText = isHi ? (clssMonitors.toLocaleString() + ' संवाद + 
+=== MATCH ===
++ doMonitors + ' DO Observers' + archCohortLabel);
+        } else {
+          animateValue('kpiTeachers', 0, clssTeachers);
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' लक्षित (' + satPct + '% यूनिवर्स' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBad
+=== MATCH ===
+aleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Target (' + satPct + '% of Universe' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBadge.innerText = satPct + '% of Universe';
+          animateValue('kpiDoOfficers', 0, doParticipants);
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? (doParticipants.toLocaleString() + ' जिला प्रतिभागी (DO' + archCohortLabel + ')') : (doParticipants.toLocaleString() + ' District Participants (DO' + archCohortLabel + ')');
+          

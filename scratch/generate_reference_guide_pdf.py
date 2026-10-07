@@ -153,9 +153,9 @@ def build_pdf(filename="RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Da
             Paragraph("Ground-level facilitator rosters entered at cluster session start.", table_cell_style)
         ],
         [
-            Paragraph("<b>Actual Attending Teachers</b>", table_cell_bold),
-            Paragraph("<b>23,785</b> (Aug) | <b>23,169</b> (Sep)", table_cell_center),
-            Paragraph("Physical classroom teacher reach verified by individual survey submissions.", table_cell_style)
+            Paragraph("<b>Unique Attending Teachers</b>", table_cell_bold),
+            Paragraph("<b>33,866</b> Unique (49.5%)", table_cell_center),
+            Paragraph("Unique physical classroom teachers reached (13,023 Persistent Core; 46,954 gross attendances).", table_cell_style)
         ],
         [
             Paragraph("<b>District Saturation</b>", table_cell_bold),
@@ -164,18 +164,18 @@ def build_pdf(filename="RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Da
         ],
         [
             Paragraph("<b>Active Centres / Venues</b>", table_cell_bold),
-            Paragraph("<b>2,874</b> (Aug) → <b>2,861</b> (Sep)", table_cell_center),
-            Paragraph("Infrastructure delivery footprint across CRC cluster centres and DIETs.", table_cell_style)
+            Paragraph("<b>3,014</b> Unique Clusters", table_cell_center),
+            Paragraph("Infrastructure footprint: 2,822 Cluster (Aug) → 2,920 Cluster (Sep) = 3,014 unique clusters activated (3,066 with 52 DIETs).", table_cell_style)
         ],
         [
-            Paragraph("<b>District Officials (DO)</b>", table_cell_bold),
-            Paragraph("<b>4,454</b> (Aug) → <b>4,520</b> (Sep)", table_cell_center),
-            Paragraph("Leadership orientation and governance cascading through district headquarters.", table_cell_style)
+            Paragraph("<b>District Orientation (DO)</b>", table_cell_bold),
+            Paragraph("<b>8,888</b> (6,272 Unique)", table_cell_center),
+            Paragraph("4,454 (Aug) + 4,434 (Sep); 6,272 unique CACs, Teachers & leadership oriented at District HQ.", table_cell_style)
         ],
         [
             Paragraph("<b>Master Facilitators</b>", table_cell_bold),
-            Paragraph("<b>4,891</b> (Aug) → <b>4,850</b> (Sep)", table_cell_center),
-            Paragraph("Academic delivery capacity driving peer-learning dialogue.", table_cell_style)
+            Paragraph("<b>6,658</b> (2,896 Common)", table_cell_center),
+            Paragraph("4,814 (Aug) → 4,740 (Sep); 2,896 repeat facilitators (60.16% retention across cycles).", table_cell_style)
         ],
         [
             Paragraph("<b>Field Observers / Monitors</b>", table_cell_bold),
@@ -267,19 +267,19 @@ def build_pdf(filename="RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Da
         ],
         [
             Paragraph("<b>August Active Venues</b>", table_cell_bold),
-            Paragraph("2,874", table_cell_center),
+            Paragraph("2,872", table_cell_center),
             Paragraph("Both August Workbooks", table_cell_style),
             Paragraph("Participants", table_cell_center),
             Paragraph("ClusterCode & DistrictCode", table_cell_style),
-            Paragraph("2,822 Cluster + 52 DIET HQ Venues", table_cell_style)
+            Paragraph("2,822 Cluster + 50 DIET HQ Venues (Dewas & Sehore vacant)", table_cell_style)
         ],
         [
             Paragraph("<b>September Active Venues</b>", table_cell_bold),
-            Paragraph("2,861", table_cell_center),
+            Paragraph("2,972", table_cell_center),
             Paragraph("Both September Workbooks", table_cell_style),
             Paragraph("Participants", table_cell_center),
             Paragraph("ClusterCode & DistrictCode", table_cell_style),
-            Paragraph("2,809 Cluster + 52 DIET HQ Venues", table_cell_style)
+            Paragraph("2,920 Cluster + 52 DIET HQ Venues (100% Saturation)", table_cell_style)
         ],
         [
             Paragraph("<b>August DO Officials</b>", table_cell_bold),
@@ -291,7 +291,7 @@ def build_pdf(filename="RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Da
         ],
         [
             Paragraph("<b>September DO Officials</b>", table_cell_bold),
-            Paragraph("4,520", table_cell_center),
+            Paragraph("4,434", table_cell_center),
             Paragraph("SS_ResponseDetail_District_Sep.xlsx", table_cell_style),
             Paragraph("Participants", table_cell_center),
             Paragraph("All rows in Participants", table_cell_style),
@@ -314,12 +314,12 @@ def build_pdf(filename="RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Da
             Paragraph("Choice 1 (33.9%) vs Choice 2 (66.1%)", table_cell_style)
         ],
         [
-            Paragraph("<b>Q96: Misconceptions</b>", table_cell_bold),
+            Paragraph("<b>Q96: Psychological Safety</b>", table_cell_bold),
             Paragraph("62.0%", table_cell_center),
             Paragraph("SS_ResponseDetail_Cluster_Aug.xlsx", table_cell_style),
             Paragraph("Participants", table_cell_center),
             Paragraph("Col 96", table_cell_style),
-            Paragraph("Choice 1 (62.0%) vs Choice 2 (38.0%)", table_cell_style)
+            Paragraph("Normalize mistakes (62.0%) vs Hint trap (38.0%)", table_cell_style)
         ],
         [
             Paragraph("<b>Q98: Peer Dialogue</b>", table_cell_bold),
@@ -361,6 +361,18 @@ def build_pdf(filename="RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Da
 
     doc.build(story, canvasmaker=NumberedCanvas)
     print(f"Successfully generated {filename}")
+    
+    # Copy to destinations
+    import shutil
+    workspace = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dest1 = os.path.join(workspace, "PDF_Reports", "RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Data_Origin_and_Reference_Guide.pdf")
+    dest2 = os.path.join(workspace, "PDF_Reports", "New folder", "RSK_Shaikshik_Samwaad_Executive_Visual_Briefing_Exact_Data_Origin_and_Reference_Guide.pdf")
+    for d in [dest1, dest2]:
+        try:
+            shutil.copy2(filename, d)
+            print(f"Copied to: {d}")
+        except Exception as e:
+            print(f"Could not copy to {d}: {e}")
 
 if __name__ == '__main__':
     build_pdf()

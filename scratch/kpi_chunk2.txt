@@ -1,0 +1,23 @@
+const clssTeachers = distList.reduce((acc, d) => acc + (d.attendees || 0), 0);
+      const clssFacilitators = distList.reduce((acc, d) => acc + (d.facilitators || 0), 0);
+      const clssMonitors = distList.reduce((acc, d) => acc + (d.monitors || 0), 0);
+      
+      const doParticipants = distList.reduce((acc, d) => acc + (d.do_participants || 0), 0);
+      const doFacilitators = distList.reduce((acc, d) => acc + (d.do_facilitators || 0), 0);
+      const doMonitors = distList.reduce((acc, d) => acc + (d.do_monitors || 0), 0);
+
+      const sumUniverse = distList.reduce((acc, d) => acc + (d.varg2Universe || 0), 0) || (distCount === 52 ? 68427 : 0);
+      const sumTarget = distList.reduce((acc, d) => acc + (d.expectedParticipants || d.targetCohort || 0), 0) || (distCount === 52 ? (typeof currentCycle !== "undefined" && currentCycle === "SEP" ? 67222 : 68369) : Math.round(clssTeachers * 2.87));
+      const satPct = sumUniverse > 0 ? ((clssTeachers / sumUniverse) * 100).toFixed(1) : ((clssTeachers / (typeof currentCycle !== "undefined" && currentCycle === "SEP" ? 67222 : 68369)) * 100).toFixed(1);
+      const targetCovPct = sumTarget > 0 ? ((clssTeachers / sumTarget) * 100).toFixed(1) : '67.2';
+
+      const operationalDistCount = distList.filter(d => (d.attendees || 0) >= 10).length;
+      const nonReportingDists = distList.filter(d => (d.attendees || 0) < 10).map(d => d.district);
+      const covPct = totalTarget > 0 ? ((operationalDistCount / totalTarget) * 100).toFixed(1) + '%' : '100%';
+
+      if (kDistBadge) kDistBadge.innerText = covPct;
+      if (kDist) kDist.innerHTML = operationalDistCount + ' <span style="font-size: 14px; color: var(--text-dim);">' + (isHi ? 'सक्रिय' : 'Active') + '</span>';
+      
+      const kBif = document.getElementById('kpiCoverageBifurcation');
+      if (nonReportingDists.length > 0) {
+        if (kDistDesc) kDistDesc.innerText = operationalDistCount + ' / ' + totalTarget + ' ' + (isHi ? ('सक्रिय जिले' + archCohortLabel + ' (' + nonRepor

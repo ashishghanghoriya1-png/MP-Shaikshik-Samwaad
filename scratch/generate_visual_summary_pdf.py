@@ -151,31 +151,31 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
         ],
         [
             Paragraph("<b>Active Venues</b>", table_cell_bold),
-            Paragraph("<b>2,874</b> Venues", table_cell_center),
-            Paragraph("<b>2,861</b> Venues", table_cell_center),
-            Paragraph("<b>5,735</b> Sessions", table_cell_center),
-            Paragraph("2,822 Cluster + 52 DIETs (Aug) | 2,809 Cluster + 52 DIETs (Sep)", table_cell_style)
+            Paragraph("<b>2,872</b> Venues", table_cell_center),
+            Paragraph("<b>2,972</b> Venues", table_cell_center),
+            Paragraph("<b>3,014</b> (Unq Clu)", table_cell_center),
+            Paragraph("2,822 Cluster (Aug) → 2,920 Cluster (Sep) = <b>3,014 Unique Clusters Reached</b> (52 DIETs)", table_cell_style)
         ],
         [
-            Paragraph("<b>Classroom Teachers</b>", table_cell_bold),
-            Paragraph("<b>23,785</b> / 68,369 (<b>34.8%</b>)", table_cell_center),
-            Paragraph("<b>23,169</b> / 67,222 (<b>34.5%</b>)", table_cell_center),
-            Paragraph("<b>46,954</b> / 135,591 (<b>34.6%</b>)", table_cell_center),
-            Paragraph("Actual attending Varg-2 teachers vs. Facilitator expected target", table_cell_style)
+            Paragraph("<b>Unique Teachers</b>", table_cell_bold),
+            Paragraph("<b>23,785</b> (34.8%)", table_cell_center),
+            Paragraph("<b>23,169</b> (34.5%)", table_cell_center),
+            Paragraph("<b>33,866</b> (49.5%)", table_cell_center),
+            Paragraph("<b>49.49% Cadre Saturation</b> (13,023 Persistent Core; 46,954 gross attendances)", table_cell_style)
         ],
         [
-            Paragraph("<b>District Officials (DO)</b>", table_cell_bold),
-            Paragraph("<b>4,454</b> Officers", table_cell_center),
-            Paragraph("<b>4,520</b> Officers", table_cell_center),
-            Paragraph("<b>8,974</b> Attendees", table_cell_center),
-            Paragraph("DIET faculty, APCs, BACs, and CACs oriented at District HQ", table_cell_style)
+            Paragraph("<b>District Orientation (DO)</b>", table_cell_bold),
+            Paragraph("<b>4,454</b> Attendees", table_cell_center),
+            Paragraph("<b>4,434</b> Attendees", table_cell_center),
+            Paragraph("<b>8,888</b> (6,272 Unq)", table_cell_center),
+            Paragraph("<b>6,272 Unique Individuals</b> (5,012 Teachers, 3,569 CACs, 156 BACs, Leadership)", table_cell_style)
         ],
         [
             Paragraph("<b>Master Facilitators</b>", table_cell_bold),
-            Paragraph("<b>4,891</b> Leads", table_cell_center),
-            Paragraph("<b>4,850</b> Leads", table_cell_center),
-            Paragraph("<b>9,741</b> Leads", table_cell_center),
-            Paragraph("4,814 Cluster Facilitators + 77 District Master Trainers (Aug)", table_cell_style)
+            Paragraph("<b>4,814</b> Leads", table_cell_center),
+            Paragraph("<b>4,740</b> Leads", table_cell_center),
+            Paragraph("<b>6,658</b> Unique", table_cell_center),
+            Paragraph("<b>2,896 Common Leads</b> (60.16% retention / repeat facilitators across cycles)", table_cell_style)
         ],
         [
             Paragraph("<b>Field Observers / Monitors</b>", table_cell_bold),
@@ -222,16 +222,16 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
             Paragraph("Ground facilitators accurately reflect full ~68k Varg-2 teacher baseline", table_cell_style)
         ],
         [
-            Paragraph("<b>3. Actual Attending Teachers</b>", table_cell_bold),
+            Paragraph("<b>3. Unique Teachers Reached</b>", table_cell_bold),
             Paragraph("<font color='#047857'><b>23,785 (34.8% Turnout)</b></font>", table_cell_center),
             Paragraph("<font color='#047857'><b>23,169 (34.5% Turnout)</b></font>", table_cell_center),
-            Paragraph("High month-on-month core participation stability across both cycles", table_cell_style)
+            Paragraph("<b>33,866 Unique Teachers</b> (13,023 Persistent Core + 9,962 Sep New)", table_cell_style)
         ],
         [
             Paragraph("<b>4. Non-Attendance Mobilization Gap</b>", table_cell_style),
             Paragraph("<font color='#b91c1c'><b>44,584 (65.2% Gap)</b></font>", table_cell_center),
             Paragraph("<font color='#b91c1c'><b>44,053 (65.5% Gap)</b></font>", table_cell_center),
-            Paragraph("Primary growth lever for RSK: Enforcing block-level attendance follow-up", table_cell_style)
+            Paragraph("<b>34,561 Never-Attended Teachers</b> (50.5% untapped priority cadre base)", table_cell_style)
         ]
     ]
 
@@ -276,10 +276,10 @@ def generate_compact_one_page_pdf(filename="RSK_Shaikshik_Samwaad_One_Page_Visua
             Paragraph("<font color='#b91c1c'><b>66.1%</b></font>", table_cell_center)
         ],
         [
-            Paragraph("<b>Intellectual Safety</b>", table_cell_bold),
-            Paragraph("<b>Q96</b>: Handling misconceptions", table_cell_style),
-            Paragraph("Use errors as diagnostic entry points", table_cell_style),
-            Paragraph("<i>'Correct student immediately before failing'</i>", table_cell_style),
+            Paragraph("<b>Psychological Safety & Errors</b>", table_cell_bold),
+            Paragraph("<b>Q96</b>: Handling student fear of failure", table_cell_style),
+            Paragraph("Normalize errors; provide fear-free retrial", table_cell_style),
+            Paragraph("<i>'Lowering difficulty or feeding immediate hints'</i>", table_cell_style),
             Paragraph("<font color='#047857'><b>62.0%</b></font>", table_cell_center),
             Paragraph("<font color='#b45309'><b>38.0%</b></font>", table_cell_center)
         ],
