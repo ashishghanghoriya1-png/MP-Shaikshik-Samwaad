@@ -4618,20 +4618,27 @@
       }
     }
 
-    function toggleBriefingDrawer() {
-      const c = document.getElementById('briefingDrawerContent');
-      const icon = document.getElementById('briefingToggleIcon');
-      const text = document.getElementById('briefingToggleText');
-      const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
-      if (!c) return;
-      if (c.style.display === 'none') {
-        c.style.display = 'grid';
-        if (icon) icon.innerText = '🔼';
-        if (text) text.innerText = isHi ? 'संक्षिप्त करें' : 'Collapse';
+    function toggleBriefingDrawer(show) {
+      const drawer = document.getElementById('briefingDrawer');
+      const overlay = document.getElementById('briefingDrawerOverlay');
+      if (!drawer) return;
+      
+      const willShow = (typeof show === 'boolean') ? show : (drawer.style.right !== '0px');
+      if (willShow) {
+        if (typeof updateBriefingDrawerLanguage === 'function') {
+          updateBriefingDrawerLanguage(typeof currentLang !== 'undefined' ? currentLang : 'en');
+        }
+        if (overlay) {
+          overlay.style.display = 'block';
+          setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+        }
+        drawer.style.right = '0px';
       } else {
-        c.style.display = 'none';
-        if (icon) icon.innerText = '🔽';
-        if (text) text.innerText = isHi ? 'विस्तार करें' : 'Expand';
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => { overlay.style.display = 'none'; }, 320);
+        }
+        drawer.style.right = '-580px';
       }
     }
 

@@ -5,7 +5,7 @@ from PIL import Image
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-workspace = os.path.abspath('.')
+workspace = os.path.dirname(os.path.abspath(__file__))
 pdf_reports = os.path.join(workspace, "PDF_Reports")
 new_folder = os.path.join(pdf_reports, "New folder")
 
