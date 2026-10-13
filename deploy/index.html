@@ -1885,12 +1885,12 @@
 </div>
 <!-- 3. Teacher Participation (Actual vs Expected) -->
 <div class="bento-card">
-<div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span><span id="kpiTeachersLabel">ATTENDING TEACHERS</span></span> <span id="kpiTeacherTurnoutBadge" style="color: var(--peepul-teal); font-weight: 700;">67.2%</span></div>
+<div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #1d4ed8; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7);"></span><span id="kpiTeachersLabel">ATTENDING TEACHERS</span></span> <span id="kpiTeacherTurnoutBadge" style="color: var(--peepul-teal); font-weight: 700;">34.8% Turnout</span></div>
 <div class="kpi-huge-val font-mono" id="kpiTeachersContainer" style="color: var(--accent-cyan); display: flex; align-items: baseline; gap: 4px;">
 <span id="kpiTeachers">23,785</span>
-<span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ 68,369</span>
+<span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ 68,427</span>
 </div>
-<div class="kpi-sub-desc" id="kpiTeachersDesc">23,785 Actual / 68,369 Expected Teachers (67.2%)</div>
+<div class="kpi-sub-desc" id="kpiTeachersDesc">23,785 Actual / 68,427 Expected Teachers (34.8% Turnout)</div>
 <div id="kpiTeachersRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Summary]
           </div>
@@ -5514,6 +5514,8 @@
       const doMonitors = distList.reduce((acc, d) => acc + (d.do_monitors || 0), 0);
 
       const sumUniverse = distList.reduce((acc, d) => acc + (d.varg2Universe || 0), 0) || (distCount === 52 ? 68427 : 0);
+      const stagnantUniverse = (sumUniverse > 0) ? sumUniverse : (distCount === 52 ? 68427 : 0);
+      const teacherTurnoutPct = stagnantUniverse > 0 ? ((clssTeachers / stagnantUniverse) * 100).toFixed(1) : (isSep ? '33.9' : '34.8');
       const activeCohortTarget = isSep ? 67222 : (isCons ? 135591 : 68369);
       const sumTarget = distList.reduce((acc, d) => acc + (d.expectedParticipants || d.targetCohort || 0), 0) || (distCount === 52 ? activeCohortTarget : Math.round(clssTeachers * 2.87));
       
@@ -5662,12 +5664,12 @@
           if (kTeachContainer) {
             kTeachContainer.innerHTML = `
               <span id="kpiTeachers" style="font-size: 32px; font-weight: 800; color: var(--accent-cyan);">${clssTeachers.toLocaleString()}</span>
-              <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ ${sumTarget.toLocaleString()}</span>
+              <span style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="kpiTeachersTargetSpan">/ ${stagnantUniverse.toLocaleString()}</span>
             `;
           }
           animateValue('kpiTeachers', 0, clssTeachers);
-          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + sumTarget.toLocaleString() + ' अपेक्षित शिक्षक (' + targetCovPct + '% सहभागिता' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + sumTarget.toLocaleString() + ' Expected Teachers (' + targetCovPct + '% Turnout' + archCohortLabel + ')');
-          if (kTeachBadge) kTeachBadge.innerText = targetCovPct + '% Turnout';
+          if (kTeachDesc) kTeachDesc.innerText = isHi ? (clssTeachers.toLocaleString() + ' वास्तविक / ' + stagnantUniverse.toLocaleString() + ' अपेक्षित शिक्षक (' + teacherTurnoutPct + '% सहभागिता' + archCohortLabel + ')') : (clssTeachers.toLocaleString() + ' Actual / ' + stagnantUniverse.toLocaleString() + ' Expected Teachers (' + teacherTurnoutPct + '% Turnout' + archCohortLabel + ')');
+          if (kTeachBadge) kTeachBadge.innerText = teacherTurnoutPct + '% Turnout';
         }
       }
 
