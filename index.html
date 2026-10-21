@@ -1897,20 +1897,20 @@
 </div>
 <!-- 4. District Participants (DO Cascade Source) -->
 <div class="bento-card">
-<div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT ORIENTATION PARTICIPANTS</span></span> <span id="kpiDoBadge" style="color: var(--accent-indigo); font-weight: 700;">DO Cascade</span></div>
-<div class="kpi-huge-val font-mono" id="kpiDoOfficers" style="color: var(--accent-indigo);">4,454</div>
-<div class="kpi-sub-desc" id="kpiDoOfficersDesc">4,454 CACs &amp; Lead Teachers → CLSS Facilitators</div>
+<div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT ORIENTATION PARTICIPANTS</span></span> <span id="kpiDoBadge" style="color: var(--accent-indigo); font-weight: 700;">76.0% Deployed</span></div>
+<div class="kpi-huge-val font-mono" id="kpiDoOfficers" style="color: var(--accent-indigo); display: flex; align-items: baseline; gap: 4px;"><span>4,454</span> <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;">DO</span> <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span> <span style="font-size: 32px; font-weight: 800; color: #6366f1;">3,387</span> <span style="font-size: 13px; color: #6366f1; font-weight: 700;">Deployed</span></div>
+<div class="kpi-sub-desc" id="kpiDoOfficersDesc">3,387 Deployed to CLSS (76.0% Cascade) • 1,067 Non-Facilitating</div>
 <div id="kpiDoOfficersRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> • DIET Orientation]
+            [Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> • DIET Orientation • Same-Cycle Cascade]
           </div>
 </div>
 <!-- 5. Leadership Cadre (Trainers & Monitors) -->
 <div class="bento-card">
-<div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS &amp; OBSERVERS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">1.7 Fac/Cluster</span></div>
-<div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple);">5,490</div>
-<div class="kpi-sub-desc" id="kpiCadreDesc">4,918 Fac. + 572 Monitors (5.5 Clusters/Mon)</div>
+<div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS &amp; OBSERVERS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">70.4% DO-Trained</span></div>
+<div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple); display: flex; align-items: baseline; gap: 4px;"><span>5,391</span> <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;">Cadre</span> <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span> <span style="font-size: 32px; font-weight: 800; color: #a855f7;">3,387</span> <span style="font-size: 13px; color: #a855f7; font-weight: 700;">DO-Trained</span></div>
+<div class="kpi-sub-desc" id="kpiCadreDesc">4,814 Facilitators (3,387 DO-Oriented [70.4%] + 1,427 Local) + 577 Monitors</div>
 <div id="kpiCadreRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Facilitator]</em> &amp; Observers]
+            [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Facilitator]</em> &amp; Observers • Same-Cycle Breakdown]
           </div>
 </div>
 <!-- 6. Statewide Teacher Universe Mobilization Funnel -->
@@ -5689,26 +5689,35 @@
         if (kDoOffDesc) kDoOffDesc.innerText = isHi ? 'डीओ शैक्षिक संवाद में नहीं' : 'DO Not in CLSS Scope';
         if (kDoBadge) kDoBadge.innerText = '-';
       } else {
-        if (kDoOffRef) kDoOffRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> (${doParticipants.toLocaleString()} Participants)]`;
+        const cycleDeployed = isSep ? 3320 : (isCons ? 6707 : 3387);
+        const cycleDeployPct = isSep ? '74.9%' : (isCons ? '75.5%' : '76.0%');
+        const cycleNonFac = isSep ? 1114 : (isCons ? 2181 : 1067);
+
+        if (kDoOffRef) {
+          if (isCons) kDoOffRef.innerHTML = `[Ref: <em>${bothFiles} [Sheet: Participants]</em> (${doParticipants.toLocaleString()} Gross DO Participants across Cycles)]`;
+          else kDoOffRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> (${doParticipants.toLocaleString()} Participants • Same-Cycle Cascade)]`;
+        }
+        
+        if (kDoBadge) kDoBadge.innerText = `${cycleDeployPct} Deployed`;
+        if (kDoOffContainer) {
+          kDoOffContainer.innerHTML = `
+            <span id="kpiDoOfficers" style="font-size: 32px; font-weight: 800; color: var(--accent-indigo);">${doParticipants.toLocaleString()}</span>
+            <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;">${isHi ? 'डीओ' : 'DO'}</span>
+            <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+            <span id="kpiDeployedDoVal" style="font-size: 32px; font-weight: 800; color: #6366f1;">${cycleDeployed.toLocaleString()}</span>
+            <span style="font-size: 13px; color: #6366f1; font-weight: 700;" id="kpiDeployedDoSpan">${isHi ? 'तैनात' : 'Deployed'}</span>
+          `;
+        }
+        animateValue('kpiDoOfficers', 0, doParticipants);
+
         if (isCons) {
-          if (kDoBadge) kDoBadge.innerText = isHi ? `${netUniqueDoParticipants.toLocaleString()} विशिष्ट अधिकारी` : `${netUniqueDoParticipants.toLocaleString()} Unique Officers`;
-          if (kDoOffContainer) {
-            kDoOffContainer.innerHTML = `
-              <span id="kpiDoOfficers" style="font-size: 32px; font-weight: 800; color: var(--accent-indigo);">${doParticipants.toLocaleString()}</span>
-              <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiDoTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
-              <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
-              <span id="kpiUniqueDoVal" style="font-size: 32px; font-weight: 800; color: #6366f1;">${netUniqueDoParticipants.toLocaleString()}</span>
-              <span style="font-size: 13px; color: #6366f1; font-weight: 700;" id="kpiUniqueDoSpan">${isHi ? 'विशिष्ट अधिकारी' : 'Unique'}</span>
-            `;
-          }
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi 
-            ? `${netUniqueDoParticipants.toLocaleString()} विशिष्ट सीएसी व नोडल अधिकारी (58.7% प्रतिधारण) • 2,616 दोनों चक्र • 1,818 नए`
-            : `${netUniqueDoParticipants.toLocaleString()} Unique CACs & Lead Officers (58.7% Retention) • 2,616 Multi-Cycle • 1,818 Fresh Intake`;
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi
+            ? `चक्रवार विवरण: अगस्त: 4,454 (3,387 तैनात, 76.0%) • सितंबर: 4,434 (3,320 तैनात, 74.9%) → 6,707 कुल तैनात`
+            : `Cycle Breakdown: Aug: 4,454 (3,387 Deployed, 76.0%) • Sep: 4,434 (3,320 Deployed, 74.9%) → 6,707 Total Deployed`;
         } else {
-          if (kDoBadge) kDoBadge.innerText = 'DO Cascade';
-          if (kDoOffContainer) kDoOffContainer.innerHTML = `<span id="kpiDoOfficers">${doParticipants.toLocaleString()}</span>`;
-          animateValue('kpiDoOfficers', 0, doParticipants);
-          if (kDoOffDesc) kDoOffDesc.innerText = isHi ? (doParticipants.toLocaleString() + ' जिला प्रतिभागी (DO' + archCohortLabel + ')') : (doParticipants.toLocaleString() + ' District Participants (DO' + archCohortLabel + ')');
+          if (kDoOffDesc) kDoOffDesc.innerText = isHi 
+            ? `${cycleDeployed.toLocaleString()} शैक्षिक संवाद में तैनात (${cycleDeployPct} कैस्केड${archCohortLabel}) • ${cycleNonFac.toLocaleString()} गैर-सुगमकर्ता`
+            : `${cycleDeployed.toLocaleString()} Deployed to CLSS (${cycleDeployPct} Cascade${archCohortLabel}) • ${cycleNonFac.toLocaleString()} Non-Facilitating`;
         }
       }
 
@@ -5741,30 +5750,35 @@
       
       if (kCadreRef) {
         if (activeProgram === 'DO') kCadreRef.innerHTML = `[Ref: <em>${doFile} [Sheets: Facilitator & Monitor]</em> (${doFacilitators} Fac. + ${doMonitors} Observers)]`;
-        else if (activeProgram === 'CLSS') kCadreRef.innerHTML = `[Ref: <em>${clssFile} [Sheets: Facilitator & Monitor]</em> (${clssFacilitators.toLocaleString()} Fac. + ${clssMonitors.toLocaleString()} Observers)]`;
+        else if (activeProgram === 'CLSS') kCadreRef.innerHTML = `[Ref: <em>${clssFile} [Sheets: Facilitator & Monitor]</em> (${clssFacilitators.toLocaleString()} Fac. + ${clssMonitors.toLocaleString()} Observers • Same-Cycle Breakdown)]`;
         else kCadreRef.innerHTML = `[Ref: <em>${bothFiles}</em> [Cluster & District Sheets: Facilitator & Monitor] (${(clssFacilitators + doFacilitators).toLocaleString()} Fac. + ${(clssMonitors + doMonitors).toLocaleString()} Mon.)]`;
       }
 
+      const cycleOriented = isSep ? 3320 : (isCons ? 6707 : 3387);
+      const cycleLocal = isSep ? 1420 : (isCons ? 2847 : 1427);
+      const cycleOrientPct = isSep ? '70.0%' : (isCons ? '70.2%' : '70.4%');
+      const cycleMon = isSep ? 414 : (isCons ? 991 : 577);
+
+      if (kCadreBadge) kCadreBadge.innerText = `${cycleOrientPct} DO-Trained`;
+      if (kCadreContainer) {
+        kCadreContainer.innerHTML = `
+          <span id="kpiCadre" style="font-size: 32px; font-weight: 800; color: var(--accent-purple);">${cadreTot.toLocaleString()}</span>
+          <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;">${isHi ? 'कैडर' : 'Cadre'}</span>
+          <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
+          <span id="kpiUniqueCadreVal" style="font-size: 32px; font-weight: 800; color: #a855f7;">${cycleOriented.toLocaleString()}</span>
+          <span style="font-size: 13px; color: #a855f7; font-weight: 700;" id="kpiUniqueCadreSpan">${isHi ? 'डीओ-उन्मुख' : 'DO-Trained'}</span>
+        `;
+      }
+      animateValue('kpiCadre', 0, cadreTot);
+
       if (isCons) {
-        const activeUniqueCadre = (activeProgram === 'DO') ? (91 + 73) : ((activeProgram === 'CLSS') ? (netUniqueClssFac + netUniqueClssMon) : netUniqueCadre);
-        if (kCadreBadge) kCadreBadge.innerText = isHi ? `${activeUniqueCadre.toLocaleString()} विशिष्ट कैडर` : `${activeUniqueCadre.toLocaleString()} Unique Cadre`;
-        if (kCadreContainer) {
-          kCadreContainer.innerHTML = `
-            <span id="kpiCadre" style="font-size: 32px; font-weight: 800; color: var(--accent-purple);">${cadreTot.toLocaleString()}</span>
-            <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;" id="kpiCadreTargetSpan">${isHi ? 'सकल' : 'Gross'}</span>
-            <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span>
-            <span id="kpiUniqueCadreVal" style="font-size: 32px; font-weight: 800; color: #a855f7;">${activeUniqueCadre.toLocaleString()}</span>
-            <span style="font-size: 13px; color: #a855f7; font-weight: 700;" id="kpiUniqueCadreSpan">${isHi ? 'विशिष्ट कैडर' : 'Unique'}</span>
-          `;
-        }
         if (kCadreDesc) kCadreDesc.innerText = isHi 
-          ? `${netUniqueClssFac.toLocaleString()} विशिष्ट फैसिलिटेटर + ${netUniqueClssMon.toLocaleString()} विशिष्ट मॉनिटर (सीएलएसएस) • 164 डीओ नेतृत्व`
-          : `${netUniqueClssFac.toLocaleString()} Unique Facilitators + ${netUniqueClssMon.toLocaleString()} Unique Monitors (CLSS) • 164 DO Leaders`;
+          ? `चक्रवार विवरण: अगस्त: 4,814 (3,387 डीओ + 1,427 स्थानीय) • सितंबर: 4,740 (3,320 डीओ + 1,420 स्थानीय) • 991 पर्यवेक्षक`
+          : `Cycle Breakdown: Aug: 4,814 Fac (3,387 DO + 1,427 Local) • Sep: 4,740 Fac (3,320 DO + 1,420 Local) • 991 Monitors`;
       } else {
-        if (kCadreBadge) kCadreBadge.innerText = (activeProgram === 'DO') ? (isHi ? (doFacilitators + ' सुगमकर्ता') : (doFacilitators + ' Fac.')) : '1.7 Fac/Cluster';
-        if (kCadreContainer) kCadreContainer.innerHTML = `<span id="kpiCadre">${cadreTot.toLocaleString()}</span>`;
-        animateValue('kpiCadre', 0, cadreTot);
-        if (kCadreDesc) kCadreDesc.innerText = isHi ? (((activeProgram === 'DO') ? doFacilitators : clssFacilitators).toLocaleString() + ' फैसिलिटेटर + ' + ((activeProgram === 'DO') ? doMonitors : clssMonitors).toLocaleString() + ' मॉनिटर' + archCohortLabel) : (((activeProgram === 'DO') ? doFacilitators : clssFacilitators).toLocaleString() + ' Fac. + ' + ((activeProgram === 'DO') ? doMonitors : clssMonitors).toLocaleString() + ' Monitors' + archCohortLabel);
+        if (kCadreDesc) kCadreDesc.innerText = isHi 
+          ? `${(activeProgram === 'DO' ? doFacilitators : clssFacilitators).toLocaleString()} सुगमकर्ता (${cycleOriented.toLocaleString()} डीओ-उन्मुख [${cycleOrientPct}] + ${cycleLocal.toLocaleString()} स्थानीय) + ${cycleMon.toLocaleString()} पर्यवेक्षक${archCohortLabel}`
+          : `${(activeProgram === 'DO' ? doFacilitators : clssFacilitators).toLocaleString()} Facilitators (${cycleOriented.toLocaleString()} DO-Oriented [${cycleOrientPct}] + ${cycleLocal.toLocaleString()} Local) + ${cycleMon.toLocaleString()} Monitors${archCohortLabel}`;
       }
 
       // 6. CARD 6: TEACHER UNIVERSE & SATURATION FUNNEL
