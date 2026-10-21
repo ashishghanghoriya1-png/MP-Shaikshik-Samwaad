@@ -2049,55 +2049,55 @@
       <div class="panel-box" style="margin-top: 24px;">
         <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
           <div>
-            <div class="panel-head-title" id="ovQuadrantMatrixTitle">📊 Statewide 4-Quadrant District Priority Matrix (Turnout vs. Pedagogy Accuracy)</div>
+            <div class="panel-head-title" id="ovQuadrantMatrixTitle">📊 Statewide 4-Quadrant District Priority Matrix (Turnout % vs. Pedagogy Accuracy)</div>
             <div id="ovQuadrantChartRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-              [Ref: Turnout from <em>CLSS Participant Attendance</em> vs Composite Pedagogy Score from <em>Key Subject Questions (Q82, Q84, Q95, Q96, Q97)</em>]
+              [Ref: Turnout % (Teachers ÷ Work Universe) vs Composite Pedagogy Score from <em>Key Subject Questions</em>]
             </div>
           </div>
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             <button class="slicer-btn active" id="btnQuadAll" onclick="filterQuadrant('ALL')">All 52 Districts</button>
-            <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 High Att. & High Score (<span id="q1BtnCount">15</span>)</button>
-            <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">📈 High Att., Needs Pedagogy (<span id="q2BtnCount">10</span>)</button>
-            <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">🎯 High Score, Needs Att. (<span id="q3BtnCount">13</span>)</button>
-            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">🚨 Priority Support Zone (<span id="q4BtnCount">14</span>)</button>
+            <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 High Turnout % & High Score (<span id="q1BtnCount">13</span>)</button>
+            <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ High Turnout %, Needs Pedagogy (<span id="q2BtnCount">8</span>)</button>
+            <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">🚀 High Score, Needs Turnout % (<span id="q3BtnCount">15</span>)</button>
+            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">⚠️ Priority Support Zone (<span id="q4BtnCount">16</span>)</button>
           </div>
         </div>
 
-                <!-- Dynamic 4-Quadrant Interactive Bento Cards -->
+        <!-- Dynamic 4-Quadrant Interactive Bento Cards -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px;">
           <div id="cardQuad1" onclick="filterQuadrant('Q1')" style="background: rgba(5, 150, 105, 0.06); border: 1px solid rgba(5, 150, 105, 0.25); border-left: 4px solid var(--accent-emerald); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH ATTENDANCE & HIGH SCORE</div>
-              <span class="pill-badge" id="q1Badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;">15 Districts</span>
+              <div style="font-weight: 800; color: var(--accent-emerald); font-size: 12px;">🏆 Q1: HIGH TURNOUT % & HIGH SCORE</div>
+              <span class="pill-badge" id="q1Badge" style="background: rgba(5, 150, 105, 0.18); color: var(--accent-emerald); font-weight: 700;">13 Districts</span>
             </div>
-            <div id="q1Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + High Teaching Score (≥56%)</div>
+            <div id="q1Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Turnout (≥35.0%) + High Teaching Score (≥56%)</div>
             <div id="q1Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad2" onclick="filterQuadrant('Q2')" style="background: rgba(0, 138, 171, 0.06); border: 1px solid rgba(0, 138, 171, 0.25); border-left: 4px solid var(--peepul-teal); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: HIGH ATTENDANCE, NEEDS PEDAGOGY FOCUS</div>
-              <span class="pill-badge" id="q2Badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;">10 Districts</span>
+              <div style="font-weight: 800; color: var(--peepul-teal); font-size: 12px;">⚡ Q2: HIGH TURNOUT %, NEEDS PEDAGOGY FOCUS</div>
+              <span class="pill-badge" id="q2Badge" style="background: rgba(0, 138, 171, 0.18); color: var(--peepul-teal); font-weight: 700;">8 Districts</span>
             </div>
-            <div id="q2Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Attendance (≥450) + Teaching Score Gap (&lt;56%)</div>
+            <div id="q2Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">High Turnout (≥35.0%) + Teaching Score Gap (&lt;56%)</div>
             <div id="q2Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad3" onclick="filterQuadrant('Q3')" style="background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.25); border-left: 4px solid var(--accent-indigo); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">🚀 Q3: HIGH SCORE, NEEDS ATTENDANCE BOOST</div>
-              <span class="pill-badge" id="q3Badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;">13 Districts</span>
+              <div style="font-weight: 800; color: var(--accent-indigo); font-size: 12px;">🚀 Q3: HIGH SCORE, NEEDS TURNOUT BOOST</div>
+              <span class="pill-badge" id="q3Badge" style="background: rgba(79, 70, 229, 0.18); color: var(--accent-indigo); font-weight: 700;">15 Districts</span>
             </div>
-            <div id="q3Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Attendance Boost Needed (&lt;450) + High Score (≥56%)</div>
+            <div id="q3Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Turnout Boost Needed (&lt;35.0%) + High Score (≥56%)</div>
             <div id="q3Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
 
           <div id="cardQuad4" onclick="filterQuadrant('Q4')" style="background: rgba(220, 38, 38, 0.06); border: 1px solid rgba(220, 38, 38, 0.25); border-left: 4px solid var(--accent-rose); padding: 14px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div style="font-weight: 800; color: var(--accent-rose); font-size: 12px;">⚠️ Q4: PRIORITY SUPPORT ZONE</div>
-              <span class="pill-badge" id="q4Badge" style="background: rgba(220, 38, 38, 0.18); color: var(--accent-rose); font-weight: 700;">14 Districts</span>
+              <span class="pill-badge" id="q4Badge" style="background: rgba(220, 38, 38, 0.18); color: var(--accent-rose); font-weight: 700;">16 Districts</span>
             </div>
-            <div id="q4Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Attendance (&lt;450) + Teaching Score Gap (&lt;56%)</div>
+            <div id="q4Subtext" style="font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px;">Low Turnout (&lt;35.0%) + Teaching Score Gap (&lt;56%)</div>
             <div id="q4Chips" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 140px; overflow-y: auto; padding-right: 2px;"></div>
           </div>
         </div>
@@ -2110,7 +2110,7 @@
                 Districts in Selected Quadrant: All 52 Districts
               </div>
               <div style="font-size: 11px; color: var(--text-muted);">
-                Showing all districts with real-time turnout, composite pedagogy accuracy, and tailored action recommendations.
+                Showing all districts with real-time turnout %, work universe, composite pedagogy accuracy, and tailored action recommendations.
               </div>
             </div>
             <input class="search-input" id="quadSearchInput" oninput="filterQuadrantTableSearch()" placeholder="🔍 Search district in matrix..." style="min-width: 220px; font-size: 11.5px;" type="text"/>
@@ -2122,6 +2122,8 @@
                   <th>S.No</th>
                   <th>District</th>
                   <th>Quadrant Classification</th>
+                  <th>Turnout % (Universe)</th>
+                  <th>Work Universe</th>
                   <th>CLSS Turnout</th>
                   <th>Pedagogy Score</th>
                   <th>Blocks</th>
@@ -2138,7 +2140,7 @@
           </div>
         </div>
       </div>
-    </section>
+</section>
 
     <!-- 2. RESULTS FRAMEWORK (RF 7 to 18) SCORECARD -->
 <section class="tab-section" id="tab-rf">
@@ -4905,8 +4907,8 @@
 
         // Quadrant Buttons & Badges
         btnQuadAll: 'All 52 Districts',
-        btnQuad1: '🏆 High Attendance & High Score',
-        btnQuad2: '⚡ High Attendance, Needs Pedagogy Focus',
+        btnQuad1: '🏆 High Turnout % & High Score',
+        btnQuad2: '⚡ High Turnout %, Needs Pedagogy Focus',
         btnQuad3: '📈 High Score, Needs Attendance Boost',
         btnQuad4: '🎯 Priority Support Needed',
         quadSearchPl: '🔍 Search district in matrix...',
@@ -5011,7 +5013,7 @@
         // Quadrant Buttons & Badges
         btnQuadAll: 'सभी 52 जिले',
         btnQuad1: '🏆 उच्च उपस्थिति एवं उच्च प्राप्तांक',
-        btnQuad2: '⚡ उच्च उपस्थिति, शिक्षण सुधार की आवश्यकता',
+        btnQuad2: '⚡ उच्च उपस्थिति %, शिक्षण सुधार की आवश्यकता',
         btnQuad3: '📈 उच्च प्राप्तांक, उपस्थिति वृद्धि की आवश्यकता',
         btnQuad4: '🎯 प्राथमिकता संबलन क्षेत्र',
         quadSearchPl: '🔍 मैट्रिक्स में जिला खोजें...',
@@ -9944,35 +9946,55 @@
     }
 
     // ==========================================
+        // ==========================================
     // ==========================================
-    // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER
+    // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER (PERCENTAGE-BASED WORK UNIVERSE)
     // ==========================================
     let currentQuadFilter = 'ALL';
+
+    function getDistrictUniverse(d) {
+      if (!d) return 1000;
+      if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
+      if (d.targetCohort && d.targetCohort > 50) return d.targetCohort;
+      if (d.expectedParticipants && d.expectedParticipants > 50) return d.expectedParticipants;
+      return (d.totalClusters || 10) * 25;
+    }
+
+    function getDistrictPct(d) {
+      if (!d) return 0;
+      const u = getDistrictUniverse(d);
+      if (!u || u <= 0) return 0;
+      let num = 0;
+      if (typeof activeProgram !== 'undefined' && activeProgram === 'DO') num = (d.do_participants || 0);
+      else if (typeof activeProgram !== 'undefined' && activeProgram === 'CLSS') num = (d.attendees || 0);
+      else num = ((d.attendees || 0) + (d.do_participants || 0));
+      return (num / u) * 100;
+    }
 
     function getActiveQuadrantBenchmarks() {
       if (currentCycle === 'CONSOLIDATED') {
         return {
-          turnout: 900,
+          turnoutPct: 50.0,
           pedagogy: 62,
-          turnoutLabel: '900+ Teachers (2-Cycle Combined)',
+          turnoutLabel: '≥50.0% of Universe (2-Cycle Combined)',
           pedagogyLabel: '62% Accuracy (Composite Benchmark)',
-          cycleDescription: 'Combined August + September (2-Cycle Scale: Turnout ≥ 900, Pedagogy ≥ 62%)'
+          cycleDescription: 'Combined August + September (2-Cycle Scale: Turnout ≥ 50.0% of Universe, Pedagogy ≥ 62%)'
         };
       } else if (currentCycle === 'SEP') {
         return {
-          turnout: 450,
+          turnoutPct: 35.0,
           pedagogy: 56,
-          turnoutLabel: '450+ Teachers (Monthly Benchmark)',
+          turnoutLabel: '≥35.0% of Universe (Monthly Benchmark)',
           pedagogyLabel: '56% Accuracy (Subject Benchmark)',
-          cycleDescription: 'September 2026 (Monthly Scale: Turnout ≥ 450, Pedagogy ≥ 56%)'
+          cycleDescription: 'September 2026 (Monthly Scale: Turnout ≥ 35.0% of Universe, Pedagogy ≥ 56%)'
         };
       } else {
         return {
-          turnout: 450,
+          turnoutPct: 35.0,
           pedagogy: 56,
-          turnoutLabel: '450+ Teachers (Monthly Benchmark)',
+          turnoutLabel: '≥35.0% of Universe (Monthly Benchmark)',
           pedagogyLabel: '56% Accuracy (Subject Benchmark)',
-          cycleDescription: 'August 2026 (Monthly Scale: Turnout ≥ 450, Pedagogy ≥ 56%)'
+          cycleDescription: 'August 2026 (Monthly Scale: Turnout ≥ 35.0% of Universe, Pedagogy ≥ 56%)'
         };
       }
     }
@@ -10032,9 +10054,23 @@
       }
     }
 
-    function getDistrictQuadrantInfo(turnout, pedScore) {
+    function getDistrictQuadrantInfo(d, pedScoreOverride) {
       const bench = getActiveQuadrantBenchmarks();
-      if (turnout >= bench.turnout && pedScore >= bench.pedagogy) {
+      let pct = 0;
+      let pedScore = 55;
+      if (typeof d === 'object' && d !== null) {
+        const u = getDistrictUniverse(d);
+        pct = u > 0 ? (((d.attendees || 0) / u) * 100) : 0;
+        pedScore = (pedScoreOverride !== undefined) ? pedScoreOverride : calculateDistrictPedagogyScore(d.district);
+      } else if (typeof d === 'number') {
+        pct = d;
+        pedScore = (pedScoreOverride !== undefined) ? pedScoreOverride : 55;
+      }
+
+      const isHighTurnout = (pct >= bench.turnoutPct);
+      const isHighPed = (pedScore >= bench.pedagogy);
+
+      if (isHighTurnout && isHighPed) {
         return {
           quad: 'Q1',
           label: 'Q1: Benchmark Champion',
@@ -10042,21 +10078,21 @@
           bgChip: 'background: rgba(5, 150, 105, 0.12); color: var(--accent-emerald); border: 1px solid rgba(5, 150, 105, 0.3);',
           action: 'Document & scale peer dialogue best practices'
         };
-      } else if (turnout >= bench.turnout && pedScore < bench.pedagogy) {
+      } else if (isHighTurnout && !isHighPed) {
         return {
           quad: 'Q2',
-          label: 'Q2: Scale, Pedagogy Gap',
+          label: 'Q2: High Turnout, Pedagogy Gap',
           color: 'var(--peepul-teal)',
           bgChip: 'background: rgba(0, 138, 171, 0.12); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.3);',
           action: 'Conduct targeted refresher on core competencies'
         };
-      } else if (turnout < bench.turnout && pedScore >= bench.pedagogy) {
+      } else if (!isHighTurnout && isHighPed) {
         return {
           quad: 'Q3',
-          label: 'Q3: Mobilization Need',
+          label: 'Q3: High Pedagogy, Mobilization Need',
           color: 'var(--accent-indigo)',
           bgChip: 'background: rgba(79, 70, 229, 0.12); color: var(--accent-indigo); border: 1px solid rgba(79, 70, 229, 0.3);',
-          action: 'Drive teacher attendance & CAC monitoring'
+          action: 'Drive teacher attendance & CAC monitoring to expand reach'
         };
       } else {
         return {
@@ -10064,7 +10100,7 @@
           label: 'Q4: Priority Support Zone',
           color: 'var(--accent-rose)',
           bgChip: 'background: rgba(220, 38, 38, 0.12); color: var(--accent-rose); border: 1px solid rgba(220, 38, 38, 0.3);',
-          action: 'Urgent administrative resolution & CAC appointment'
+          action: 'Urgent administrative resolution & CAC cluster support'
         };
       }
     }
@@ -10088,8 +10124,10 @@
 
       dists.forEach(d => {
         const ped = calculateDistrictPedagogyScore(d.district);
-        const t = d.attendees;
-        const qInfo = getDistrictQuadrantInfo(t, ped);
+        const u = getDistrictUniverse(d);
+        const t = d.attendees || 0;
+        const pct = u > 0 ? (t / u * 100) : 0;
+        const qInfo = getDistrictQuadrantInfo(d, ped);
 
         let targetCont = q4Container;
         if (qInfo.quad === 'Q1') { targetCont = q1Container; c1++; }
@@ -10099,8 +10137,8 @@
 
         const chip = document.createElement('span');
         chip.style.cssText = `${qInfo.bgChip} font-size: 10.5px; font-weight: 600; padding: 3px 7px; border-radius: 4px; cursor: pointer; white-space: nowrap; transition: transform 0.15s ease;`;
-        chip.title = `${d.district}: Turnout = ${t.toLocaleString()} teachers | Pedagogy Accuracy = ${ped}%. Click to view 360 profile.`;
-        chip.innerHTML = `${d.district} <span style="opacity: 0.75; font-size: 9.5px;">(${t.toLocaleString()})</span>`;
+        chip.title = `${d.district}: Turnout = ${pct.toFixed(1)}% (${t.toLocaleString()} of ${u.toLocaleString()} Universe) | Pedagogy Accuracy = ${ped}%. Click to view 360 profile.`;
+        chip.innerHTML = `${d.district} <span style="opacity: 0.85; font-size: 9.5px; font-weight: 700;">(${pct.toFixed(1)}%)</span>`;
         chip.onclick = () => openDistrictIn360(d.district);
         targetCont.appendChild(chip);
       });
@@ -10116,14 +10154,14 @@
       const btn3 = document.getElementById('q3BtnCount'); if (btn3) btn3.innerText = `${c3}`;
       const btn4 = document.getElementById('q4BtnCount'); if (btn4) btn4.innerText = `${c4}`;
 
-      const s1 = document.getElementById('q1Subtext'); if (s1) s1.innerText = `High Attendance (≥${bench.turnout}) + High Teaching Score (≥${bench.pedagogy}%)`;
-      const s2 = document.getElementById('q2Subtext'); if (s2) s2.innerText = `High Attendance (≥${bench.turnout}) + Teaching Score Gap (<${bench.pedagogy}%)`;
-      const s3 = document.getElementById('q3Subtext'); if (s3) s3.innerText = `Attendance Boost Needed (<${bench.turnout}) + High Teaching Score (≥${bench.pedagogy}%)`;
-      const s4 = document.getElementById('q4Subtext'); if (s4) s4.innerText = `Priority Support: Low Turnout (<${bench.turnout}) + Pedagogy Gap (<${bench.pedagogy}%)`;
+      const s1 = document.getElementById('q1Subtext'); if (s1) s1.innerText = `High Turnout (≥${bench.turnoutPct}%) + High Teaching Score (≥${bench.pedagogy}%)`;
+      const s2 = document.getElementById('q2Subtext'); if (s2) s2.innerText = `High Turnout (≥${bench.turnoutPct}%) + Teaching Score Gap (<${bench.pedagogy}%)`;
+      const s3 = document.getElementById('q3Subtext'); if (s3) s3.innerText = `Turnout Boost Needed (<${bench.turnoutPct}%) + High Teaching Score (≥${bench.pedagogy}%)`;
+      const s4 = document.getElementById('q4Subtext'); if (s4) s4.innerText = `Priority Support: Low Turnout (<${bench.turnoutPct}%) + Pedagogy Gap (<${bench.pedagogy}%)`;
 
       const refEl = document.getElementById('ovQuadrantChartRef');
       if (refEl) {
-        refEl.innerHTML = `[Ref: <em>${bench.cycleDescription}</em> — Turnout from CLSS Participant Attendance vs Pedagogy Score Accuracy]`;
+        refEl.innerHTML = `[Ref: <em>${bench.cycleDescription}</em> — Turnout % calculated against Work Universe vs Pedagogy Score Accuracy]`;
       }
     }
 
@@ -10141,29 +10179,41 @@
 
       const filtered = dists.filter(d => {
         const pedScore = calculateDistrictPedagogyScore(d.district);
-        const turnout = d.attendees;
-        const qInfo = getDistrictQuadrantInfo(turnout, pedScore);
+        const qInfo = getDistrictQuadrantInfo(d, pedScore);
         return (currentQuadFilter === 'ALL' || qInfo.quad === currentQuadFilter);
+      });
+
+      // Sort filtered list by Turnout % descending
+      filtered.sort((a, b) => {
+        const ua = getDistrictUniverse(a);
+        const ub = getDistrictUniverse(b);
+        const pa = ua > 0 ? (((a.attendees || 0) / ua) * 100) : 0;
+        const pb = ub > 0 ? (((b.attendees || 0) / ub) * 100) : 0;
+        return pb - pa;
       });
 
       filtered.forEach(d => {
         const pedScore = calculateDistrictPedagogyScore(d.district);
-        const turnout = d.attendees;
-        const avgPerCluster = d.totalClusters > 0 ? (d.attendees / d.totalClusters).toFixed(1) : '-';
-        const qInfo = getDistrictQuadrantInfo(turnout, pedScore);
+        const u = getDistrictUniverse(d);
+        const turnout = d.attendees || 0;
+        const pct = u > 0 ? ((turnout / u) * 100) : 0;
+        const avgPerCluster = d.totalClusters > 0 ? (turnout / d.totalClusters).toFixed(1) : '-';
+        const qInfo = getDistrictQuadrantInfo(d, pedScore);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="font-mono">${idx++}</td>
           <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
           <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
-          <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${turnout.toLocaleString()}</td>
+          <td class="font-mono" style="color: var(--peepul-blue); font-weight: 800;">${pct.toFixed(1)}%</td>
+          <td class="font-mono" style="color: var(--text-secondary); font-size: 11px;">${u.toLocaleString()}</td>
+          <td class="font-mono" style="font-weight: 600;">${turnout.toLocaleString()}</td>
           <td class="font-mono" style="color: ${pedScore >= bench.pedagogy ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
-          <td class="font-mono">${d.totalBlocks}</td>
-          <td class="font-mono">${d.totalClusters}</td>
+          <td class="font-mono">${d.totalBlocks || '-'}</td>
+          <td class="font-mono">${d.totalClusters || '-'}</td>
           <td class="font-mono">${avgPerCluster}</td>
-          <td style="font-size: 11px; color: var(--text-secondary); max-width: 260px;">${qInfo.action}</td>
-          <td style="text-align: right;"><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360→</button></td>
+          <td style="font-size: 11px; color: var(--text-secondary); max-width: 240px;">${qInfo.action}</td>
+          <td style="text-align: right;"><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°→</button></td>
         `;
         tbody.appendChild(tr);
       });
@@ -10197,17 +10247,17 @@
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
       const countMap = {
         'ALL': dists.length,
-        'Q1': dists.filter(d => getDistrictQuadrantInfo(d.attendees, calculateDistrictPedagogyScore(d.district)).quad === 'Q1').length,
-        'Q2': dists.filter(d => getDistrictQuadrantInfo(d.attendees, calculateDistrictPedagogyScore(d.district)).quad === 'Q2').length,
-        'Q3': dists.filter(d => getDistrictQuadrantInfo(d.attendees, calculateDistrictPedagogyScore(d.district)).quad === 'Q3').length,
-        'Q4': dists.filter(d => getDistrictQuadrantInfo(d.attendees, calculateDistrictPedagogyScore(d.district)).quad === 'Q4').length,
+        'Q1': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q1').length,
+        'Q2': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q2').length,
+        'Q3': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q3').length,
+        'Q4': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q4').length,
       };
 
       const quadTitleMap = {
         'ALL': `All ${dists.length} Districts`,
         'Q1': `Q1: Benchmark Champions (${countMap.Q1} Districts)`,
-        'Q2': `Q2: High Attendance, Needs Pedagogy Focus (${countMap.Q2} Districts)`,
-        'Q3': `Q3: High Score, Needs Attendance Boost (${countMap.Q3} Districts)`,
+        'Q2': `Q2: High Turnout %, Needs Pedagogy Focus (${countMap.Q2} Districts)`,
+        'Q3': `Q3: High Score, Needs Turnout % Boost (${countMap.Q3} Districts)`,
         'Q4': `Q4: Priority Support Zone (${countMap.Q4} Districts)`
       };
       const titleEl = document.getElementById('quadrantTableTitle');
