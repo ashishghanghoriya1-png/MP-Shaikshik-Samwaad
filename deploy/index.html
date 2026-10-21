@@ -1908,7 +1908,7 @@
 <div class="bento-card">
 <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS &amp; OBSERVERS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">70.4% DO-Trained</span></div>
 <div class="kpi-huge-val font-mono" id="kpiCadre" style="color: var(--accent-purple); display: flex; align-items: baseline; gap: 4px;"><span>5,391</span> <span style="font-size: 13px; color: var(--text-muted); font-weight: 600; margin-right: 4px;">Cadre</span> <span style="font-size: 22px; color: var(--border-hairline); margin: 0 4px;">|</span> <span style="font-size: 32px; font-weight: 800; color: #a855f7;">3,387</span> <span style="font-size: 13px; color: #a855f7; font-weight: 700;">DO-Trained</span></div>
-<div class="kpi-sub-desc" id="kpiCadreDesc">4,814 Facilitators (3,387 DO-Oriented [70.4%] + 1,427 Local) + 577 Monitors</div>
+<div class="kpi-sub-desc" id="kpiCadreDesc">4,814 Facilitators (3,387 DO-Oriented [70.4%] + 1,427 Non-DO) + 577 Monitors</div>
 <div id="kpiCadreRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
             [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Facilitator]</em> &amp; Observers • Same-Cycle Breakdown]
           </div>
@@ -2470,7 +2470,7 @@
 <div class="table-viewport">
 <div class="slicer-pills" id="leagueScopeSlicer" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; padding: 10px 14px; background: var(--bg-surface-2); border-radius: var(--radius-md); border: 1px solid var(--border-hairline);">
             <button class="slicer-btn active" id="btnLeagueAll" onclick="setLeagueScope('ALL')">🌐 All 52 Districts</button>
-            <button class="slicer-btn" id="btnLeagueTop10" onclick="setLeagueScope('TOP10')">🏆 Top 10 High Turnout</button>
+            <button class="slicer-btn" id="btnLeagueTop10" onclick="setLeagueScope('TOP10')">🏆 Top 10 Turnout %</button>
             <button class="slicer-btn" id="btnLeagueAsp" onclick="setLeagueScope('ASPIRATIONAL')" style="border-color: rgba(245, 158, 11, 0.4); color: #d97706; font-weight: 700;">⭐ NITI Aspirational (8)</button>
             <button class="slicer-btn" id="btnLeagueDeficit" onclick="setLeagueScope('DEFICIT')" style="color: var(--accent-rose);">⚠️ Data Deficit Focus</button>
             <button class="slicer-btn" id="btnLeagueCritical" onclick="setLeagueScope('CRITICAL')" style="color: #dc2626;">🚨 Critical Blackouts</button>
@@ -5766,8 +5766,8 @@
 
       if (isCons) {
         if (kCadreDesc) kCadreDesc.innerText = isHi 
-          ? `चक्रवार विवरण: अगस्त: 4,814 (3,387 डीओ + 1,427 स्थानीय) • सितंबर: 4,740 (3,320 डीओ + 1,420 स्थानीय) • 991 पर्यवेक्षक`
-          : `Cycle Breakdown: Aug: 4,814 Fac (3,387 DO + 1,427 Local) • Sep: 4,740 Fac (3,320 DO + 1,420 Local) • 991 Monitors`;
+          ? `चक्रवार विवरण: अगस्त: 4,814 (3,387 डीओ + 1,427 गैर-डीओ) • सितंबर: 4,740 (3,320 डीओ + 1,420 गैर-डीओ) • 991 पर्यवेक्षक`
+          : `Cycle Breakdown: Aug: 4,814 Fac (3,387 DO + 1,427 Non-DO) • Sep: 4,740 Fac (3,320 DO + 1,420 Non-DO) • 991 Monitors`;
       } else {
         if (kCadreDesc) kCadreDesc.innerText = isHi 
           ? `${(activeProgram === 'DO' ? doFacilitators : clssFacilitators).toLocaleString()} सुगमकर्ता (${cycleOriented.toLocaleString()} डीओ-उन्मुख [${cycleOrientPct}] + ${cycleLocal.toLocaleString()} स्थानीय) + ${cycleMon.toLocaleString()} पर्यवेक्षक${archCohortLabel}`
@@ -6004,14 +6004,30 @@
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
 
+      const getDistrictUniverse = (d) => {
+        if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
+        if (d.targetCohort && d.targetCohort > 50) return d.targetCohort;
+        if (d.expectedParticipants && d.expectedParticipants > 50) return d.expectedParticipants;
+        return (d.totalClusters || 10) * 25;
+      };
+
+      const getDistrictPct = (d) => {
+        const u = getDistrictUniverse(d);
+        if (!u || u <= 0) return 0;
+        let num = 0;
+        if (activeProgram === 'DO') num = (d.do_participants || 0);
+        else if (activeProgram === 'CLSS') num = (d.attendees || 0);
+        else num = ((d.attendees || 0) + (d.do_participants || 0));
+        return (num / u) * 100;
+      };
+
+      // Rank strictly on percentage of work universe rather than absolute headcount
       let sortedList = [...dists];
-      if (activeProgram === 'DO') {
-        sortedList.sort((a,b) => (b.do_participants || 0) - (a.do_participants || 0));
-      } else if (activeProgram === 'CLSS') {
-        sortedList.sort((a,b) => (b.attendees || 0) - (a.attendees || 0));
-      } else {
-        sortedList.sort((a,b) => (b.combined_total || ((b.attendees || 0) + (b.do_participants || 0))) - (a.combined_total || ((a.attendees || 0) + (a.do_participants || 0))));
-      }
+      sortedList.sort((a, b) => {
+        const pctA = getDistrictPct(a);
+        const pctB = getDistrictPct(b);
+        return pctB - pctA;
+      });
 
       const scope = (typeof overviewScope !== 'undefined') ? overviewScope : 'TOP15';
       let displayList = sortedList;
@@ -6021,7 +6037,15 @@
         displayList = sortedList.slice(-15);
       }
 
-      // 1. Top Districts Column/Bar Chart (Rich Multi-Cadre Design Restored)
+      // Update Chart Heading to emphasize Percentage of Universe Ranking
+      const ovTitle = document.getElementById('overviewTopChartTitle');
+      if (ovTitle) {
+        ovTitle.innerText = isHi 
+          ? `🗺️ राज्य स्तरीय जिला सहभागिता दर रैंकिंग (शिक्षक यूनिवर्स का %) — ${scope === 'TOP15' ? 'शीर्ष 15' : (scope === 'BOTTOM15' ? 'निचले 15' : 'सभी 52 जिले')}`
+          : `🗺️ Statewide District Participation Rate Ranking (% of Work Universe) — ${scope === 'TOP15' ? 'Top 15' : (scope === 'BOTTOM15' ? 'Bottom 15' : 'All 52 Districts')}`;
+      }
+
+      // 1. Top Districts Column/Bar Chart (Percentage-based Normalized Ranking)
       if (charts.ovTopDistricts) charts.ovTopDistricts.destroy();
       const ctx1 = document.getElementById('ovTopDistricts')?.getContext('2d');
       if (ctx1) {
@@ -6029,49 +6053,121 @@
         let datasets = [];
 
         if (activeRole === 'Participant') {
-          // 👨‍🏫 TEACHERS ONLY
           if (activeProgram === 'DO') {
-            datasets.push({ label: isHi ? 'DO जिला शिक्षक/प्रतिभागी' : 'DO Teacher Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'DO सहभागिता दर (%)' : 'DO Participation Rate (%)',
+              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              backgroundColor: '#1d4ed8',
+              borderRadius: 4
+            });
           } else if (activeProgram === 'CLSS') {
-            datasets.push({ label: isHi ? 'CLSS सहभागी शिक्षक' : 'CLSS Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS शिक्षक उपस्थिति दर (%)' : 'CLSS Teacher Turnout (%)',
+              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              backgroundColor: '#1d4ed8',
+              borderRadius: 4
+            });
           } else {
-            datasets.push({ label: isHi ? 'CLSS सहभागी शिक्षक' : 'CLSS Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'DO शिक्षक/प्रतिभागी' : 'DO Teacher Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#3b82f6', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS शिक्षक दर (%)' : 'CLSS Turnout %',
+              data: displayList.map(d => Number(((d.attendees || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              backgroundColor: '#1d4ed8',
+              borderRadius: 4
+            });
+            datasets.push({
+              label: isHi ? 'DO सहभागिता दर (%)' : 'DO Participation %',
+              data: displayList.map(d => Number(((d.do_participants || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              backgroundColor: '#3b82f6',
+              borderRadius: 4
+            });
           }
         } else if (activeRole === 'Facilitator') {
-          // 🤝 FACILITATORS ONLY
           if (activeProgram === 'DO') {
-            datasets.push({ label: isHi ? 'DO सहजकर्ता' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'DO सहजकर्ता दर (%)' : 'DO Facilitator %',
+              data: displayList.map(d => Number(((d.do_facilitators || 0) / (d.totalBlocks || 1) * 20).toFixed(1))),
+              backgroundColor: '#008aab',
+              borderRadius: 4
+            });
           } else if (activeProgram === 'CLSS') {
-            datasets.push({ label: isHi ? 'CLSS सहजकर्ता' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS सहजकर्ता दर (%)' : 'CLSS Facilitators %',
+              data: displayList.map(d => Number(((d.facilitators || 0) / ((d.totalClusters || 1) * 2) * 100).toFixed(1))),
+              backgroundColor: '#008aab',
+              borderRadius: 4
+            });
           } else {
-            datasets.push({ label: isHi ? 'CLSS सहजकर्ता' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'DO सहजकर्ता' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#2dd4bf', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS सहजकर्ता (%)' : 'CLSS Facilitators %',
+              data: displayList.map(d => Number(((d.facilitators || 0) / ((d.totalClusters || 1) * 2) * 100).toFixed(1))),
+              backgroundColor: '#008aab',
+              borderRadius: 4
+            });
+            datasets.push({
+              label: isHi ? 'DO सहजकर्ता (%)' : 'DO Facilitators %',
+              data: displayList.map(d => Number(((d.do_facilitators || 0) / (d.totalBlocks || 1) * 20).toFixed(1))),
+              backgroundColor: '#2dd4bf',
+              borderRadius: 4
+            });
           }
         } else if (activeRole === 'Observer') {
-          // 👁️ MONITORS/OBSERVERS ONLY
           if (activeProgram === 'DO') {
-            datasets.push({ label: isHi ? 'DO पर्यवेक्षक / मॉनिटर' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'DO पर्यवेक्षक दर (%)' : 'DO Observers %',
+              data: displayList.map(d => Number(((d.do_monitors || 0) / (d.totalBlocks || 1) * 25).toFixed(1))),
+              backgroundColor: '#4f46e5',
+              borderRadius: 4
+            });
           } else if (activeProgram === 'CLSS') {
-            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS मॉनिटर कवरेज (%)' : 'CLSS Monitors Coverage %',
+              data: displayList.map(d => Number(((d.monitors || 0) / (d.totalClusters || 1) * 100).toFixed(1))),
+              backgroundColor: '#4f46e5',
+              borderRadius: 4
+            });
           } else {
-            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'DO पर्यवेक्षक' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#818cf8', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS मॉनिटर (%)' : 'CLSS Monitors %',
+              data: displayList.map(d => Number(((d.monitors || 0) / (d.totalClusters || 1) * 100).toFixed(1))),
+              backgroundColor: '#4f46e5',
+              borderRadius: 4
+            });
+            datasets.push({
+              label: isHi ? 'DO पर्यवेक्षक (%)' : 'DO Observers %',
+              data: displayList.map(d => Number(((d.do_monitors || 0) / (d.totalBlocks || 1) * 25).toFixed(1))),
+              backgroundColor: '#818cf8',
+              borderRadius: 4
+            });
           }
         } else {
-          // ALL ROLES
+          // ALL ROLES - Stacked Turnout % against work universe
           if (activeProgram === 'DO') {
-            datasets.push({ label: isHi ? 'DO जिला प्रतिभागी' : 'DO Participants', data: displayList.map(d => d.do_participants || 0), backgroundColor: '#008aab', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'DO फैसिलिटेटर' : 'DO Facilitators', data: displayList.map(d => d.do_facilitators || 0), backgroundColor: '#63d0df', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'DO पर्यवेक्षक' : 'DO Observers', data: displayList.map(d => d.do_monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'DO सहभागिता दर (% Universe)' : 'DO Turnout (% Universe)',
+              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              backgroundColor: '#008aab',
+              borderRadius: 4
+            });
           } else if (activeProgram === 'CLSS') {
-            datasets.push({ label: isHi ? 'सहभागी शिक्षक' : 'Teacher Attendees', data: displayList.map(d => d.attendees || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'CLSS फैसिलिटेटर' : 'CLSS Facilitators', data: displayList.map(d => d.facilitators || 0), backgroundColor: '#008aab', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'CLSS मॉनिटर' : 'CLSS Monitors', data: displayList.map(d => d.monitors || 0), backgroundColor: '#4f46e5', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'CLSS शिक्षक सहभागिता दर (% Universe)' : 'CLSS Teacher Turnout (% Universe)',
+              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              backgroundColor: '#1d4ed8',
+              borderRadius: 4
+            });
           } else {
-            // Consolidated - Rich 2-Tone Visual Structure
-            datasets.push({ label: isHi ? 'शैक्षिक संवाद सहभागिता (CLSS)' : 'CLSS Turnout', data: displayList.map(d => d.attendees || d.total || 0), backgroundColor: '#1d4ed8', borderRadius: 4 });
-            datasets.push({ label: isHi ? 'जिला अभिमुखीकरण सहभागिता (DO)' : 'DO Turnout', data: displayList.map(d => d.do_participants || d.do_total || 0), backgroundColor: '#008aab', borderRadius: 4 });
+            datasets.push({
+              label: isHi ? 'शैक्षिक संवाद दर (CLSS %)' : 'CLSS Turnout %',
+              data: displayList.map(d => Number(((d.attendees || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              backgroundColor: '#1d4ed8',
+              borderRadius: 4
+            });
+            datasets.push({
+              label: isHi ? 'जिला अभिमुखीकरण दर (DO %)' : 'DO Turnout %',
+              data: displayList.map(d => Number(((d.do_participants || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              backgroundColor: '#008aab',
+              borderRadius: 4
+            });
           }
         }
 
@@ -6094,7 +6190,7 @@
                 font: { family: theme.fontMono, size: 9, weight: '700' },
                 formatter: function(val) {
                   if (!val || val === 0) return '';
-                  return val >= 1000 ? (val >= 10000 ? (val/1000).toFixed(1) + 'k' : val.toLocaleString()) : val;
+                  return val.toFixed(1) + '%';
                 }
               },
               legend: { 
@@ -6103,15 +6199,25 @@
               },
               tooltip: {
                 callbacks: {
-                  title: items => `${isHi ? getDistName(displayList[items[0].dataIndex].district) : displayList[items[0].dataIndex].district} (${isHi ? 'रैंक' : 'Rank'} #${sortedList.findIndex(x => x.district === displayList[items[0].dataIndex].district) + 1})`,
+                  title: items => {
+                    const d = displayList[items[0].dataIndex];
+                    const rank = sortedList.findIndex(x => x.district === d.district) + 1;
+                    const pct = getDistrictPct(d).toFixed(1);
+                    return `${isHi ? getDistName(d.district) : d.district} (Rank #${rank} • ${pct}% Turnout)`;
+                  },
                   afterBody: items => {
                     const d = displayList[items[0].dataIndex];
+                    const u = getDistrictUniverse(d);
                     const totCombined = (d.combined_total || ((d.attendees || 0) + (d.do_participants || 0)));
+                    const pct = getDistrictPct(d).toFixed(1);
+                    const clssPct = ((d.attendees || 0) / u * 100).toFixed(1);
+                    const doPct = ((d.do_participants || 0) / u * 100).toFixed(1);
                     return [
-                      `${isHi ? 'ब्लॉक' : 'Blocks'}: ${d.totalBlocks || '-'} | ${isHi ? 'संकुल' : 'Clusters'}: ${d.totalClusters || '-'}`,
-                      `${isHi ? 'शिक्षक' : 'CLSS Teachers'}: ${(d.attendees || 0).toLocaleString()}`,
-                      `${isHi ? 'DO अधिकारी' : 'DO Participants'}: ${(d.do_participants || 0).toLocaleString()}`,
-                      `${isHi ? 'कुल सहभागिता' : 'Total Combined'}: ${totCombined.toLocaleString()}`
+                      `${isHi ? 'कुल सहभागिता दर' : 'Overall Turnout'}: ${pct}% of Universe`,
+                      `${isHi ? 'शिक्षक यूनिवर्स' : 'Work Universe'}: ${u.toLocaleString()} ${isHi ? 'शिक्षक' : 'Teachers'} (${d.totalBlocks || '-'} ${isHi ? 'ब्लॉक' : 'Blocks'})`,
+                      `${isHi ? 'CLSS शिक्षक' : 'CLSS Attendees'}: ${(d.attendees || 0).toLocaleString()} (${clssPct}%)`,
+                      `${isHi ? 'DO प्रतिभागी' : 'DO Participants'}: ${(d.do_participants || 0).toLocaleString()} (${doPct}%)`,
+                      `${isHi ? 'कुल संयुक्त संख्या' : 'Combined Headcount'}: ${totCombined.toLocaleString()}`
                     ];
                   }
                 }
@@ -6119,6 +6225,7 @@
             },
             scales: {
               x: { 
+                stacked: true,
                 grid: { color: theme.gridColor }, 
                 ticks: { 
                   color: theme.textColor, 
@@ -6127,7 +6234,14 @@
                   minRotation: 45
                 } 
               },
-              y: { grid: { color: theme.gridColor }, ticks: { color: theme.textColor } }
+              y: { 
+                stacked: true,
+                grid: { color: theme.gridColor }, 
+                ticks: { 
+                  color: theme.textColor,
+                  callback: function(v) { return v + '%'; }
+                } 
+              }
             }
           }
         });
@@ -7027,12 +7141,25 @@
       // 1. Calculate dynamic cohorts based on active cycle data
       let filteredList = [...dists];
 
+      const getLeagueUniverse = (d) => {
+        if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
+        if (d.targetCohort && d.targetCohort > 50) return d.targetCohort;
+        if (d.expectedParticipants && d.expectedParticipants > 50) return d.expectedParticipants;
+        return (d.totalClusters || 10) * 25;
+      };
+
+      const getLeaguePct = (d) => {
+        const u = getLeagueUniverse(d);
+        if (!u || u <= 0) return 0;
+        let num = 0;
+        if (activeProgram === 'DO') num = (d.do_participants || 0);
+        else if (activeProgram === 'CLSS') num = (d.attendees || 0);
+        else num = ((d.attendees || 0) + (d.do_participants || 0));
+        return (num / u) * 100;
+      };
+
       if (currentLeagueScope === 'TOP10') {
-        filteredList.sort((a, b) => {
-          const valA = (activeProgram === 'DO') ? (a.do_participants || 0) : ((activeProgram === 'CLSS') ? (a.attendees || 0) : ((a.combined_total !== undefined) ? a.combined_total : ((a.total || 0) + (a.do_total || 0))));
-          const valB = (activeProgram === 'DO') ? (b.do_participants || 0) : ((activeProgram === 'CLSS') ? (b.attendees || 0) : ((b.combined_total !== undefined) ? b.combined_total : ((b.total || 0) + (b.do_total || 0))));
-          return valB - valA;
-        });
+        filteredList.sort((a, b) => getLeaguePct(b) - getLeaguePct(a));
         filteredList = filteredList.slice(0, 10);
       } else if (currentLeagueScope === 'ASPIRATIONAL') {
         filteredList = filteredList.filter(d => d.isAspirational);
