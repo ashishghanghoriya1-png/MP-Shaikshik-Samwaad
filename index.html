@@ -1928,10 +1928,10 @@
 <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
 <div>
 <div class="panel-head-title" id="overviewTopChartTitle">
-                🗺️ Statewide District Teacher Turnout Ranking (All 52 Districts)
+                🗺️ Statewide District Participation Rate Ranking (% of Work Universe) — All 52 Districts
               </div>
 <div id="overviewTopChartRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-                [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Sheet: <strong>District-wise Summary</strong>, Col: <strong>Participants</strong> &amp; Sheet1 Col: <strong>Attendee</strong>]
+                [Active Denominator: Facilitator Ground Target (Q72, ~68.3k State Universe) | Dept Baseline: RSK Shiksha Portal Varg-2 Cadre (Col D, 68.4k) — Side-by-Side Unstacked]
               </div>
 </div>
 <!-- Scope Filters for Leaderboard -->
@@ -4721,9 +4721,9 @@
       // 6. Tab 1 Overview Charts
       const ovTopChartRef = document.getElementById('overviewTopChartRef');
       if (ovTopChartRef) {
-        if (curProg === 'DO') ovTopChartRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> | DIET Orientation Turnout Ranking]`;
-        else if (curProg === 'CLSS') ovTopChartRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> | Cluster Teacher Turnout Ranking]`;
-        else ovTopChartRef.innerHTML = `[Ref: <em>${bothFiles}</em> | Consolidated Mobilization (${(clssTeach + doPart).toLocaleString()} Attendees)]`;
+        if (curProg === 'DO') ovTopChartRef.innerHTML = `[Ref: <em>${doFile} [Sheet: Participants]</em> | DIET Orientation Turnout Ranking (% of Ground Target)]`;
+        else if (curProg === 'CLSS') ovTopChartRef.innerHTML = `[Ref: <em>${clssFile} [Sheet: Participants]</em> | Active Denominator: Facilitator Ground Target (Q72) | Dept Baseline: Col D]`;
+        else ovTopChartRef.innerHTML = `[Active Denominator: Facilitator Ground Target (Q72, ~68.3k State Universe) | Dept Baseline: RSK Shiksha Portal Varg-2 Cadre (Col D, 68.4k) — Side-by-Side Unstacked]`;
       }
 
       const ovCadreRef = document.getElementById('ovCadreBreakdownRef');
@@ -6013,21 +6013,34 @@
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
 
-      const getDistrictUniverse = (d) => {
-        if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
-        if (d.targetCohort && d.targetCohort > 50) return d.targetCohort;
-        if (d.expectedParticipants && d.expectedParticipants > 50) return d.expectedParticipants;
-        return (d.totalClusters || 10) * 25;
+      // Dual-Denominator Architecture:
+      // 1. Active Denominator: Facilitator Ground Target (Q72, ~68.3k state universe across all schools including Tribal Affairs)
+      const getGroundTarget = (d) => {
+        if (!d) return 1000;
+        if (d.targetCohort && d.targetCohort > 0) return d.targetCohort;
+        if (d.expectedParticipants && d.expectedParticipants > 0) return d.expectedParticipants;
+        return (d.totalClusters || 10) * 15;
       };
 
+      // 2. Baseline Denominator: RSK Department Cadre (Col D: Madhymik Shikshak Varg -2, 68,427 statewide baseline from Shiksha Portal)
+      const getDeptCadre = (d) => (d && d.varg2Universe) ? d.varg2Universe : 0;
+
+      // Primary Metric: CLSS Teacher Turnout % against Facilitator Ground Target
+      const getClssPct = (d) => {
+        const gt = getGroundTarget(d);
+        return (gt && gt > 0) ? (((d.attendees || 0) / gt) * 100) : 0;
+      };
+
+      // Secondary Metric: DO Participation Rate % against Facilitator Ground Target
+      const getDoPct = (d) => {
+        const gt = getGroundTarget(d);
+        return (gt && gt > 0) ? (((d.do_participants || 0) / gt) * 100) : 0;
+      };
+
+      // Active Sorting / Ranking Percentage: Strictly governed by CLSS Teacher Turnout % (unless DO program is isolated)
       const getDistrictPct = (d) => {
-        const u = getDistrictUniverse(d);
-        if (!u || u <= 0) return 0;
-        let num = 0;
-        if (activeProgram === 'DO') num = (d.do_participants || 0);
-        else if (activeProgram === 'CLSS') num = (d.attendees || 0);
-        else num = ((d.attendees || 0) + (d.do_participants || 0));
-        return (num / u) * 100;
+        if (activeProgram === 'DO') return getDoPct(d);
+        return getClssPct(d);
       };
 
       // Rank strictly on percentage of work universe rather than absolute headcount
@@ -6038,7 +6051,7 @@
         return pctB - pctA;
       });
 
-      const scope = (typeof overviewScope !== 'undefined') ? overviewScope : 'TOP15';
+      const scope = (typeof overviewScope !== 'undefined') ? overviewScope : 'ALL';
       let displayList = sortedList;
       if (scope === 'TOP15') {
         displayList = sortedList.slice(0, 15);
@@ -6054,7 +6067,7 @@
           : `🗺️ Statewide District Participation Rate Ranking (% of Work Universe) — ${scope === 'TOP15' ? 'Top 15' : (scope === 'BOTTOM15' ? 'Bottom 15' : 'All 52 Districts')}`;
       }
 
-      // 1. Top Districts Column/Bar Chart (Percentage-based Normalized Ranking)
+      // 1. Top Districts Column/Bar Chart (Percentage-based Normalized Ranking — Dual Denominator Unstacked)
       if (charts.ovTopDistricts) charts.ovTopDistricts.destroy();
       const ctx1 = document.getElementById('ovTopDistricts')?.getContext('2d');
       if (ctx1) {
@@ -6065,28 +6078,29 @@
           if (activeProgram === 'DO') {
             datasets.push({
               label: isHi ? 'DO सहभागिता दर (%)' : 'DO Participation Rate (%)',
-              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
-              backgroundColor: '#1d4ed8',
+              data: displayList.map(d => Number(getDoPct(d).toFixed(1))),
+              backgroundColor: '#008aab',
               borderRadius: 4
             });
           } else if (activeProgram === 'CLSS') {
             datasets.push({
               label: isHi ? 'CLSS शिक्षक उपस्थिति दर (%)' : 'CLSS Teacher Turnout (%)',
-              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              data: displayList.map(d => Number(getClssPct(d).toFixed(1))),
               backgroundColor: '#1d4ed8',
               borderRadius: 4
             });
           } else {
+            // Side-by-Side Dual-Channel: Solid Royal Blue (Primary CLSS) + Subtle Teal (DO Companion)
             datasets.push({
-              label: isHi ? 'CLSS शिक्षक दर (%)' : 'CLSS Turnout %',
-              data: displayList.map(d => Number(((d.attendees || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              label: isHi ? 'CLSS शिक्षक उपस्थिति दर (%)' : 'CLSS Teacher Turnout (%)',
+              data: displayList.map(d => Number(getClssPct(d).toFixed(1))),
               backgroundColor: '#1d4ed8',
               borderRadius: 4
             });
             datasets.push({
-              label: isHi ? 'DO सहभागिता दर (%)' : 'DO Participation %',
-              data: displayList.map(d => Number(((d.do_participants || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
-              backgroundColor: '#3b82f6',
+              label: isHi ? 'DO सहभागिता दर (%)' : 'DO Participation Rate (%)',
+              data: displayList.map(d => Number(getDoPct(d).toFixed(1))),
+              backgroundColor: '#008aab',
               borderRadius: 4
             });
           }
@@ -6149,31 +6163,31 @@
             });
           }
         } else {
-          // ALL ROLES - Stacked Turnout % against work universe
+          // ALL ROLES - Side-by-Side Dual-Channel Turnout
           if (activeProgram === 'DO') {
             datasets.push({
-              label: isHi ? 'DO सहभागिता दर (% Universe)' : 'DO Turnout (% Universe)',
-              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              label: isHi ? 'DO सहभागिता दर (% Ground Target)' : 'DO Turnout (% Ground Target)',
+              data: displayList.map(d => Number(getDoPct(d).toFixed(1))),
               backgroundColor: '#008aab',
               borderRadius: 4
             });
           } else if (activeProgram === 'CLSS') {
             datasets.push({
-              label: isHi ? 'CLSS शिक्षक सहभागिता दर (% Universe)' : 'CLSS Teacher Turnout (% Universe)',
-              data: displayList.map(d => Number(getDistrictPct(d).toFixed(1))),
+              label: isHi ? 'CLSS शिक्षक उपस्थिति दर (% Ground Target)' : 'CLSS Teacher Turnout (% Ground Target)',
+              data: displayList.map(d => Number(getClssPct(d).toFixed(1))),
               backgroundColor: '#1d4ed8',
               borderRadius: 4
             });
           } else {
             datasets.push({
-              label: isHi ? 'शैक्षिक संवाद दर (CLSS %)' : 'CLSS Turnout %',
-              data: displayList.map(d => Number(((d.attendees || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              label: isHi ? 'शैक्षिक संवाद दर (CLSS %)' : 'CLSS Teacher Turnout %',
+              data: displayList.map(d => Number(getClssPct(d).toFixed(1))),
               backgroundColor: '#1d4ed8',
               borderRadius: 4
             });
             datasets.push({
-              label: isHi ? 'जिला अभिमुखीकरण दर (DO %)' : 'DO Turnout %',
-              data: displayList.map(d => Number(((d.do_participants || 0) / getDistrictUniverse(d) * 100).toFixed(1))),
+              label: isHi ? 'जिला अभिमुखीकरण दर (DO %)' : 'DO Participation %',
+              data: displayList.map(d => Number(getDoPct(d).toFixed(1))),
               backgroundColor: '#008aab',
               borderRadius: 4
             });
@@ -6211,30 +6225,40 @@
                   title: items => {
                     const d = displayList[items[0].dataIndex];
                     const rank = sortedList.findIndex(x => x.district === d.district) + 1;
-                    const pct = getDistrictPct(d).toFixed(1);
-                    return `${isHi ? getDistName(d.district) : d.district} (Rank #${rank} • ${pct}% Turnout)`;
+                    const pct = (activeProgram === 'DO' ? getDoPct(d) : getClssPct(d)).toFixed(1);
+                    const metricName = activeProgram === 'DO' ? (isHi ? 'DO दर' : 'DO Turnout') : (isHi ? 'CLSS दर' : 'CLSS Turnout');
+                    return `${isHi ? getDistName(d.district) : d.district} (Rank #${rank} • ${pct}% ${metricName})`;
                   },
                   afterBody: items => {
                     const d = displayList[items[0].dataIndex];
-                    const u = getDistrictUniverse(d);
-                    const totCombined = (d.combined_total || ((d.attendees || 0) + (d.do_participants || 0)));
-                    const pct = getDistrictPct(d).toFixed(1);
-                    const clssPct = ((d.attendees || 0) / u * 100).toFixed(1);
-                    const doPct = ((d.do_participants || 0) / u * 100).toFixed(1);
-                    return [
-                      `${isHi ? 'कुल सहभागिता दर' : 'Overall Turnout'}: ${pct}% of Universe`,
-                      `${isHi ? 'शिक्षक यूनिवर्स' : 'Work Universe'}: ${u.toLocaleString()} ${isHi ? 'शिक्षक' : 'Teachers'} (${d.totalBlocks || '-'} ${isHi ? 'ब्लॉक' : 'Blocks'})`,
-                      `${isHi ? 'CLSS शिक्षक' : 'CLSS Attendees'}: ${(d.attendees || 0).toLocaleString()} (${clssPct}%)`,
-                      `${isHi ? 'DO प्रतिभागी' : 'DO Participants'}: ${(d.do_participants || 0).toLocaleString()} (${doPct}%)`,
-                      `${isHi ? 'कुल संयुक्त संख्या' : 'Combined Headcount'}: ${totCombined.toLocaleString()}`
+                    const gt = getGroundTarget(d);
+                    const dc = getDeptCadre(d);
+                    const clssAtt = (d.attendees || 0);
+                    const doPart = (d.do_participants || 0);
+                    const clssPct = gt > 0 ? ((clssAtt / gt) * 100).toFixed(1) : '0.0';
+                    const doPct = gt > 0 ? ((doPart / gt) * 100).toFixed(1) : '0.0';
+                    const isTribalCaveat = (dc < 100 && gt > 200);
+
+                    const lines = [
+                      `${isHi ? 'CLSS शिक्षक उपस्थिति' : 'CLSS Teacher Turnout'}: ${clssAtt.toLocaleString()} / ${gt.toLocaleString()} (${clssPct}%)`,
+                      `${isHi ? 'सहजकर्ता ग्राउंड लक्ष्य (Q72)' : 'Facilitator Ground Target (Q72)'}: ${gt.toLocaleString()} ${isHi ? 'शिक्षक' : 'Teachers'}`,
+                      `${isHi ? 'RSK विभाग कैडर (कॉलम D)' : 'RSK Dept Cadre (Col D)'}: ${dc > 0 ? dc.toLocaleString() : 'N/A'} ${isHi ? 'शिक्षक' : 'Teachers'}${isTribalCaveat ? (isHi ? ' *जनजातीय जिला' : ' *Tribal Dept Excluded') : ''}`,
+                      `${isHi ? 'DO सहभागिता' : 'DO Participation'}: ${doPart.toLocaleString()} / ${gt.toLocaleString()} (${doPct}%)`,
+                      `${isHi ? 'CAC सहजकर्ता' : 'CAC Facilitators'}: ${(d.facilitators || 0).toLocaleString()} | ${isHi ? 'क्लस्टर मॉनिटर' : 'Monitors'}: ${(d.monitors || 0).toLocaleString()}`
                     ];
+                    if (isTribalCaveat) {
+                      lines.push(isHi 
+                        ? '*(शिक्षा पोर्टल में जनजातीय कार्य विभाग के स्कूल शामिल नहीं हैं; Q72 पूर्ण लक्ष्य दर्शाता है)'
+                        : '*(Shiksha Portal excludes Tribal Affairs Dept schools; Q72 captures total active target)');
+                    }
+                    return lines;
                   }
                 }
               }
             },
             scales: {
               x: { 
-                stacked: true,
+                stacked: false,
                 grid: { color: theme.gridColor }, 
                 ticks: { 
                   color: theme.textColor, 
@@ -6244,7 +6268,7 @@
                 } 
               },
               y: { 
-                stacked: true,
+                stacked: false,
                 grid: { color: theme.gridColor }, 
                 ticks: { 
                   color: theme.textColor,
