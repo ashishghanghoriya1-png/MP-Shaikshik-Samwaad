@@ -1430,6 +1430,52 @@
       box-shadow: 0 8px 28px -4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 208, 223, 0.15) !important;
     }
 
+    
+    /* 4-Tier Metric Score & Turnout Color Badges */
+    .tier-badge-red {
+      color: #dc2626 !important;
+      background: rgba(220, 38, 38, 0.1) !important;
+      border: 1px solid rgba(220, 38, 38, 0.25) !important;
+    }
+    html.dark .tier-badge-red {
+      color: #f87171 !important;
+      background: rgba(239, 68, 68, 0.15) !important;
+      border-color: rgba(239, 68, 68, 0.35) !important;
+    }
+
+    .tier-badge-yellow {
+      color: #b45309 !important;
+      background: rgba(245, 158, 11, 0.12) !important;
+      border: 1px solid rgba(245, 158, 11, 0.28) !important;
+    }
+    html.dark .tier-badge-yellow {
+      color: #fbbf24 !important;
+      background: rgba(245, 158, 11, 0.18) !important;
+      border-color: rgba(245, 158, 11, 0.35) !important;
+    }
+
+    .tier-badge-blue {
+      color: #1d4ed8 !important;
+      background: rgba(37, 99, 235, 0.1) !important;
+      border: 1px solid rgba(37, 99, 235, 0.25) !important;
+    }
+    html.dark .tier-badge-blue {
+      color: #60a5fa !important;
+      background: rgba(59, 130, 246, 0.15) !important;
+      border-color: rgba(59, 130, 246, 0.35) !important;
+    }
+
+    .tier-badge-green {
+      color: #059669 !important;
+      background: rgba(5, 150, 105, 0.12) !important;
+      border: 1px solid rgba(5, 150, 105, 0.25) !important;
+    }
+    html.dark .tier-badge-green {
+      color: #34d399 !important;
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-color: rgba(16, 185, 129, 0.35) !important;
+    }
+
     /* Interactive status chips & pill badges */
     .status-chip, .pill-badge {
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2104,16 +2150,26 @@
 
         <!-- Full Interactive Quadrant Table -->
         <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 16px; margin-top: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
             <div>
               <div id="quadrantTableTitle" style="font-size: 13px; font-weight: 800; color: var(--text-primary);">
                 Districts in Selected Quadrant: All 52 Districts
               </div>
-              <div style="font-size: 11px; color: var(--text-muted);">
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
                 Showing all districts with real-time turnout %, work universe, composite pedagogy accuracy, and tailored action recommendations.
               </div>
             </div>
-            <input class="search-input" id="quadSearchInput" oninput="filterQuadrantTableSearch()" placeholder="🔍 Search district in matrix..." style="min-width: 220px; font-size: 11.5px;" type="text"/>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <!-- 4-Tier Color Coding Legend -->
+              <div style="display: flex; gap: 5px; align-items: center; font-size: 10.5px; padding: 4px 8px; background: var(--bg-surface-2); border-radius: 6px; border: 1px solid var(--border-hairline);">
+                <span style="font-weight: 700; color: var(--text-secondary); margin-right: 2px;">Tiers:</span>
+                <span class="tier-badge-red" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">&lt;50% Red</span>
+                <span class="tier-badge-yellow" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">50-60% Yellow</span>
+                <span class="tier-badge-blue" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">60-70% Blue</span>
+                <span class="tier-badge-green" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">≥70% Green</span>
+              </div>
+              <input class="search-input" id="quadSearchInput" oninput="filterQuadrantTableSearch()" placeholder="🔍 Search district in matrix..." style="min-width: 200px; font-size: 11.5px;" type="text"/>
+            </div>
           </div>
           <div class="table-viewport" style="max-height: 420px;">
             <table class="kowalski-table" id="quadrantDistTable">
@@ -2122,10 +2178,10 @@
                   <th>S.No</th>
                   <th>District</th>
                   <th>Quadrant Classification</th>
-                  <th>Turnout % (Universe)</th>
-                  <th>Work Universe</th>
-                  <th>CLSS Turnout</th>
-                  <th>Pedagogy Score</th>
+                  <th style="text-align: right;">Turnout % (Universe)</th>
+                  <th style="text-align: right;">Work Universe</th>
+                  <th style="text-align: right;">CLSS Turnout</th>
+                  <th style="text-align: right;">Pedagogy Score</th>
                   <th>Blocks</th>
                   <th>Clusters</th>
                   <th>Avg / Cluster</th>
@@ -7317,7 +7373,7 @@
               <td class="font-mono">${d.facilitators}</td>
               <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${d.attendees.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${d.total.toLocaleString()}</td>
-              <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
+              <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(ped, false)}</td>
               <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
             </tr>
           `;
@@ -7380,7 +7436,7 @@
               <td class="font-mono" style="color: #7c3aed; font-weight: 700;">${(d.do_participants || 0).toLocaleString()}</td>
               <td class="font-mono">${dCadre.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${comb.toLocaleString()}</td>
-              <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
+              <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(ped, false)}</td>
               <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
             </tr>
           `;
@@ -9948,6 +10004,19 @@
     // ==========================================
         // ==========================================
     // ==========================================
+        function get4TierScoreBadge(val, isDecimal) {
+      const num = parseFloat(val);
+      if (isNaN(num)) return '<span style="color: var(--text-muted);">-</span>';
+      let cls = 'tier-badge-red';
+      if (num >= 70) cls = 'tier-badge-green';
+      else if (num >= 60) cls = 'tier-badge-blue';
+      else if (num >= 50) cls = 'tier-badge-yellow';
+      else cls = 'tier-badge-red';
+
+      const formatted = (isDecimal || num % 1 !== 0) ? num.toFixed(1) : Math.round(num);
+      return `<span class="font-mono ${cls}" style="font-weight: 800; padding: 2px 7px; border-radius: 4px; display: inline-block; min-width: 50px; text-align: center;">${formatted}%</span>`;
+    }
+
     // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER (PERCENTAGE-BASED WORK UNIVERSE)
     // ==========================================
     let currentQuadFilter = 'ALL';
@@ -10205,10 +10274,10 @@
           <td class="font-mono">${idx++}</td>
           <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
           <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
-          <td class="font-mono" style="color: var(--peepul-blue); font-weight: 800;">${pct.toFixed(1)}%</td>
-          <td class="font-mono" style="color: var(--text-secondary); font-size: 11px;">${u.toLocaleString()}</td>
-          <td class="font-mono" style="font-weight: 600;">${turnout.toLocaleString()}</td>
-          <td class="font-mono" style="color: ${pedScore >= bench.pedagogy ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
+          <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pct, true)}</td>
+          <td class="font-mono" style="color: var(--text-secondary); font-size: 11px; text-align: right;">${u.toLocaleString()}</td>
+          <td class="font-mono" style="font-weight: 600; text-align: right;">${turnout.toLocaleString()}</td>
+          <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pedScore, false)}</td>
           <td class="font-mono">${d.totalBlocks || '-'}</td>
           <td class="font-mono">${d.totalClusters || '-'}</td>
           <td class="font-mono">${avgPerCluster}</td>

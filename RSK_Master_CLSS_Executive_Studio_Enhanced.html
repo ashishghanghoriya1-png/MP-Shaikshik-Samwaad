@@ -1389,50 +1389,193 @@
       }
 
     /* =========================================================================
-       UNIVERSAL PRO-MAX TACTILE EFFECTS ACROSS ALL TABS
+       MOTION DESIGN SYSTEM — HIGH-CRAFT KINETIC FOUNDATIONS
+       Adheres to Motion Design principles: timing curves, enter/exit asymmetry,
+       staggered cascading reveals, tactile micro-interactions, and accessibility.
        ========================================================================= */
+    :root {
+      --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+      --dur-micro: 130ms;
+      --dur-state: 260ms;
+      --dur-reveal: 380ms;
+    }
+
+    /* Tab Section Container & Screen Transitions */
     .tab-section {
       display: none;
       opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .tab-section.active {
       display: block;
       opacity: 1;
-      transform: translateY(0);
-      animation: tabEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: tabSectionEnter var(--dur-reveal) var(--ease-smooth) both;
     }
 
-    @keyframes tabEnter {
-      0% { opacity: 0; transform: translateY(8px); }
-      100% { opacity: 1; transform: translateY(0); }
+    @keyframes tabSectionEnter {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.996);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    /* Universal tactile cards across all 11 tabs */
+    /* Cascading Staggered Child Card Reveal within Active Tab */
+    .tab-section.active > .bento-2-1,
+    .tab-section.active > .bento-1-2,
+    .tab-section.active > .bento-3-col,
+    .tab-section.active > .bento-4-col,
+    .tab-section.active > .panel-box,
+    .tab-section.active > .rf-matrix-grid,
+    .tab-section.active > .controls-band,
+    .tab-section.active > .guide-grid,
+    .tab-section.active > .trajectory-container {
+      animation: childCardReveal 0.42s var(--ease-smooth) both;
+    }
+    .tab-section.active > *:nth-child(1) { animation-delay: 0.02s; }
+    .tab-section.active > *:nth-child(2) { animation-delay: 0.06s; }
+    .tab-section.active > *:nth-child(3) { animation-delay: 0.10s; }
+    .tab-section.active > *:nth-child(4) { animation-delay: 0.14s; }
+    .tab-section.active > *:nth-child(5) { animation-delay: 0.18s; }
+    .tab-section.active > *:nth-child(6) { animation-delay: 0.22s; }
+
+    @keyframes childCardReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Universal Tactile Cards Across All 11 Tabs */
     .panel-box, .bento-card, .ind-card, .chart-card {
       background: var(--bg-surface-card);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-hairline);
       border-radius: var(--radius-lg);
-      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease !important;
+      transition: transform var(--dur-state) var(--ease-smooth),
+                  box-shadow var(--dur-state) var(--ease-smooth),
+                  border-color var(--dur-state) ease !important;
       position: relative;
+      will-change: transform, box-shadow;
     }
 
     .panel-box:hover, .ind-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0, 138, 171, 0.35) !important;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 12px 28px -6px rgba(0, 138, 171, 0.14) !important;
+      transform: translateY(-3px);
+      border-color: rgba(0, 138, 171, 0.38) !important;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85),
+                  0 12px 32px -6px rgba(15, 23, 42, 0.08),
+                  0 16px 36px -8px rgba(0, 138, 171, 0.16) !important;
     }
 
     html.dark .panel-box:hover, html.dark .ind-card:hover {
-      border-color: rgba(99, 208, 223, 0.4) !important;
-      box-shadow: 0 8px 28px -4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 208, 223, 0.15) !important;
+      border-color: rgba(99, 208, 223, 0.45) !important;
+      box-shadow: 0 10px 32px -4px rgba(0, 0, 0, 0.55),
+                  0 0 24px rgba(99, 208, 223, 0.18) !important;
     }
 
-    /* Interactive status chips & pill badges */
+    .bento-card:hover {
+      transform: translateY(-3px) scale(1.004);
+      border-color: rgba(0, 138, 171, 0.42);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                  0 10px 24px -4px rgba(0, 0, 0, 0.06),
+                  0 20px 36px -8px rgba(0, 138, 171, 0.18);
+    }
+
+    .panel-box:active, .bento-card:active, .ind-card:active {
+      transform: scale(0.992) translateY(-1px);
+      transition-duration: 0.08s !important;
+    }
+
+    /* Slicers, Buttons & Controls: Snappy Tactile Feedback */
+    .slicer-btn, .slicer-pill, .btn-tactile, .theme-toggle-btn {
+      transition: transform var(--dur-micro) var(--ease-snappy),
+                  background var(--dur-micro) ease,
+                  border-color var(--dur-micro) ease,
+                  box-shadow var(--dur-micro) var(--ease-snappy) !important;
+    }
+    .slicer-btn:hover, .slicer-pill:hover, .btn-tactile:hover {
+      transform: translateY(-1px);
+    }
+    .slicer-btn:active, .slicer-pill:active, .btn-tactile:active, .nav-item:active, .theme-toggle-btn:active {
+      transform: scale(0.96) !important;
+      transition-duration: 0.06s !important;
+    }
+
+    /* Navigation Ribbon Items */
+    .nav-item {
+      transition: transform var(--dur-micro) var(--ease-snappy),
+                  background var(--dur-micro) ease,
+                  border-color var(--dur-micro) ease,
+                  color var(--dur-micro) ease,
+                  box-shadow var(--dur-micro) var(--ease-snappy);
+    }
+    .nav-item:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 12px -2px rgba(0, 138, 171, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    .nav-item.active {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px -2px rgba(0, 138, 171, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+
+    
+    /* 4-Tier Metric Score & Turnout Color Badges */
+    .tier-badge-red {
+      color: #dc2626 !important;
+      background: rgba(220, 38, 38, 0.1) !important;
+      border: 1px solid rgba(220, 38, 38, 0.25) !important;
+    }
+    html.dark .tier-badge-red {
+      color: #f87171 !important;
+      background: rgba(239, 68, 68, 0.15) !important;
+      border-color: rgba(239, 68, 68, 0.35) !important;
+    }
+
+    .tier-badge-yellow {
+      color: #b45309 !important;
+      background: rgba(245, 158, 11, 0.12) !important;
+      border: 1px solid rgba(245, 158, 11, 0.28) !important;
+    }
+    html.dark .tier-badge-yellow {
+      color: #fbbf24 !important;
+      background: rgba(245, 158, 11, 0.18) !important;
+      border-color: rgba(245, 158, 11, 0.35) !important;
+    }
+
+    .tier-badge-blue {
+      color: #1d4ed8 !important;
+      background: rgba(37, 99, 235, 0.1) !important;
+      border: 1px solid rgba(37, 99, 235, 0.25) !important;
+    }
+    html.dark .tier-badge-blue {
+      color: #60a5fa !important;
+      background: rgba(59, 130, 246, 0.15) !important;
+      border-color: rgba(59, 130, 246, 0.35) !important;
+    }
+
+    .tier-badge-green {
+      color: #059669 !important;
+      background: rgba(5, 150, 105, 0.12) !important;
+      border: 1px solid rgba(5, 150, 105, 0.25) !important;
+    }
+    html.dark .tier-badge-green {
+      color: #34d399 !important;
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-color: rgba(16, 185, 129, 0.35) !important;
+    }
+
+    /* Interactive Status Chips & Pill Badges */
     .status-chip, .pill-badge {
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.2s var(--ease-smooth);
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -1443,16 +1586,17 @@
 
     /* Universal Table Row Hover & Interactive Elevation */
     .kowalski-table tbody tr {
-      transition: background 0.16s ease, transform 0.16s ease;
+      transition: background 0.16s var(--ease-snappy), transform 0.16s var(--ease-snappy);
     }
     .kowalski-table tbody tr:hover {
       background: var(--bg-surface-2) !important;
+      transform: translateX(3px);
     }
     .kowalski-table tbody tr:hover td {
       color: var(--text-primary);
     }
 
-    /* Glow pulse animation for all pulse-dots */
+    /* Organic Respiratory Breathing Animation for Live Pulse Dots */
     .pulse-dot {
       display: inline-block;
       width: 7px;
@@ -1460,16 +1604,46 @@
       border-radius: 50%;
       background: var(--accent-emerald);
       box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.7);
-      animation: pulseAnim 2s infinite;
+      animation: pulseBreathing 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
       margin-right: 5px;
       flex-shrink: 0;
       vertical-align: middle;
     }
 
-    @keyframes pulseAnim {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0.7); }
-      70% { transform: scale(1.1); box-shadow: 0 0 0 7px rgba(0, 138, 171, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 138, 171, 0); }
+    @keyframes pulseBreathing {
+      0% {
+        transform: scale(0.92);
+        box-shadow: 0 0 0 0 rgba(0, 138, 171, 0.75);
+      }
+      65% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 8px rgba(0, 138, 171, 0);
+      }
+      100% {
+        transform: scale(0.92);
+        box-shadow: 0 0 0 0 rgba(0, 138, 171, 0);
+      }
+    }
+
+    /* Mandatory Accessibility: Respect User Prefers-Reduced-Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .tab-section.active,
+      .tab-section.active > *,
+      .bento-card,
+      .panel-box,
+      .nav-item,
+      .slicer-btn,
+      .pulse-dot,
+      .kowalski-table tbody tr {
+        transform: none !important;
+        animation: none !important;
+      }
     }
 </style>
 </head>
@@ -2104,16 +2278,26 @@
 
         <!-- Full Interactive Quadrant Table -->
         <div style="background: var(--bg-surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 16px; margin-top: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
             <div>
               <div id="quadrantTableTitle" style="font-size: 13px; font-weight: 800; color: var(--text-primary);">
                 Districts in Selected Quadrant: All 52 Districts
               </div>
-              <div style="font-size: 11px; color: var(--text-muted);">
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
                 Showing all districts with real-time turnout %, work universe, composite pedagogy accuracy, and tailored action recommendations.
               </div>
             </div>
-            <input class="search-input" id="quadSearchInput" oninput="filterQuadrantTableSearch()" placeholder="🔍 Search district in matrix..." style="min-width: 220px; font-size: 11.5px;" type="text"/>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <!-- 4-Tier Color Coding Legend -->
+              <div style="display: flex; gap: 5px; align-items: center; font-size: 10.5px; padding: 4px 8px; background: var(--bg-surface-2); border-radius: 6px; border: 1px solid var(--border-hairline);">
+                <span style="font-weight: 700; color: var(--text-secondary); margin-right: 2px;">Tiers:</span>
+                <span class="tier-badge-red" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">&lt;50% Red</span>
+                <span class="tier-badge-yellow" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">50-60% Yellow</span>
+                <span class="tier-badge-blue" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">60-70% Blue</span>
+                <span class="tier-badge-green" style="padding: 1.5px 6px; border-radius: 3px; font-weight: 700;">≥70% Green</span>
+              </div>
+              <input class="search-input" id="quadSearchInput" oninput="filterQuadrantTableSearch()" placeholder="🔍 Search district in matrix..." style="min-width: 200px; font-size: 11.5px;" type="text"/>
+            </div>
           </div>
           <div class="table-viewport" style="max-height: 420px;">
             <table class="kowalski-table" id="quadrantDistTable">
@@ -2122,10 +2306,10 @@
                   <th>S.No</th>
                   <th>District</th>
                   <th>Quadrant Classification</th>
-                  <th>Turnout % (Universe)</th>
-                  <th>Work Universe</th>
-                  <th>CLSS Turnout</th>
-                  <th>Pedagogy Score</th>
+                  <th style="text-align: right;">Turnout % (Universe)</th>
+                  <th style="text-align: right;">Work Universe</th>
+                  <th style="text-align: right;">CLSS Turnout</th>
+                  <th style="text-align: right;">Pedagogy Score</th>
                   <th>Blocks</th>
                   <th>Clusters</th>
                   <th>Avg / Cluster</th>
@@ -7341,7 +7525,7 @@
               <td class="font-mono">${d.facilitators}</td>
               <td class="font-mono" style="color: var(--peepul-blue); font-weight: 700;">${d.attendees.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${d.total.toLocaleString()}</td>
-              <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
+              <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(ped, false)}</td>
               <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
             </tr>
           `;
@@ -7404,7 +7588,7 @@
               <td class="font-mono" style="color: #7c3aed; font-weight: 700;">${(d.do_participants || 0).toLocaleString()}</td>
               <td class="font-mono">${dCadre.toLocaleString()}</td>
               <td class="font-mono" style="color: var(--accent-emerald); font-weight: 800;">${comb.toLocaleString()}</td>
-              <td class="font-mono" style="color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${ped}%</td>
+              <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(ped, false)}</td>
               <td><button class="slicer-btn" style="padding: 2px 8px; font-size: 10.5px;" onclick="openDistrictIn360('${d.district}')">View 360°</button></td>
             </tr>
           `;
@@ -9972,6 +10156,19 @@
     // ==========================================
         // ==========================================
     // ==========================================
+        function get4TierScoreBadge(val, isDecimal) {
+      const num = parseFloat(val);
+      if (isNaN(num)) return '<span style="color: var(--text-muted);">-</span>';
+      let cls = 'tier-badge-red';
+      if (num >= 70) cls = 'tier-badge-green';
+      else if (num >= 60) cls = 'tier-badge-blue';
+      else if (num >= 50) cls = 'tier-badge-yellow';
+      else cls = 'tier-badge-red';
+
+      const formatted = (isDecimal || num % 1 !== 0) ? num.toFixed(1) : Math.round(num);
+      return `<span class="font-mono ${cls}" style="font-weight: 800; padding: 2px 7px; border-radius: 4px; display: inline-block; min-width: 50px; text-align: center;">${formatted}%</span>`;
+    }
+
     // 4-QUADRANT PRIORITY MATRIX & ALL DISTRICTS EXPLORER (PERCENTAGE-BASED WORK UNIVERSE)
     // ==========================================
     let currentQuadFilter = 'ALL';
@@ -10229,10 +10426,10 @@
           <td class="font-mono">${idx++}</td>
           <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
           <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
-          <td class="font-mono" style="color: var(--peepul-blue); font-weight: 800;">${pct.toFixed(1)}%</td>
-          <td class="font-mono" style="color: var(--text-secondary); font-size: 11px;">${u.toLocaleString()}</td>
-          <td class="font-mono" style="font-weight: 600;">${turnout.toLocaleString()}</td>
-          <td class="font-mono" style="color: ${pedScore >= bench.pedagogy ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">${pedScore}%</td>
+          <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pct, true)}</td>
+          <td class="font-mono" style="color: var(--text-secondary); font-size: 11px; text-align: right;">${u.toLocaleString()}</td>
+          <td class="font-mono" style="font-weight: 600; text-align: right;">${turnout.toLocaleString()}</td>
+          <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pedScore, false)}</td>
           <td class="font-mono">${d.totalBlocks || '-'}</td>
           <td class="font-mono">${d.totalClusters || '-'}</td>
           <td class="font-mono">${avgPerCluster}</td>
@@ -12753,6 +12950,26 @@ function renderQuestionBankTable() {
     } catch (e) {
       console.warn("Motion One initialization fallback active.");
     }
+  </script>
+  <!-- Resilient Hardware-Accelerated Scroll Progress & Kinetic Easing -->
+  <script>
+    (function initMotionEngine() {
+      const bar = document.getElementById("scrollProgressBar");
+      if (bar) {
+        let ticking = false;
+        window.addEventListener("scroll", function() {
+          if (!ticking) {
+            window.requestAnimationFrame(function() {
+              const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+              const s = h > 0 ? (window.scrollY / h) : 0;
+              bar.style.transform = "scaleX(" + Math.min(1, Math.max(0, s)) + ")";
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      }
+    })();
   </script>
 </body>
 </html>
