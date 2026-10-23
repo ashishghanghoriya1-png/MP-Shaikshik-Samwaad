@@ -2003,18 +2003,18 @@
 <div class="chart-stage" style="height: 220px;">
 <canvas id="ovDonutStakeholder"></canvas>
 </div>
-<!-- Quick Leaderboard Summary -->
-<div style="margin-top: 14px; border-top: 1px solid var(--border-hairline); padding-top: 10px;">
-<div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">⚡ Quick Turnout Extremes:</div>
-<div style="display: flex; justify-content: space-between; font-size: 11.5px; background: var(--bg-surface-2); padding: 8px 12px; border-radius: 6px; margin-bottom: 6px;">
-<span>🥇 <strong>Top Lead:</strong> Betul (952), Chhindwara (866), Dhar (842)</span>
-<span class="font-mono" style="color: var(--accent-emerald); font-weight: 700;">High Turnout</span>
-</div>
-<div style="display: flex; justify-content: space-between; font-size: 11.5px; background: rgba(220, 38, 38, 0.04); border: 1px solid rgba(29, 78, 216, 0.15); padding: 8px 12px; border-radius: 6px;">
-<span>⚠️ <strong>Low / Stalled:</strong> Sehore (3), Dewas (1), Niwari (146)</span>
-<span class="font-mono" style="color: var(--accent-rose); font-weight: 700;">Needs CAC Fill</span>
-</div>
-</div>
+<!-- Quick Leaderboard Summary (Dynamic Percentage-based Extremes) -->
+              <div id="ovQuickExtremesContainer" style="margin-top: 14px; border-top: 1px solid var(--border-hairline); padding-top: 10px;">
+                <div id="ovQuickExtremesTitle" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">⚡ Quick Turnout Extremes (% of Work Universe):</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; background: var(--bg-surface-2); padding: 8px 12px; border-radius: 6px; margin-bottom: 6px;">
+                  <span id="ovQuickTopText">🥇 <strong>Top Lead:</strong> Loading...</span>
+                  <span class="font-mono" id="ovQuickTopBadge" style="color: var(--accent-emerald); font-weight: 700; white-space: nowrap; margin-left: 8px;">High Turnout</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; background: rgba(220, 38, 38, 0.04); border: 1px solid rgba(29, 78, 216, 0.15); padding: 8px 12px; border-radius: 6px;">
+                  <span id="ovQuickLowText">⚠️ <strong>Low / Stalled:</strong> Loading...</span>
+                  <span class="font-mono" id="ovQuickLowBadge" style="color: var(--accent-rose); font-weight: 700; white-space: nowrap; margin-left: 8px;">Priority Mobilization</span>
+                </div>
+              </div>
 </div>
 </div>
 <div class="bento-equal">
@@ -6365,6 +6365,60 @@
         });
       }
 
+      
+      // Update Quick Turnout Extremes dynamically based on Percentage-of-Universe Ranking
+      const qTopText = document.getElementById('ovQuickTopText');
+      const qLowText = document.getElementById('ovQuickLowText');
+      const qExtTitle = document.getElementById('ovQuickExtremesTitle');
+      const qTopBadge = document.getElementById('ovQuickTopBadge');
+      const qLowBadge = document.getElementById('ovQuickLowBadge');
+
+      if (qExtTitle) {
+        qExtTitle.innerText = isHi 
+          ? '⚡ त्वरित सहभागिता चरम सीमाएं (कार्य यूनिवर्स का %):' 
+          : '⚡ Quick Turnout Extremes (% of Work Universe):';
+      }
+
+      if (sortedList && sortedList.length >= 3) {
+        const top3 = sortedList.slice(0, 3);
+        const topStr = top3.map(d => {
+          const p = getDistrictPct(d).toFixed(1);
+          const name = isHi ? getDistName(d.district) : d.district;
+          const att = activeProgram === 'DO' ? (d.do_participants || 0) : (d.attendees || 0);
+          const univ = getGroundTarget(d);
+          return `${name} (<strong>${p}%</strong> · ${att.toLocaleString()}/${univ.toLocaleString()})`;
+        }).join(', ');
+
+        if (qTopText) {
+          qTopText.innerHTML = isHi 
+            ? `🥇 <strong>सर्वोच्च सहभागिता:</strong> ${topStr}` 
+            : `🥇 <strong>Top Lead:</strong> ${topStr}`;
+        }
+        if (qTopBadge) {
+          qTopBadge.innerText = isHi ? 'उच्च सहभागिता' : 'High Turnout';
+        }
+
+        // Bottom 3 (reverse order so lowest is first)
+        const validBottom = sortedList.filter(d => getGroundTarget(d) > 0);
+        const bottom3 = validBottom.slice(-3).reverse();
+        const lowStr = bottom3.map(d => {
+          const p = getDistrictPct(d).toFixed(1);
+          const name = isHi ? getDistName(d.district) : d.district;
+          const att = activeProgram === 'DO' ? (d.do_participants || 0) : (d.attendees || 0);
+          const univ = getGroundTarget(d);
+          return `${name} (<strong>${p}%</strong> · ${att.toLocaleString()}/${univ.toLocaleString()})`;
+        }).join(', ');
+
+        if (qLowText) {
+          qLowText.innerHTML = isHi 
+            ? `⚠️ <strong>न्यूनतम सहभागिता:</strong> ${lowStr}` 
+            : `⚠️ <strong>Low / Stalled:</strong> ${lowStr}`;
+        }
+        if (qLowBadge) {
+          qLowBadge.innerText = isHi ? 'प्रोत्साहन आवश्यक' : 'Priority Mobilization';
+        }
+      }
+
       // 3. Overview Pedagogy Bar
       const canvas3 = document.getElementById('ovPedagogyBar');
       if (canvas3) {
@@ -10033,9 +10087,9 @@
 
     function getDistrictUniverse(d) {
       if (!d) return 1000;
-      if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
       if (d.targetCohort && d.targetCohort > 50) return d.targetCohort;
       if (d.expectedParticipants && d.expectedParticipants > 50) return d.expectedParticipants;
+      if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
       return (d.totalClusters || 10) * 25;
     }
 
@@ -10053,11 +10107,11 @@
     function getActiveQuadrantBenchmarks() {
       if (currentCycle === 'CONSOLIDATED') {
         return {
-          turnoutPct: 50.0,
-          pedagogy: 62,
-          turnoutLabel: '≥50.0% of Universe (2-Cycle Combined)',
-          pedagogyLabel: '62% Accuracy (Composite Benchmark)',
-          cycleDescription: 'Combined August + September (2-Cycle Scale: Turnout ≥ 50.0% of Universe, Pedagogy ≥ 62%)'
+          turnoutPct: 35.0,
+          pedagogy: 56,
+          turnoutLabel: '≥35.0% of Universe (2-Cycle Average)',
+          pedagogyLabel: '56% Accuracy (Subject Benchmark)',
+          cycleDescription: 'Combined August + September (Standardized Scale: Turnout ≥ 35.0% of Universe, Pedagogy ≥ 56%)'
         };
       } else if (currentCycle === 'SEP') {
         return {
@@ -10117,12 +10171,53 @@
         const p82 = getQScore('82', 'Q82.1');
         return Math.round((p177 + p178 + p179 + p82) / 4);
       } else if (currentCycle === 'CONSOLIDATED') {
-        const p82 = getQScore('82', 'Q82.1');
-        const p90 = getQScore('90', 'Q90.1') || getQScore('90') || 99;
-        const pInq = Math.round(((getQScore('95', 'Q95.2') || 48) + (getQScore('177', 'Q177.1') || 42)) / 2);
-        const pSafe = Math.round(((getQScore('96', 'Q96.1') || 62) + (getQScore('179', 'Q179.1') || 76)) / 2);
-        const pBelong = Math.round(((getQScore('97', 'Q97.1') || 34) + (getQScore('179', 'Q179.1') || 76)) / 2);
-        return Math.round((p82 + p90 + pInq + pSafe + pBelong) / 5);
+        // True multi-cycle pedagogy average across August & September subject questions (without non-pedagogy Q90 inflation)
+        const augSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG) ? dataPackage.cycles.AUG.surveys : ((dataPackage && dataPackage.surveys) || []);
+        const sepSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.SEP) ? dataPackage.cycles.SEP.surveys : [];
+
+        function getCyclePedScore(survList, qItems) {
+          if (!survList || survList.length === 0) return 55;
+          let sum = 0, cnt = 0;
+          qItems.forEach(item => {
+            const s = survList.find(x => 
+              (x.program === 'CLSS' || (typeof activeProgram !== 'undefined' && x.program === activeProgram)) && 
+              (String(x.questionId) === String(item.qid) || String(x.questionId).replace('Q', '') === String(item.qid))
+            );
+            if (s && s.districtData) {
+              const row = s.districtData.find(d => d.district === dname);
+              if (row) {
+                const tot = row.totalRespondents || 1;
+                let val = 0;
+                if (item.col && row[item.col] !== undefined) val = row[item.col];
+                else {
+                  const corrCol = s.columns ? s.columns.find(c => c.isCorrect) : null;
+                  if (corrCol && row[corrCol.code] !== undefined) val = row[corrCol.code];
+                  else val = row['Q' + item.qid + '.1'] || row[item.qid + '.1'] || row[item.qid + '_Correct'] || 0;
+                }
+                sum += (val / tot) * 100;
+                cnt++;
+              }
+            }
+          });
+          return cnt > 0 ? (sum / cnt) : 55;
+        }
+
+        const pedAug = getCyclePedScore(augSurveys, [
+          { qid: '82', col: 'Q82.1' },
+          { qid: '84', col: 'Q84.1' },
+          { qid: '95', col: 'Q95.2' },
+          { qid: '96', col: 'Q96.1' },
+          { qid: '97', col: 'Q97.1' }
+        ]);
+
+        const pedSep = getCyclePedScore(sepSurveys, [
+          { qid: '177', col: 'Q177.1' },
+          { qid: '178', col: 'Q178.2' },
+          { qid: '179', col: 'Q179.1' },
+          { qid: '82', col: 'Q82.1' }
+        ]);
+
+        return Math.round((pedAug + pedSep) / 2);
       } else {
         const p82 = getQScore('82', 'Q82.1');
         const p84 = getQScore('84', 'Q84.1');
