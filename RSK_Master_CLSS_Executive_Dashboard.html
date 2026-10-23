@@ -6392,7 +6392,7 @@
           const p = getDistrictPct(d).toFixed(1);
           const name = isHi ? getDistName(d.district) : d.district;
           const att = activeProgram === 'DO' ? (d.do_participants || 0) : (d.attendees || 0);
-          const univ = getGroundTarget(d);
+          const univ = getDistrictUniverse(d);
           return `${name} (<strong>${p}%</strong> · ${att.toLocaleString()}/${univ.toLocaleString()})`;
         }).join(', ');
 
@@ -6412,7 +6412,7 @@
           const p = getDistrictPct(d).toFixed(1);
           const name = isHi ? getDistName(d.district) : d.district;
           const att = activeProgram === 'DO' ? (d.do_participants || 0) : (d.attendees || 0);
-          const univ = getGroundTarget(d);
+          const univ = getDistrictUniverse(d);
           return `${name} (<strong>${p}%</strong> · ${att.toLocaleString()}/${univ.toLocaleString()})`;
         }).join(', ');
 
@@ -10092,11 +10092,17 @@
     // ==========================================
     let currentQuadFilter = 'ALL';
 
+    function getGroundTarget(d) {
+      return getDistrictUniverse(d);
+    }
+
     function getDistrictUniverse(d) {
       if (!d) return 1000;
-      if (d.targetCohort && d.targetCohort > 50) return d.targetCohort;
-      if (d.expectedParticipants && d.expectedParticipants > 50) return d.expectedParticipants;
-      if (d.varg2Universe && d.varg2Universe > 100) return d.varg2Universe;
+      const isCons = (typeof currentCycle !== 'undefined' && currentCycle === 'CONSOLIDATED');
+      const facExp = d.targetCohort || d.expectedParticipants || 0;
+      const varg2 = (d.varg2Universe || 0) * (isCons ? 2 : 1);
+      const maxU = Math.max(facExp, varg2);
+      if (maxU > 50) return maxU;
       return (d.totalClusters || 10) * 25;
     }
 
@@ -10388,8 +10394,8 @@
           <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
           <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pct, true)}</td>
           <td class="font-mono" style="text-align: right; line-height: 1.35;">
-            <div style="font-weight: 700; color: var(--text-primary); font-size: 11.5px;">${u.toLocaleString()} <span style="font-size: 9.5px; color: var(--text-muted); font-weight: 500;">(Cadre)</span></div>
-            <div style="font-size: 10px; color: var(--peepul-teal); font-weight: 700;" title="Expected teacher count reported by cluster facilitators in survey (Q72/Q98)">Fac. Exp: ${(d.expectedParticipants || d.targetCohort || u).toLocaleString()}</div>
+            <div style="font-weight: 800; color: var(--text-primary); font-size: 11.5px;">${u.toLocaleString()} <span style="font-size: 9.5px; color: var(--accent-emerald); font-weight: 700;">(Max Univ)</span></div>
+            <div style="font-size: 9.5px; color: var(--text-muted); font-weight: 500;" title="Higher of Facilitator Expected Teachers vs Department Varg 2 Cadre">Cadre: ${((typeof currentCycle !== 'undefined' && currentCycle === 'CONSOLIDATED') ? ((d.varg2Universe || 0) * 2) : (d.varg2Universe || 0)).toLocaleString()} | Fac: ${(d.expectedParticipants || d.targetCohort || 0).toLocaleString()}</div>
           </td>
           <td class="font-mono" style="font-weight: 600; text-align: right;">${turnout.toLocaleString()}</td>
           <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pedScore, false)}</td>
