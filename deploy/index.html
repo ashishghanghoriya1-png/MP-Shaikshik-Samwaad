@@ -2179,7 +2179,7 @@
                   <th>District</th>
                   <th>Quadrant Classification</th>
                   <th style="text-align: right;">Turnout % (Universe)</th>
-                  <th style="text-align: right;">Work Universe</th>
+                  <th style="text-align: right;" title="District Work Universe: Cadre Universe (Varg 2) vs Facilitator Expected Teachers (Q72/Q98 Survey)">Work Universe<br><span style="font-size: 9.5px; opacity: 0.8; font-weight: 500;">(Cadre / Fac. Exp.)</span></th>
                   <th style="text-align: right;">CLSS Turnout</th>
                   <th style="text-align: right;">Pedagogy Score</th>
                   <th>Blocks</th>
@@ -10268,7 +10268,10 @@
           <td><strong style="color: var(--text-primary); cursor: pointer;" onclick="openDistrictIn360('${d.district}')">${d.district}</strong></td>
           <td><span style="color: ${qInfo.color}; font-weight: 700; font-size: 11px; background: rgba(0,0,0,0.03); padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">${qInfo.label}</span></td>
           <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pct, true)}</td>
-          <td class="font-mono" style="color: var(--text-secondary); font-size: 11px; text-align: right;">${u.toLocaleString()}</td>
+          <td class="font-mono" style="text-align: right; line-height: 1.35;">
+            <div style="font-weight: 700; color: var(--text-primary); font-size: 11.5px;">${u.toLocaleString()} <span style="font-size: 9.5px; color: var(--text-muted); font-weight: 500;">(Cadre)</span></div>
+            <div style="font-size: 10px; color: var(--peepul-teal); font-weight: 700;" title="Expected teacher count reported by cluster facilitators in survey (Q72/Q98)">Fac. Exp: ${(d.expectedParticipants || d.targetCohort || u).toLocaleString()}</div>
+          </td>
           <td class="font-mono" style="font-weight: 600; text-align: right;">${turnout.toLocaleString()}</td>
           <td class="font-mono" style="text-align: right;">${get4TierScoreBadge(pedScore, false)}</td>
           <td class="font-mono">${d.totalBlocks || '-'}</td>
