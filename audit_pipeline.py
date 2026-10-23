@@ -11,7 +11,7 @@ import json
 import pandas as pd
 import numpy as np
 
-WORKSPACE_DIR = r"c:\Master Dashboard for CLSS"
+WORKSPACE_DIR = os.path.dirname(os.path.abspath(__file__))
 DISTRICT_FILE = os.path.join(WORKSPACE_DIR, "SS_ResponseDetail_District Level_Grades 6-8_August.xlsx")
 CLUSTER_FILE = os.path.join(WORKSPACE_DIR, "SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx")
 DATAPACKAGE_JSON = os.path.join(WORKSPACE_DIR, "dataPackage.json")

@@ -11,7 +11,7 @@ import re
 import json
 import sys
 
-WORKSPACE_DIR = r"c:\Master Dashboard for CLSS"
+WORKSPACE_DIR = os.path.dirname(os.path.abspath(__file__))
 DASHBOARD_HTML = os.path.join(WORKSPACE_DIR, "RSK_Master_CLSS_Executive_Dashboard.html")
 DATAPACKAGE_JSON = os.path.join(WORKSPACE_DIR, "dataPackage.json")
 
