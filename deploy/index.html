@@ -1969,6 +1969,10 @@
           </div>
 </div>
 </div>
+        <!-- Stalled Districts Callout Alert (Visible only in August) -->
+        <div id="ovStalledDistrictsAlert" style="display: block; margin: 12px 0 16px 0; padding: 12px 16px; background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-left: 4px solid #f59e0b; border-radius: 6px; font-size: 12.5px; color: var(--text-primary); line-height: 1.5;">
+          <strong>⚠️ August Program Footprint Notice:</strong> 2 Stalled / Non-Reporting Districts in August — <em>Dewas (1 attendee)</em> and <em>Sehore (3 attendees)</em> did not conduct Samwaad workshops (0 facilitators, 0 monitors). Active rankings and quadrant allocations reflect the <strong>50 operational districts (96.2% coverage)</strong>. Full participation across all 52 districts resumed in September (100% coverage).
+        </div>
 <div class="bento-2-1">
 <div class="panel-box">
 <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
@@ -1982,7 +1986,7 @@
 </div>
 <!-- Scope Filters for Leaderboard -->
 <div style="display: flex; gap: 4px; background: var(--bg-surface-2); padding: 3px; border-radius: 6px; border: 1px solid var(--border-hairline);">
-<button class="slicer-btn active" id="btnScopeAll" onclick="setOverviewScope('ALL')" style="padding: 4px 10px; font-size: 11px;">All 52 Districts</button>
+<button class="slicer-btn active" id="btnScopeAll" onclick="setOverviewScope('ALL')" style="padding: 4px 10px; font-size: 11px;">All 50 Districts</button>
 <button class="slicer-btn" id="btnScopeTop15" onclick="setOverviewScope('TOP15')" style="padding: 4px 10px; font-size: 11px;">Top 15</button>
 <button class="slicer-btn" id="btnScopeBottom15" onclick="setOverviewScope('BOTTOM15')" style="padding: 4px 10px; font-size: 11px;">Bottom 15</button>
 </div>
@@ -2091,6 +2095,10 @@
           </div>
         </div>
 
+                <!-- Stalled Districts Notice for Quadrants (Active in August only) -->
+        <div id="quadStalledDistrictsAlert" style="display: block; margin: 16px 0 12px 0; padding: 12px 16px; background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-left: 4px solid #f59e0b; border-radius: 6px; font-size: 12.5px; color: var(--text-primary); line-height: 1.5;">
+          <strong>⚠️ August Priority Matrix Scope:</strong> Evaluated across <strong>50 Operational Districts</strong>. <em>Dewas (1 attendee)</em> &amp; <em>Sehore (3 attendees)</em> did not conduct Samwaad workshops in August and are excluded from active quadrant clustering to maintain accurate statistical benchmarks. Full 52-district reporting resumed in September.
+        </div>
         <!-- 4-Quadrant District Priority Matrix -->
       <div class="panel-box" style="margin-top: 24px;">
         <div class="panel-head" style="flex-wrap: wrap; gap: 10px;">
@@ -2101,11 +2109,11 @@
             </div>
           </div>
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <button class="slicer-btn active" id="btnQuadAll" onclick="filterQuadrant('ALL')">All 52 Districts</button>
+            <button class="slicer-btn active" id="btnQuadAll" onclick="filterQuadrant('ALL')">All 50 Districts</button>
             <button class="slicer-btn" id="btnQuad1" onclick="filterQuadrant('Q1')" style="color: var(--accent-emerald);">🏆 High Turnout % & High Score (<span id="q1BtnCount">13</span>)</button>
             <button class="slicer-btn" id="btnQuad2" onclick="filterQuadrant('Q2')" style="color: var(--peepul-teal);">⚡ High Turnout %, Needs Pedagogy (<span id="q2BtnCount">8</span>)</button>
             <button class="slicer-btn" id="btnQuad3" onclick="filterQuadrant('Q3')" style="color: var(--accent-indigo);">🚀 High Score, Needs Turnout % (<span id="q3BtnCount">15</span>)</button>
-            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">⚠️ Priority Support Zone (<span id="q4BtnCount">16</span>)</button>
+            <button class="slicer-btn" id="btnQuad4" onclick="filterQuadrant('Q4')" style="color: var(--accent-rose);">⚠️ Priority Support Zone (<span id="q4BtnCount">14</span>)</button>
           </div>
         </div>
 
@@ -2153,7 +2161,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
             <div>
               <div id="quadrantTableTitle" style="font-size: 13px; font-weight: 800; color: var(--text-primary);">
-                Districts in Selected Quadrant: All 52 Districts
+                Districts in Selected Quadrant: All 50 Districts
               </div>
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
                 Showing all districts with real-time turnout %, work universe, composite pedagogy accuracy, and tailored action recommendations.
@@ -2527,7 +2535,7 @@
 </div>
 <div class="table-viewport">
 <div class="slicer-pills" id="leagueScopeSlicer" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; padding: 10px 14px; background: var(--bg-surface-2); border-radius: var(--radius-md); border: 1px solid var(--border-hairline);">
-            <button class="slicer-btn active" id="btnLeagueAll" onclick="setLeagueScope('ALL')">🌐 All 52 Districts</button>
+            <button class="slicer-btn active" id="btnLeagueAll" onclick="setLeagueScope('ALL')">🌐 All 50 Districts</button>
             <button class="slicer-btn" id="btnLeagueTop10" onclick="setLeagueScope('TOP10')">🏆 Top 10 Turnout %</button>
             <button class="slicer-btn" id="btnLeagueAsp" onclick="setLeagueScope('ASPIRATIONAL')" style="border-color: rgba(245, 158, 11, 0.4); color: #d97706; font-weight: 700;">⭐ NITI Aspirational (8)</button>
             <button class="slicer-btn" id="btnLeagueDeficit" onclick="setLeagueScope('DEFICIT')" style="color: var(--accent-rose);">⚠️ Data Deficit Focus</button>
@@ -4427,7 +4435,7 @@
       applySlicers();
     }
 
-    function getActiveCycleSummary() {
+    function getActiveCycleSummary(includeStalled = false) {
       if (currentCycle === 'SEP') {
         if (dataPackage && dataPackage.cycles && dataPackage.cycles.hasSeptember && dataPackage.cycles.SEP) {
           return dataPackage.cycles.SEP.districtSummary || [];
@@ -4435,10 +4443,16 @@
         return [];
       }
       if (currentCycle === 'AUG') {
+        let list = [];
         if (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG) {
-          return dataPackage.cycles.AUG.districtSummary || [];
+          list = dataPackage.cycles.AUG.districtSummary || [];
+        } else {
+          list = (dataPackage && dataPackage.districtSummary) || [];
         }
-        return (dataPackage && dataPackage.districtSummary) || [];
+        if (!includeStalled) {
+          list = list.filter(d => d.district !== 'Dewas' && d.district !== 'Sehore');
+        }
+        return list;
       }
       if (dataPackage && dataPackage.cycles && dataPackage.cycles.CONSOLIDATED) {
         return dataPackage.cycles.CONSOLIDATED.districtSummary || [];
@@ -5537,7 +5551,7 @@
       const leagueRef = document.getElementById('leagueTableRef');
       const leagueHeading = document.getElementById('leagueTableHeading');
 
-      let distList = [...((typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : (dataPackage.districtSummary || []))];
+      let distList = [...((typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary(true) : (dataPackage.districtSummary || []))];
       let totalTarget = 52;
       let archCohortLabel = '';
       if (typeof activeArchetype !== 'undefined' && activeArchetype !== 'ALL') {
@@ -6095,13 +6109,21 @@
         displayList = sortedList.slice(-15);
       }
 
-      // Update Chart Heading to emphasize Percentage of Universe Ranking
+      // Update Chart Heading & Slicer to emphasize Percentage of Universe Ranking
       const ovTitle = document.getElementById('overviewTopChartTitle');
+      const bScopeAll = document.getElementById('btnScopeAll');
+      if (bScopeAll) {
+        bScopeAll.innerText = isHi ? `सभी ${dists.length} जिले` : `All ${dists.length} Districts`;
+      }
       if (ovTitle) {
         ovTitle.innerText = isHi 
-          ? `🗺️ राज्य स्तरीय जिला सहभागिता दर रैंकिंग (शिक्षक यूनिवर्स का %) — ${scope === 'TOP15' ? 'शीर्ष 15' : (scope === 'BOTTOM15' ? 'निचले 15' : 'सभी 52 जिले')}`
-          : `🗺️ Statewide District Participation Rate Ranking (% of Work Universe) — ${scope === 'TOP15' ? 'Top 15' : (scope === 'BOTTOM15' ? 'Bottom 15' : 'All 52 Districts')}`;
+          ? `🗺️ राज्य स्तरीय जिला सहभागिता दर रैंकिंग (शिक्षक यूनिवर्स का %) — ${scope === 'TOP15' ? 'शीर्ष 15' : (scope === 'BOTTOM15' ? 'निचले 15' : `सभी ${dists.length} जिले`)}`
+          : `🗺️ Statewide District Participation Rate Ranking (% of Work Universe) — ${scope === 'TOP15' ? 'Top 15' : (scope === 'BOTTOM15' ? 'Bottom 15' : `All ${dists.length} Districts`)}`;
       }
+      const stalledAlert = document.getElementById('ovStalledDistrictsAlert');
+      if (stalledAlert) stalledAlert.style.display = (currentCycle === 'AUG') ? 'block' : 'none';
+      const quadStalledAlert = document.getElementById('quadStalledDistrictsAlert');
+      if (quadStalledAlert) quadStalledAlert.style.display = (currentCycle === 'AUG') ? 'block' : 'none';
 
       // 1. Top Districts Column/Bar Chart (Percentage-based Normalized Ranking)
       if (charts.ovTopDistricts) charts.ovTopDistricts.destroy();
@@ -7561,7 +7583,7 @@
       const distSummary = (typeof getActiveCycleSummary === "function") ? getActiveCycleSummary() : (dataPackage.districtSummary || []);
       const allBlocks = (typeof getActiveCycleBlockSummary === "function") ? getActiveCycleBlockSummary() : (dataPackage.blockSummary || []);
       
-      dd.innerHTML = `<option value="ALL">${isHi ? `सभी 52 जिले (${allBlocks.length} ब्लॉक)` : `All 52 Districts (${allBlocks.length} Blocks)`}</option>`;
+      dd.innerHTML = `<option value="ALL">${isHi ? `सभी ${distSummary.length} जिले (${allBlocks.length} ब्लॉक)` : `All ${distSummary.length} Districts (${allBlocks.length} Blocks)`}</option>`;
       distSummary.forEach(d => {
         const opt = document.createElement('option');
         opt.value = d.district;
@@ -10328,6 +10350,8 @@
       const b2 = document.getElementById('q2Badge'); if (b2) b2.innerText = `${c2} Districts`;
       const b3 = document.getElementById('q3Badge'); if (b3) b3.innerText = `${c3} Districts`;
       const b4 = document.getElementById('q4Badge'); if (b4) b4.innerText = `${c4} Districts`;
+      const isHiQuad = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+      const bQuadAll = document.getElementById('btnQuadAll'); if (bQuadAll) bQuadAll.innerText = isHiQuad ? `सभी ${dists.length} जिले` : `All ${dists.length} Districts`;
 
       const btn1 = document.getElementById('q1BtnCount'); if (btn1) btn1.innerText = `${c1}`;
       const btn2 = document.getElementById('q2BtnCount'); if (btn2) btn2.innerText = `${c2}`;
