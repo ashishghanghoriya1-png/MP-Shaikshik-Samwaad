@@ -121,6 +121,9 @@
       flex-direction: column;
       line-height: 1.5;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
     .font-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -1417,11 +1420,11 @@
     @keyframes tabSectionEnter {
       0% {
         opacity: 0;
-        transform: translateY(14px) scale(0.996);
+        transform: translateY(12px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
     }
 
@@ -1455,7 +1458,7 @@
       }
     }
 
-    /* Universal Tactile Cards Across All 11 Tabs */
+    /* Universal Tactile Cards Across All 11 Tabs (Crisp Zero-Blur Typography) */
     .panel-box, .bento-card, .ind-card, .chart-card {
       background: var(--bg-surface-card);
       backdrop-filter: blur(12px);
@@ -1465,7 +1468,10 @@
                   box-shadow var(--dur-state) var(--ease-smooth),
                   border-color var(--dur-state) ease !important;
       position: relative;
-      will-change: transform, box-shadow;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     .panel-box:hover, .ind-card:hover {
@@ -1483,7 +1489,7 @@
     }
 
     .bento-card:hover {
-      transform: translateY(-3px) scale(1.004);
+      transform: translateY(-3px);
       border-color: rgba(0, 138, 171, 0.42);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9),
                   0 10px 24px -4px rgba(0, 0, 0, 0.06),
@@ -1491,7 +1497,7 @@
     }
 
     .panel-box:active, .bento-card:active, .ind-card:active {
-      transform: scale(0.992) translateY(-1px);
+      transform: translateY(-1px);
       transition-duration: 0.08s !important;
     }
 
@@ -1581,7 +1587,7 @@
       gap: 5px;
     }
     .status-chip:hover, .pill-badge:hover {
-      transform: translateY(-1px) scale(1.02);
+      transform: translateY(-1px);
     }
 
     /* Universal Table Row Hover & Interactive Elevation */
@@ -2070,56 +2076,52 @@
           </div>
 </div>
 <!-- 4. District Participants (DO Cascade Source) -->
-<div class="bento-card" style="border-left: 3px solid #6366f1;">
+<div class="bento-card" style="border-left: 4px solid #6366f1;">
 <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: var(--accent-indigo); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);"></span><span id="kpiDoLabel">DISTRICT ORIENTATION PARTICIPANTS</span></span> <span id="kpiDoBadge" style="color: var(--accent-indigo); font-weight: 700;">76.0% Deployed</span></div>
-<div class="kpi-huge-val font-mono" id="kpiDoOfficersContainer" style="color: var(--accent-indigo); display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
-  <div style="display: flex; align-items: baseline; gap: 3px;">
-    <span id="kpiDoOfficers" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: var(--accent-indigo);">4,454</span>
-    <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">DO</span>
+<div class="kpi-huge-val font-mono" id="kpiDoOfficersContainer" style="color: var(--accent-indigo); display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap;">
+  <div style="display: flex; align-items: baseline; gap: 4px;">
+    <span id="kpiDoOfficers" style="font-size: 30px; font-weight: 800; color: var(--accent-indigo);">4,454</span>
+    <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">DO</span>
   </div>
-  <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-  <div style="display: flex; align-items: baseline; gap: 3px;">
-    <span id="kpiDeployedDoVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #10b981;">3,387</span>
-    <span style="font-size: 11px; color: #059669; font-weight: 800;" id="kpiDeployedDoSpan">Deployed</span>
-  </div>
-  <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-  <div style="display: flex; align-items: baseline; gap: 3px;">
-    <span id="kpiNonFacDoVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #f59e0b;">1,067</span>
-    <span style="font-size: 11px; color: #d97706; font-weight: 800;" id="kpiNonFacDoSpan">Standby</span>
+  <span style="font-size: 20px; color: var(--border-hairline); margin: 0 4px;">|</span>
+  <div style="display: flex; align-items: baseline; gap: 4px;">
+    <span id="kpiDeployedDoVal" style="font-size: 30px; font-weight: 800; color: #059669;">3,387</span>
+    <span style="font-size: 12px; color: #059669; font-weight: 800;" id="kpiDeployedDoSpan">Deployed</span>
   </div>
 </div>
-<div class="kpi-sub-desc" id="kpiDoOfficersDesc" style="margin-top: 6px; padding: 6px 8px; background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.28); border-left: 3px solid #6366f1; border-radius: 6px; font-size: 11px; font-weight: 700; line-height: 1.35; color: var(--text-primary);">
-  <span style="color: #059669; font-weight: 800; font-family: var(--font-mono); font-size: 12px;">3,387</span> <strong style="color: #059669;">Deployed to CLSS (76.0% Cascade)</strong> <span style="color: var(--border-hairline); margin: 0 4px;">•</span> <span style="color: #d97706; font-weight: 800; font-family: var(--font-mono); font-size: 12px;">1,067</span> <strong style="color: #d97706;">Non-Facilitating</strong>
+<div class="kpi-sub-desc" id="kpiDoOfficersDesc" style="margin-top: 8px; padding: 8px 10px; background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.28); border-left: 4px solid #059669; border-radius: 6px; font-size: 12px; font-weight: 800; line-height: 1.4; color: var(--text-primary); display: block;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+    <span style="color:#059669;font-weight:900;font-size:12.5px;">⚡ 3,387 Deployed to CLSS (76.0% Cascade)</span>
+    <span style="color:#d97706;font-weight:800;font-size:11.5px;background:rgba(245,158,11,0.12);padding:2px 7px;border-radius:4px;border:1px solid rgba(245,158,11,0.25);">1,067 Non-Facilitating (Standby)</span>
+  </div>
 </div>
 <div id="kpiDoOfficersRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> • DIET Orientation • Same-Cycle Cascade]
-          </div>
+  [Ref: <em>SS_ResponseDetail_District Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> • DIET Orientation • Same-Cycle Cascade]
+</div>
 </div>
 <!-- 5. Leadership Cadre (Trainers & Monitors) -->
-<div class="bento-card" style="border-left: 3px solid #7c3aed;">
+<div class="bento-card" style="border-left: 4px solid #7c3aed;">
 <div class="kpi-micro-label"><span><span class="pulse-dot" style="background: #7c3aed; box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);"></span><span id="kpiCadreLabel">TRAINERS &amp; OBSERVERS</span></span> <span id="kpiCadreBadge" style="color: var(--accent-purple); font-weight: 700;">70.4% DO-Trained</span></div>
-<div class="kpi-huge-val font-mono" id="kpiCadreContainer" style="color: var(--accent-purple); display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
-  <div style="display: flex; align-items: baseline; gap: 3px;">
-    <span id="kpiCadre" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: var(--accent-purple);">5,463</span>
-    <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">Cadre</span>
+<div class="kpi-huge-val font-mono" id="kpiCadreContainer" style="color: var(--accent-purple); display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap;">
+  <div style="display: flex; align-items: baseline; gap: 4px;">
+    <span id="kpiCadre" style="font-size: 30px; font-weight: 800; color: var(--accent-purple);">5,463</span>
+    <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Cadre</span>
   </div>
-  <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-  <div style="display: flex; align-items: baseline; gap: 3px;">
-    <span id="kpiUniqueCadreVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #a855f7;">3,387</span>
-    <span style="font-size: 11px; color: #a855f7; font-weight: 800;" id="kpiUniqueCadreSpan">DO-Trained</span>
-  </div>
-  <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-  <div style="display: flex; align-items: baseline; gap: 3px;">
-    <span id="kpiLocalCadreVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #0284c7;">1,427</span>
-    <span style="font-size: 11px; color: #0284c7; font-weight: 800;">Local</span>
+  <span style="font-size: 20px; color: var(--border-hairline); margin: 0 4px;">|</span>
+  <div style="display: flex; align-items: baseline; gap: 4px;">
+    <span id="kpiUniqueCadreVal" style="font-size: 30px; font-weight: 800; color: #7c3aed;">3,387</span>
+    <span style="font-size: 12px; color: #7c3aed; font-weight: 800;" id="kpiUniqueCadreSpan">DO-Trained</span>
   </div>
 </div>
-<div class="kpi-sub-desc" id="kpiCadreDesc" style="margin-top: 6px; padding: 6px 8px; background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.28); border-left: 3px solid #7c3aed; border-radius: 6px; font-size: 11px; font-weight: 700; line-height: 1.35; color: var(--text-primary);">
-  <span style="color: #a855f7; font-weight: 800; font-family: var(--font-mono); font-size: 12px;">3,387</span> <strong style="color: #a855f7;">DO-Oriented (70.4%)</strong> <span style="color: var(--border-hairline); margin: 0 4px;">•</span> <span style="color: #0284c7; font-weight: 800; font-family: var(--font-mono); font-size: 12px;">1,427</span> <strong style="color: #0284c7;">Local Facilitators</strong> <span style="color: var(--border-hairline); margin: 0 4px;">•</span> <span style="color: #7c3aed; font-weight: 700;">577 Monitors</span>
+<div class="kpi-sub-desc" id="kpiCadreDesc" style="margin-top: 8px; padding: 8px 10px; background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.28); border-left: 4px solid #7c3aed; border-radius: 6px; font-size: 12px; font-weight: 800; line-height: 1.4; color: var(--text-primary); display: block;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+    <span style="color:#7c3aed;font-weight:900;font-size:12.5px;">👥 3,387 DO-Oriented (70.4%)</span>
+    <span style="color:#0284c7;font-weight:800;font-size:11.5px;background:rgba(2,132,199,0.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(2,132,199,0.25);">1,427 Local Facilitators • 577 Monitors</span>
+  </div>
 </div>
 <div id="kpiCadreRef" style="font-size: 9.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 4px;">
-            [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Facilitator]</em> &amp; Observers • Same-Cycle Breakdown]
-          </div>
+  [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Facilitator]</em> &amp; Observers • Same-Cycle Breakdown]
+</div>
 </div>
 <!-- 6. Statewide Teacher Universe Mobilization Funnel -->
 <div class="bento-card" style="border-left: 3px solid #0284c7;">
@@ -5935,45 +5937,41 @@
         if (kDoBadge) kDoBadge.innerText = `${cycleDeployPct} Deployed`;
         if (kDoOffContainer) {
           kDoOffContainer.innerHTML = `
-            <div style="display: flex; align-items: baseline; gap: 3px;">
-              <span id="kpiDoOfficers" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: var(--accent-indigo);">${doParticipants.toLocaleString()}</span>
-              <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">${isHi ? 'डीओ' : 'DO'}</span>
+            <div style="display: flex; align-items: baseline; gap: 4px;">
+              <span id="kpiDoOfficers" style="font-size: 30px; font-weight: 800; color: var(--accent-indigo);">${doParticipants.toLocaleString()}</span>
+              <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">${isHi ? 'डीओ' : 'DO'}</span>
             </div>
-            <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-            <div style="display: flex; align-items: baseline; gap: 3px;">
-              <span id="kpiDeployedDoVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #10b981;">${cycleDeployed.toLocaleString()}</span>
-              <span style="font-size: 11px; color: #059669; font-weight: 800;" id="kpiDeployedDoSpan">${isHi ? 'तैनात' : 'Deployed'}</span>
-            </div>
-            <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-            <div style="display: flex; align-items: baseline; gap: 3px;">
-              <span id="kpiNonFacDoVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #f59e0b;">${cycleNonFac.toLocaleString()}</span>
-              <span style="font-size: 11px; color: #d97706; font-weight: 800;" id="kpiNonFacDoSpan">${isHi ? 'शेष' : 'Standby'}</span>
+            <span style="font-size: 20px; color: var(--border-hairline); margin: 0 4px;">|</span>
+            <div style="display: flex; align-items: baseline; gap: 4px;">
+              <span id="kpiDeployedDoVal" style="font-size: 30px; font-weight: 800; color: #059669;">${cycleDeployed.toLocaleString()}</span>
+              <span style="font-size: 12px; color: #059669; font-weight: 800;" id="kpiDeployedDoSpan">${isHi ? 'तैनात' : 'Deployed'}</span>
             </div>
           `;
         }
         animateValue('kpiDoOfficers', 0, doParticipants);
+        animateValue('kpiDeployedDoVal', 0, cycleDeployed);
 
         if (kDoOffDesc) {
           kDoOffDesc.style.display = 'block';
-          kDoOffDesc.style.background = 'rgba(99, 102, 241, 0.08)';
-          kDoOffDesc.style.border = '1px solid rgba(99, 102, 241, 0.28)';
-          kDoOffDesc.style.borderLeft = '3px solid #6366f1';
+          kDoOffDesc.style.background = 'rgba(5, 150, 105, 0.08)';
+          kDoOffDesc.style.border = '1px solid rgba(5, 150, 105, 0.28)';
+          kDoOffDesc.style.borderLeft = '4px solid #059669';
           kDoOffDesc.style.borderRadius = '6px';
-          kDoOffDesc.style.padding = '6px 8px';
-          kDoOffDesc.style.marginTop = '6px';
-          kDoOffDesc.style.fontSize = '11px';
-          kDoOffDesc.style.fontWeight = '700';
-          kDoOffDesc.style.lineHeight = '1.35';
+          kDoOffDesc.style.padding = '8px 10px';
+          kDoOffDesc.style.marginTop = '8px';
+          kDoOffDesc.style.fontSize = '12px';
+          kDoOffDesc.style.fontWeight = '800';
+          kDoOffDesc.style.lineHeight = '1.4';
           kDoOffDesc.style.color = 'var(--text-primary)';
 
           if (isCons) {
             kDoOffDesc.innerHTML = isHi
-              ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#059669;font-weight:800;font-family:var(--font-mono);font-size:12px;">6,707</span> <strong style="color:#059669;">समेकित तैनात (75.5% कैस्केड)</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#d97706;font-weight:800;font-family:var(--font-mono);font-size:12px;">2,181</span> <strong style="color:#d97706;">गैर-सुगमकर्ता</strong></div><div style="font-size:9.5px;color:var(--text-muted);margin-top:2px;">अगस्त: 3,387 (76.0%) • सितंबर: 3,320 (74.9%)</div>`
-              : `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#059669;font-weight:800;font-family:var(--font-mono);font-size:12px;">6,707</span> <strong style="color:#059669;">Total Deployed (75.5% Cascade)</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#d97706;font-weight:800;font-family:var(--font-mono);font-size:12px;">2,181</span> <strong style="color:#d97706;">Non-Facilitating</strong></div><div style="font-size:9.5px;color:var(--text-muted);margin-top:2px;">Aug: 3,387 (76.0%) • Sep: 3,320 (74.9%)</div>`;
+              ? `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#059669;font-weight:900;font-size:12.5px;">⚡ 6,707 शैक्षिक संवाद में तैनात (75.5% कैस्केड)</span><span style="color:#d97706;font-weight:800;font-size:11.5px;background:rgba(245,158,11,0.12);padding:2px 7px;border-radius:4px;border:1px solid rgba(245,158,11,0.25);">2,181 गैर-सुगमकर्ता (स्टैंडबाय)</span></div><div style="font-size:10px;color:var(--text-muted);margin-top:3px;font-weight:600;">अगस्त: 3,387 (76.0%) • सितंबर: 3,320 (74.9%)</div>`
+              : `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#059669;font-weight:900;font-size:12.5px;">⚡ 6,707 Deployed to CLSS (75.5% Cascade)</span><span style="color:#d97706;font-weight:800;font-size:11.5px;background:rgba(245,158,11,0.12);padding:2px 7px;border-radius:4px;border:1px solid rgba(245,158,11,0.25);">2,181 Non-Facilitating (Standby)</span></div><div style="font-size:10px;color:var(--text-muted);margin-top:3px;font-weight:600;">Aug: 3,387 (76.0%) • Sep: 3,320 (74.9%)</div>`;
           } else {
             kDoOffDesc.innerHTML = isHi 
-              ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#059669;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleDeployed.toLocaleString()}</span> <strong style="color:#059669;">शैक्षिक संवाद में तैनात (${cycleDeployPct} कैस्केड${archCohortLabel})</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#d97706;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleNonFac.toLocaleString()}</span> <strong style="color:#d97706;">गैर-सुगमकर्ता</strong></div>`
-              : `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#059669;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleDeployed.toLocaleString()}</span> <strong style="color:#059669;">Deployed to CLSS (${cycleDeployPct} Cascade${archCohortLabel})</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#d97706;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleNonFac.toLocaleString()}</span> <strong style="color:#d97706;">Non-Facilitating</strong></div>`;
+              ? `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#059669;font-weight:900;font-size:12.5px;">⚡ ${cycleDeployed.toLocaleString()} शैक्षिक संवाद में तैनात (${cycleDeployPct} कैस्केड${archCohortLabel})</span><span style="color:#d97706;font-weight:800;font-size:11.5px;background:rgba(245,158,11,0.12);padding:2px 7px;border-radius:4px;border:1px solid rgba(245,158,11,0.25);">${cycleNonFac.toLocaleString()} गैर-सुगमकर्ता (स्टैंडबाय)</span></div>`
+              : `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#059669;font-weight:900;font-size:12.5px;">⚡ ${cycleDeployed.toLocaleString()} Deployed to CLSS (${cycleDeployPct} Cascade${archCohortLabel})</span><span style="color:#d97706;font-weight:800;font-size:11.5px;background:rgba(245,158,11,0.12);padding:2px 7px;border-radius:4px;border:1px solid rgba(245,158,11,0.25);">${cycleNonFac.toLocaleString()} Non-Facilitating (Standby)</span></div>`;
           }
         }
       }
@@ -6019,45 +6017,41 @@
       if (kCadreBadge) kCadreBadge.innerText = `${cycleOrientPct} DO-Trained`;
       if (kCadreContainer) {
         kCadreContainer.innerHTML = `
-          <div style="display: flex; align-items: baseline; gap: 3px;">
-            <span id="kpiCadre" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: var(--accent-purple);">${cadreTot.toLocaleString()}</span>
-            <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">${isHi ? 'कैडर' : 'Cadre'}</span>
+          <div style="display: flex; align-items: baseline; gap: 4px;">
+            <span id="kpiCadre" style="font-size: 30px; font-weight: 800; color: var(--accent-purple);">${cadreTot.toLocaleString()}</span>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">${isHi ? 'कैडर' : 'Cadre'}</span>
           </div>
-          <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-          <div style="display: flex; align-items: baseline; gap: 3px;">
-            <span id="kpiUniqueCadreVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #a855f7;">${cycleOriented.toLocaleString()}</span>
-            <span style="font-size: 11px; color: #a855f7; font-weight: 800;" id="kpiUniqueCadreSpan">${isHi ? 'डीओ-उन्मुख' : 'DO-Trained'}</span>
-          </div>
-          <span style="font-size: 16px; color: var(--border-hairline); margin: 0 1px;">|</span>
-          <div style="display: flex; align-items: baseline; gap: 3px;">
-            <span id="kpiLocalCadreVal" style="font-size: clamp(20px, 1.4vw, 24px); font-weight: 800; color: #0284c7;">${cycleLocal.toLocaleString()}</span>
-            <span style="font-size: 11px; color: #0284c7; font-weight: 800;">${isHi ? 'स्थानीय' : 'Local'}</span>
+          <span style="font-size: 20px; color: var(--border-hairline); margin: 0 4px;">|</span>
+          <div style="display: flex; align-items: baseline; gap: 4px;">
+            <span id="kpiUniqueCadreVal" style="font-size: 30px; font-weight: 800; color: #7c3aed;">${cycleOriented.toLocaleString()}</span>
+            <span style="font-size: 12px; color: #7c3aed; font-weight: 800;" id="kpiUniqueCadreSpan">${isHi ? 'डीओ-उन्मुख' : 'DO-Trained'}</span>
           </div>
         `;
       }
       animateValue('kpiCadre', 0, cadreTot);
+      animateValue('kpiUniqueCadreVal', 0, cycleOriented);
 
       if (kCadreDesc) {
         kCadreDesc.style.display = 'block';
         kCadreDesc.style.background = 'rgba(124, 58, 237, 0.08)';
         kCadreDesc.style.border = '1px solid rgba(124, 58, 237, 0.28)';
-        kCadreDesc.style.borderLeft = '3px solid #7c3aed';
+        kCadreDesc.style.borderLeft = '4px solid #7c3aed';
         kCadreDesc.style.borderRadius = '6px';
-        kCadreDesc.style.padding = '6px 8px';
-        kCadreDesc.style.marginTop = '6px';
-        kCadreDesc.style.fontSize = '11px';
-        kCadreDesc.style.fontWeight = '700';
-        kCadreDesc.style.lineHeight = '1.35';
+        kCadreDesc.style.padding = '8px 10px';
+        kCadreDesc.style.marginTop = '8px';
+        kCadreDesc.style.fontSize = '12px';
+        kCadreDesc.style.fontWeight = '800';
+        kCadreDesc.style.lineHeight = '1.4';
         kCadreDesc.style.color = 'var(--text-primary)';
 
         if (isCons) {
           kCadreDesc.innerHTML = isHi 
-            ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#a855f7;font-weight:800;font-family:var(--font-mono);font-size:12px;">6,707</span> <strong style="color:#a855f7;">डीओ-उन्मुख (${cycleOrientPct})</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#0284c7;font-weight:800;font-family:var(--font-mono);font-size:12px;">2,847</span> <strong style="color:#0284c7;">स्थानीय</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#7c3aed;font-weight:700;">991 पर्यवेक्षक</span></div>`
-            : `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#a855f7;font-weight:800;font-family:var(--font-mono);font-size:12px;">6,707</span> <strong style="color:#a855f7;">DO-Oriented (${cycleOrientPct})</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#0284c7;font-weight:800;font-family:var(--font-mono);font-size:12px;">2,847</span> <strong style="color:#0284c7;">Local Facilitators</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#7c3aed;font-weight:700;">991 Monitors</span></div>`;
+            ? `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#7c3aed;font-weight:900;font-size:12.5px;">👥 6,707 डीओ-उन्मुख (${cycleOrientPct})</span><span style="color:#0284c7;font-weight:800;font-size:11.5px;background:rgba(2,132,199,0.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(2,132,199,0.25);">2,847 स्थानीय सुगमकर्ता • 991 पर्यवेक्षक</span></div>`
+            : `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#7c3aed;font-weight:900;font-size:12.5px;">👥 6,707 DO-Oriented (${cycleOrientPct})</span><span style="color:#0284c7;font-weight:800;font-size:11.5px;background:rgba(2,132,199,0.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(2,132,199,0.25);">2,847 Local Facilitators • 991 Monitors</span></div>`;
         } else {
           kCadreDesc.innerHTML = isHi 
-            ? `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#a855f7;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleOriented.toLocaleString()}</span> <strong style="color:#a855f7;">डीओ-उन्मुख (${cycleOrientPct})</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#0284c7;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleLocal.toLocaleString()}</span> <strong style="color:#0284c7;">स्थानीय सुगमकर्ता</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#7c3aed;font-weight:700;">${cycleMon.toLocaleString()} पर्यवेक्षक</span></div>`
-            : `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="color:#a855f7;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleOriented.toLocaleString()}</span> <strong style="color:#a855f7;">DO-Oriented (${cycleOrientPct})</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#0284c7;font-weight:800;font-family:var(--font-mono);font-size:12px;">${cycleLocal.toLocaleString()}</span> <strong style="color:#0284c7;">Local Facilitators</strong> <span style="color:var(--border-hairline);">•</span> <span style="color:#7c3aed;font-weight:700;">${cycleMon.toLocaleString()} Monitors</span></div>`;
+            ? `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#7c3aed;font-weight:900;font-size:12.5px;">👥 ${cycleOriented.toLocaleString()} डीओ-उन्मुख (${cycleOrientPct})</span><span style="color:#0284c7;font-weight:800;font-size:11.5px;background:rgba(2,132,199,0.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(2,132,199,0.25);">${cycleLocal.toLocaleString()} स्थानीय सुगमकर्ता • ${cycleMon.toLocaleString()} पर्यवेक्षक</span></div>`
+            : `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;"><span style="color:#7c3aed;font-weight:900;font-size:12.5px;">👥 ${cycleOriented.toLocaleString()} DO-Oriented (${cycleOrientPct})</span><span style="color:#0284c7;font-weight:800;font-size:11.5px;background:rgba(2,132,199,0.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(2,132,199,0.25);">${cycleLocal.toLocaleString()} Local Facilitators • ${cycleMon.toLocaleString()} Monitors</span></div>`;
         }
       }
 
@@ -10623,6 +10617,25 @@
       const dists = (typeof getActiveCycleSummary === 'function') ? getActiveCycleSummary() : ((dataPackage && dataPackage.districtSummary) || []);
       const bench = getActiveQuadrantBenchmarks();
 
+      const titleEl = document.getElementById('quadrantTableTitle');
+      if (titleEl) {
+        const countMap = {
+          'ALL': dists.length,
+          'Q1': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q1').length,
+          'Q2': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q2').length,
+          'Q3': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q3').length,
+          'Q4': dists.filter(d => getDistrictQuadrantInfo(d).quad === 'Q4').length,
+        };
+        const quadTitleMap = {
+          'ALL': `All ${dists.length} Districts`,
+          'Q1': `Q1: Benchmark Champions (${countMap.Q1} Districts)`,
+          'Q2': `Q2: High Turnout %, Needs Pedagogy Focus (${countMap.Q2} Districts)`,
+          'Q3': `Q3: High Score, Needs Turnout % Boost (${countMap.Q3} Districts)`,
+          'Q4': `Q4: Priority Support Zone (${countMap.Q4} Districts)`
+        };
+        titleEl.innerText = `Districts in Selected Quadrant: ${quadTitleMap[currentQuadFilter] || `All ${dists.length} Districts`}`;
+      }
+
       const filtered = dists.filter(d => {
         const pedScore = calculateDistrictPedagogyScore(d.district);
         const qInfo = getDistrictQuadrantInfo(d, pedScore);
@@ -10681,14 +10694,14 @@
       ['cardQuad1', 'cardQuad2', 'cardQuad3', 'cardQuad4'].forEach(cid => {
         const el = document.getElementById(cid);
         if (el) {
-          el.style.transform = 'scale(1)';
+          el.style.transform = 'translateY(0)';
           el.style.boxShadow = 'none';
         }
       });
       if (cardMap[q]) {
         const activeCard = document.getElementById(cardMap[q]);
         if (activeCard) {
-          activeCard.style.transform = 'scale(1.02)';
+          activeCard.style.transform = 'translateY(-3px)';
           activeCard.style.boxShadow = '0 8px 24px -4px rgba(0, 138, 171, 0.25), inset 0 0 0 2px var(--peepul-teal)';
         }
       }
@@ -11480,6 +11493,7 @@
     window.onload = function() {
       if (typeof updateKPIs === 'function') updateKPIs();
       initOverviewCharts();
+      if (typeof populateQuadrantBentoCards === 'function') populateQuadrantBentoCards();
       initQuadrantTable();
       renderRFIndicatorCards();
       initRFMatrixTable();
@@ -11489,6 +11503,7 @@
       initBlockDirectory();
       refreshQuestionBankDropdown();
       initPedagogyRadar();
+      if (typeof initTrustHeatmapTable === 'function') initTrustHeatmapTable();
       initGovernance();
       enableAllTableSorting();
     };
