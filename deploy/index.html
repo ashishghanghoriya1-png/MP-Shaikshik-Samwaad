@@ -6391,7 +6391,7 @@
             datasets: [{
               label: isHi ? 'राज्य औसत (%)' : 'State Average (%)',
               data: data3,
-              backgroundColor: data3.map(v => v >= 70 ? 'rgba(16, 185, 129, 0.85)' : (v >= 50 ? 'rgba(0, 138, 171, 0.85)' : 'rgba(239, 68, 68, 0.85)')),
+              backgroundColor: data3.map(v => get4TierInfo(v).rgba),
               borderRadius: 4
             }]
           },
@@ -6845,11 +6845,11 @@
           <div class="kpi-card-metric bento-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span class="kpi-lbl">${isHi ? 'शिक्षाशास्त्र स्कोर' : 'Pedagogy Index'}</span>
-              <span class="pill-badge" style="background: ${pedScore >= 56 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; color: ${pedScore >= 56 ? '#059669' : '#dc2626'}; font-size: 10px; font-weight: 700;">
-                ${pedScore >= 56 ? (isHi ? 'लक्ष्य प्राप्त' : 'On Target') : (isHi ? 'समीक्षा आवश्यक' : 'Scaffolding')}
+              <span class="pill-badge font-mono" style="background: ${get4TierInfo(pedScore).bg}; color: ${get4TierInfo(pedScore).text}; border: 1px solid ${get4TierInfo(pedScore).border}; font-size: 10px; font-weight: 800;">
+                ${get4TierInfo(pedScore).label}
               </span>
             </div>
-            <div class="kpi-val font-mono" style="color: ${pedScore >= 56 ? '#059669' : '#dc2626'}; margin-top: 4px;">
+            <div class="kpi-val font-mono" style="color: ${get4TierInfo(pedScore).text}; margin-top: 4px;">
               ${pedScore}%
             </div>
             <div class="kpi-sub-desc">
@@ -7102,7 +7102,7 @@
             datasets: [{
               label: isHi ? 'दक्षता %' : 'Accuracy %',
               data: pedScores,
-              backgroundColor: pedScores.map(v => v >= 56 ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)'),
+              backgroundColor: pedScores.map(v => get4TierInfo(v).rgba),
               borderRadius: 6
             }]
           },
@@ -9810,6 +9810,7 @@
         const num = parseFloat(val);
         if (isNaN(num)) return 'color: var(--text-muted);';
         if (num >= 70) return 'color: #059669; font-weight: 700;';
+        if (num >= 60) return 'color: #1d4ed8; font-weight: 700;';
         if (num >= 50) return 'color: #b45309; font-weight: 700;';
         return 'color: #dc2626; font-weight: 700;';
       };
@@ -9997,7 +9998,23 @@
     // ==========================================
         // ==========================================
     // ==========================================
-        function get4TierScoreBadge(val, isDecimal) {
+    function get4TierInfo(val) {
+      const num = parseFloat(val);
+      if (isNaN(num)) {
+        return { text: '#64748b', bg: 'rgba(100, 116, 139, 0.1)', border: 'rgba(100, 116, 139, 0.25)', hex: '#64748b', rgba: 'rgba(100, 116, 139, 0.85)', label: '-', badgeText: '-', tierDesc: 'No Data' };
+      }
+      if (num >= 70) {
+        return { text: '#059669', bg: 'rgba(5, 150, 105, 0.12)', border: 'rgba(5, 150, 105, 0.25)', hex: '#059669', rgba: 'rgba(5, 150, 105, 0.85)', label: '≥70% Exemplary', badgeText: '🟢 ≥70% Exemplary', tierDesc: 'Exemplary Mastery (≥70%)' };
+      } else if (num >= 60) {
+        return { text: '#1d4ed8', bg: 'rgba(37, 99, 235, 0.1)', border: 'rgba(37, 99, 235, 0.25)', hex: '#1d4ed8', rgba: 'rgba(29, 78, 216, 0.85)', label: '60-70% Proficient', badgeText: '🔵 60-70% Proficient', tierDesc: 'Proficient Understanding (60-70%)' };
+      } else if (num >= 50) {
+        return { text: '#b45309', bg: 'rgba(245, 158, 11, 0.12)', border: 'rgba(245, 158, 11, 0.28)', hex: '#b45309', rgba: 'rgba(217, 119, 6, 0.85)', label: '50-60% Developing', badgeText: '🟡 50-60% Developing', tierDesc: 'Developing / Needs Scaffolding (50-60%)' };
+      } else {
+        return { text: '#dc2626', bg: 'rgba(220, 38, 38, 0.1)', border: 'rgba(220, 38, 38, 0.25)', hex: '#dc2626', rgba: 'rgba(220, 38, 38, 0.85)', label: '<50% Urgent Focus', badgeText: '🔴 <50% Urgent Focus', tierDesc: 'Urgent Remedial Support (<50%)' };
+      }
+    }
+
+    function get4TierScoreBadge(val, isDecimal) {
       const num = parseFloat(val);
       if (isNaN(num)) return '<span style="color: var(--text-muted);">-</span>';
       let cls = 'tier-badge-red';
@@ -10855,11 +10872,11 @@
               <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
                 ${isHi ? 'शिक्षण स्कोर' : 'Pedagogy Score'}
               </div>
-              <div class="font-mono" style="font-size: 18px; font-weight: 900; color: ${ped >= 56 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; margin-top: 2px;">
+              <div class="font-mono" style="font-size: 18px; font-weight: 900; color: ${get4TierInfo(ped).text}; margin-top: 2px;">
                 ${ped}%
               </div>
-              <div style="font-size: 10px; color: var(--text-secondary); margin-top: 1px;">
-                ${ped >= 56 ? (isHi ? '✅ उच्च क्षमता' : '✅ High Quality') : (isHi ? '⚠️ सुधार आवश्यक' : '⚠️ Quality Gap')}
+              <div style="font-size: 10px; color: ${get4TierInfo(ped).text}; font-weight: 700; margin-top: 1px;">
+                ${get4TierInfo(ped).badgeText}
               </div>
             </div>
 
