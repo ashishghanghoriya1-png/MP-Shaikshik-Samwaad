@@ -2527,22 +2527,22 @@
             <div id="ovMpMapLegend" style="margin-top: 8px; border-top: 1px solid var(--border-hairline); padding-top: 8px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; font-size: 11px; font-family: var(--font-mono);">
               <div class="mp-legend-pill" id="pillLegendQ1" onmouseenter="spotlightMapQuadrant('Q1')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q1', this)" title="Hover to highlight Champions, click to isolate">
                 <span class="dot" style="background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);"></span>
-                <span style="flex: 1;"><strong>Champions:</strong> <span id="mapCountChampions">0</span></span>
+                <span style="flex: 1;"><strong>Champions (Q1):</strong> <span id="mapCountChampions">0</span></span>
                 <span style="font-size: 9.5px; opacity: 0.65;">&ge;35% | &ge;56%</span>
               </div>
-              <div class="mp-legend-pill" id="pillLegendQ2" onmouseenter="spotlightMapQuadrant('Q2')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q2', this)" title="Hover to highlight Attendance Focus, click to isolate">
-                <span class="dot" style="background: #3b82f6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);"></span>
-                <span style="flex: 1;"><strong>Attendance Focus:</strong> <span id="mapCountAttendance">0</span></span>
-                <span style="font-size: 9.5px; opacity: 0.65;">&lt;35% | &ge;56%</span>
-              </div>
-              <div class="mp-legend-pill" id="pillLegendQ3" onmouseenter="spotlightMapQuadrant('Q3')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q3', this)" title="Hover to highlight Coaching Focus, click to isolate">
+              <div class="mp-legend-pill" id="pillLegendQ2" onmouseenter="spotlightMapQuadrant('Q2')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q2', this)" title="Hover to highlight Coaching Focus, click to isolate">
                 <span class="dot" style="background: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);"></span>
-                <span style="flex: 1;"><strong>Coaching Focus:</strong> <span id="mapCountCoaching">0</span></span>
+                <span style="flex: 1;"><strong>Coaching Focus (Q2):</strong> <span id="mapCountCoaching">0</span></span>
                 <span style="font-size: 9.5px; opacity: 0.65;">&ge;35% | &lt;56%</span>
               </div>
-              <div class="mp-legend-pill" id="pillLegendQ4" onmouseenter="spotlightMapQuadrant('Q4')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q4', this)" title="Hover to highlight Priority Attention, click to isolate">
+              <div class="mp-legend-pill" id="pillLegendQ3" onmouseenter="spotlightMapQuadrant('Q3')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q3', this)" title="Hover to highlight Attendance Focus, click to isolate">
+                <span class="dot" style="background: #3b82f6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);"></span>
+                <span style="flex: 1;"><strong>Attendance Focus (Q3):</strong> <span id="mapCountAttendance">0</span></span>
+                <span style="font-size: 9.5px; opacity: 0.65;">&lt;35% | &ge;56%</span>
+              </div>
+              <div class="mp-legend-pill" id="pillLegendQ4" onmouseenter="spotlightMapQuadrant('Q4')" onmouseleave="resetMapSpotlight()" onclick="toggleMapQuadrantFilter('Q4', this)" title="Hover to highlight Priority Support Zone, click to isolate">
                 <span class="dot" style="background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);"></span>
-                <span style="flex: 1;"><strong>Priority Attention:</strong> <span id="mapCountPriority">0</span></span>
+                <span style="flex: 1;"><strong>Priority Support (Q4):</strong> <span id="mapCountPriority">0</span></span>
                 <span style="font-size: 9.5px; opacity: 0.65;">&lt;35% | &lt;56%</span>
               </div>
             </div>
@@ -13696,49 +13696,45 @@ function renderQuestionBankTable() {
           ? calculateDistrictPedagogyScore(dname) 
           : 50;
 
-        const q72Expected = (dObj.expectedParticipants && dObj.expectedParticipants > 0) 
-          ? dObj.expectedParticipants 
-          : (dObj.targetCohort || 0);
-        const vargUniv = (dObj.varg2Universe && dObj.varg2Universe > 0) 
-          ? dObj.varg2Universe 
-          : (dObj.targetCohort || 0);
-        const maxTarget = Math.max(q72Expected, vargUniv, 1);
+        // Authoritative Universe and Quadrant mapping from getDistrictUniverse & getDistrictQuadrantInfo
+        const universe = (typeof getDistrictUniverse === 'function') 
+          ? getDistrictUniverse(dObj) 
+          : Math.max(dObj.expectedParticipants || 0, dObj.varg2Universe || 0, 1);
         const attendees = dObj.attendees || 0;
-        const turnoutPct = (attendees / maxTarget) * 100;
+        const turnoutPct = universe > 0 ? ((attendees / universe) * 100) : 0;
 
-        const isHighPed = (pedScore >= 56);
-        const isHighTurnout = (turnoutPct >= 35);
+        const qInfo = (typeof getDistrictQuadrantInfo === 'function') 
+          ? getDistrictQuadrantInfo(dObj, pedScore) 
+          : { quad: 'Q4', label: 'Priority Support Zone' };
 
-        let fillColor = '#ef4444'; // Red: Priority Attention
-        let quadGroup = 'Priority Attention (Dual Deficit)';
-        let quadCode = 'Q4';
+        const quadCode = qInfo.quad;
+        let fillColor = '#ef4444';
+        let quadGroup = 'Priority Support Zone (Dual Deficit)';
         let isGlow = true;
 
-        if (isHighPed && isHighTurnout) {
+        if (quadCode === 'Q1') {
           fillColor = '#10b981'; // Green: Champions
           quadGroup = 'Statewide Champions';
-          quadCode = 'Q1';
           isGlow = false;
           countChamp++;
-        } else if (isHighPed && !isHighTurnout) {
-          fillColor = '#3b82f6'; // Blue: Attendance Focus
-          quadGroup = 'Attendance Focus (Scale Gap)';
-          quadCode = 'Q2';
-          isGlow = false;
-          countAtt++;
-        } else if (!isHighPed && isHighTurnout) {
-          fillColor = '#f59e0b'; // Amber: Coaching Focus
-          quadGroup = 'Coaching Focus (Low Rigor, High Turnout)';
-          quadCode = 'Q3';
+        } else if (quadCode === 'Q2') {
+          fillColor = '#f59e0b'; // Amber: Coaching Focus (High Turnout, Low Ped)
+          quadGroup = 'Coaching Focus (High Turnout, Low Rigor)';
           isGlow = false;
           countCoach++;
+        } else if (quadCode === 'Q3') {
+          fillColor = '#3b82f6'; // Blue: Attendance Focus (Low Turnout, High Ped)
+          quadGroup = 'Attendance Focus (Scale Gap)';
+          isGlow = false;
+          countAtt++;
         } else {
+          fillColor = '#ef4444'; // Red: Priority Support Zone
           countPrio++;
         }
 
-        // If in "Low Pedagogy" mode, flag low pedagogy in bright red, others muted
+        // If in "Low Pedagogy" mode, flag all districts with pedScore < 56% in bright red
         if (_mpMapFilterMode === 'LOW_PED') {
-          if (!isHighPed) {
+          if (pedScore < 56) {
             fillColor = '#ef4444';
             isGlow = true;
           } else {
@@ -13764,7 +13760,7 @@ function renderQuestionBankTable() {
             stroke="rgba(255,255,255,0.7)"
             stroke-width="1.2"
             style="animation: mpDistrictEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1) ${animDelay}ms backwards;"
-            onmouseenter="handleMpMapMouseEnter(event, '${dname}', ${pedScore}, ${turnoutPct}, ${attendees}, ${maxTarget}, ${q72Expected}, ${vargUniv}, '${quadGroup}', '${fillColor}', '${quadCode}')"
+            onmouseenter="handleMpMapMouseEnter(event, '${dname}', ${pedScore}, ${turnoutPct}, ${attendees}, ${universe}, '${quadGroup}', '${fillColor}', '${quadCode}')"
             onmousemove="moveMpMapTooltip(event)"
             onmouseleave="handleMpMapMouseLeave('${dname}')"
             onclick="openDistrictIn360('${dname}')"
@@ -13796,8 +13792,8 @@ function renderQuestionBankTable() {
       if (labelsContainer) labelsContainer.innerHTML = labelsHtml;
 
       const c1 = document.getElementById('mapCountChampions'); if (c1) c1.innerText = countChamp;
-      const c2 = document.getElementById('mapCountAttendance'); if (c2) c2.innerText = countAtt;
-      const c3 = document.getElementById('mapCountCoaching'); if (c3) c3.innerText = countCoach;
+      const c2 = document.getElementById('mapCountCoaching'); if (c2) c2.innerText = countCoach;
+      const c3 = document.getElementById('mapCountAttendance'); if (c3) c3.innerText = countAtt;
       const c4 = document.getElementById('mapCountPriority'); if (c4) c4.innerText = countPrio;
     }
 
@@ -13846,7 +13842,7 @@ function renderQuestionBankTable() {
       }
     }
 
-    function showMpMapTooltip(e, dname, pedScore, turnoutPct, attendees, maxTarget, q72, varg, quadGroup, fillColor, quadCode) {
+    function showMpMapTooltip(e, dname, pedScore, turnoutPct, attendees, universe, quadGroup, fillColor, quadCode) {
       const tt = document.getElementById('mpMapTooltip');
       if (!tt) return;
 
@@ -13857,14 +13853,15 @@ function renderQuestionBankTable() {
 
       const pedFillWidth = Math.min(Math.max((pedScore / 80) * 100, 5), 100);
       const pedFillColor = isLowPed ? '#ef4444' : '#10b981';
-      // 56% benchmark position in 0-80 scale = (56 / 80) * 100 = 70%
-      const pedMarkerPos = 70;
+      const pedMarkerPos = 70; // 56% in 0-80 scale
 
       const isLowTurnout = turnoutPct < 35;
       const turnoutFillWidth = Math.min(Math.max((turnoutPct / 60) * 100, 5), 100);
-      const turnoutFillColor = isLowTurnout ? '#f59e0b' : '#3b82f6';
-      // 35% benchmark position in 0-60 scale = (35 / 60) * 100 = 58.3%
-      const turnoutMarkerPos = 58.3;
+      const turnoutFillColor = isLowTurnout ? '#ef4444' : '#10b981';
+      const turnoutMarkerPos = 58.3; // 35% in 0-60 scale
+
+      const isCons = (typeof currentCycle !== 'undefined' && currentCycle === 'CONSOLIDATED');
+      const targetLabel = isCons ? `2-Cycle Universe: ${universe.toLocaleString()}` : `Monthly Universe: ${universe.toLocaleString()}`;
 
       tt.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
@@ -13895,7 +13892,7 @@ function renderQuestionBankTable() {
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px;">
               <span><strong>Teacher Turnout:</strong> <span style="font-family: var(--font-mono); font-weight: 700;">${turnoutPct.toFixed(1)}%</span></span>
-              <span style="font-size: 10px; color: #94a3b8;">${attendees.toLocaleString()} / ${maxTarget.toLocaleString()}</span>
+              <span style="font-size: 10px; color: #94a3b8;">${attendees.toLocaleString()} / ${universe.toLocaleString()}</span>
             </div>
             <div class="hud-meter" title="Turnout Benchmark: 35%">
               <div class="hud-meter-marker" style="left: ${turnoutMarkerPos}%;" title="Target Benchmark (35%)"></div>
@@ -13910,7 +13907,7 @@ function renderQuestionBankTable() {
         </div>
 
         <div style="font-size: 9.5px; color: #94a3b8; line-height: 1.3;">
-          Target: max(Q72: ${q72.toLocaleString()}, Varg: ${varg.toLocaleString()}) = ${maxTarget.toLocaleString()}
+          ${targetLabel} &bull; Formula: Attendees &divide; max(Q72, ${isCons ? '2 &times; ' : ''}Varg Universe)
         </div>
         <div style="margin-top: 6px; font-size: 10.5px; color: var(--peepul-teal); font-weight: 700; text-align: right;">
           👉 Click to view District 360&deg; &rarr;
@@ -14043,40 +14040,32 @@ function renderQuestionBankTable() {
       dists.forEach(d => {
         const dname = d.district;
         const pedScore = (typeof calculateDistrictPedagogyScore === 'function') ? calculateDistrictPedagogyScore(dname) : 50;
-        const q72Expected = (d.expectedParticipants && d.expectedParticipants > 0) ? d.expectedParticipants : (d.targetCohort || 0);
-        const vargUniv = (d.varg2Universe && d.varg2Universe > 0) ? d.varg2Universe : (d.targetCohort || 0);
-        const maxTarget = Math.max(q72Expected, vargUniv, 1);
+        const universe = (typeof getDistrictUniverse === 'function') ? getDistrictUniverse(d) : Math.max(d.expectedParticipants || 0, d.varg2Universe || 0, 1);
         const attendees = d.attendees || 0;
-        const turnoutPct = (attendees / maxTarget) * 100;
+        const turnoutPct = universe > 0 ? ((attendees / universe) * 100) : 0;
 
-        const isHighPed = (pedScore >= 56);
-        const isHighTurnout = (turnoutPct >= 35);
+        const qInfo = (typeof getDistrictQuadrantInfo === 'function') ? getDistrictQuadrantInfo(d, pedScore) : { quad: 'Q4' };
 
         const pt = {
           x: parseFloat(turnoutPct.toFixed(1)),
           y: parseFloat(pedScore.toFixed(1)),
           district: dname,
           attendees: attendees,
-          maxTarget: maxTarget,
-          q72: q72Expected,
-          varg: vargUniv
+          universe: universe,
+          code: qInfo.quad
         };
 
-        if (isHighPed && isHighTurnout) {
-          pt.group = 'Statewide Champions';
-          pt.code = 'Q1';
+        if (qInfo.quad === 'Q1') {
+          pt.group = 'Statewide Champions (Q1)';
           q1Data.push(pt);
-        } else if (isHighPed && !isHighTurnout) {
-          pt.group = 'Attendance Focus (Scale Gap)';
-          pt.code = 'Q2';
+        } else if (qInfo.quad === 'Q2') {
+          pt.group = 'Coaching Focus (Q2: High Turnout, Low Rigor)';
           q2Data.push(pt);
-        } else if (!isHighPed && isHighTurnout) {
-          pt.group = 'Coaching Focus (Low Rigor)';
-          pt.code = 'Q3';
+        } else if (qInfo.quad === 'Q3') {
+          pt.group = 'Attendance Focus (Q3: Scale Gap)';
           q3Data.push(pt);
         } else {
-          pt.group = 'Priority Attention (Dual Deficit)';
-          pt.code = 'Q4';
+          pt.group = 'Priority Support Zone (Q4: Dual Deficit)';
           q4Data.push(pt);
         }
       });
@@ -14084,16 +14073,16 @@ function renderQuestionBankTable() {
       const summaryEl = document.getElementById('scatterFooterSummary');
       if (summaryEl) {
         summaryEl.innerHTML = `
-          <span style="color: #10b981; font-weight: 700;">🟢 Champions: ${q1Data.length}</span>
-          <span style="color: #3b82f6; font-weight: 700;">🔵 Attendance Focus: ${q2Data.length}</span>
-          <span style="color: #f59e0b; font-weight: 700;">🟠 Coaching Focus: ${q3Data.length}</span>
-          <span style="color: #ef4444; font-weight: 700;">🔴 Priority Attention: ${q4Data.length}</span>
+          <span style="color: #10b981; font-weight: 700;">🟢 Champions (Q1): ${q1Data.length}</span>
+          <span style="color: #f59e0b; font-weight: 700;">🟠 Coaching Focus (Q2): ${q2Data.length}</span>
+          <span style="color: #3b82f6; font-weight: 700;">🔵 Attendance Focus (Q3): ${q3Data.length}</span>
+          <span style="color: #ef4444; font-weight: 700;">🔴 Priority Support (Q4): ${q4Data.length}</span>
         `;
       }
 
       const allDatasets = [
         {
-          label: '🟢 Champions (High Turnout & Rigor)',
+          label: '🟢 Champions (Q1: High Turnout & Rigor)',
           data: q1Data,
           backgroundColor: 'rgba(16, 185, 129, 0.85)',
           borderColor: '#059669',
@@ -14103,27 +14092,27 @@ function renderQuestionBankTable() {
           code: 'Q1'
         },
         {
-          label: '🔵 Attendance Focus (High Rigor, Low Turnout)',
+          label: '🟠 Coaching Focus (Q2: High Turnout, Low Rigor)',
           data: q2Data,
-          backgroundColor: 'rgba(59, 130, 246, 0.85)',
-          borderColor: '#2563eb',
+          backgroundColor: 'rgba(245, 158, 11, 0.85)',
+          borderColor: '#d97706',
           borderWidth: 1.5,
           pointRadius: 7,
           pointHoverRadius: 11,
           code: 'Q2'
         },
         {
-          label: '🟠 Coaching Focus (High Turnout, Low Rigor)',
+          label: '🔵 Attendance Focus (Q3: High Rigor, Low Turnout)',
           data: q3Data,
-          backgroundColor: 'rgba(245, 158, 11, 0.85)',
-          borderColor: '#d97706',
+          backgroundColor: 'rgba(59, 130, 246, 0.85)',
+          borderColor: '#2563eb',
           borderWidth: 1.5,
           pointRadius: 7,
           pointHoverRadius: 11,
           code: 'Q3'
         },
         {
-          label: '🔴 Priority Attention (Dual Deficit)',
+          label: '🔴 Priority Support Zone (Q4: Dual Deficit)',
           data: q4Data,
           backgroundColor: 'rgba(239, 68, 68, 0.85)',
           borderColor: '#dc2626',
@@ -14137,6 +14126,8 @@ function renderQuestionBankTable() {
       const filteredDatasets = (_currentScatterFilter === 'ALL') 
         ? allDatasets 
         : allDatasets.filter(ds => ds.code === _currentScatterFilter);
+
+      const isCons = (typeof currentCycle !== 'undefined' && currentCycle === 'CONSOLIDATED');
 
       const quadrantLinesPlugin = {
         id: 'quadrantCrosshairs',
@@ -14209,8 +14200,7 @@ function renderQuestionBankTable() {
                 label: (item) => {
                   const r = item.raw;
                   return [
-                    `Turnout: ${r.x}% (${r.attendees.toLocaleString()} / ${r.maxTarget.toLocaleString()} teachers)`,
-                    `Formula: max(Q72: ${r.q72.toLocaleString()}, Varg: ${r.varg.toLocaleString()}) = ${r.maxTarget.toLocaleString()}`,
+                    `Turnout: ${r.x}% (${r.attendees.toLocaleString()} / ${r.universe.toLocaleString()} teachers)`,
                     `Pedagogy Score: ${r.y}%`,
                     `Quadrant: ${r.group}`,
                     `👉 Click dot to open District 360°`
@@ -14231,7 +14221,9 @@ function renderQuestionBankTable() {
             x: {
               title: {
                 display: true,
-                text: 'Effective Cadre Turnout Rate (%) [Attendees / max(Q72, Varg Universe)]',
+                text: isCons 
+                  ? 'Effective Cadre Turnout Rate (%) [Combined Attendees / (2 × Varg Universe)]'
+                  : 'Effective Cadre Turnout Rate (%) [Attendees / max(Q72, Varg Universe)]',
                 font: { size: 12, weight: '700' },
                 color: 'var(--text-secondary)'
               },
@@ -14344,10 +14336,10 @@ function renderQuestionBankTable() {
       <div style="padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--border-hairline); background: var(--bg-surface-1);">
         <div class="slicer-pills" id="scatterFilterPills" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
           <button class="slicer-btn active" onclick="filterScatterQuadrant('ALL', this)">All 52 Districts</button>
-          <button class="slicer-btn" onclick="filterScatterQuadrant('Q1', this)" style="color: #10b981; font-weight: 700;">🟢 Champions</button>
-          <button class="slicer-btn" onclick="filterScatterQuadrant('Q2', this)" style="color: #3b82f6; font-weight: 700;">🔵 Attendance Focus</button>
-          <button class="slicer-btn" onclick="filterScatterQuadrant('Q3', this)" style="color: #f59e0b; font-weight: 700;">🟠 Coaching Focus</button>
-          <button class="slicer-btn" onclick="filterScatterQuadrant('Q4', this)" style="color: #ef4444; font-weight: 700;">🔴 Priority Attention</button>
+          <button class="slicer-btn" onclick="filterScatterQuadrant('Q1', this)" style="color: #10b981; font-weight: 700;">🟢 Champions (Q1)</button>
+          <button class="slicer-btn" onclick="filterScatterQuadrant('Q2', this)" style="color: #f59e0b; font-weight: 700;">🟠 Coaching Focus (Q2)</button>
+          <button class="slicer-btn" onclick="filterScatterQuadrant('Q3', this)" style="color: #3b82f6; font-weight: 700;">🔵 Attendance Focus (Q3)</button>
+          <button class="slicer-btn" onclick="filterScatterQuadrant('Q4', this)" style="color: #ef4444; font-weight: 700;">🔴 Priority Support (Q4)</button>
         </div>
         <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">
           💡 Click any district dot to open District 360°
