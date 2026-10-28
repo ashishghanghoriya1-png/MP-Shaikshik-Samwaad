@@ -1767,6 +1767,10 @@
     }
 
     /* Floating HUD Tooltip */
+    #mpMapTooltip, #mpMapTooltip * {
+      pointer-events: none !important;
+    }
+
     #mpMapTooltip {
       position: fixed;
       display: none;
@@ -2512,7 +2516,7 @@
 
             <!-- Interactive Map SVG Viewport -->
             <div class="mp-map-stage" style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 350px; padding: 4px 0;">
-              <svg id="ovMpMapSvg" viewBox="0 0 650 500" style="width: 100%; height: auto; max-height: 420px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.06));">
+              <svg id="ovMpMapSvg" onmouseleave="hideMpMapTooltip()" viewBox="0 0 650 500" style="width: 100%; height: auto; max-height: 420px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.06));">
                 <g id="ovMpMapSvgGroup"></g>
                 <g id="ovMpMapLabelsGroup" pointer-events="none"></g>
               </svg>
@@ -10665,6 +10669,7 @@
     }
 
     function openDistrictIn360(dname) {
+      if (typeof hideMpMapTooltip === 'function') hideMpMapTooltip();
       activateTab('tab-d360', document.querySelectorAll('.nav-item')[2]);
       const dd = document.getElementById('d360Dropdown');
       if (dd) {
@@ -13798,18 +13803,14 @@ function renderQuestionBankTable() {
 
     function handleMpMapMouseEnter(e, dname, pedScore, turnoutPct, attendees, maxTarget, q72, varg, quadGroup, fillColor, quadCode) {
       const pathEl = document.getElementById(`mp-district-${dname.replace(/\s+/g, '-')}`);
-      const mapContainer = document.getElementById('ovMpMapSvgGroup');
       
-      // Elevate hovered path to top of SVG stacking order
-      if (pathEl && mapContainer) {
-        mapContainer.appendChild(pathEl);
-      }
-
-      // Dim other paths slightly to create visual depth focus
+      // Dim other paths slightly to create visual depth focus (DO NOT mutate DOM with appendChild to prevent dropped mouseleave)
       document.querySelectorAll('#ovMpMapSvgGroup path').forEach(p => {
         if (p !== pathEl) {
           p.style.opacity = '0.55';
           p.style.filter = 'grayscale(20%)';
+        } else {
+          p.style.opacity = '1';
         }
       });
 
@@ -13823,6 +13824,9 @@ function renderQuestionBankTable() {
     }
 
     function handleMpMapMouseLeave(dname) {
+      // Always immediately hide tooltip
+      hideMpMapTooltip();
+
       // Reset label
       const labelEl = document.getElementById(`mp-label-${dname.replace(/\s+/g, '-')}`);
       if (labelEl) {
@@ -13838,10 +13842,8 @@ function renderQuestionBankTable() {
           p.setAttribute('stroke-width', '1.2');
         });
       } else {
-        toggleMapQuadrantFilter(_activeLegendQuadrantFilter);
+        spotlightMapQuadrant(_activeLegendQuadrantFilter);
       }
-
-      hideMpMapTooltip();
     }
 
     function showMpMapTooltip(e, dname, pedScore, turnoutPct, attendees, maxTarget, q72, varg, quadGroup, fillColor, quadCode) {
@@ -13939,8 +13941,34 @@ function renderQuestionBankTable() {
 
     function hideMpMapTooltip() {
       const tt = document.getElementById('mpMapTooltip');
-      if (tt) tt.style.display = 'none';
+      if (tt) {
+        tt.style.display = 'none';
+        tt.innerHTML = '';
+      }
+      document.querySelectorAll('.mp-district-label.highlighted').forEach(l => l.classList.remove('highlighted'));
+      if (!_activeLegendQuadrantFilter) {
+        document.querySelectorAll('#ovMpMapSvgGroup path').forEach(p => {
+          p.style.opacity = '0.88';
+          p.style.filter = '';
+        });
+      }
     }
+
+    // BULLETPROOF GLOBAL HIT-TESTING LISTENER:
+    // Guarantees tooltip disappears instantly if cursor is anywhere outside a district path
+    document.addEventListener('mousemove', (e) => {
+      const tt = document.getElementById('mpMapTooltip');
+      if (!tt || tt.style.display === 'none') return;
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (!el || !el.closest || !el.closest('.mp-district-path')) {
+        hideMpMapTooltip();
+      }
+    }, { passive: true });
+
+    // Hide tooltip on scroll, window leave, or outside touch/click
+    window.addEventListener('scroll', () => hideMpMapTooltip(), { passive: true });
+    document.addEventListener('mouseleave', () => hideMpMapTooltip(), { passive: true });
+    window.addEventListener('blur', () => hideMpMapTooltip(), { passive: true });
 
     /* 2D SCATTER PLOT DIALOG LOGIC */
     function openQuadrantScatterModal() {
