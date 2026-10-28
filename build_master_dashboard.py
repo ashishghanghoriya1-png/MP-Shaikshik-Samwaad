@@ -329,6 +329,7 @@ def extract_single_cycle_data(dist_file, clust_file, month_name="August"):
         ('CHHINDWARA', 'SAUSAR'): ('PANDHURNA', 'SAUSAR'),
         ('KHARGONE', 'GOGAWAN'): ('KHARGONE', 'GOGAWA'),
         ('NARMADAPURAM', 'PIPERIYA'): ('NARMADAPURAM', 'PIPARIYA'),
+        ('NARMADAPURAM', 'SIVNI MAALVA'): ('NARMADAPURAM', 'SEONI MALWA'),
         ('NARMADAPURAM', 'SOHAGPUR'): ('NARMADAPURAM', 'SOHAGHPUR'),
         ('NARSINGHPUR', 'GOTEGAONSHRIDHAM'): ('NARSINGHPUR', 'GOTEGAONSHRIDHAM'),
         ('REWA', 'HANUMANA'): ('MAUGANJ', 'HANUMANA'),
