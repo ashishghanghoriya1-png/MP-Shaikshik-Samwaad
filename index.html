@@ -144,9 +144,9 @@
       background: var(--bg-surface-1);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-hairline);
-      padding: 8px 32px;
-      min-height: 72px;
-      max-height: 72px;
+      padding: 10px 32px;
+      min-height: 80px;
+      max-height: 80px;
       box-sizing: border-box;
       display: flex;
       justify-content: space-between;
@@ -168,9 +168,16 @@
       z-index: 1;
       background-image: url('assets/samwaad_hero_1.webp');
       background-repeat: no-repeat;
-      background-position: center right 220px;
-      background-size: auto 100%;
-      opacity: 0.92;
+      background-position: center center;
+      background-size: cover;
+      opacity: 0.40;
+      filter: saturate(1.2) contrast(1.08);
+      transition: opacity 0.3s ease;
+    }
+
+    html.dark .header-mesh-container {
+      opacity: 0.28;
+      filter: saturate(1.25) contrast(1.12) brightness(0.9);
     }
 
     #header3DCanvas {
@@ -196,24 +203,26 @@
       pointer-events: none;
       z-index: 2;
       background: linear-gradient(90deg, 
-        var(--bg-surface-1) 0%, 
-        rgba(255, 255, 255, 0.92) 28%, 
-        rgba(255, 255, 255, 0.12) 52%, 
-        rgba(255, 255, 255, 0.20) 74%, 
-        rgba(255, 255, 255, 0.94) 86%,
-        var(--bg-surface-1) 100%
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(255, 255, 255, 0.85) 18%, 
+        rgba(255, 255, 255, 0.25) 38%, 
+        rgba(255, 255, 255, 0.15) 55%, 
+        rgba(255, 255, 255, 0.30) 75%, 
+        rgba(255, 255, 255, 0.88) 90%, 
+        rgba(255, 255, 255, 0.96) 100%
       );
       transition: background 0.3s ease;
     }
 
     html.dark .header-mesh-scrim {
       background: linear-gradient(90deg, 
-        var(--bg-surface-1) 0%, 
-        rgba(15, 23, 42, 0.92) 28%, 
-        rgba(15, 23, 42, 0.18) 52%, 
-        rgba(15, 23, 42, 0.26) 74%, 
-        rgba(15, 23, 42, 0.95) 86%,
-        var(--bg-surface-1) 100%
+        rgba(15, 23, 42, 0.95) 0%, 
+        rgba(15, 23, 42, 0.85) 18%, 
+        rgba(15, 23, 42, 0.30) 38%, 
+        rgba(15, 23, 42, 0.20) 55%, 
+        rgba(15, 23, 42, 0.35) 75%, 
+        rgba(15, 23, 42, 0.88) 90%, 
+        rgba(15, 23, 42, 0.96) 100%
       );
     }
 
@@ -15275,18 +15284,18 @@ function renderQuestionBankTable() {
             vec4 col2 = texture2D(uTexture2, vUv);
             vec4 baseCol = mix(col1, col2, uMix);
 
-            // Smooth horizontal & vertical edge vignettes
-            float fadeLeft = smoothstep(0.0, 0.22, vUv.x);
-            float fadeRight = 1.0 - smoothstep(0.78, 1.0, vUv.x);
-            float fadeY = smoothstep(0.0, 0.10, vUv.y) * (1.0 - smoothstep(0.90, 1.0, vUv.y));
+            // Smooth full-bleed horizontal & vertical edge vignettes
+            float fadeLeft = smoothstep(0.0, 0.12, vUv.x);
+            float fadeRight = 1.0 - smoothstep(0.88, 1.0, vUv.x);
+            float fadeY = smoothstep(0.0, 0.05, vUv.y) * (1.0 - smoothstep(0.95, 1.0, vUv.y));
             float edgeAlpha = fadeLeft * fadeRight * fadeY;
 
             // Peepul Signature Teal Infusion (#008aab)
             vec3 peepulTeal = vec3(0.0, 0.54, 0.67);
-            vec3 finalRgb = mix(baseCol.rgb, peepulTeal, 0.12);
+            vec3 finalRgb = mix(baseCol.rgb, peepulTeal, 0.08);
 
-            // Dynamic opacity calibrated for contrast and elegance
-            float alphaBase = (uDark > 0.5) ? 0.38 : 0.30;
+            // Dynamic opacity calibrated for rich, unmistakable presence
+            float alphaBase = (uDark > 0.5) ? 0.52 : 0.42;
             float finalAlpha = edgeAlpha * alphaBase;
 
             gl_FragColor = vec4(finalRgb, finalAlpha);
@@ -15314,10 +15323,14 @@ function renderQuestionBankTable() {
           depthWrite: false
         });
 
-        // Plane Geometry
-        const planeGeo = new THREE.PlaneGeometry(6.4, 2.2, 40, 20);
+        // Dynamically compute exact visible camera frustum for full-bleed coverage
+        const vFovRad = (camera.fov * Math.PI) / 180;
+        const visibleHeight = 2 * Math.tan(vFovRad / 2) * camera.position.z;
+        const visibleWidth = visibleHeight * (width / height);
+
+        const planeGeo = new THREE.PlaneGeometry(visibleWidth * 1.05, visibleHeight * 1.05, 60, 20);
         const mesh = new THREE.Mesh(planeGeo, shaderMat);
-        mesh.position.set(0.65, 0, 0); // Positioned slightly toward center-right
+        mesh.position.set(0, 0, 0);
         scene.add(mesh);
 
         // Load authentic field photographs (Base64 embedded for 100% CORS & offline resilience)
@@ -15371,6 +15384,11 @@ function renderQuestionBankTable() {
               camera.aspect = cr.width / cr.height;
               camera.updateProjectionMatrix();
               renderer.setSize(cr.width, cr.height, false);
+
+              const vH = 2 * Math.tan(((camera.fov * Math.PI) / 180) / 2) * camera.position.z;
+              const vW = vH * camera.aspect;
+              if (mesh.geometry) mesh.geometry.dispose();
+              mesh.geometry = new THREE.PlaneGeometry(vW * 1.05, vH * 1.05, 60, 20);
             }
           }
         });
