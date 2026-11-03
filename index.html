@@ -2444,6 +2444,58 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
   };
 
   // Helper to generate interactive badge HTML
+  
+  window.setD360BlockViewMode = function(mode) {
+    const row = document.getElementById('d360BlockUnifiedRow');
+    const chartBox = document.getElementById('d360BlockChartPanel');
+    const tableBox = document.getElementById('d360BlockSection');
+    const btnSplit = document.getElementById('btnBViewSplit');
+    const btnChart = document.getElementById('btnBViewChart');
+    const btnTable = document.getElementById('btnBViewTable');
+    if (!row || !chartBox || !tableBox) return;
+
+    [btnSplit, btnChart, btnTable].forEach(b => {
+      if (b) {
+        b.style.background = 'var(--bg-surface-1)';
+        b.style.borderColor = 'var(--border-subtle)';
+        b.style.color = 'var(--text-secondary)';
+      }
+    });
+
+    if (mode === 'CHART') {
+      row.style.display = 'block';
+      chartBox.style.display = 'block';
+      tableBox.style.display = 'none';
+      if (btnChart) {
+        btnChart.style.background = 'var(--bg-surface-2)';
+        btnChart.style.borderColor = 'var(--peepul-teal)';
+        btnChart.style.color = 'var(--peepul-teal)';
+      }
+    } else if (mode === 'TABLE') {
+      row.style.display = 'block';
+      chartBox.style.display = 'none';
+      tableBox.style.display = 'block';
+      if (btnTable) {
+        btnTable.style.background = 'var(--bg-surface-2)';
+        btnTable.style.borderColor = 'var(--peepul-teal)';
+        btnTable.style.color = 'var(--peepul-teal)';
+      }
+    } else {
+      row.style.display = 'grid';
+      chartBox.style.display = 'flex';
+      tableBox.style.display = 'flex';
+      if (btnSplit) {
+        btnSplit.style.background = 'var(--bg-surface-2)';
+        btnSplit.style.borderColor = 'var(--peepul-teal)';
+        btnSplit.style.color = 'var(--peepul-teal)';
+      }
+    }
+
+    if (charts && charts.d360BlockCompChart) {
+      setTimeout(() => charts.d360BlockCompChart.resize(), 80);
+    }
+  };
+
   window.renderQBadge = function(qid, labelText) {
     const cleanId = String(qid).replace(/[^0-9]/g, '');
     const displayLabel = labelText || ('Q' + cleanId);
@@ -3379,59 +3431,71 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 </div>
 </div>
 </div>
-<!-- Block Participant Comparison Visual Chart Stage -->
-<div class="panel-box" id="d360BlockChartPanel" style="margin-top: 20px;">
-<div class="panel-head" style="flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
-<div>
-<div class="panel-head-title" id="d360BlockChartHeading">
-              📊 Block-Level Participant Comparison Chart (<span id="d360BlockChartDistName" style="color: var(--peepul-teal);">District</span>)
-            </div>
-<div id="d360BlockChartRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-              [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Compares Teacher Participants, Facilitators, and Monitors across all blocks]
-            </div>
-</div>
-<button class="btn-tactile" onclick="viewCurrentDistInBlocks()" style="font-size: 11px; padding: 4px 10px;">🏢 Open in Block Directory</button>
-</div>
-<div class="chart-stage" style="height: 300px;">
-<canvas id="d360BlockCompChart"></canvas>
-</div>
-</div>
-<!-- Block-Level Mobilization Breakdown Table -->
-<div class="panel-box" id="d360BlockSection" style="margin-top: 20px;">
-<div class="panel-head" id="d360BlockTableRef" style="flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
-<div>
-<div class="panel-head-title">
-              🏢 Block-Level Participant Breakdown Table (<span id="d360SelectedDistName" style="color: var(--peepul-teal); font-weight: 800;">District</span>)
-            </div>
-<div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
-              [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Sheet: <strong>Block-wise Summary</strong> | Showing exact administrative blocks]
-            </div>
-</div>
-<span class="status-chip" id="d360BlockCountChip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700; font-family: var(--font-mono); font-size: 12px; padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(0, 138, 171, 0.2);">0 Blocks</span>
-</div>
-<div class="table-viewport">
-<table class="kowalski-table" id="d360BlockTable">
-<thead>
-<tr>
-<th style="width: 50px;">#</th>
-<th>Block Name</th>
-<th>Monitors</th>
-<th>Facilitators</th>
-<th>Teacher Universe</th>
-<th>Teacher Participants</th>
-<th>Saturation %</th>
-<th>Total Mobilized</th>
-<th>% of District Mobilization</th>
-</tr>
-</thead>
-<tbody>
-<!-- Populated via JS -->
-</tbody>
-<tfoot id="d360BlockTableFoot" style="font-weight: 700; background: var(--bg-surface-2); border-top: 2px solid var(--border-subtle);">
-<!-- Populated via JS -->
-</tfoot>
-</table>
-</div>
+<!-- Block-Level Unified Side-by-Side Bento Row (Compact 65% Less Scrolling) -->
+<div class="bento-equal" id="d360BlockUnifiedRow" style="margin-top: 16px; align-items: stretch; gap: 14px;">
+  
+  <!-- Left: Compact Block Comparison Chart Stage -->
+  <div class="panel-box" id="d360BlockChartPanel" style="margin-top: 0; padding: 14px 16px; display: flex; flex-direction: column;">
+    <div class="panel-head" style="flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border-hairline);">
+      <div>
+        <div class="panel-head-title" id="d360BlockChartHeading" style="font-size: 13.5px;">
+          📊 Block-Level Comparison Chart (<span id="d360BlockChartDistName" style="color: var(--peepul-teal);">District</span>)
+        </div>
+        <div id="d360BlockChartRef" style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 1px;">
+          [Ref: <em>SS_ResponseDetail_Cluster Level</em> | Block-wise Teacher Attendance]
+        </div>
+      </div>
+      <div style="display: flex; gap: 5px; align-items: center;">
+        <button class="btn-tactile" onclick="setD360BlockViewMode('SPLIT')" id="btnBViewSplit" title="Side-by-side view" style="font-size: 10px; padding: 3px 8px; font-weight: 700; background: var(--bg-surface-2); border-color: var(--peepul-teal); color: var(--peepul-teal);">🔀 Split</button>
+        <button class="btn-tactile" onclick="setD360BlockViewMode('CHART')" id="btnBViewChart" title="Full-width chart" style="font-size: 10px; padding: 3px 8px;">📊 Chart</button>
+        <button class="btn-tactile" onclick="viewCurrentDistInBlocks()" style="font-size: 10px; padding: 3px 8px;" title="Open in Block Directory">🏢 Directory</button>
+      </div>
+    </div>
+    <div class="chart-stage" style="height: 220px; position: relative; flex: 1; min-height: 210px;">
+      <canvas id="d360BlockCompChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Right: Compact Scrollable Block Breakdown Table -->
+  <div class="panel-box" id="d360BlockSection" style="margin-top: 0; padding: 14px 16px; display: flex; flex-direction: column;">
+    <div class="panel-head" id="d360BlockTableRef" style="flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border-hairline);">
+      <div>
+        <div class="panel-head-title" style="font-size: 13.5px;">
+          🏢 Block Breakdown Table (<span id="d360SelectedDistName" style="color: var(--peepul-teal); font-weight: 800;">District</span>)
+        </div>
+        <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 1px;">
+          [Scrollable block roster • Click row to focus]
+        </div>
+      </div>
+      <div style="display: flex; gap: 5px; align-items: center;">
+        <span class="status-chip" id="d360BlockCountChip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700; font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(0, 138, 171, 0.2);">0 Blocks</span>
+        <button class="btn-tactile" onclick="setD360BlockViewMode('TABLE')" id="btnBViewTable" title="Full-width table" style="font-size: 10px; padding: 3px 8px;">🏢 Table</button>
+      </div>
+    </div>
+    <div class="table-viewport" style="max-height: 220px; overflow-y: auto; flex: 1;">
+      <table class="kowalski-table" id="d360BlockTable" style="font-size: 11.5px;">
+        <thead style="position: sticky; top: 0; background: var(--bg-surface-2); z-index: 2;">
+          <tr>
+            <th style="width: 36px; padding: 6px 8px;">#</th>
+            <th style="padding: 6px 8px;">Block Name</th>
+            <th style="padding: 6px 8px;">Monitors</th>
+            <th style="padding: 6px 8px;">Facilitators</th>
+            <th style="padding: 6px 8px;">Teachers</th>
+            <th style="padding: 6px 8px;">Coverage %</th>
+            <th style="padding: 6px 8px;">Total Mobilized</th>
+            <th style="padding: 6px 8px;">% Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated via JS -->
+        </tbody>
+        <tfoot id="d360BlockTableFoot" style="font-weight: 700; background: var(--bg-surface-2); position: sticky; bottom: 0; z-index: 2; border-top: 2px solid var(--border-subtle);">
+          <!-- Populated via JS -->
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
 </div>
 <!-- District Pedagogy & Gender Split Grid -->
 <div class="bento-equal" style="margin-top: 20px;">
