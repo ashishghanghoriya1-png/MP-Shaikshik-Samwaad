@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js">
     </script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<script src="assets/three.min.js"></script>
 <style>
     :root {
       --font-display: 'Comfortaa', cursive, sans-serif;
@@ -133,6 +134,10 @@
     /* Studio Header */
     
     .studio-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      overflow: hidden;
       background: var(--bg-surface-1);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-hairline);
@@ -143,10 +148,63 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Option 3: Atmospheric Three.js Interactive Mesh Canvas Background */
+    .header-mesh-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    #header3DCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+      opacity: 0.95;
+      transition: opacity 0.4s ease;
+    }
+
+    .header-mesh-scrim {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.96) 0%, 
+        rgba(255, 255, 255, 0.88) 28%, 
+        rgba(255, 255, 255, 0.42) 58%, 
+        rgba(255, 255, 255, 0.70) 82%, 
+        rgba(255, 255, 255, 0.95) 100%
+      );
+      transition: background 0.3s ease;
+    }
+
+    html.dark .header-mesh-scrim {
+      background: linear-gradient(90deg, 
+        rgba(15, 23, 42, 0.96) 0%, 
+        rgba(15, 23, 42, 0.88) 28%, 
+        rgba(15, 23, 42, 0.48) 58%, 
+        rgba(15, 23, 42, 0.75) 82%, 
+        rgba(15, 23, 42, 0.96) 100%
+      );
     }
 
     .brand-cluster {
@@ -2520,7 +2578,12 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <div id="scrollProgressBar" style="position: fixed; top: 0; left: 0; right: 0; height: 3.5px; background: linear-gradient(90deg, #008aab 0%, #63d0df 100%); transform-origin: 0%; z-index: 9999; transform: scaleX(0);"></div>
 <!-- Top Studio Bar -->
 <header class="studio-header lang-fade-target">
-<div class="brand-cluster">
+<!-- Atmospheric Interactive Three.js Mesh Background (Option 3) -->
+<div id="headerMeshContainer" class="header-mesh-container" aria-hidden="true">
+  <canvas id="header3DCanvas"></canvas>
+  <div class="header-mesh-scrim"></div>
+</div>
+<div class="brand-cluster" style="position: relative; z-index: 3;">
 <div class="lang-switcher" id="langSwitcher">
 <div class="lang-slider-pill" id="langSliderPill"></div>
 <span style="font-size: 12px; margin: 0 4px 0 6px; color: var(--text-muted); position: relative; z-index: 2;">🌐</span>
@@ -2533,7 +2596,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 1px;">Decentralized Academic Dialogues &amp; District Orientation (DO) • Grades 6–8 Cycle • Peepul × RSK Madhya Pradesh <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span></p>
 </div>
 </div>
-<div style="display: flex; align-items: center; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 12px; position: relative; z-index: 3;">
 <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
 <span id="themeIcon">☀️</span> <span id="themeLabel">Light Mode</span>
 </button>
@@ -15079,7 +15142,220 @@ function renderQuestionBankTable() {
     })();
   </script>
 
-  <!-- FLOATING MP MAP TOOLTIP -->
+    <!-- =============================================================== -->
+  <!-- OPTION 3: ATMOSPHERIC THREE.JS INTERACTIVE MESH CANVAS ENGINE      -->
+  <!-- =============================================================== -->
+  <script>
+    (function initHeaderAtmosphericMesh() {
+      function start() {
+        const container = document.getElementById('headerMeshContainer');
+        const canvas = document.getElementById('header3DCanvas');
+        if (!container || !canvas) return;
+        if (typeof THREE === 'undefined') {
+          console.warn('Three.js library not loaded; header atmospheric mesh bypassed gracefully.');
+          return;
+        }
+
+        // 1. WebGL Renderer with graceful fallback
+        let renderer;
+        try {
+          renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            alpha: true,
+            antialias: true,
+            powerPreference: 'low-power'
+          });
+        } catch (err) {
+          console.warn('WebGL context creation failed for header mesh canvas:', err);
+          return;
+        }
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.setPixelRatio(dpr);
+
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || 64;
+        renderer.setSize(width, height, false);
+        renderer.setClearColor(0x000000, 0);
+
+        // 2. Scene & Camera
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100);
+        camera.position.set(0, 0, 3.2);
+
+        // 3. Shaders for organic undulation & atmospheric vignette
+        const vertexShader = `
+          uniform float uTime;
+          varying vec2 vUv;
+          varying float vElevation;
+          void main() {
+            vUv = uv;
+            vec3 pos = position;
+            // Gentle breathing wave
+            float wave = sin(pos.x * 2.2 + uTime * 0.9) * 0.045 + cos(pos.y * 3.5 + uTime * 0.7) * 0.025;
+            pos.z += wave;
+            vElevation = wave;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+          }
+        `;
+
+        const fragmentShader = `
+          uniform sampler2D uTexture1;
+          uniform sampler2D uTexture2;
+          uniform float uMix;
+          uniform float uDark;
+          varying vec2 vUv;
+          varying float vElevation;
+
+          void main() {
+            vec4 col1 = texture2D(uTexture1, vUv);
+            vec4 col2 = texture2D(uTexture2, vUv);
+            vec4 baseCol = mix(col1, col2, uMix);
+
+            // Smooth horizontal & vertical edge vignettes
+            float fadeLeft = smoothstep(0.0, 0.22, vUv.x);
+            float fadeRight = 1.0 - smoothstep(0.78, 1.0, vUv.x);
+            float fadeY = smoothstep(0.0, 0.10, vUv.y) * (1.0 - smoothstep(0.90, 1.0, vUv.y));
+            float edgeAlpha = fadeLeft * fadeRight * fadeY;
+
+            // Peepul Signature Teal Infusion (#008aab)
+            vec3 peepulTeal = vec3(0.0, 0.54, 0.67);
+            vec3 finalRgb = mix(baseCol.rgb, peepulTeal, 0.12);
+
+            // Dynamic opacity calibrated for contrast and elegance
+            float alphaBase = (uDark > 0.5) ? 0.38 : 0.30;
+            float finalAlpha = edgeAlpha * alphaBase;
+
+            gl_FragColor = vec4(finalRgb, finalAlpha);
+          }
+        `;
+
+        // 1x1 transparent dummy texture to ensure zero WebGL warnings before load
+        const dummyData = new Uint8Array([255, 255, 255, 0]);
+        const dummyTex = new THREE.DataTexture(dummyData, 1, 1, THREE.RGBAFormat);
+        dummyTex.needsUpdate = true;
+
+        const uniforms = {
+          uTime: { value: 0.0 },
+          uMix: { value: 0.0 },
+          uDark: { value: document.documentElement.classList.contains('dark') ? 1.0 : 0.0 },
+          uTexture1: { value: dummyTex },
+          uTexture2: { value: dummyTex }
+        };
+
+        const shaderMat = new THREE.ShaderMaterial({
+          vertexShader: vertexShader,
+          fragmentShader: fragmentShader,
+          uniforms: uniforms,
+          transparent: true,
+          depthWrite: false
+        });
+
+        // Plane Geometry
+        const planeGeo = new THREE.PlaneGeometry(6.4, 2.2, 40, 20);
+        const mesh = new THREE.Mesh(planeGeo, shaderMat);
+        mesh.position.set(0.65, 0, 0); // Positioned slightly toward center-right
+        scene.add(mesh);
+
+        // Load authentic field photographs
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load('assets/samwaad_hero_1.webp', function(t1) {
+          t1.minFilter = THREE.LinearFilter;
+          t1.magFilter = THREE.LinearFilter;
+          t1.generateMipmaps = false;
+          uniforms.uTexture1.value = t1;
+
+          textureLoader.load('assets/samwaad_hero_2.webp', function(t2) {
+            t2.minFilter = THREE.LinearFilter;
+            t2.magFilter = THREE.LinearFilter;
+            t2.generateMipmaps = false;
+            uniforms.uTexture2.value = t2;
+          }, undefined, function() {
+            uniforms.uTexture2.value = t1;
+          });
+        }, undefined, function(err) {
+          console.warn('Header mesh texture 1 load note:', err);
+        });
+
+        // 4. Parallax mouse tracking
+        const headerEl = document.querySelector('.studio-header');
+        let targetRotY = 0;
+        let targetRotX = 0;
+
+        if (headerEl) {
+          headerEl.addEventListener('mousemove', function(e) {
+            const rect = headerEl.getBoundingClientRect();
+            const nx = ((e.clientX - rect.left) / rect.width) - 0.5;
+            const ny = ((e.clientY - rect.top) / rect.height) - 0.5;
+            targetRotY = nx * 0.16; // gentle horizontal tilt
+            targetRotX = -ny * 0.10; // gentle vertical tilt
+          }, { passive: true });
+
+          headerEl.addEventListener('mouseleave', function() {
+            targetRotY = 0;
+            targetRotX = 0;
+          });
+        }
+
+        // 5. Automatic ResizeObserver
+        const ro = new ResizeObserver(function(entries) {
+          for (let entry of entries) {
+            const cr = entry.contentRect;
+            if (cr.width > 0 && cr.height > 0) {
+              camera.aspect = cr.width / cr.height;
+              camera.updateProjectionMatrix();
+              renderer.setSize(cr.width, cr.height, false);
+            }
+          }
+        });
+        ro.observe(container);
+
+        // 6. Theme MutationObserver (Automatic Sync with Dark/Light mode)
+        const themeObserver = new MutationObserver(function() {
+          if (uniforms) {
+            uniforms.uDark.value = document.documentElement.classList.contains('dark') ? 1.0 : 0.0;
+          }
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        // 7. Render Loop with Accessibility (prefers-reduced-motion) check
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+          setTimeout(function() {
+            renderer.render(scene, camera);
+          }, 400);
+          return;
+        }
+
+        let clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+          const elapsed = clock.getElapsedTime();
+          uniforms.uTime.value = elapsed;
+
+          // Gentle sinusoidal crossfade between circle dialogue (hero 1) and orientation room (hero 2)
+          const mixFactor = (Math.sin(elapsed * 0.18) + 1.0) * 0.5;
+          uniforms.uMix.value = Math.min(1.0, Math.max(0.0, (mixFactor - 0.3) / 0.4));
+
+          // Smooth lerp parallax rotation
+          mesh.rotation.y += (targetRotY - mesh.rotation.y) * 0.05;
+          mesh.rotation.x += (targetRotX - mesh.rotation.x) * 0.05;
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+      } else {
+        start();
+      }
+    })();
+  </script>
+
+<!-- FLOATING MP MAP TOOLTIP -->
   <div id="mpMapTooltip" style="position: fixed; display: none; z-index: 10000; pointer-events: none; background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); color: #fff; font-size: 11.5px; line-height: 1.4; max-width: 280px;"></div>
 
   <!-- STATEWIDE QUADRANT SCATTER PLOT MODAL DIALOG -->
