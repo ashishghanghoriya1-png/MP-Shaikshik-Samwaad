@@ -2066,8 +2066,11 @@
   border-radius: 12px;
   padding: 14px 16px;
   box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.25), 0 6px 16px -2px rgba(0, 0, 0, 0.15);
-  pointer-events: auto;
+  pointer-events: none;
   opacity: 0;
+  display: none;
+  top: -9999px;
+  left: -9999px;
   transform: translateY(6px) scale(0.98);
   transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--font-sans);
@@ -2075,6 +2078,8 @@
   backdrop-filter: blur(8px);
 }
 #qInteractiveTooltip.visible {
+  display: block;
+  pointer-events: auto;
   opacity: 1;
   transform: translateY(0) scale(1);
 }
@@ -2382,9 +2387,12 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       const tt = document.getElementById('qInteractiveTooltip');
       if (tt) {
         tt.classList.remove('visible');
+        tt.style.pointerEvents = 'none';
         setTimeout(() => {
           if (!tt.classList.contains('visible')) {
             tt.style.display = 'none';
+            tt.style.top = '-9999px';
+            tt.style.left = '-9999px';
           }
         }, 200);
       }
@@ -2439,22 +2447,23 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     }
 
     tt.style.display = 'block';
+    tt.style.pointerEvents = 'auto';
     
-    // Position tooltip nicely relative to target badge or mouse
+    // Position tooltip relative to viewport for position: fixed
     const rect = e.target.getBoundingClientRect();
     const tooltipWidth = 380;
     const tooltipHeight = 240;
     
-    let left = rect.left + window.scrollX;
-    let top = rect.bottom + window.scrollY + 8;
+    let left = rect.left;
+    let top = rect.bottom + 8;
     
     // Keep on screen horizontally
-    if (rect.left + tooltipWidth > window.innerWidth - 16) {
+    if (left + tooltipWidth > window.innerWidth - 16) {
       left = Math.max(16, window.innerWidth - tooltipWidth - 20);
     }
     // Keep on screen vertically (flip above if near bottom)
-    if (rect.bottom + tooltipHeight > window.innerHeight - 20) {
-      top = Math.max(10, rect.top + window.scrollY - tooltipHeight - 8);
+    if (top + tooltipHeight > window.innerHeight - 20) {
+      top = Math.max(10, rect.top - tooltipHeight - 8);
     }
 
     tt.style.left = left + 'px';
@@ -15422,7 +15431,7 @@ function renderQuestionBankTable() {
 
 
 <!-- Interactive Question Hover Tooltip Popover -->
-<div id="qInteractiveTooltip" role="tooltip" aria-hidden="true" onmouseenter="clearTooltipHideTimer()" onmouseleave="scheduleHideTooltip(100)">
+<div id="qInteractiveTooltip" role="tooltip" aria-hidden="true" style="display: none; top: -9999px; left: -9999px; pointer-events: none;" onmouseenter="clearTooltipHideTimer()" onmouseleave="scheduleHideTooltip(100)">
   <div class="qtt-header">
     <div class="qtt-badge" id="qttBadge">📋 Q95 • CLSS Participant</div>
     <div class="qtt-hint">🖱️ Double-click to jump</div>
