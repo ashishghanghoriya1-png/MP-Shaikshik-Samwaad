@@ -144,17 +144,17 @@
       background: var(--bg-surface-1);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-hairline);
-      padding: 10px 32px;
-      min-height: 64px;
-      max-height: 64px;
+      padding: 8px 32px;
+      min-height: 72px;
+      max-height: 72px;
       box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    /* Option 3: Atmospheric Three.js Interactive Mesh Canvas Background */
+    /* Authentic Field Photograph & Three.js Atmospheric Mesh Layer */
     .header-mesh-container {
       position: absolute;
       top: 0;
@@ -166,6 +166,11 @@
       overflow: hidden;
       pointer-events: none;
       z-index: 1;
+      background-image: url('assets/samwaad_hero_1.webp');
+      background-repeat: no-repeat;
+      background-position: center right 220px;
+      background-size: auto 100%;
+      opacity: 0.92;
     }
 
     #header3DCanvas {
@@ -191,22 +196,24 @@
       pointer-events: none;
       z-index: 2;
       background: linear-gradient(90deg, 
-        rgba(255, 255, 255, 0.96) 0%, 
-        rgba(255, 255, 255, 0.88) 28%, 
-        rgba(255, 255, 255, 0.42) 58%, 
-        rgba(255, 255, 255, 0.70) 82%, 
-        rgba(255, 255, 255, 0.95) 100%
+        var(--bg-surface-1) 0%, 
+        rgba(255, 255, 255, 0.92) 28%, 
+        rgba(255, 255, 255, 0.12) 52%, 
+        rgba(255, 255, 255, 0.20) 74%, 
+        rgba(255, 255, 255, 0.94) 86%,
+        var(--bg-surface-1) 100%
       );
       transition: background 0.3s ease;
     }
 
     html.dark .header-mesh-scrim {
       background: linear-gradient(90deg, 
-        rgba(15, 23, 42, 0.96) 0%, 
-        rgba(15, 23, 42, 0.88) 28%, 
-        rgba(15, 23, 42, 0.48) 58%, 
-        rgba(15, 23, 42, 0.75) 82%, 
-        rgba(15, 23, 42, 0.96) 100%
+        var(--bg-surface-1) 0%, 
+        rgba(15, 23, 42, 0.92) 28%, 
+        rgba(15, 23, 42, 0.18) 52%, 
+        rgba(15, 23, 42, 0.26) 74%, 
+        rgba(15, 23, 42, 0.95) 86%,
+        var(--bg-surface-1) 100%
       );
     }
 
@@ -2231,7 +2238,6 @@
         </button>
       </div>
       <div id="rskPassError" style="display: none; font-size: 12px; color: #f87171; margin-top: 8px; font-weight: 600;">❌ अमान्य पासवर्ड / Incorrect passcode. Please try again.</div>
-      <div style="font-size: 11px; color: #63d0df; margin-top: 8px; font-family: var(--font-mono); opacity: 0.85;">💡 संकेत (Passcode): <strong>RSK.SAMWAAD#2026.MP</strong> (or simple: <strong>RSK.2026</strong>)</div>
     </div>
 
     <button type="button" id="rskUnlockBtn" onclick="verifyRskPasscode()" style="width: 100%; padding: 13px; background: linear-gradient(135deg, #008aab 0%, #1d4ed8 100%); color: #ffffff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 138, 171, 0.4); transition: transform 0.15s, opacity 0.2s;">
@@ -2275,18 +2281,9 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <script>
 (function() {
   const VALID_HASHES = [
-    'd8aad062116d9a8ffd1a4e5b8cec57b855d97bdda63f0f9163ae368597feb106', // RSK.SAMWAAD#2026.MP (Primary Strong Passcode)
-    'fad536cb1f5e8a4d9b37b92c559a7eb6adf42a142cd39e52d703e090662cf04e', // RSK.SAMWAAD.2026
-    'd8a44ca44978551f28ccd1abc3ca22bbcfbe8123f7b0d969d2d2d39f7017d0c9', // RSK.2026
-    '39397a00ebbc27543a8706ebb18d7942a3292fa5e34f5105d2763c80463e7983', // SAMWAAD.2026
-    'e7ac946794e34be396fb90ae6b9aa9d99241a80c932659f6fa9e18569246f0aa', // RSK2026
-    'e16554106db9d0ff8fdf5bb673e34489befd42663423a6f956b02ec18bca9111', // MP.RSK.2026#SAMWAAD
-    '7903576a6ba668e9ef90d96d3cc813888e9278d05a4d8e3ce997d896f236b2ad', // rsk.samwaad.2026
-    '51924597b1c66e3f28bac70c10afab20b12d77a817480736f28a482adece35a1', // rsk.2026
-    'd59bc046e534a9616f271b6145ffbe525ed646c5d1419546f9bf45de15b1a92a', // rsk2026
-    '97f7a879bce49724c53dc4e4257d6a14b73f04036dc517c0e442081ec3e5ca8c', // RSK
-    '02a5774bc6d92150cda70d1907f71c2586fe1ee3e08d900fe0b72e8b20aa184d', // rsk
-    '56e4c7ceebf44a768d6c8208f7d97607755b6c8ba0e1a12e2e77b474bb26c11d'
+    'ed042bf0292dc81ac78c0c090a0d9d5d210953f1e7d25889c6223e297084e3b2', // RSK#2026.Samwaad@MP (Primary Strong Alphanumeric Passcode)
+    'd8aad062116d9a8ffd1a4e5b8cec57b855d97bdda63f0f9163ae368597feb106', // RSK.SAMWAAD#2026.MP
+    'd01ba03de7283c138a7df0178f60354a94f72ec72fb5c9fcbb4074e0ad32857f'  // RSK#Samwaad2026.MP
   ];
   const AUTH_KEY = 'rsk_executive_auth_2026';
 
@@ -2612,8 +2609,11 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 </div>
 <div class="brand-mark">RSK</div>
 <div class="title-group">
-<h1 style="font-family: var(--font-brand); letter-spacing: -0.01em;">Madhya Pradesh <span class="serif-accent" style="font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">Shaikshik Samwaad</span> Dashboard, Grades 6 to 8</h1>
-<p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 1px;">Decentralized Academic Dialogues &amp; District Orientation (DO) • Grades 6–8 Cycle • Peepul × RSK Madhya Pradesh <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span></p>
+<h1 style="font-family: var(--font-brand); letter-spacing: -0.01em; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+  <span id="headerTitleText">Madhya Pradesh <span class="serif-accent" style="font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">Shaikshik Samwaad</span> Dashboard, Grades 6 to 8</span>
+  <button type="button" id="btnHeroPhotoChip" class="hero-photo-chip" onclick="openHeroPhotoModal()" style="cursor: pointer; display: inline-flex; align-items: center; gap: 5px; background: rgba(0, 138, 171, 0.12); border: 1.5px solid rgba(0, 138, 171, 0.4); border-radius: 20px; padding: 2px 9px; font-size: 11px; font-weight: 700; color: var(--peepul-teal); transition: all 0.2s;" title="Click to view authentic Madhya Pradesh teacher dialogue photographs">📸 संकुल संवाद छायाचित्र (Field Photos) ↗</button>
+</h1>
+<p id="headerSubtitleText" style="font-size: 11.5px; color: var(--text-secondary); margin-top: 1px;">Decentralized Academic Dialogues &amp; District Orientation (DO) • Grades 6–8 Cycle • Peepul × RSK Madhya Pradesh <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span></p>
 </div>
 </div>
 <div style="display: flex; align-items: center; gap: 12px; position: relative; z-index: 3;">
@@ -2664,10 +2664,10 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 </div>
 <!-- Executive Strategic Briefing Drawer Button -->
 <div style="display: flex; align-items: center; gap: 8px;">
-<button class="btn-tactile" onclick="toggleBriefingDrawer(true)" style="background: linear-gradient(135deg, rgba(0,138,171,0.18) 0%, rgba(99,208,223,0.18) 100%); border: 1.5px solid var(--peepul-teal); color: var(--peepul-teal); font-weight: 800; font-size: 11.5px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;">
+<button id="btnExecutiveBriefing" class="btn-tactile" onclick="toggleBriefingDrawer(true)" style="background: linear-gradient(135deg, rgba(0,138,171,0.18) 0%, rgba(99,208,223,0.18) 100%); border: 1.5px solid var(--peepul-teal); color: var(--peepul-teal); font-weight: 800; font-size: 11.5px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;">
         💡 Executive Strategic Briefing
       </button>
-      <button class="btn-tactile" onclick="toggleDashboardGuide(true)" style="background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(79,70,229,0.18) 100%); border: 1.5px solid #2563eb; color: #1d4ed8; font-weight: 800; font-size: 11.5px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;">
+      <button id="btnUserGuide" class="btn-tactile" onclick="toggleDashboardGuide(true)" style="background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(79,70,229,0.18) 100%); border: 1.5px solid #2563eb; color: #1d4ed8; font-weight: 800; font-size: 11.5px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;">
         📖 User Guide / मार्गदर्शिका
       </button>
 </div>
@@ -6420,61 +6420,94 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         const kpiVarg2DescEl = document.getElementById('kpiVarg2Desc');
         if (kpiVarg2DescEl && t.kpiVarg2Desc) kpiVarg2DescEl.innerText = t.kpiVarg2Desc;
 
-        // 2. Header Title & Subtitle
-        const printBtnEl = document.getElementById('btnPrintReport');
-        if (printBtnEl && t.printBtn) printBtnEl.innerText = t.printBtn;
+        const isHi = (lang === 'hi');
 
-        const titleEl = document.querySelector('.title-group h1');
-        if (titleEl) titleEl.innerHTML = t.title;
-        const subEl = document.querySelector('.title-group p');
+        // 2. Header Title & Subtitle & Actions
+        const titleEl = document.getElementById('headerTitleText');
+        if (titleEl) {
+          titleEl.innerHTML = isHi 
+            ? 'मध्य प्रदेश <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">शैक्षिक संवाद</span> डैशबोर्ड, कक्षा 6 से 8'
+            : 'Madhya Pradesh <span class="serif-accent" style="font-family: \'Newsreader\', Georgia, serif; font-style: italic; font-weight: 400; font-size: 21px; color: var(--peepul-teal); margin: 0 2px;">Shaikshik Samwaad</span> Dashboard, Grades 6 to 8';
+        }
+        const chipEl = document.getElementById('btnHeroPhotoChip');
+        if (chipEl) {
+          chipEl.innerHTML = isHi ? '📸 संकुल संवाद छायाचित्र ↗' : '📸 Field Photos ↗';
+          chipEl.title = isHi ? 'मध्य प्रदेश शिक्षक संवाद के वास्तविक छायाचित्र देखें' : 'Click to view authentic Madhya Pradesh teacher dialogue photographs';
+        }
+        const btnBriefing = document.getElementById('btnExecutiveBriefing');
+        if (btnBriefing) {
+          btnBriefing.innerHTML = isHi ? '💡 कार्यपालक रणनीतिक ब्रीफिंग' : '💡 Executive Strategic Briefing';
+        }
+        const btnGuide = document.getElementById('btnUserGuide');
+        if (btnGuide) {
+          btnGuide.innerHTML = isHi ? '📖 उपयोगकर्ता मार्गदर्शिका' : '📖 User Guide / मार्गदर्शिका';
+        }
+        const subEl = document.getElementById('headerSubtitleText');
         if (subEl) {
-          subEl.innerHTML = `${t.subtitle} <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
+          subEl.innerHTML = isHi
+            ? `विकेंद्रीकृत शैक्षणिक संवाद एवं जिला अभिमुखीकरण (DO) • कक्षा 6–8 चक्र • पीपुल × राज्य शिक्षा केंद्र मध्य प्रदेश <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`
+            : `Decentralized Academic Dialogues &amp; District Orientation (DO) • Grades 6–8 Cycle • Peepul × RSK Madhya Pradesh <span style="font-size: 10.5px; margin-left: 8px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-surface-2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-hairline);">Prepared by <strong style="color: var(--peepul-teal);">Ashish</strong> (<a href="mailto:ashish.ghanghoria@peepulindia.org" style="color: var(--peepul-teal); text-decoration: none;">ashish.ghanghoria@peepulindia.org</a>)</span>`;
         }
 
-        // 3. Program & Role Slicers
-        const pSlicerLbl = document.querySelector('.slicer-group:nth-child(1) .slicer-label');
-        if (pSlicerLbl) pSlicerLbl.innerText = t.progSlicerLabel;
+        const isDark = document.documentElement.classList.contains('dark');
+        const themeLabel = document.getElementById('themeLabel');
+        if (themeLabel) themeLabel.innerText = isHi ? (isDark ? 'डार्क मोड' : 'लाइट मोड') : (isDark ? 'Dark Mode' : 'Light Mode');
+        const printBtnEl = document.getElementById('btnPrintReport');
+        if (printBtnEl) printBtnEl.innerText = isHi ? '🖨️ प्रिंट करें' : '🖨️ Print Page';
+        const exportBtn = document.querySelector('button[onclick="exportActiveTable()"]');
+        if (exportBtn) exportBtn.innerHTML = `<svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg> ${isHi ? 'एक्सपोर्ट CSV' : 'Export CSV'}`;
+
+        // 3. Reporting Cycle Slicer (Month)
+        const lblMonth = document.getElementById('lblMonthSlicer');
+        if (lblMonth) lblMonth.innerText = isHi ? '📅 रिपोर्टिंग चक्र:' : '📅 REPORTING CYCLE:';
+        const btnAug = document.getElementById('btnCycleAug');
+        if (btnAug) btnAug.innerText = isHi ? '📅 अगस्त 2026' : '📅 August 2026';
+        const btnSep = document.getElementById('btnCycleSep');
+        if (btnSep) btnSep.innerText = isHi ? '📅 सितंबर 2026' : '📅 September 2026';
+        const btnCons = document.getElementById('btnCycleConsolidated');
+        if (btnCons) btnCons.innerText = isHi ? '🌐 समेकित (अगस्त + सितंबर)' : '🌐 Consolidated (Aug + Sep)';
+
+        // 4. Program Slicer (Direct IDs)
+        const pSlicerLbl = document.getElementById('lblProgramSlicer');
+        if (pSlicerLbl) pSlicerLbl.innerText = isHi ? 'कार्यक्रम:' : 'PROGRAM:';
         const pBtns = document.querySelectorAll('#programSlicer .slicer-btn');
         if (pBtns.length >= 3) {
-          pBtns[0].innerText = t.progAll;
-          pBtns[1].innerText = t.progClss;
-          pBtns[2].innerText = t.progDo;
+          pBtns[0].innerText = isHi ? 'समेकित (सभी)' : 'Consolidated (All)';
+          pBtns[1].innerText = isHi ? '🏫 शैक्षिक संवाद (CLSS)' : '🏫 CLSS';
+          pBtns[2].innerText = isHi ? '🏛️ जिला उन्मुखीकरण (DO)' : '🏛️ DO';
         }
 
-        const rSlicerLbl = document.querySelector('.slicer-group:nth-child(2) .slicer-label');
-        if (rSlicerLbl) rSlicerLbl.innerText = t.roleLabel;
+        // 5. Role Slicer (Direct IDs)
+        const rSlicerLbl = document.getElementById('lblCadreSlicer');
+        if (rSlicerLbl) rSlicerLbl.innerText = isHi ? 'प्रतिभागी भूमिका:' : 'ROLE:';
         const rBtns = document.querySelectorAll('#roleSlicer .slicer-btn');
         if (rBtns.length >= 4) {
-          rBtns[0].innerText = t.roleAll;
-          rBtns[1].innerText = t.roleTeach;
-          rBtns[2].innerText = t.roleFac;
-          rBtns[3].innerText = t.roleMon;
+          rBtns[0].innerText = isHi ? 'सभी प्रतिभागी' : 'All Participants';
+          rBtns[1].innerText = isHi ? '👨‍🏫 शिक्षक' : '👨‍🏫 Teachers';
+          rBtns[2].innerText = isHi ? '🤝 सुगमकर्ता' : '🤝 Facilitators';
+          rBtns[3].innerText = isHi ? '👁️ पर्यवेक्षक' : '👁️ Monitors';
         }
 
-        // 4. Navigation Ribbon (All 10 Tabs - Clean, Polished, Zero-Overlap)
-        const navItems = document.querySelectorAll('.studio-nav .nav-item');
-        if (navItems.length >= 8) {
-          navItems[0].innerHTML = t.navOverview;
-          navItems[1].innerHTML = t.navRf;
-          navItems[2].innerHTML = t.navD360;
-          navItems[3].innerHTML = t.navLeague;
-          navItems[4].innerHTML = t.navBlocks;
-          navItems[5].innerHTML = t.navQuestions;
-          navItems[6].innerHTML = t.navPedagogy;
-          navItems[7].innerHTML = t.navGov;
-        }
-        const btnInsights = document.getElementById('navTabInsights') || (navItems.length >= 9 ? navItems[8] : null);
-        if (btnInsights) {
-          btnInsights.innerHTML = t.navInsights || (lang === 'hi' ? '🤖 9. एआई अंतर्दृष्टि' : '🤖 9. AI Insights');
-        }
-        const btnResearch = document.getElementById('navTabResearch') || (navItems.length >= 10 ? navItems[9] : null);
-        if (btnResearch) {
-          btnResearch.innerHTML = t.navResearch || (lang === 'hi' ? '📚 10. गुणात्मक शोध' : '📚 10. Qualitative Research');
-        }
-        const btnCohort = document.getElementById('navTabCohort') || (navItems.length >= 11 ? navItems[10] : null);
-        if (btnCohort) {
-          btnCohort.innerHTML = (lang === 'hi' ? '👥 11. शिक्षक उपस्थिति प्रवाह' : '👥 11. Teacher Attendance Flow');
-        }
+        // 6. Navigation Ribbon Tabs (Clean 1 to 10 numbering)
+        const navTabMappings = [
+          { id: 'tab-overview', en: '📊 1. Overview & Summary', hi: '📊 1. मुख्य सारांश एवं अवलोकन' },
+          { id: 'tab-d360', en: '🔍 2. District Profile', hi: '🔍 2. जिला प्रोफाइल' },
+          { id: 'tab-league', en: '🗺️ 3. District Rankings', hi: '🗺️ 3. जिला रैंकिंग' },
+          { id: 'tab-blocks', en: '🏢 4. Block Directory', hi: '🏢 4. ब्लॉक डायरेक्टरी' },
+          { id: 'tab-questions', en: '📋 5. Survey Questions', hi: '📋 5. सर्वेक्षण प्रश्न' },
+          { id: 'tab-pedagogy', en: '🧠 6. Teaching Quality', hi: '🧠 6. शिक्षण गुणवत्ता' },
+          { id: 'tab-governance', en: '💡 7. Recommended Measures', hi: '💡 7. अनुशंसित सुझाव' },
+          { id: 'tab-insights', en: '🤖 8. AI Insights', hi: '🤖 8. AI अंतर्दृष्टि' },
+          { id: 'tab-research', en: '📚 9. Qualitative Research', hi: '📚 9. गुणात्मक शोध' },
+          { id: 'tab-cohort', en: '👥 10. Teacher Attendance & Cohorts', hi: '👥 10. शिक्षक उपस्थिति एवं प्रवाह' }
+        ];
+
+        navTabMappings.forEach(m => {
+          const btn = document.querySelector(`#mainStudioNav button[onclick*="${m.id}"]`);
+          if (btn) {
+            btn.innerHTML = `<span class="nav-dot"></span> ${isHi ? m.hi : m.en}`;
+          }
+        });
         const lblCohortTitle = document.getElementById('lblCohortTitle');
         if (lblCohortTitle) {
           lblCohortTitle.innerHTML = (lang === 'hi' ? 'अगस्त बनाम सितंबर का सीधा हिसाब (In Plain Words)' : 'In Plain Words: What Happened in August vs. September?');
@@ -6659,6 +6692,16 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         }, 70);
       });
     }
+    window.setLanguage = setLanguage;
+
+    window.openHeroPhotoModal = function() {
+      const m = document.getElementById('heroPhotoModal');
+      if (m) m.style.display = 'flex';
+    };
+    window.closeHeroPhotoModal = function() {
+      const m = document.getElementById('heroPhotoModal');
+      if (m) m.style.display = 'none';
+    };
 
     function refreshDistrictDropdownsHindi() {
       const isHi = (currentLang === 'hi');
@@ -15450,6 +15493,45 @@ function renderQuestionBankTable() {
     <button type="button" class="qtt-jump-btn" id="qttJumpBtn" onclick="jumpToQuestionExplorer(currentActiveTooltipQid)">Open Question ↗</button>
   </div>
 </div>
+
+
+  <!-- AUTHENTIC FIELD PHOTOGRAPHS MODAL DIALOG -->
+  <div id="heroPhotoModal" style="position: fixed; inset: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); z-index: 100000; display: none; align-items: center; justify-content: center; padding: 20px;" onclick="closeHeroPhotoModal()">
+    <div style="background: var(--bg-surface-1); border: 1.5px solid var(--border-subtle); border-radius: 16px; width: 95%; max-width: 980px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.6); position: relative; padding: 24px;" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-hairline); padding-bottom: 12px; margin-bottom: 18px;">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 800; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+            <span>📸 संकुल स्तरीय शैक्षिक संवाद — वास्तविक छायाचित्र</span>
+            <span class="status-chip" style="background: rgba(0,138,171,0.12); color: var(--peepul-teal); font-size: 11px;">Authentic Field Note Photos</span>
+          </h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">Source: Cluster level Samwad_AWP Note_050326 • Rajya Shiksha Kendra (RSK) &amp; Peepul Madhya Pradesh</p>
+        </div>
+        <button onclick="closeHeroPhotoModal()" style="background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; width: 34px; height: 34px; font-size: 18px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center;">&times;</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px;">
+        <div style="background: var(--bg-surface-2); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-hairline);">
+          <img src="assets/samwaad_hero_1.webp" alt="Teachers in circular academic dialogue" style="width: 100%; height: auto; display: block; border-bottom: 1px solid var(--border-hairline);">
+          <div style="padding: 12px 14px;">
+            <div style="font-weight: 800; font-size: 13px; color: var(--peepul-teal);">चित्र 1: संकुल स्तरीय शैक्षिक संवाद — शिक्षक सहकर्मी अकादमिक चर्चा</div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px; line-height: 1.4;">माध्यमिक शालाओं के शिक्षक संकुल स्तर पर गोलाकार बैठक व्यवस्था में शैक्षणिक चुनौतियों पर चर्चा करते हुए। (Circular Peer Dialogue)</div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-2); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-hairline);">
+          <img src="assets/samwaad_hero_2.webp" alt="Cluster teacher training orientation" style="width: 100%; height: auto; display: block; border-bottom: 1px solid var(--border-hairline);">
+          <div style="padding: 12px 14px;">
+            <div style="font-weight: 800; font-size: 13px; color: var(--peepul-teal);">चित्र 2: जिला स्तरीय उन्मुखीकरण प्रशिक्षण कार्यशाला</div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px; line-height: 1.4;">सीएसी एवं मास्टर फैसिलिटेटर हेतु आयोजित उन्मुखीकरण सत्र। (Facilitator Orientation Workshop)</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: right; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--border-hairline);">
+        <button class="slicer-btn" onclick="closeHeroPhotoModal()" style="padding: 6px 18px; font-weight: 700;">बंद करें (Close)</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
