@@ -154,7 +154,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
-    /* Authentic Field Photograph & Three.js Atmospheric Mesh Layer */
+    /* Option 1: Executive Watermark Backdrop (Authentic MP Field Photograph) */
     .header-mesh-container {
       position: absolute;
       top: 0;
@@ -168,62 +168,28 @@
       z-index: 1;
       background-image: url('assets/samwaad_hero_1.webp');
       background-repeat: no-repeat;
-      background-position: center center;
+      background-position: center 38%;
       background-size: cover;
-      opacity: 0.40;
-      filter: saturate(1.2) contrast(1.08);
+      opacity: 0.14;
+      filter: grayscale(40%) contrast(1.05);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.4) 8%, rgba(0, 0, 0, 0.95) 22%, rgba(0, 0, 0, 0.95) 78%, rgba(0, 0, 0, 0.4) 92%, transparent 100%), linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 85%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.4) 8%, rgba(0, 0, 0, 0.95) 22%, rgba(0, 0, 0, 0.95) 78%, rgba(0, 0, 0, 0.4) 92%, transparent 100%), linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 85%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
       transition: opacity 0.3s ease;
     }
 
     html.dark .header-mesh-container {
-      opacity: 0.28;
-      filter: saturate(1.25) contrast(1.12) brightness(0.9);
+      opacity: 0.09;
+      filter: grayscale(60%) contrast(1.15) brightness(0.9);
     }
 
     #header3DCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      pointer-events: none;
-      opacity: 0.95;
-      transition: opacity 0.4s ease;
+      display: none !important;
     }
 
     .header-mesh-scrim {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-      background: linear-gradient(90deg, 
-        rgba(255, 255, 255, 0.95) 0%, 
-        rgba(255, 255, 255, 0.85) 18%, 
-        rgba(255, 255, 255, 0.25) 38%, 
-        rgba(255, 255, 255, 0.15) 55%, 
-        rgba(255, 255, 255, 0.30) 75%, 
-        rgba(255, 255, 255, 0.88) 90%, 
-        rgba(255, 255, 255, 0.96) 100%
-      );
-      transition: background 0.3s ease;
-    }
-
-    html.dark .header-mesh-scrim {
-      background: linear-gradient(90deg, 
-        rgba(15, 23, 42, 0.95) 0%, 
-        rgba(15, 23, 42, 0.85) 18%, 
-        rgba(15, 23, 42, 0.30) 38%, 
-        rgba(15, 23, 42, 0.20) 55%, 
-        rgba(15, 23, 42, 0.35) 75%, 
-        rgba(15, 23, 42, 0.88) 90%, 
-        rgba(15, 23, 42, 0.96) 100%
-      );
+      display: none !important;
     }
 
     .brand-cluster {
@@ -2711,7 +2677,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <div id="scrollProgressBar" style="position: fixed; top: 0; left: 0; right: 0; height: 3.5px; background: linear-gradient(90deg, #008aab 0%, #63d0df 100%); transform-origin: 0%; z-index: 9999; transform: scaleX(0);"></div>
 <!-- Top Studio Bar -->
 <header class="studio-header lang-fade-target">
-<!-- Atmospheric Interactive Three.js Mesh Background (Option 3) -->
+<!-- Executive Watermark Backdrop (Option 1) -->
 <div id="headerMeshContainer" class="header-mesh-container" aria-hidden="true">
   <canvas id="header3DCanvas"></canvas>
   <div class="header-mesh-scrim"></div>
@@ -15335,7 +15301,7 @@ function renderQuestionBankTable() {
       function start() {
         const container = document.getElementById('headerMeshContainer');
         const canvas = document.getElementById('header3DCanvas');
-        if (!container || !canvas) return;
+        if (!container || !canvas || window.getComputedStyle(canvas).display === 'none') return;
         if (typeof THREE === 'undefined') {
           console.warn('Three.js library not loaded; header atmospheric mesh bypassed gracefully.');
           return;
