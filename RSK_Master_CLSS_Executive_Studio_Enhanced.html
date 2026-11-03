@@ -5616,7 +5616,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
                 <th onclick="sortCohortTable(6)" style="cursor: pointer; padding: 10px 12px; font-weight: 800; color: #2563eb; text-align: right;">NEW JOINING % ⬍</th>
                 <th onclick="sortCohortTable(7)" style="cursor: pointer; padding: 10px 12px; font-weight: 800; color: #d97706; text-align: right;">MISSED LAST MONTH ⬍</th>
                 <th onclick="sortCohortTable(8)" style="cursor: pointer; padding: 10px 12px; font-weight: 800; color: var(--peepul-teal); text-align: right;">TOTAL REACHED SO FAR ⬍</th>
-                <th onclick="sortCohortTable(9)" style="cursor: pointer; padding: 10px 12px; font-weight: 800; color: var(--text-muted); text-align: right;">TARGET UNIVERSE ⬍</th>
+                <th onclick="sortCohortTable(9)" style="cursor: pointer; padding: 10px 12px; font-weight: 800; color: var(--text-muted); text-align: right;" title="Work Universe: Max(Facilitator Ground Target, Varg-2 Universe)">WORK UNIVERSE ⬍</th>
                 <th onclick="sortCohortTable(10)" style="cursor: pointer; padding: 10px 14px; font-weight: 800; color: var(--text-primary); text-align: right;">TOTAL REACH % ⬍</th>
               </tr>
             </thead>
@@ -5628,7 +5628,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
         <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text-muted);">
           <span>Showing <strong id="cohortVisibleCount" style="color: var(--text-primary);">52</strong> of 52 districts</span>
-          <span>Click any column header to sort • Reach % based on Target Math &amp; Science Varg-2 Universe</span>
+          <span>Click any column header to sort • Reach % based on Work Universe: max(Facilitator Expected Target, Varg-2 Universe)</span>
         </div>
       </div>
 
@@ -8400,7 +8400,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       const activeTeachers = blockObj ? (blockObj.participants || 0) : (dinfo.attendees || 0);
       const activeFacilitators = blockObj ? (blockObj.facilitators || 0) : (dinfo.facilitators || 0);
       const activeMonitors = blockObj ? (blockObj.monitors || 0) : (dinfo.monitors || 0);
-      const activeUniverse = blockObj ? (blockObj.varg2Universe || 0) : (dinfo.varg2Universe || 0);
+      const activeUniverse = blockObj ? (blockObj.varg2Universe || 0) : Math.max(dinfo.targetCohort || dinfo.expectedParticipants || 0, dinfo.varg2Universe || 0);
       const activeSaturation = blockObj ? (blockObj.varg2Saturation !== undefined ? blockObj.varg2Saturation : (activeUniverse > 0 ? ((activeTeachers / activeUniverse) * 100).toFixed(1) : '-')) : (dinfo.varg2Saturation !== undefined ? dinfo.varg2Saturation : (activeUniverse > 0 ? ((activeTeachers / activeUniverse) * 100).toFixed(1) : '-'));
       const activeClusters = blockObj ? 1 : (dinfo.totalClusters || distBlocks.length || 1);
       const pedScore = calculateDistrictPedagogyScore(dinfo.district);
@@ -13697,7 +13697,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 318,
     "target_math_sci": 756,
     "total_varg2": 756,
-    "saturation_pct": 42.1
+    "saturation_pct": 42.1,
+    "fac_expected": 669
   },
   {
     "district": "Alirajpur",
@@ -13709,9 +13710,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 50.9,
     "aug_only": 198,
     "cumulative_unique": 485,
-    "target_math_sci": 18,
+    "target_math_sci": 721,
     "total_varg2": 18,
-    "saturation_pct": 2694.4
+    "saturation_pct": 67.3,
+    "fac_expected": 721
   },
   {
     "district": "Anuppur",
@@ -13723,9 +13725,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 42.1,
     "aug_only": 109,
     "cumulative_unique": 401,
-    "target_math_sci": 11,
+    "target_math_sci": 1102,
     "total_varg2": 11,
-    "saturation_pct": 3645.5
+    "saturation_pct": 36.4,
+    "fac_expected": 1102
   },
   {
     "district": "Ashoknagar",
@@ -13737,9 +13740,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 28.6,
     "aug_only": 142,
     "cumulative_unique": 429,
-    "target_math_sci": 893,
+    "target_math_sci": 1133,
     "total_varg2": 893,
-    "saturation_pct": 48.0
+    "saturation_pct": 37.9,
+    "fac_expected": 1133
   },
   {
     "district": "Balaghat",
@@ -13751,9 +13755,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 41.1,
     "aug_only": 361,
     "cumulative_unique": 1110,
-    "target_math_sci": 2289,
+    "target_math_sci": 2878,
     "total_varg2": 2289,
-    "saturation_pct": 48.5
+    "saturation_pct": 38.6,
+    "fac_expected": 2878
   },
   {
     "district": "Barwani",
@@ -13765,9 +13770,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 40.9,
     "aug_only": 262,
     "cumulative_unique": 775,
-    "target_math_sci": 27,
+    "target_math_sci": 1538,
     "total_varg2": 27,
-    "saturation_pct": 2870.4
+    "saturation_pct": 50.4,
+    "fac_expected": 1538
   },
   {
     "district": "Betul",
@@ -13779,9 +13785,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 27.9,
     "aug_only": 324,
     "cumulative_unique": 1194,
-    "target_math_sci": 1260,
+    "target_math_sci": 2542,
     "total_varg2": 1260,
-    "saturation_pct": 94.8
+    "saturation_pct": 47.0,
+    "fac_expected": 2542
   },
   {
     "district": "Bhind",
@@ -13795,7 +13802,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 883,
     "target_math_sci": 2054,
     "total_varg2": 2054,
-    "saturation_pct": 43.0
+    "saturation_pct": 43.0,
+    "fac_expected": 1735
   },
   {
     "district": "Bhopal",
@@ -13809,7 +13817,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 501,
     "target_math_sci": 1664,
     "total_varg2": 1664,
-    "saturation_pct": 30.1
+    "saturation_pct": 30.1,
+    "fac_expected": 1023
   },
   {
     "district": "Burhanpur",
@@ -13823,7 +13832,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 248,
     "target_math_sci": 538,
     "total_varg2": 538,
-    "saturation_pct": 46.1
+    "saturation_pct": 46.1,
+    "fac_expected": 459
   },
   {
     "district": "Chhatarpur",
@@ -13837,7 +13847,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 1022,
     "target_math_sci": 2344,
     "total_varg2": 2344,
-    "saturation_pct": 43.6
+    "saturation_pct": 43.6,
+    "fac_expected": 1785
   },
   {
     "district": "Chhindwara",
@@ -13849,9 +13860,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 38.1,
     "aug_only": 323,
     "cumulative_unique": 1196,
-    "target_math_sci": 1646,
+    "target_math_sci": 2294,
     "total_varg2": 1646,
-    "saturation_pct": 72.7
+    "saturation_pct": 52.1,
+    "fac_expected": 2294
   },
   {
     "district": "Damoh",
@@ -13865,7 +13877,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 614,
     "target_math_sci": 1692,
     "total_varg2": 1692,
-    "saturation_pct": 36.3
+    "saturation_pct": 36.3,
+    "fac_expected": 1068
   },
   {
     "district": "Datia",
@@ -13879,7 +13892,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 479,
     "target_math_sci": 1441,
     "total_varg2": 1441,
-    "saturation_pct": 33.2
+    "saturation_pct": 33.2,
+    "fac_expected": 995
   },
   {
     "district": "Dewas",
@@ -13893,7 +13907,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 494,
     "target_math_sci": 1650,
     "total_varg2": 1650,
-    "saturation_pct": 29.9
+    "saturation_pct": 29.9,
+    "fac_expected": 0
   },
   {
     "district": "Dhar",
@@ -13905,9 +13920,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 40.2,
     "aug_only": 393,
     "cumulative_unique": 1139,
-    "target_math_sci": 299,
+    "target_math_sci": 2130,
     "total_varg2": 299,
-    "saturation_pct": 380.9
+    "saturation_pct": 53.5,
+    "fac_expected": 2130
   },
   {
     "district": "Dindori",
@@ -13919,9 +13935,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 46.8,
     "aug_only": 184,
     "cumulative_unique": 421,
-    "target_math_sci": 28,
+    "target_math_sci": 684,
     "total_varg2": 28,
-    "saturation_pct": 1503.6
+    "saturation_pct": 61.5,
+    "fac_expected": 684
   },
   {
     "district": "Guna",
@@ -13935,7 +13952,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 587,
     "target_math_sci": 1426,
     "total_varg2": 1426,
-    "saturation_pct": 41.2
+    "saturation_pct": 41.2,
+    "fac_expected": 835
   },
   {
     "district": "Gwalior",
@@ -13949,7 +13967,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 737,
     "target_math_sci": 2086,
     "total_varg2": 2086,
-    "saturation_pct": 35.3
+    "saturation_pct": 35.3,
+    "fac_expected": 1568
   },
   {
     "district": "Harda",
@@ -13963,7 +13982,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 272,
     "target_math_sci": 545,
     "total_varg2": 545,
-    "saturation_pct": 49.9
+    "saturation_pct": 49.9,
+    "fac_expected": 519
   },
   {
     "district": "Indore",
@@ -13977,7 +13997,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 682,
     "target_math_sci": 2128,
     "total_varg2": 2128,
-    "saturation_pct": 32.0
+    "saturation_pct": 32.0,
+    "fac_expected": 1458
   },
   {
     "district": "Jabalpur",
@@ -13991,7 +14012,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 602,
     "target_math_sci": 2011,
     "total_varg2": 2011,
-    "saturation_pct": 29.9
+    "saturation_pct": 29.9,
+    "fac_expected": 1330
   },
   {
     "district": "Jhabua",
@@ -14003,9 +14025,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 24.4,
     "aug_only": 196,
     "cumulative_unique": 569,
-    "target_math_sci": 26,
+    "target_math_sci": 1377,
     "total_varg2": 26,
-    "saturation_pct": 2188.5
+    "saturation_pct": 41.3,
+    "fac_expected": 1377
   },
   {
     "district": "Katni",
@@ -14017,9 +14040,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 37.5,
     "aug_only": 195,
     "cumulative_unique": 579,
-    "target_math_sci": 1018,
+    "target_math_sci": 1327,
     "total_varg2": 1018,
-    "saturation_pct": 56.9
+    "saturation_pct": 43.6,
+    "fac_expected": 1327
   },
   {
     "district": "Khandwa",
@@ -14031,9 +14055,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 32.8,
     "aug_only": 173,
     "cumulative_unique": 545,
-    "target_math_sci": 1108,
+    "target_math_sci": 1401,
     "total_varg2": 1108,
-    "saturation_pct": 49.2
+    "saturation_pct": 38.9,
+    "fac_expected": 1401
   },
   {
     "district": "Khargone",
@@ -14045,9 +14070,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 55.0,
     "aug_only": 207,
     "cumulative_unique": 671,
-    "target_math_sci": 796,
+    "target_math_sci": 1141,
     "total_varg2": 796,
-    "saturation_pct": 84.3
+    "saturation_pct": 58.8,
+    "fac_expected": 1141
   },
   {
     "district": "Mandla",
@@ -14059,9 +14085,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 38.0,
     "aug_only": 254,
     "cumulative_unique": 851,
-    "target_math_sci": 44,
+    "target_math_sci": 1703,
     "total_varg2": 44,
-    "saturation_pct": 1934.1
+    "saturation_pct": 50.0,
+    "fac_expected": 1703
   },
   {
     "district": "Mandsaur",
@@ -14075,7 +14102,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 746,
     "target_math_sci": 1818,
     "total_varg2": 1818,
-    "saturation_pct": 41.0
+    "saturation_pct": 41.0,
+    "fac_expected": 1622
   },
   {
     "district": "Morena",
@@ -14087,9 +14115,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 35.9,
     "aug_only": 273,
     "cumulative_unique": 987,
-    "target_math_sci": 2291,
+    "target_math_sci": 2334,
     "total_varg2": 2291,
-    "saturation_pct": 43.1
+    "saturation_pct": 42.3,
+    "fac_expected": 2334
   },
   {
     "district": "Narmadapuram",
@@ -14101,9 +14130,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 33.9,
     "aug_only": 215,
     "cumulative_unique": 775,
-    "target_math_sci": 1340,
+    "target_math_sci": 1452,
     "total_varg2": 1340,
-    "saturation_pct": 57.8
+    "saturation_pct": 53.4,
+    "fac_expected": 1452
   },
   {
     "district": "Narsinghpur",
@@ -14117,7 +14147,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 579,
     "target_math_sci": 1322,
     "total_varg2": 1322,
-    "saturation_pct": 43.8
+    "saturation_pct": 43.8,
+    "fac_expected": 1153
   },
   {
     "district": "Neemuch",
@@ -14131,7 +14162,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 489,
     "target_math_sci": 1136,
     "total_varg2": 1136,
-    "saturation_pct": 43.0
+    "saturation_pct": 43.0,
+    "fac_expected": 809
   },
   {
     "district": "Niwari",
@@ -14145,7 +14177,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 208,
     "target_math_sci": 545,
     "total_varg2": 545,
-    "saturation_pct": 38.2
+    "saturation_pct": 38.2,
+    "fac_expected": 413
   },
   {
     "district": "Panna",
@@ -14157,9 +14190,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 26.2,
     "aug_only": 212,
     "cumulative_unique": 757,
-    "target_math_sci": 1546,
+    "target_math_sci": 1653,
     "total_varg2": 1546,
-    "saturation_pct": 49.0
+    "saturation_pct": 45.8,
+    "fac_expected": 1653
   },
   {
     "district": "Raisen",
@@ -14173,7 +14207,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 702,
     "target_math_sci": 1593,
     "total_varg2": 1593,
-    "saturation_pct": 44.1
+    "saturation_pct": 44.1,
+    "fac_expected": 1390
   },
   {
     "district": "Rajgarh",
@@ -14187,7 +14222,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 934,
     "target_math_sci": 2416,
     "total_varg2": 2416,
-    "saturation_pct": 38.7
+    "saturation_pct": 38.7,
+    "fac_expected": 1638
   },
   {
     "district": "Ratlam",
@@ -14199,9 +14235,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 32.4,
     "aug_only": 287,
     "cumulative_unique": 987,
-    "target_math_sci": 1192,
+    "target_math_sci": 2154,
     "total_varg2": 1192,
-    "saturation_pct": 82.8
+    "saturation_pct": 45.8,
+    "fac_expected": 2154
   },
   {
     "district": "Rewa",
@@ -14215,7 +14252,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 673,
     "target_math_sci": 2743,
     "total_varg2": 2743,
-    "saturation_pct": 24.5
+    "saturation_pct": 24.5,
+    "fac_expected": 1606
   },
   {
     "district": "Sagar",
@@ -14229,7 +14267,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 798,
     "target_math_sci": 3068,
     "total_varg2": 3068,
-    "saturation_pct": 26.0
+    "saturation_pct": 26.0,
+    "fac_expected": 1400
   },
   {
     "district": "Satna",
@@ -14243,7 +14282,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 828,
     "target_math_sci": 2690,
     "total_varg2": 2690,
-    "saturation_pct": 30.8
+    "saturation_pct": 30.8,
+    "fac_expected": 2392
   },
   {
     "district": "Sehore",
@@ -14257,7 +14297,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 345,
     "target_math_sci": 1803,
     "total_varg2": 1803,
-    "saturation_pct": 19.1
+    "saturation_pct": 19.1,
+    "fac_expected": 0
   },
   {
     "district": "Seoni",
@@ -14269,9 +14310,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 41.0,
     "aug_only": 347,
     "cumulative_unique": 923,
-    "target_math_sci": 988,
+    "target_math_sci": 1806,
     "total_varg2": 988,
-    "saturation_pct": 93.4
+    "saturation_pct": 51.1,
+    "fac_expected": 1806
   },
   {
     "district": "Shahdol",
@@ -14283,9 +14325,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 48.1,
     "aug_only": 127,
     "cumulative_unique": 501,
-    "target_math_sci": 334,
+    "target_math_sci": 1048,
     "total_varg2": 334,
-    "saturation_pct": 150.0
+    "saturation_pct": 47.8,
+    "fac_expected": 1048
   },
   {
     "district": "Shajapur",
@@ -14297,9 +14340,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 36.1,
     "aug_only": 130,
     "cumulative_unique": 529,
-    "target_math_sci": 1097,
+    "target_math_sci": 1168,
     "total_varg2": 1097,
-    "saturation_pct": 48.2
+    "saturation_pct": 45.3,
+    "fac_expected": 1168
   },
   {
     "district": "Sheopur",
@@ -14313,7 +14357,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 355,
     "target_math_sci": 619,
     "total_varg2": 619,
-    "saturation_pct": 57.4
+    "saturation_pct": 57.4,
+    "fac_expected": 574
   },
   {
     "district": "Shivpuri",
@@ -14327,7 +14372,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 568,
     "target_math_sci": 1727,
     "total_varg2": 1727,
-    "saturation_pct": 32.9
+    "saturation_pct": 32.9,
+    "fac_expected": 1238
   },
   {
     "district": "Sidhi",
@@ -14339,9 +14385,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 35.0,
     "aug_only": 226,
     "cumulative_unique": 674,
-    "target_math_sci": 1589,
+    "target_math_sci": 1608,
     "total_varg2": 1589,
-    "saturation_pct": 42.4
+    "saturation_pct": 41.9,
+    "fac_expected": 1608
   },
   {
     "district": "Singrauli",
@@ -14355,7 +14402,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 364,
     "target_math_sci": 1109,
     "total_varg2": 1109,
-    "saturation_pct": 32.8
+    "saturation_pct": 32.8,
+    "fac_expected": 812
   },
   {
     "district": "Tikamgarh",
@@ -14369,7 +14417,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 369,
     "target_math_sci": 1248,
     "total_varg2": 1248,
-    "saturation_pct": 29.6
+    "saturation_pct": 29.6,
+    "fac_expected": 839
   },
   {
     "district": "Ujjain",
@@ -14383,7 +14432,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 781,
     "target_math_sci": 1924,
     "total_varg2": 1924,
-    "saturation_pct": 40.6
+    "saturation_pct": 40.6,
+    "fac_expected": 1230
   },
   {
     "district": "Umaria",
@@ -14395,9 +14445,10 @@ function renderQuestionBankTable() {
     "new_intake_pct": 44.5,
     "aug_only": 124,
     "cumulative_unique": 362,
-    "target_math_sci": 741,
+    "target_math_sci": 1026,
     "total_varg2": 741,
-    "saturation_pct": 48.9
+    "saturation_pct": 35.3,
+    "fac_expected": 1026
   },
   {
     "district": "Vidisha",
@@ -14411,7 +14462,8 @@ function renderQuestionBankTable() {
     "cumulative_unique": 838,
     "target_math_sci": 1750,
     "total_varg2": 1750,
-    "saturation_pct": 47.9
+    "saturation_pct": 47.9,
+    "fac_expected": 1589
   }
 ];
   let currentCohortSort = { col: 0, asc: true };
@@ -14521,7 +14573,7 @@ function renderQuestionBankTable() {
   }
 
   function downloadCohortMatrixCSV() {
-    const headers = ["District", "August_Attendance", "September_Attendance", "Persistent_Repeat_Teachers", "Coming_Back_Rate_Pct", "September_New_Teachers", "New_Joining_Rate_Pct", "Missed_Last_Month", "Total_Reached_So_Far", "Target_Math_Sci_Universe", "Total_Varg2_Universe", "Total_Reach_Pct"];
+    const headers = ["District", "August_Attendance", "September_Attendance", "Persistent_Repeat_Teachers", "Coming_Back_Rate_Pct", "September_New_Teachers", "New_Joining_Rate_Pct", "Missed_Last_Month", "Total_Reached_So_Far", "Work_Universe_Target", "Varg2_Cadre_Baseline", "Total_Reach_Pct"];
     const rows = cohortDistrictData.map(d => [
       `"${d.district}"`,
       d.aug_total,
