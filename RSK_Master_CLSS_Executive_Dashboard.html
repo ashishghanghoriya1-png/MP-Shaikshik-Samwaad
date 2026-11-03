@@ -2115,6 +2115,15 @@
   opacity: 1;
   transform: translateY(0) scale(1);
 }
+#qInteractiveTooltip::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  bottom: -14px;
+  left: -10px;
+  right: -10px;
+  z-index: -1;
+}
 .qtt-header {
   display: flex;
   justify-content: space-between;
@@ -2139,6 +2148,25 @@
   font-size: 10px;
   color: var(--text-muted);
   font-family: var(--font-mono);
+}
+.qtt-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.qtt-close-btn:hover {
+  color: #e11d48;
+  background: rgba(225, 29, 72, 0.12);
 }
 .qtt-qtext-hi {
   font-size: 13.5px;
@@ -2396,33 +2424,60 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
   let currentActiveTooltipQid = null;
   let tooltipHideTimer = null;
 
-  function clearTooltipHideTimer() {
+  window.clearTooltipHideTimer = function() {
     if (tooltipHideTimer) {
       clearTimeout(tooltipHideTimer);
       tooltipHideTimer = null;
     }
-  }
+  };
 
-  function scheduleHideTooltip(delayMs = 180) {
-    clearTooltipHideTimer();
+  window.hideQuestionTooltip = function(immediate) {
+    window.clearTooltipHideTimer();
+    const tt = document.getElementById('qInteractiveTooltip');
+    if (!tt) return;
+    tt.classList.remove('visible');
+    tt.style.pointerEvents = 'none';
+    if (immediate) {
+      tt.style.display = 'none';
+      tt.style.top = '-9999px';
+      tt.style.left = '-9999px';
+    } else {
+      setTimeout(() => {
+        if (!tt.classList.contains('visible')) {
+          tt.style.display = 'none';
+          tt.style.top = '-9999px';
+          tt.style.left = '-9999px';
+        }
+      }, 150);
+    }
+  };
+
+  window.scheduleHideTooltip = function(delayMs) {
+    const delay = typeof delayMs === 'number' ? delayMs : 220;
+    window.clearTooltipHideTimer();
     tooltipHideTimer = setTimeout(() => {
-      const tt = document.getElementById('qInteractiveTooltip');
-      if (tt) {
-        tt.classList.remove('visible');
-        tt.style.pointerEvents = 'none';
-        setTimeout(() => {
-          if (!tt.classList.contains('visible')) {
-            tt.style.display = 'none';
-            tt.style.top = '-9999px';
-            tt.style.left = '-9999px';
-          }
-        }, 200);
-      }
-    }, delayMs);
-  }
+      window.hideQuestionTooltip(false);
+    }, delay);
+  };
 
+  window.toggleQuestionTooltip = function(e, qid) {
+    if (e) {
+      e.stopPropagation();
+      if (e.preventDefault) e.preventDefault();
+    }
+    const cleanId = String(qid).replace(/[^0-9]/g, '');
+    const tt = document.getElementById('qInteractiveTooltip');
+    if (tt && tt.classList.contains('visible') && currentActiveTooltipQid === cleanId) {
+      window.hideQuestionTooltip(true);
+    } else {
+      window.showQuestionTooltip(e, qid);
+    }
+  };
+
+  let lastTooltipShownTime = 0;
   window.showQuestionTooltip = function(e, qid) {
-    clearTooltipHideTimer();
+    lastTooltipShownTime = Date.now();
+    window.clearTooltipHideTimer();
     currentActiveTooltipQid = String(qid).replace(/[^0-9]/g, '');
     const meta = QUESTION_METADATA_MAP[currentActiveTooltipQid] || {
       qid: currentActiveTooltipQid,
@@ -2472,7 +2527,10 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     tt.style.pointerEvents = 'auto';
     
     // Position tooltip relative to viewport for position: fixed
-    const rect = e.target.getBoundingClientRect();
+    const targetEl = e.currentTarget || e.target;
+    const rect = (targetEl && typeof targetEl.getBoundingClientRect === 'function') 
+      ? targetEl.getBoundingClientRect() 
+      : { left: e.clientX || 100, bottom: (e.clientY || 100) + 10, top: e.clientY || 100 };
     const tooltipWidth = 380;
     const tooltipHeight = 240;
     
@@ -2502,10 +2560,8 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     const cleanId = String(targetQid).replace(/[^0-9]/g, '');
 
     // 1. Instantly hide any tooltip
-    const tt = document.getElementById('qInteractiveTooltip');
-    if (tt) {
-      tt.classList.remove('visible');
-      tt.style.display = 'none';
+    if (typeof window.hideQuestionTooltip === 'function') {
+      window.hideQuestionTooltip(true);
     }
 
     // 2. Activate tab-questions in mainStudioNav
@@ -2601,12 +2657,47 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     const displayLabel = labelText || ('Q' + cleanId);
     return `<span class="q-interactive-badge" data-qid="${cleanId}" 
                  onmouseenter="showQuestionTooltip(event, '${cleanId}')" 
-                 onmouseleave="scheduleHideTooltip()" 
+                 onmouseleave="scheduleHideTooltip(200)" 
+                 onclick="toggleQuestionTooltip(event, '${cleanId}')"
                  ondblclick="jumpToQuestionExplorer('${cleanId}')" 
-                 title="Hover to inspect question • Double-click to jump to survey explorer">
+                 title="Click or hover to inspect question • Double-click to jump to survey explorer">
               <span class="q-icon">📋</span> ${displayLabel} <span class="q-arrow">↗</span>
             </span>`;
   };
+
+  // Global listeners for bulletproof outside-click, scroll, keydown, and mousemove dismissal
+  document.addEventListener('click', function(e) {
+    const tt = document.getElementById('qInteractiveTooltip');
+    if (!tt || !tt.classList.contains('visible')) return;
+    if (!e.target.closest('#qInteractiveTooltip') && !e.target.closest('.q-interactive-badge')) {
+      window.hideQuestionTooltip(true);
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      window.hideQuestionTooltip(true);
+    }
+  });
+
+  window.addEventListener('scroll', function() {
+    // Only dismiss on scroll if tooltip has been shown for at least 250ms
+    if (Date.now() - lastTooltipShownTime > 250) {
+      window.hideQuestionTooltip(true);
+    }
+  }, { passive: true });
+
+  document.addEventListener('mousemove', function(e) {
+    const tt = document.getElementById('qInteractiveTooltip');
+    if (!tt || !tt.classList.contains('visible')) return;
+    const overBadge = e.target.closest('.q-interactive-badge');
+    const overTooltip = e.target.closest('#qInteractiveTooltip');
+    if (!overBadge && !overTooltip) {
+      window.scheduleHideTooltip(120);
+    } else {
+      window.clearTooltipHideTimer();
+    }
+  }, { passive: true });
 
 })();
 </script>
@@ -15508,10 +15599,13 @@ function renderQuestionBankTable() {
 
 
 <!-- Interactive Question Hover Tooltip Popover -->
-<div id="qInteractiveTooltip" role="tooltip" aria-hidden="true" style="display: none; top: -9999px; left: -9999px; pointer-events: none;" onmouseenter="clearTooltipHideTimer()" onmouseleave="scheduleHideTooltip(100)">
+<div id="qInteractiveTooltip" role="tooltip" aria-hidden="true" style="display: none; top: -9999px; left: -9999px; pointer-events: none;" onmouseenter="clearTooltipHideTimer()" onmouseleave="scheduleHideTooltip(200)">
   <div class="qtt-header">
     <div class="qtt-badge" id="qttBadge">📋 Q95 • CLSS Participant</div>
-    <div class="qtt-hint">🖱️ Double-click to jump</div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="qtt-hint">🖱️ Double-click to jump</div>
+      <button type="button" class="qtt-close-btn" onclick="hideQuestionTooltip(true)" aria-label="Close dialog" title="Close dialog">&times;</button>
+    </div>
   </div>
   <div class="qtt-qtext-hi" id="qttQuestionHi">कक्षा में विद्यार्थियों की सक्रिय सहभागिता सुनिश्चित करने हेतु सबसे प्रभावी तरीका क्या है?</div>
   <div class="qtt-qtext-en" id="qttQuestionEn">A teacher wants to actively engage students in the classroom. What would be the most effective approach?</div>
