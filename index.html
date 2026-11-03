@@ -3945,34 +3945,40 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 </div>
 <span class="pill-badge" id="qbCountBadge" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700; border-color: rgba(0, 138, 171, 0.3); font-size: 11px;">74 Questions</span>
 </div>
-<div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; background: var(--bg-surface-2); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-hairline);">
-<div style="flex: 1; min-width: 260px;">
-<label id="qbSelectLabel" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); display: block; margin-bottom: 4px;">SELECT QUESTION / SHEET (FILTERED BY ACTIVE SLICERS):</label>
-<select class="select-tactile" id="qbSheetSelect" onchange="renderQuestionBankActive()" style="width: 100%; font-family: var(--font-sans); font-size: 13px;">
-<!-- populated dynamically -->
-</select>
+<!-- Unified Question Console Ribbon -->
+<div style="background: var(--bg-surface-2); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;">
+  <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+    <label id="qbSelectLabel" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); font-weight: 700; white-space: nowrap; text-transform: uppercase;">SELECT QUESTION / SHEET:</label>
+    <div style="flex: 1; min-width: 260px;">
+      <select class="select-tactile" id="qbSheetSelect" onchange="renderQuestionBankActive()" style="width: 100%; font-family: var(--font-sans); font-size: 12.5px; padding: 4px 10px; height: 32px;">
+        <!-- populated dynamically -->
+      </select>
+    </div>
+  </div>
+  <div id="qbBanner" style="padding-top: 6px; border-top: 1px dashed var(--border-subtle);">
+    <!-- Question text & meta chips injected via JS -->
+  </div>
 </div>
-</div>
-<div class="q-banner" id="qbBanner">
-<!-- Question text populated here -->
-</div>
-<div class="bento-2-1">
-<div class="panel-box">
-<div class="panel-head">
-<div class="panel-head-title" id="qRespDistHeading">Statewide Response Distribution</div>
-</div>
-<div class="chart-stage">
-<canvas id="qbStateBar"></canvas>
-</div>
-</div>
-<div class="panel-box">
-<div class="panel-head">
-<div class="panel-head-title" id="qMetaHeading">Option Metadata &amp; Categories</div>
-</div>
-<div id="qbOptionsLegend" style="font-size: 12px; display: flex; flex-direction: column; gap: 8px;">
-<!-- options legend -->
-</div>
-</div>
+
+<!-- Synchronized Side-by-Side Bento Row (Zero Empty Space) -->
+<div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 12px; margin-bottom: 12px; align-items: start;">
+  <div class="panel-box" style="margin-bottom: 0; padding: 12px 14px; display: flex; flex-direction: column;">
+    <div class="panel-head" style="margin-bottom: 6px; padding-bottom: 6px;">
+      <div class="panel-head-title" id="qRespDistHeading" style="font-size: 13.5px;">Statewide Response Distribution</div>
+    </div>
+    <div class="chart-stage" style="height: 270px; min-height: 260px; max-height: 280px;">
+      <canvas id="qbStateBar"></canvas>
+    </div>
+  </div>
+
+  <div class="panel-box" style="margin-bottom: 0; padding: 12px 14px; display: flex; flex-direction: column;">
+    <div class="panel-head" style="margin-bottom: 6px; padding-bottom: 6px;">
+      <div class="panel-head-title" id="qMetaHeading" style="font-size: 13.5px;">Option Metadata &amp; Categories</div>
+    </div>
+    <div id="qbOptionsLegend" style="font-size: 12px; display: flex; flex-direction: column; gap: 6px; max-height: 270px; overflow-y: auto; padding-right: 4px;">
+      <!-- options legend injected via JS -->
+    </div>
+  </div>
 </div>
 <div class="panel-box" style="margin-top: 20px;">
 <div class="panel-head" style="flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center;">
@@ -9573,28 +9579,28 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         const displayLabel = c.labelHi || c.labelEn;
 
         legendHtml += `
-          <div class="qb-option-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-left: 4px solid ${borderCol}; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="background: ${badgeBg}; color: ${badgeCol}; font-family: var(--font-mono); font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px;">
+          <div class="qb-option-card" style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-left: 3.5px solid ${borderCol}; padding: 7px 10px; border-radius: 6px; margin-bottom: 4px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px;">
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <span style="background: ${badgeBg}; color: ${badgeCol}; font-family: var(--font-mono); font-weight: 800; font-size: 10.5px; padding: 1.5px 6px; border-radius: 3px;">
                   ${c.code}
                 </span>
-                ${isCorr ? `<span class="status-chip" style="background: rgba(16, 185, 129, 0.15); color: #047857; font-weight: 800; font-size: 10px; border: 1px solid rgba(16, 185, 129, 0.35); padding: 1px 6px; border-radius: 4px;">🎯 ${isHi ? 'सही शिक्षाशास्त्रीय विकल्प' : 'Correct Pedagogical Choice'}</span>` : ''}
+                ${isCorr ? `<span class="status-chip" style="background: rgba(16, 185, 129, 0.15); color: #047857; font-weight: 800; font-size: 9.5px; padding: 1px 5px; border-radius: 3px;">🎯 ${isHi ? 'सही विकल्प' : 'Correct Choice'}</span>` : ''}
               </div>
-              <div class="font-mono" style="font-weight: 800; font-size: 13px; color: ${isCorr ? 'var(--accent-emerald)' : 'var(--peepul-teal)'};">
+              <div class="font-mono" style="font-weight: 800; font-size: 12px; color: ${isCorr ? 'var(--accent-emerald)' : 'var(--peepul-teal)'};">
                 ${c.statePct}%
               </div>
             </div>
 
-            <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.5; margin-top: 8px;">
+            <div style="font-size: 11.5px; font-weight: 600; color: var(--text-primary); line-height: 1.35; margin-top: 4px;">
               ${displayLabel}
             </div>
 
-            <div style="height: 5px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden; margin-top: 10px;">
-              <div style="width: ${Math.min(100, Math.max(0, c.statePct))}%; height: 100%; background: ${isCorr ? 'linear-gradient(90deg, #059669, #10b981)' : 'linear-gradient(90deg, #008aab, #0284c7)'}; border-radius: 3px;"></div>
+            <div style="height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden; margin-top: 6px;">
+              <div style="width: ${Math.min(100, Math.max(0, c.statePct))}%; height: 100%; background: ${isCorr ? 'linear-gradient(90deg, #059669, #10b981)' : 'linear-gradient(90deg, #008aab, #0284c7)'}; border-radius: 2px;"></div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">
               <span>${isHi ? 'राज्य सहभागिता:' : 'Statewide Count:'} <strong style="color: var(--text-primary);">${Number(c.stateTotal).toLocaleString()}</strong></span>
               <span>${isHi ? 'प्रतिशत:' : 'Share:'} <strong style="color: var(--text-primary);">${c.statePct}%</strong></span>
             </div>
