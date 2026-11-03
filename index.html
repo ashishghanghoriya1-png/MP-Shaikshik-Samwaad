@@ -2022,7 +2022,13 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
 <script>
 (function() {
-  const VALID_HASHES = ['d8a44ca44978551f28ccd1abc3ca22bbcfbe8123f7b0d969d2d2d39f7017d0c9', '56e4c7ceebf44a768d6c8208f7d97607755b6c8ba0e1a12e2e77b474bb26c11d'];
+  const VALID_HASHES = [
+    'd8aad062116d9a8ffd1a4e5b8cec57b855d97bdda63f0f9163ae368597feb106', // RSK.SAMWAAD#2026.MP (Primary Strong Passcode)
+    'fad536cb1f5e8a4d9b37b92c559a7eb6adf42a142cd39e52d703e090662cf04e', // RSK.SAMWAAD.2026
+    'e16554106db9d0ff8fdf5bb673e34489befd42663423a6f956b02ec18bca9111', // MP.RSK.2026#SAMWAAD
+    'd8a44ca44978551f28ccd1abc3ca22bbcfbe8123f7b0d969d2d2d39f7017d0c9', // RSK.2026
+    '56e4c7ceebf44a768d6c8208f7d97607755b6c8ba0e1a12e2e77b474bb26c11d'
+  ];
   const AUTH_KEY = 'rsk_executive_auth_2026';
 
   async function computeSha256(str) {
