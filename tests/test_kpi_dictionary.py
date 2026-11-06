@@ -1,3 +1,4 @@
+# tests/test_kpi_dictionary.py
 import openpyxl
 import os
 import unittest
@@ -9,8 +10,9 @@ class TestKPIDictionary(unittest.TestCase):
         self.assertIn("Overview & Summary", wb.sheetnames)
         sheet = wb["Overview & Summary"]
         self.assertIsNotNone(sheet.cell(row=1, column=1).value)
-        found_lineage = any("Source ID" in str(sheet.cell(row=r, column=1).value or sheet.cell(row=r, column=2).value) for r in range(1, 25))
-        self.assertTrue(found_lineage)
+        # Verify Unique Teacher ID / Employee Code is mentioned in overview
+        content = [str(sheet.cell(row=r, column=c).value) for r in range(1, 25) for c in range(1, 5)]
+        self.assertTrue(any("Employee Code" in cell or "Unique Teacher ID" in cell for cell in content))
 
     def test_kpi_dictionary_sheet(self):
         from scripts.generate_kpi_dictionary import build_workbook
@@ -21,7 +23,8 @@ class TestKPIDictionary(unittest.TestCase):
         self.assertIn("Component Name", headers)
         self.assertIn("Derivation & Calculation Formula", headers)
         self.assertIn("Raw Source File & Sheet", headers)
-        self.assertGreaterEqual(sheet.max_row, 18)
+        # Check that all tabs are represented (at least 30 items)
+        self.assertGreaterEqual(sheet.max_row, 35)
 
     def test_pedagogy_sheet(self):
         from scripts.generate_kpi_dictionary import build_workbook
@@ -43,12 +46,13 @@ class TestKPIDictionary(unittest.TestCase):
         self.assertTrue("35.0%" in joined or "0.35" in joined)
         self.assertTrue("56.0%" in joined or "0.56" in joined)
         self.assertTrue("33,866" in joined or "33866" in joined)
+        self.assertTrue("Employee Code" in joined or "कर्मचारी कोड" in joined)
 
     def test_full_workbook_output(self):
         from scripts.generate_kpi_dictionary import main
-        main()
-        self.assertTrue(os.path.exists("CLSS_Dashboard_KPI_Dictionary.xlsx"))
-        wb = openpyxl.load_workbook("CLSS_Dashboard_KPI_Dictionary.xlsx")
+        saved_file = main()
+        self.assertTrue(os.path.exists(saved_file))
+        wb = openpyxl.load_workbook(saved_file)
         self.assertEqual(len(wb.sheetnames), 4)
         for sname in wb.sheetnames:
             sheet = wb[sname]
