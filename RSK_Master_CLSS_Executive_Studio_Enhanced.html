@@ -3665,18 +3665,23 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <!-- District Pedagogy & Gender Split Grid -->
 <div class="bento-equal" style="margin-top: 20px;">
 <div class="panel-box">
-<div class="panel-head">
+<div class="panel-head" style="flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;">
 <div>
-<div class="panel-head-title">
+<div class="panel-head-title" id="d360PedRadarTitle">
                 📊 District Pedagogy Assessment Scores
               </div>
 <div id="d360PedRadarRef" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
                 [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx [Sheet: Participants]</em> | Sheets: <strong>Q84, Q82, Q96, Q95, Q97</strong>, Cols: <strong>84_Correct, 82_Correct, 96_Correct, 95_Correct, 97_Correct</strong>]
               </div>
 </div>
+<span class="pill-badge" id="d360PedGuideBadge" style="background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.25); font-size: 10.5px; font-weight: 700;">📖 Question Explorer Below</span>
 </div>
 <div class="chart-stage">
 <canvas id="d360PedChart"></canvas>
+</div>
+<!-- Pedagogical Benchmark Explanatory Guide Box for Selected District -->
+<div id="d360PedGlossaryBox" style="margin-top: 10px; background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px 12px; max-height: 220px; overflow-y: auto;">
+  <!-- Populated dynamically via updateDistrict360View -->
 </div>
 </div>
 <div class="panel-box">
@@ -7941,7 +7946,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
           labels3 = [isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'टीएलएम चक्र (Q177)' : 'TLM Process (Q177)', isHi ? 'चिंतन जांच (Q178)' : 'Inquiry Probing (Q178)', isHi ? 'सीख समेकन (Q179)' : 'Consolidation (Q179)', isHi ? 'कक्षा उपयोग (Q90)' : 'Classroom Use (Q90)'];
           data3 = [64.9, 42.5, 22.3, 76.3, 99.2];
         } else if (isConsolidated) {
-          labels3 = [isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'कक्षा उपयोग (Q90)' : 'Problem Solving (Q90)', isHi ? 'सक्रिय जांच व अभ्यास' : 'Inquiry & Practice', isHi ? 'सुरक्षा एवं चिंतन' : 'Safety & Reflection', isHi ? 'छात्र अपनत्व व समेकन' : 'Belonging & Consolidation'];
+          labels3 = [isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'कक्षा समाधान (Q90)' : 'Problem Solving (Q90)', isHi ? 'टीएलएम व जांच (Q95/Q177, Q178)' : 'TLM & Inquiry (Q95/Q177, Q178)', isHi ? 'सुरक्षित वातावरण (Q96/Q179)' : 'Safe Climate (Q96/Q179)', isHi ? 'अपनत्व व समेकन (Q97)' : 'Belongingness (Q97)'];
           data3 = [63.6, 99.3, 36.9, 69.1, 55.1];
         } else {
           labels3 = [isHi ? 'पुनरावृत्ति (Q86)' : 'Concept Recall (Q86)', isHi ? 'सत्र उद्देश्य (Q82)' : 'Session Purpose (Q82)', isHi ? 'मनोवैज्ञानिक सुरक्षा (Q96)' : 'Safe Space (Q96)', isHi ? 'सार्थक सहभागिता (Q95)' : 'Student Agency (Q95)', isHi ? 'समान अवसर (Q97)' : 'Belongingness (Q97)'];
@@ -7963,6 +7968,20 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             responsive: true,
             maintainAspectRatio: false,
             layout: { padding: { top: 22 } },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const idx = elements[0].index;
+                const qids = isSep ? ['82', '177', '178', '179', '90'] : (isConsolidated ? ['82', '90', '177', '96', '97'] : ['86', '82', '96', '95', '97']);
+                const qid = qids[idx];
+                if (qid && typeof window.jumpToQuestionExplorer === 'function') {
+                  window.jumpToQuestionExplorer(qid);
+                }
+              }
+            },
+            onHover: (event, chartElement) => {
+              const canvas = event.native ? event.native.target : event.chart.canvas;
+              if (canvas) canvas.style.cursor = chartElement[0] ? 'pointer' : 'default';
+            },
             plugins: {
               legend: { display: false },
               datalabels: {
@@ -8787,7 +8806,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         });
       }
 
-      // 5. RENDER PEDAGOGY RADAR/BAR CHART (#d360PedChart)
+      // 5. RENDER PEDAGOGY RADAR/BAR CHART (#d360PedChart) & QUESTION EXPLORER
       const pedCanvas = document.getElementById('d360PedChart');
       if (pedCanvas) {
         if (charts.d360PedChart) charts.d360PedChart.destroy();
@@ -8795,31 +8814,82 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         const theme = getChartTheme();
         const isSep = (currentCycle === 'SEP');
         const isConsolidated = (currentCycle === 'CONSOLIDATED');
-        let pedLabels, pedScores;
+        let pedLabels, pedScores, pedQids, pedDetails;
+
+        const pedRefEl = document.getElementById('d360PedRadarRef');
+        if (pedRefEl) {
+          if (isSep) {
+            pedRefEl.innerHTML = isHi
+              ? '[संदर्भ: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_September.xlsx</em> | शीट्स: <strong>Q82, Q177, Q178, Q179, Q90</strong>]'
+              : '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_September.xlsx</em> | Sheets: <strong>Q82, Q177, Q178, Q179, Q90</strong>]';
+          } else if (isConsolidated) {
+            pedRefEl.innerHTML = isHi
+              ? '[संदर्भ: <em>समेकित सर्वेक्षण टेलीमेट्री (अगस्त + सितंबर)</em> | शीट्स: <strong>Q82, Q90, Q95/Q177, Q96/Q179, Q97</strong>]'
+              : '[Ref: <em>Consolidated Survey Telemetry (August + September)</em> | Sheets: <strong>Q82, Q90, Q95/Q177, Q96/Q179, Q97</strong>]';
+          } else {
+            pedRefEl.innerHTML = isHi
+              ? '[संदर्भ: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | शीट्स: <strong>Q86, Q82, Q96, Q95, Q97</strong>]'
+              : '[Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> | Sheets: <strong>Q86, Q82, Q96, Q95, Q97</strong>]';
+          }
+        }
+
         if (isSep) {
-          pedLabels = ['Goal (Q82)', 'TLM (Q177)', 'Inquiry (Q178)', 'Consolidation (Q179)', 'Active (Q90)'];
-          const s1 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct;
-          const s2 = getDistrictSurveyVal('CLSS', '177', dinfo.district).pct;
-          const s3 = getDistrictSurveyVal('CLSS', '178', dinfo.district).pct;
-          const s4 = getDistrictSurveyVal('CLSS', '179', dinfo.district).pct;
-          const s5 = getDistrictSurveyVal('CLSS', '90', dinfo.district).pct;
-          pedScores = [s1 || 65, s2 || 55, s3 || 45, s4 || 70, s5 || 80];
+          pedQids = ['82', '177', '178', '179', '90'];
+          pedLabels = isHi
+            ? ['सत्र उद्देश्य (Q82)', 'टीएलएम चक्र (Q177)', 'चिंतन जांच (Q178)', 'सीख समेकन (Q179)', 'कक्षा उपयोग (Q90)']
+            : ['Session Purpose (Q82)', 'TLM Process (Q177)', 'Inquiry Probing (Q178)', 'Consolidation (Q179)', 'Classroom Use (Q90)'];
+          const s1 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct || 65;
+          const s2 = getDistrictSurveyVal('CLSS', '177', dinfo.district).pct || 42;
+          const s3 = getDistrictSurveyVal('CLSS', '178', dinfo.district).pct || 22;
+          const s4 = getDistrictSurveyVal('CLSS', '179', dinfo.district).pct || 76;
+          const s5 = getDistrictSurveyVal('CLSS', '90', dinfo.district).pct || 99;
+          pedScores = [s1, s2, s3, s4, s5];
+
+          pedDetails = [
+            { qid: '82', nameEn: 'Session Purpose (Q82)', nameHi: 'सत्र उद्देश्य (Q82)', textEn: '"Which option represents the primary purpose of Shaikshik Samwaad?"', textHi: '"निम्नलिखित में से कौन सा विकल्प शैक्षिक संवाद का प्राथमिक उद्देश्य है?"', approachEn: 'Viewing Samwaad as a blameless peer problem-solving forum rather than an inspection.', approachHi: 'संवाद को प्रशासनिक समीक्षा के बजाय शिक्षकों द्वारा अपनी शिक्षण चुनौतियों को साझा करने का मंच समझना।', stateAvg: 64.9, color: '#0284c7' },
+            { qid: '177', nameEn: 'TLM Process (Q177)', nameHi: 'टीएलएम चक्र (Q177)', textEn: '"What is the correct pedagogical cycle for using TLM in instruction?"', textHi: '"कक्षा शिक्षण में टीएलएम (शिक्षण सामग्री) के उपयोग का सही चक्रीय क्रम क्या है?"', approachEn: 'Experiential cycle: Hands-on experience → Reflective probing → Concept consolidation.', approachHi: 'टीएलएम का चक्रीय उपयोग: पहले बच्चों को अनुभव कराएं, फिर चिंतनशील प्रश्न पूछें, अंत में सीख समेकित करें।', stateAvg: 42.5, color: '#d97706' },
+            { qid: '178', nameEn: 'Inquiry Probing (Q178)', nameHi: 'चिंतन जांच (Q178)', textEn: '"When a student gives an incorrect answer during a TLM activity, what should the teacher do?"', textHi: '"टीएलएम गतिविधि के दौरान जब कोई बच्चा गलत उत्तर देता है, तो शिक्षक को क्या करना चाहिए?"', approachEn: 'Constructivist probing: Asking guiding questions to explore underlying logic instead of giving the answer.', approachHi: 'सीधे सही उत्तर बताने के बजाय बच्चे के सोचने की प्रक्रिया को समझने हेतु खोजपूर्ण प्रश्न पूछना।', stateAvg: 22.3, color: '#dc2626' },
+            { qid: '179', nameEn: 'Learning Consolidation (Q179)', nameHi: 'सीख समेकन (Q179)', textEn: '"What is the most effective way to conclude a TLM-based classroom session?"', textHi: '"टीएलएम आधारित कक्षा शिक्षण को समाप्त करने का सबसे प्रभावी तरीका क्या है?"', approachEn: 'Synthesis & recording: Having students summarize their learning into concise notebook points.', approachHi: 'समेकन व निष्कर्ष: बच्चों से सीखी गई मुख्य अवधारणाओं को संक्षेप में लिखवाना व अभ्यास कराना।', stateAvg: 76.3, color: '#059669' },
+            { qid: '90', nameEn: 'Classroom Problem Solving (Q90)', nameHi: 'कक्षा समाधान (Q90)', textEn: '"Does participating in monthly Samwaad directly help resolve your classroom teaching hurdles?"', textHi: '"क्या मासिक संवाद में भाग लेने से आपकी कक्षा शिक्षण की चुनौतियों का समाधान मिलता है?"', approachEn: 'Practical relevance: Translating peer discussions into concrete day-to-day lesson delivery solutions.', approachHi: 'व्यावहारिक उपयोगिता: संवाद की चर्चाओं को कक्षा शिक्षण की वास्तविक चुनौतियों से जोड़ना।', stateAvg: 99.2, color: '#10b981' }
+          ];
         } else if (isConsolidated) {
-          pedLabels = ['Purpose (Q82)', 'Utility (Q90)', 'Inquiry/TLM', 'Safe Climate', 'Belongingness'];
+          pedQids = ['82', '90', '177', '96', '97'];
+          pedLabels = isHi
+            ? ['सत्र उद्देश्य (Q82)', 'कक्षा समाधान (Q90)', 'टीएलएम व जांच (Q95/Q177, Q178)', 'सुरक्षित वातावरण (Q96/Q179)', 'अपनत्व (Q97)']
+            : ['Session Purpose (Q82)', 'Problem Solving (Q90)', 'TLM & Inquiry (Q95/Q177, Q178)', 'Safe Climate (Q96/Q179)', 'Belongingness (Q97)'];
           const s1 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct || 64;
           const s2 = getDistrictSurveyVal('CLSS', '90', dinfo.district).pct || 99;
           const s3 = Math.round(((getDistrictSurveyVal('CLSS', '95', dinfo.district).pct || 48) + (getDistrictSurveyVal('CLSS', '177', dinfo.district).pct || 42)) / 2);
           const s4 = Math.round(((getDistrictSurveyVal('CLSS', '96', dinfo.district).pct || 62) + (getDistrictSurveyVal('CLSS', '179', dinfo.district).pct || 76)) / 2);
-          const s5 = Math.round(((getDistrictSurveyVal('CLSS', '97', dinfo.district).pct || 34) + (getDistrictSurveyVal('CLSS', '179', dinfo.district).pct || 76)) / 2);
+          const s5 = getDistrictSurveyVal('CLSS', '97', dinfo.district).pct || 34;
           pedScores = [s1, s2, s3, s4, s5];
+
+          pedDetails = [
+            { qid: '82', nameEn: 'Session Purpose (Q82)', nameHi: 'सत्र उद्देश्य (Q82)', textEn: '"Which option represents the primary purpose of Shaikshik Samwaad?"', textHi: '"निम्नलिखित में से कौन सा विकल्प शैक्षिक संवाद का प्राथमिक उद्देश्य है?"', approachEn: 'Two-cycle alignment: Viewing Samwaad as an authentic collaborative teacher learning circle.', approachHi: 'सहयोगात्मक संवाद: संवाद को प्रशासनिक समीक्षा के बजाय सामूहिक शिक्षण सुधार का मंच समझना।', stateAvg: 63.6, color: '#0284c7' },
+            { qid: '90', nameEn: 'Problem Solving Utility (Q90)', nameHi: 'कक्षा समाधान (Q90)', textEn: '"Does participating in monthly Samwaad directly help resolve classroom teaching challenges?"', textHi: '"क्या मासिक संवाद में भाग लेने से कक्षा शिक्षण की चुनौतियों का समाधान मिलता है?"', approachEn: 'Consistent high utility: 99.3% of teachers affirm monthly sessions solve real teaching hurdles.', approachHi: 'उच्च उपयोगिता: 99.3% शिक्षक संवाद को कक्षा की समस्याओं के समाधान में अत्यंत उपयोगी पाते हैं।', stateAvg: 99.3, color: '#10b981' },
+            { qid: '177', nameEn: 'TLM Process & Active Inquiry (Q95/Q177, Q178)', nameHi: 'टीएलएम व सक्रिय जांच (Q95/Q177, Q178)', textEn: '"Pedagogical mastery in hands-on group work (Q95: Aug) and TLM experiential cycle (Q177/Q178: Sep)"', textHi: '"सार्थक समूह कार्य (Q95: अगस्त) एवं टीएलएम चक्रीय उपयोग व खोजपूर्ण प्रश्न (Q177/Q178: सितंबर)"', approachEn: 'Priority growth trajectory: Moving from passive seating arrangements to active student-led inquiry.', approachHi: 'प्राथमिक सुधार क्षेत्र: बच्चों को केवल टीएलएम दिखाने के बजाय उनसे चिंतनशील प्रश्न पूछना।', stateAvg: 36.9, color: '#dc2626' },
+            { qid: '96', nameEn: 'Classroom Psychological Safety (Q96/Q179)', nameHi: 'सुरक्षित वातावरण व समेकन (Q96/Q179)', textEn: '"Encouraging children to express without fear of mistakes (Q96) and structured reflection (Q179)"', textHi: '"गलतियों के डर के बिना बच्चों को बोलने का अवसर (Q96) एवं सीख का व्यवस्थित समेकन (Q179)"', approachEn: 'Positive progress: Blended safety and consolidation advanced across both monitoring cycles.', approachHi: 'कक्षा में भयमुक्त वातावरण और प्रत्येक गतिविधि के बाद सीख को व्यवस्थित रूप से समेकित करना।', stateAvg: 69.1, color: '#d97706' },
+            { qid: '97', nameEn: 'Classroom Belongingness & Equity (Q97)', nameHi: 'छात्र अपनत्व व समान अवसर (Q97)', textEn: '"How can teachers ensure every child feels an authentic sense of belonging in classroom discussions?"', textHi: '"कक्षा चर्चा में शिक्षक यह कैसे सुनिश्चित करें कि प्रत्येक बच्चे को अपनत्व और समान अवसर मिले?"', approachEn: 'Equity focus: Intentional facilitation to engage hesitant learners rather than only vocal students.', approachHi: 'समावेशी सहभागिता: केवल आगे बैठने वाले बच्चों के बजाय कक्षा के हर बच्चे को बोलने के समान अवसर देना।', stateAvg: 33.9, color: '#e11d48' }
+          ];
         } else {
-          pedLabels = ['Recall (Q86)', 'Goal (Q82)', 'Safe Space (Q96)', 'Agency (Q95)', 'Belonging (Q97)'];
-          const s1 = getDistrictSurveyVal('CLSS', '86', dinfo.district).pct;
-          const s2 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct;
-          const s3 = getDistrictSurveyVal('CLSS', '96', dinfo.district).pct;
-          const s4 = getDistrictSurveyVal('CLSS', '95', dinfo.district).pct;
-          const s5 = getDistrictSurveyVal('CLSS', '97', dinfo.district).pct;
-          pedScores = [s1 || 65, s2 || 55, s3 || 45, s4 || 70, s5 || 80];
+          pedQids = ['86', '82', '96', '95', '97'];
+          pedLabels = isHi
+            ? ['पुनरावृत्ति (Q86)', 'सत्र उद्देश्य (Q82)', 'सुरक्षित वातावरण (Q96)', 'टीएलएम सहभागिता (Q95)', 'अपनत्व (Q97)']
+            : ['Concept Recall (Q86)', 'Meeting Purpose (Q82)', 'Safe Climate (Q96)', 'TLM Group Work (Q95)', 'Belongingness (Q97)'];
+          const s1 = getDistrictSurveyVal('CLSS', '86', dinfo.district).pct || 73;
+          const s2 = getDistrictSurveyVal('CLSS', '82', dinfo.district).pct || 65;
+          const s3 = getDistrictSurveyVal('CLSS', '96', dinfo.district).pct || 78;
+          const s4 = getDistrictSurveyVal('CLSS', '95', dinfo.district).pct || 52;
+          const s5 = getDistrictSurveyVal('CLSS', '97', dinfo.district).pct || 34;
+          pedScores = [s1, s2, s3, s4, s5];
+
+          pedDetails = [
+            { qid: '86', nameEn: 'Concept Recall (Q86)', nameHi: 'पुनरावृत्ति (Q86)', textEn: '"Which design principles did you observe or learn during the Samwaad session?"', textHi: '"निम्न में से किन डिज़ाइन सिद्धांतों को आपने संवाद के दौरान लागू होते देखा या सीखा?"', approachEn: 'High foundational retention: Remembering active constructivist principles from session modules.', approachHi: 'सत्र के मुख्य शैक्षणिक सिद्धांतों (70:30 संवाद, पूर्व ज्ञान से जुड़ाव) का स्मरण व प्रतिधारण।', stateAvg: 72.8, color: '#0284c7' },
+            { qid: '82', nameEn: 'Session Purpose (Q82)', nameHi: 'सत्र उद्देश्य (Q82)', textEn: '"Which option represents the primary purpose of Shaikshik Samwaad?"', textHi: '"निम्नलिखित में से कौन सा विकल्प शैक्षिक संवाद का प्राथमिक उद्देश्य है?"', approachEn: 'Viewing Samwaad as an open collaborative platform for solving pedagogical challenges.', approachHi: 'संवाद को प्रशासनिक समीक्षा के बजाय सामूहिक शैक्षणिक समाधान का मंच समझना।', stateAvg: 64.9, color: '#059669' },
+            { qid: '96', nameEn: 'Psychological Safety (Q96)', nameHi: 'मनोवैज्ञानिक सुरक्षा (Q96)', textEn: '"How can a teacher create an emotionally safe classroom where mistakes are viewed as learning?"', textHi: '"कक्षा में ऐसा सुरक्षित माहौल कैसे बनाएं जहाँ बच्चे बिना झिझक के अपनी बात कह सकें?"', approachEn: 'Supportive questioning rather than demanding silence or penalizing incorrect responses.', approachHi: 'गलतियों को डांटने के बजाय सीखने का स्वाभाविक हिस्सा मानते हुए बच्चों को प्रोत्साहित करना।', stateAvg: 78.4, color: '#d97706' },
+            { qid: '95', nameEn: 'Student Agency & Group Work (Q95)', nameHi: 'टीएलएम सहभागिता (Q95)', textEn: '"What is the primary pedagogical objective of organizing students into learning groups?"', textHi: '"बच्चों को समूहों में बैठाकर गतिविधि कराने का प्राथमिक शैक्षणिक उद्देश्य क्या है?"', approachEn: 'Collaborative peer problem solving rather than mere physical desk arrangement.', approachHi: 'समूह कार्य को केवल बैठक व्यवस्था न मानकर बच्चों के बीच संवाद व सामूहिक समस्या समाधान का माध्यम बनाना।', stateAvg: 52.1, color: '#dc2626' },
+            { qid: '97', nameEn: 'Classroom Belongingness (Q97)', nameHi: 'अपनत्व व समान अवसर (Q97)', textEn: '"How can teachers ensure every child feels an authentic sense of belonging in classroom discussions?"', textHi: '"कक्षा चर्चा में शिक्षक यह कैसे सुनिश्चित करें कि प्रत्येक बच्चे को अपनत्व और समान अवसर मिले?"', approachEn: 'Equitable participation: Giving voice to quiet or marginalized children in classroom discourse.', approachHi: 'कक्षा के हर बच्चे को बोलने, सवाल पूछने और संवाद का हिस्सा बनने के समान अवसर उपलब्ध कराना।', stateAvg: 74.6, color: '#e11d48' }
+          ];
         }
 
         charts.d360PedChart = new Chart(ctxP, {
@@ -8837,6 +8907,19 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             responsive: true,
             maintainAspectRatio: false,
             layout: { padding: { top: 22 } },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const idx = elements[0].index;
+                const qid = pedQids[idx];
+                if (qid && typeof window.jumpToQuestionExplorer === 'function') {
+                  window.jumpToQuestionExplorer(qid);
+                }
+              }
+            },
+            onHover: (event, chartElement) => {
+              const canvas = event.native ? event.native.target : event.chart.canvas;
+              if (canvas) canvas.style.cursor = chartElement[0] ? 'pointer' : 'default';
+            },
             plugins: {
               legend: { display: false },
               datalabels: {
@@ -8847,6 +8930,16 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
                 color: theme.textColor,
                 font: { weight: '700', size: 10.5, family: theme.fontMono },
                 formatter: function(val) { return Math.round(val) + '%'; }
+              },
+              tooltip: {
+                callbacks: {
+                  afterLabel: (ctx) => {
+                    const qid = pedQids[ctx.dataIndex];
+                    return isHi
+                      ? `\n💡 क्लिक करें: प्रश्न Q${qid} का विस्तृत 52-जिला विश्लेषण देखें`
+                      : `\n💡 Click bar to jump to question Q${qid} explorer & 52-district breakdown`;
+                  }
+                }
               }
             },
             scales: {
@@ -8855,6 +8948,56 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             }
           }
         });
+
+        // 5b. POPULATE DISTRICT PEDAGOGY EXPLANATORY GUIDE BOX (#d360PedGlossaryBox)
+        const d360GlossaryEl = document.getElementById('d360PedGlossaryBox');
+        if (d360GlossaryEl && pedDetails && typeof renderQBadge === 'function') {
+          const cardsHtml = pedDetails.map((item, idx) => {
+            const score = pedScores[idx];
+            const tier = get4TierInfo(score);
+            const distName = isHi ? (typeof getDistName === 'function' ? getDistName(dinfo.district) : dinfo.district) : dinfo.district;
+            return `
+              <div style="background: var(--bg-surface-1); padding: 10px 12px; border-radius: 8px; border-left: 4px solid ${item.color}; border: 1px solid var(--border-hairline); border-left-width: 4px; display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                  <strong style="color: ${item.color}; font-size: 12.5px;">${idx + 1}. ${isHi ? item.nameHi : item.nameEn}</strong>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span class="pill-badge font-mono" style="background: ${tier.bg}; color: ${tier.text}; border: 1px solid ${tier.border}; font-size: 10px; font-weight: 800;">
+                      ${distName}: ${score}%
+                    </span>
+                    ${renderQBadge(item.qid, 'Q' + item.qid)}
+                  </div>
+                </div>
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--text-primary); background: var(--bg-surface-2); padding: 5px 8px; border-radius: 5px;">
+                  📝 <em>${isHi ? item.textHi : item.textEn}</em>
+                </div>
+                <div style="font-size: 11px; color: var(--text-secondary);">
+                  <strong>🎯 ${isHi ? 'कक्षा दृष्टिकोण:' : 'Approach:'}</strong> ${isHi ? item.approachHi : item.approachEn}
+                  <span style="margin-left: 6px; font-weight: 600; color: var(--text-muted);">(${isHi ? 'राज्य औसत' : 'State Avg'}: ${item.stateAvg}%)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px;">
+                  <span style="font-size: 9.5px; color: var(--peepul-teal); font-family: var(--font-mono);">
+                    🖱️ ${isHi ? 'क्लिक / डबल-क्लिक: सीधे सर्वेक्षण प्रश्न पर जाएं' : 'Click / Double-click to jump to survey explorer'}
+                  </span>
+                  <button type="button" class="slicer-btn" onclick="jumpToQuestionExplorer('${item.qid}')" style="font-size: 10px; padding: 2px 7px; font-weight: 700;">
+                    ${isHi ? 'प्रश्न देखें ↗' : 'Open Question ↗'}
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          d360GlossaryEl.innerHTML = `
+            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--peepul-teal); font-family: var(--font-mono); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <span>💡 ${isHi ? 'जिला शिक्षाशास्त्र संकेतक एवं संबंधित प्रश्न' : 'District Pedagogy Indicators & Question Breakdown'}</span>
+              <span class="status-chip" style="font-size: 10px; background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700;">
+                🎯 Click any card or bar to jump to Tab 5 Survey Question
+              </span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; font-size: 11.5px; line-height: 1.45;">
+              ${cardsHtml}
+            </div>
+          `;
+        }
       }
 
       // 6. RENDER GENDER DOUGHNUT CHART (#d360GenderChart)
