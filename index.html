@@ -9406,6 +9406,31 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       sel.innerHTML = '';
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
 
+      // Dynamically update Tab 5 Universal Explorer Heading, Subtitle & Count Badge
+      const qHeading = document.getElementById('qBankHeading');
+      const qRef = document.getElementById('qBankRef');
+      const qBadge = document.getElementById('qbCountBadge');
+
+      if (currentCycle === 'CONSOLIDATED') {
+        if (qHeading) qHeading.innerText = isHi ? '📋 सार्वभौमिक सर्वेक्षण एवं प्रश्न अन्वेषक (सभी 76 बहु-चक्र प्रश्न)' : '📋 Universal Survey & Question Explorer (All 76 Multi-Cycle Questions)';
+        if (qRef) qRef.innerHTML = isHi 
+          ? '[संदर्भ: <strong>अगस्त एवं सितंबर समेकित टेलीमेट्री</strong> | <strong>46,954 कुल उपस्थित शिक्षक</strong> | शीट्स: <strong>Q25–Q98 एवं Q174–Q179</strong>]'
+          : '[Ref: <strong>August & September Telemetry Workbooks</strong> | <strong>46,954 Total Attending Teachers</strong> | Sheets: <strong>Q25 through Q98 & Q174 through Q179</strong>]';
+        if (qBadge) qBadge.innerText = isHi ? '76 बहु-चक्र प्रश्न (अगस्त + सितंबर)' : '76 Questions (Aug + Sep Combined)';
+      } else if (currentCycle === 'SEP') {
+        if (qHeading) qHeading.innerText = isHi ? '📋 सार्वभौमिक सर्वेक्षण एवं प्रश्न अन्वेषक (सितंबर टेलीमेट्री | 69 प्रश्न)' : '📋 Universal Survey & Question Explorer (September Telemetry | 69 Questions)';
+        if (qRef) qRef.innerHTML = isHi
+          ? '[संदर्भ: <strong>सितंबर आउटपुट एक्सेल वर्कबुक्स</strong> | <strong>23,169 उपस्थित शिक्षक</strong> | शीट्स: <strong>Q25–Q98 एवं Q174–Q179</strong>]'
+          : '[Ref: <strong>September Output Excel Workbooks</strong> | <strong>23,169 Attending Teachers</strong> | Sheets: <strong>Q25 through Q98 & Q174 through Q179</strong>]';
+        if (qBadge) qBadge.innerText = isHi ? '69 प्रश्न (सितंबर 2026)' : '69 Questions (September 2026)';
+      } else {
+        if (qHeading) qHeading.innerText = isHi ? '📋 सार्वभौमिक सर्वेक्षण एवं प्रश्न अन्वेषक (अगस्त टेलीमेट्री | 70 प्रश्न)' : '📋 Universal Survey & Question Explorer (August Telemetry | 70 Questions)';
+        if (qRef) qRef.innerHTML = isHi
+          ? '[संदर्भ: <strong>अगस्त आउटपुट एक्सेल वर्कबुक्स</strong> | <strong>23,785 उपस्थित शिक्षक</strong> | शीट्स: <strong>Q25–Q98</strong>]'
+          : '[Ref: <strong>August Output Excel Workbooks</strong> | <strong>23,785 Attending Teachers</strong> | Sheets: <strong>Q25 through Q98</strong>]';
+        if (qBadge) qBadge.innerText = isHi ? '70 प्रश्न (अगस्त 2026)' : '70 Questions (August 2026)';
+      }
+
       const surveys = (typeof getActiveSurveys === "function") ? getActiveSurveys() : ((dataPackage && dataPackage.surveys) || []);
       const roleFilter = (typeof activeRole !== 'undefined') ? activeRole : 'ALL';
       const progFilter = (typeof activeProgram !== 'undefined') ? activeProgram : 'ALL';
@@ -9451,6 +9476,36 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       const s = surveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid));
       if (!s) return;
 
+      const augSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG && dataPackage.cycles.AUG.surveys) || [];
+      const sepSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.SEP && dataPackage.cycles.SEP.surveys) || [];
+      const sAug = augSurveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid));
+      const sSep = sepSurveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid));
+      const isMultiCycle = (currentCycle === 'CONSOLIDATED' && sAug && sSep);
+
+      let multiCycleChips = '';
+      if (currentCycle === 'CONSOLIDATED') {
+        if (sAug && sSep) {
+          const augResp = sAug.totalRespondents || sAug.columns.reduce((a,c) => a + (c.stateTotal||0), 0);
+          const sepResp = sSep.totalRespondents || sSep.columns.reduce((a,c) => a + (c.stateTotal||0), 0);
+          const combResp = augResp + sepResp;
+          multiCycleChips = `
+            <span class="status-chip" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 700; border: 1px solid rgba(37,99,235,0.25);">📅 ${isHi ? 'अगस्त' : 'August'}: ${augResp.toLocaleString()}</span>
+            <span class="status-chip" style="background: rgba(16, 185, 129, 0.1); color: #059669; font-weight: 700; border: 1px solid rgba(16,185,129,0.25);">📅 ${isHi ? 'सितंबर' : 'September'}: ${sepResp.toLocaleString()}</span>
+            <span class="status-chip" style="background: rgba(124, 58, 237, 0.1); color: #7c3aed; font-weight: 800; border: 1px solid rgba(124,58,237,0.25);">⚡ ${isHi ? 'संयुक्त कुल' : 'Consolidated'}: ${combResp.toLocaleString()}</span>
+          `;
+        } else if (sAug) {
+          const augResp = sAug.totalRespondents || sAug.columns.reduce((a,c) => a + (c.stateTotal||0), 0);
+          multiCycleChips = `
+            <span class="status-chip" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 700; border: 1px solid rgba(37,99,235,0.25);">📅 ${isHi ? 'केवल अगस्त चक्र' : 'August Cycle Only'}: ${augResp.toLocaleString()}</span>
+          `;
+        } else if (sSep) {
+          const sepResp = sSep.totalRespondents || sSep.columns.reduce((a,c) => a + (c.stateTotal||0), 0);
+          multiCycleChips = `
+            <span class="status-chip" style="background: rgba(16, 185, 129, 0.1); color: #059669; font-weight: 700; border: 1px solid rgba(16,185,129,0.25);">📅 ${isHi ? 'केवल सितंबर चक्र' : 'September Cycle Only'}: ${sepResp.toLocaleString()}</span>
+          `;
+        }
+      }
+
       const qText = isHi ? (s.questionTextHi || s.questionTextEn || s.questionText) : (s.questionTextEn || s.questionTextHi || s.questionText);
       const bannerEl = document.getElementById('qbBanner');
       if (bannerEl) {
@@ -9460,6 +9515,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             <span class="status-chip" style="background: rgba(37, 99, 235, 0.12); color: #2563eb; font-weight: 700;">${s.program || 'CLSS'}</span>
             <span class="status-chip" style="background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); font-weight: 700;">${s.role || s.role || 'Role'}</span>
             ${(currentCycle === 'CONSOLIDATED' && s.cycleNote) ? `<span class="status-chip" style="background: rgba(16, 185, 129, 0.12); color: #059669; font-weight: 700;">${s.cycleNote}</span>` : ''}
+            ${multiCycleChips}
             <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">${isHi ? 'कुल उत्तरदाता:' : 'Total Respondents:'} <strong style="color: var(--text-primary);">${s.totalRespondents ? s.totalRespondents.toLocaleString() : (s.columns ? s.columns.reduce((a,c) => a + (c.stateTotal||0), 0).toLocaleString() : 'N/A')}</strong></span>
           </div>
         `;
@@ -9473,23 +9529,60 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       if (chartInstances.qbBar) chartInstances.qbBar.destroy();
       const ctx = document.getElementById('qbStateBar')?.getContext('2d');
       if (ctx) {
+        let datasets = [];
+        if (isMultiCycle) {
+          // Grouped multi-cycle comparison: August vs September
+          const augData = s.columns.map(c => {
+            const ca = sAug.columns.find(x => x.code === c.code);
+            return ca ? ca.stateTotal : 0;
+          });
+          const sepData = s.columns.map(c => {
+            const cs = sSep.columns.find(x => x.code === c.code);
+            return cs ? cs.stateTotal : 0;
+          });
+          datasets = [
+            {
+              label: isHi ? 'अगस्त प्रतिक्रियाएं' : 'August Responses',
+              data: augData,
+              backgroundColor: '#3b82f6',
+              borderRadius: 6
+            },
+            {
+              label: isHi ? 'सितंबर प्रतिक्रियाएं' : 'September Responses',
+              data: sepData,
+              backgroundColor: '#10b981',
+              borderRadius: 6
+            }
+          ];
+        } else {
+          datasets = [{
+            label: isHi ? 'कुल प्रतिक्रियाएं' : 'Total Responses',
+            data: s.columns.map(c => c.stateTotal),
+            backgroundColor: s.columns.map(c => c.isCorrect ? '#10b981' : '#0284c7'),
+            borderRadius: 6
+          }];
+        }
+
         chartInstances.qbBar = new Chart(ctx, {
           type: 'bar',
           data: {
             labels: s.columns.map(c => c.code),
-            datasets: [{
-              label: isHi ? 'कुल प्रतिक्रियाएं' : 'Total Responses',
-              data: s.columns.map(c => c.stateTotal),
-              backgroundColor: s.columns.map(c => c.isCorrect ? '#10b981' : '#0284c7'),
-              borderRadius: 6
-            }]
+            datasets: datasets
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             layout: { padding: { top: 20 } },
             plugins: {
-              legend: { display: false },
+              legend: {
+                display: isMultiCycle,
+                position: 'top',
+                labels: {
+                  color: theme.textColor,
+                  font: { family: theme.fontSans, size: 11, weight: '700' },
+                  boxWidth: 12
+                }
+              },
               tooltip: {
                 callbacks: {
                   title(items) {
@@ -9500,6 +9593,14 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
                   label(item) {
                     const idx = item.dataIndex;
                     const col = s.columns[idx];
+                    if (isMultiCycle) {
+                      const isAugDataset = item.datasetIndex === 0;
+                      const cSub = isAugDataset ? sAug.columns.find(x => x.code === col.code) : sSep.columns.find(x => x.code === col.code);
+                      const subTot = cSub ? cSub.stateTotal : item.raw;
+                      const subPct = cSub ? cSub.statePct : 0;
+                      const dsName = isAugDataset ? (isHi ? 'अगस्त' : 'August') : (isHi ? 'सितंबर' : 'September');
+                      return ` ${dsName}: ${subTot.toLocaleString()} (${subPct}%) [${isHi ? 'संयुक्त कुल' : 'Combined'}: ${col.stateTotal.toLocaleString()} (${col.statePct}%)]`;
+                    }
                     return ` ${isHi ? 'प्रतिक्रियाएं' : 'Responses'}: ${col.stateTotal.toLocaleString()} (${col.statePct}%)`;
                   }
                 }
@@ -9519,18 +9620,21 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
                 ctx.font = '700 10px "JetBrains Mono", monospace';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
-                ctx.fillStyle = '#0284c7';
 
-                const meta = chart.getDatasetMeta(0);
-                if (meta && !meta.hidden) {
-                  meta.data.forEach((bar, bIdx) => {
-                    const col = s.columns[bIdx];
-                    if (col && col.stateTotal > 0) {
-                      ctx.fillStyle = col.isCorrect ? '#059669' : '#0284c7';
-                      ctx.fillText(`${col.statePct}%`, bar.x, bar.y - 4);
-                    }
-                  });
-                }
+                chart.data.datasets.forEach((ds, dsIdx) => {
+                  const meta = chart.getDatasetMeta(dsIdx);
+                  if (meta && !meta.hidden) {
+                    meta.data.forEach((bar, bIdx) => {
+                      const val = ds.data[bIdx];
+                      if (val > 0) {
+                        ctx.fillStyle = ds.backgroundColor[bIdx] || ds.backgroundColor || '#0284c7';
+                        const col = s.columns[bIdx];
+                        const pctStr = isMultiCycle ? `${val.toLocaleString()}` : `${col.statePct}%`;
+                        ctx.fillText(pctStr, bar.x, bar.y - 4);
+                      }
+                    });
+                  }
+                });
                 ctx.restore();
               }
             }
@@ -10208,9 +10312,24 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         const sSep1 = sepSurveys.find(x => String(x.questionId) === '177' || String(x.questionId).replace('Q','') === '177');
         const sSep2 = sepSurveys.find(x => String(x.questionId) === '178' || String(x.questionId).replace('Q','') === '178');
 
-        let cardsHtml = buildCard(sAug1, '95', true) + buildCard(sAug2, '97', false);
+        let cardsHtml = `
+          <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.22); border-radius: 8px; margin-bottom: 2px;">
+            <div style="font-size: 13.5px; font-weight: 800; color: #1d4ed8;">
+              📅 ${isHi ? 'अगस्त 2026 शिक्षणशास्त्रीय फोकस: छात्र एजेंसी व बौद्धिक समावेशन' : 'August 2026 Pedagogy Focus: Student Agency & Belongingness'}
+            </div>
+            <span class="status-chip" style="background: rgba(37, 99, 235, 0.15); color: #1d4ed8; font-weight: 800;">Q95 &amp; Q97 • 23,785 ${isHi ? 'शिक्षक प्रतिक्रियाएं' : 'Teachers'}</span>
+          </div>
+        ` + buildCard(sAug1, '95', true) + buildCard(sAug2, '97', false);
+
         if (sSep1 && sSep2) {
-          cardsHtml += buildCard(sSep1, '177', true) + buildCard(sSep2, '178', false);
+          cardsHtml += `
+            <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.22); border-radius: 8px; margin-top: 14px; margin-bottom: 2px;">
+              <div style="font-size: 13.5px; font-weight: 800; color: #059669;">
+                📅 ${isHi ? 'सितंबर 2026 शिक्षणशास्त्रीय फोकस: टीएलएम चक्रीय प्रक्रिया व चिंतनशील जांच' : 'September 2026 Pedagogy Focus: TLM Cyclical Inquiry & Reflective Probing'}
+              </div>
+              <span class="status-chip" style="background: rgba(16, 185, 129, 0.15); color: #059669; font-weight: 800;">Q177 &amp; Q178 • 23,169 ${isHi ? 'शिक्षक प्रतिक्रियाएं' : 'Teachers'}</span>
+            </div>
+          ` + buildCard(sSep1, '177', true) + buildCard(sSep2, '178', false);
         }
         container.innerHTML = cardsHtml;
       } else {
@@ -11488,12 +11607,23 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         const doReachVal = (d.do_total && d.do_total > 0) ? 96.0 : (d.attendees > 0 ? 94.5 : 0.0);
         
         // Accurate indicator resolution for August & September cycles
-        const sSyl = isSep ? (getDistrictSurveyVal('DO', '47', dName).pct || 88.0) : (getDistrictSurveyVal('DO', '47', dName).pct || getDistrictSurveyVal('DO', '48', dName).pct || 86.5);
-        const sQual = isSep ? (getDistrictSurveyVal('CLSS', '175', dName).pct || 84.0) : (getDistrictSurveyVal('CLSS', '71', dName).pct || getDistrictSurveyVal('CLSS', '73', dName).pct || 82.4);
-        const sClar = isSep ? (getDistrictSurveyVal('CLSS', '82', dName).pct || 85.0) : (getDistrictSurveyVal('CLSS', '82', dName).pct || 88.0);
-        const sUtil = isSep ? (getDistrictSurveyVal('CLSS', '177', dName).pct || 89.0) : (getDistrictSurveyVal('CLSS', '84', dName).pct || getDistrictSurveyVal('CLSS', '77', dName).pct || 91.2);
-        const sDial = isSep ? (getDistrictSurveyVal('CLSS', '178', dName).pct || 52.0) : (getDistrictSurveyVal('CLSS', '79', dName).pct || getDistrictSurveyVal('CLSS', '80', dName).pct || 51.5);
-        const sTeach = isSep ? (getDistrictSurveyVal('CLSS', '179', dName).pct || 68.0) : (getDistrictSurveyVal('CLSS', '96', dName).pct || getDistrictSurveyVal('CLSS', '97', dName).pct || 67.8);
+        const isConsolidated = (typeof currentCycle !== 'undefined' && currentCycle === 'CONSOLIDATED');
+        const sSyl = isSep ? (getDistrictSurveyVal('DO', '47', dName).pct || 88.0) 
+                           : (isConsolidated ? Math.round(((getDistrictSurveyVal('DO', '47', dName).pct || 88.0) + (getDistrictSurveyVal('DO', '48', dName).pct || 86.5)) / 2) 
+                           : (getDistrictSurveyVal('DO', '47', dName).pct || getDistrictSurveyVal('DO', '48', dName).pct || 86.5));
+        const sQual = isSep ? (getDistrictSurveyVal('CLSS', '175', dName).pct || 84.0) 
+                            : (isConsolidated ? Math.round(((getDistrictSurveyVal('CLSS', '71', dName).pct || 82.4) + (getDistrictSurveyVal('CLSS', '175', dName).pct || 84.0)) / 2) 
+                            : (getDistrictSurveyVal('CLSS', '71', dName).pct || getDistrictSurveyVal('CLSS', '73', dName).pct || 82.4));
+        const sClar = getDistrictSurveyVal('CLSS', '82', dName).pct || (isSep ? 85.0 : 88.0);
+        const sUtil = isSep ? (getDistrictSurveyVal('CLSS', '177', dName).pct || 89.0) 
+                            : (isConsolidated ? Math.round(((getDistrictSurveyVal('CLSS', '84', dName).pct || 91.2) + (getDistrictSurveyVal('CLSS', '177', dName).pct || 89.0)) / 2) 
+                            : (getDistrictSurveyVal('CLSS', '84', dName).pct || getDistrictSurveyVal('CLSS', '77', dName).pct || 91.2));
+        const sDial = isSep ? (getDistrictSurveyVal('CLSS', '178', dName).pct || 52.0) 
+                            : (isConsolidated ? Math.round(((getDistrictSurveyVal('CLSS', '79', dName).pct || 51.5) + (getDistrictSurveyVal('CLSS', '178', dName).pct || 52.0)) / 2) 
+                            : (getDistrictSurveyVal('CLSS', '79', dName).pct || getDistrictSurveyVal('CLSS', '80', dName).pct || 51.5));
+        const sTeach = isSep ? (getDistrictSurveyVal('CLSS', '179', dName).pct || 68.0) 
+                             : (isConsolidated ? Math.round(((getDistrictSurveyVal('CLSS', '96', dName).pct || 67.8) + (getDistrictSurveyVal('CLSS', '179', dName).pct || 68.0)) / 2) 
+                             : (getDistrictSurveyVal('CLSS', '96', dName).pct || getDistrictSurveyVal('CLSS', '97', dName).pct || 67.8));
         const sPed = (typeof calculateDistrictPedagogyScore === 'function') ? calculateDistrictPedagogyScore(dName) : 58.0;
 
         const tr = document.createElement('tr');
@@ -13082,6 +13212,23 @@ function renderQuestionBankTable() {
       const selectedDist = distSelect ? distSelect.value : 'ALL';
       const view = window.activeQuestionView || 'district';
 
+      const augSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.AUG && dataPackage.cycles.AUG.surveys) || [];
+      const sepSurveys = (dataPackage && dataPackage.cycles && dataPackage.cycles.SEP && dataPackage.cycles.SEP.surveys) || [];
+      const sAug = augSurveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid));
+      const sSep = sepSurveys.find(x => String(x.questionId) === String(qid) || String(x.questionId).replace('Q','') === String(qid));
+      const isMultiCycle = (currentCycle === 'CONSOLIDATED' && sAug && sSep);
+
+      // Dynamic contextual role label for table header
+      const rawRole = (s.role || '').toLowerCase();
+      let roleLabel = isHi ? 'कुल उत्तरदाता' : 'Total Respondents';
+      if (rawRole.includes('part') || rawRole.includes('teach')) {
+        roleLabel = isHi ? 'कुल शिक्षक' : 'Total Teachers';
+      } else if (rawRole.includes('fac')) {
+        roleLabel = isHi ? 'कुल सहजकर्ता' : 'Total Facilitators';
+      } else if (rawRole.includes('mon') || rawRole.includes('obs')) {
+        roleLabel = isHi ? 'कुल अवलोकनकर्ता' : 'Total Observers / Monitors';
+      }
+
       if (view === 'block' && s.blockData && s.blockData.length > 0) {
         // Populate district dropdown for block filtering
         if (distSelect && distSelect.options.length <= 1) {
@@ -13103,7 +13250,7 @@ function renderQuestionBankTable() {
         let tHtml = `<thead><tr>
           <th style="min-width: 140px;">${isHi ? 'जिला' : 'District'}</th>
           <th style="min-width: 150px;">${isHi ? 'ब्लॉक का नाम' : 'Block Name'}</th>
-          <th style="text-align: right; min-width: 90px;">${isHi ? 'कुल सहयोगी दल' : 'Total Facilitators & Monitors'}</th>`;
+          <th style="text-align: right; min-width: 90px;">${roleLabel}</th>`;
         s.columns.forEach(c => { 
           const lbl = (c.labelHi || c.labelEn || '').replace(/"/g, '&quot;');
           tHtml += `<th title="${lbl}" style="text-align: right; min-width: 75px;">${c.code}</th>`; 
@@ -13152,8 +13299,18 @@ function renderQuestionBankTable() {
       } else {
         // District View
         let tHtml = `<thead><tr>
-          <th style="min-width: 160px;">${isHi ? 'जिला' : 'District'}</th>
-          <th style="text-align: right; min-width: 100px;">${isHi ? 'कुल सहयोगी दल' : 'Total Facilitators & Monitors'}</th>`;
+          <th style="min-width: 140px;">${isHi ? 'जिला' : 'District'}</th>`;
+        
+        if (isMultiCycle) {
+          tHtml += `
+            <th style="text-align: right; min-width: 75px; color: #2563eb;" title="${isHi ? 'अगस्त चक्र' : 'August Cycle'}">${isHi ? 'अगस्त' : 'Aug'}</th>
+            <th style="text-align: right; min-width: 75px; color: #059669;" title="${isHi ? 'सितंबर चक्र' : 'September Cycle'}">${isHi ? 'सितंबर' : 'Sep'}</th>
+            <th style="text-align: right; min-width: 85px; color: #7c3aed; font-weight: 800;" title="${isHi ? 'संयुक्त कुल' : 'Consolidated Total'}">${isHi ? 'संयुक्त कुल' : 'Combined'}</th>
+          `;
+        } else {
+          tHtml += `<th style="text-align: right; min-width: 100px;">${roleLabel}</th>`;
+        }
+
         s.columns.forEach(c => { 
           const lbl = (c.labelHi || c.labelEn || '').replace(/"/g, '&quot;');
           tHtml += `<th title="${lbl}" style="text-align: right; min-width: 80px;">${c.code}</th>`; 
@@ -13173,8 +13330,21 @@ function renderQuestionBankTable() {
 
           rowCount++;
           tHtml += `<tr>
-            <td><strong style="color: var(--text-primary); font-size: 12.5px;">${isHi ? dHi : dName}</strong></td>
-            <td class="font-mono" style="font-weight: 700; text-align: right;">${d.totalRespondents ? Number(d.totalRespondents).toLocaleString() : '-'}</td>`;
+            <td><strong style="color: var(--text-primary); font-size: 12.5px;">${isHi ? dHi : dName}</strong></td>`;
+          
+          if (isMultiCycle) {
+            const dAug = sAug.districtData ? sAug.districtData.find(x => x.district.toLowerCase() === dName.toLowerCase()) : null;
+            const dSep = sSep.districtData ? sSep.districtData.find(x => x.district.toLowerCase() === dName.toLowerCase()) : null;
+            const augTot = dAug ? (dAug.totalRespondents || 0) : 0;
+            const sepTot = dSep ? (dSep.totalRespondents || 0) : 0;
+            tHtml += `
+              <td class="font-mono" style="font-weight: 600; text-align: right; color: #2563eb;">${augTot ? augTot.toLocaleString() : '-'}</td>
+              <td class="font-mono" style="font-weight: 600; text-align: right; color: #059669;">${sepTot ? sepTot.toLocaleString() : '-'}</td>
+              <td class="font-mono" style="font-weight: 800; text-align: right; color: #7c3aed;">${d.totalRespondents ? Number(d.totalRespondents).toLocaleString() : '-'}</td>
+            `;
+          } else {
+            tHtml += `<td class="font-mono" style="font-weight: 700; text-align: right;">${d.totalRespondents ? Number(d.totalRespondents).toLocaleString() : '-'}</td>`;
+          }
           
           s.columns.forEach(c => {
             const v = d[c.code] !== undefined ? d[c.code] : 0;
@@ -13189,7 +13359,8 @@ function renderQuestionBankTable() {
         });
 
         if (rowCount === 0) {
-          tHtml += `<tr><td colspan="${s.columns.length + 2}" style="text-align: center; padding: 24px; color: var(--text-muted);">
+          const colSpan = s.columns.length + (isMultiCycle ? 4 : 2);
+          tHtml += `<tr><td colspan="${colSpan}" style="text-align: center; padding: 24px; color: var(--text-muted);">
             ${isHi ? 'कोई मेल खाने वाला जिला नहीं मिला' : 'No matching district records found'}
           </td></tr>`;
         }
