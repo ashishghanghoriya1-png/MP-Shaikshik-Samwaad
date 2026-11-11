@@ -5884,24 +5884,89 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <!-- 11. TEACHER PERFORMANCE & SUPPORT TAB -->
 <section class="tab-section lang-fade-target" id="tab-teacher-diagnostics">
   
-  <!-- Header Title & Subtitle -->
-  <div class="panel-head" style="margin-bottom: 20px;">
-    <div>
-      <h2 style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0; font-family: var(--font-editorial); display: flex; align-items: center; gap: 10px;">
-        <span>👨‍🏫</span>
-        <span id="tdHeaderTitle">Teacher Performance &amp; Support</span>
-        <span style="font-size: 12px; font-family: var(--font-mono); background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); padding: 4px 10px; border-radius: 6px; font-weight: 700;">
-          33,866 Teachers Indexed
-        </span>
-      </h2>
-      <p id="tdHeaderSubtitle" style="font-size: 13px; color: var(--text-secondary); margin: 6px 0 0 0; line-height: 1.45;">
-        Search any teacher by Employee Code or Name to inspect their 10-question pedagogical assessment, identified classroom gaps, and mentor coaching action plan.
-      </p>
+  <!-- SECURITY GATE FOR TEACHER PERFORMANCE & SUPPORT TAB -->
+  <div id="tdSecurityGate" style="max-width: 520px; margin: 40px auto 60px; background: var(--bg-surface-1); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 38px 32px; box-shadow: var(--shadow-elevation-3); text-align: center;">
+    <div style="width: 66px; height: 66px; margin: 0 auto 16px; background: rgba(0, 138, 171, 0.1); border: 2px solid rgba(0, 138, 171, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+      🔒
     </div>
-    <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); background: var(--bg-surface-2); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-hairline);">
-      Data Engine: <strong>DuckDB High-Speed Analytical Layer</strong>
+    
+    <div style="font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--peepul-teal); margin-bottom: 6px;">
+      CONFIDENTIAL SUPERVISOR PORTAL • अधिकृत पर्यवेक्षक पोर्टल
     </div>
+    <h3 style="font-size: 19px; font-weight: 800; color: var(--text-primary); margin: 0 0 8px;">
+      Teacher Performance &amp; Support Studio
+    </h3>
+    <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin: 0 0 24px;">
+      This section contains individual teacher pedagogy assessments, identified classroom gaps, and customized coaching plans for 33,866 teachers. Enter the supervisor passcode to access.
+      <br><span style="font-size: 11px; color: var(--text-muted);">(इस अनुभाग में शिक्षकों के व्यक्तिगत मूल्यांकन और मार्गदर्शन योजनाएं शामिल हैं।)</span>
+    </p>
+
+    <div style="text-align: left; margin-bottom: 20px;">
+      <label for="tdPassInput" style="display: block; font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
+        Supervisor Passcode (पासवर्ड दर्ज करें):
+      </label>
+      <div style="position: relative; display: flex; align-items: center;">
+        <input 
+          type="password" 
+          id="tdPassInput" 
+          placeholder="Enter Passcode..." 
+          style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 14px; font-size: 13.5px; font-family: var(--font-sans); border: 1.5px solid var(--border-subtle); border-radius: 8px; background: var(--bg-canvas); color: var(--text-primary); outline: none; transition: border-color 0.2s ease;"
+          onfocus="this.style.borderColor='var(--peepul-teal)';"
+          onblur="this.style.borderColor='var(--border-subtle)';"
+        />
+        <button 
+          type="button" 
+          onclick="window.toggleTeacherPassVisibility()" 
+          style="position: absolute; right: 10px; background: transparent; border: none; cursor: pointer; color: var(--text-muted); font-size: 15px; padding: 4px;"
+          title="Toggle password visibility"
+        >
+          👁️
+        </button>
+      </div>
+      <div id="tdPassError" style="display: none; color: #dc2626; font-size: 11.5px; font-weight: 600; margin-top: 6px;"></div>
+    </div>
+
+    <button 
+      id="tdUnlockBtn" 
+      onclick="window.verifyTeacherStudioPasscode()" 
+      style="width: 100%; padding: 12px 18px; font-size: 13.5px; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #008aab 0%, #1d4ed8 100%); border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 138, 171, 0.3); transition: transform 0.15s ease, opacity 0.15s ease;"
+      onmouseover="this.style.opacity='0.95'"
+      onmouseout="this.style.opacity='1'"
+    >
+      🔓 Unlock Teacher Studio (स्टूडियो अनलॉक करें)
+    </button>
   </div>
+
+  <!-- MAIN TAB CONTENT CONTAINER (Hidden Until Authenticated) -->
+  <div id="tdContentContainer" style="display: none;">
+
+    <!-- Header Title & Subtitle -->
+    <div class="panel-head" style="margin-bottom: 20px;">
+      <div>
+        <h2 style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0; font-family: var(--font-editorial); display: flex; align-items: center; gap: 10px;">
+          <span>👨‍🏫</span>
+          <span id="tdHeaderTitle">Teacher Performance &amp; Support</span>
+          <span style="font-size: 12px; font-family: var(--font-mono); background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); padding: 4px 10px; border-radius: 6px; font-weight: 700;">
+            33,866 Teachers Indexed
+          </span>
+        </h2>
+        <p id="tdHeaderSubtitle" style="font-size: 13px; color: var(--text-secondary); margin: 6px 0 0 0; line-height: 1.45;">
+          Search any teacher by Employee Code or Name to inspect their 10-question pedagogical assessment, identified classroom gaps, and mentor coaching action plan.
+        </p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); background: var(--bg-surface-2); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-hairline);">
+          Data Engine: <strong>DuckDB High-Speed Layer</strong>
+        </div>
+        <button 
+          onclick="window.lockTeacherStudio()" 
+          style="padding: 6px 12px; font-size: 11px; font-weight: 700; color: #dc2626; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 6px; cursor: pointer; transition: background 0.15s ease;"
+          title="Lock Teacher Studio"
+        >
+          🔒 Lock Tab
+        </button>
+      </div>
+    </div>
 
   <!-- Top Bento KPI Ribbon (Statewide Distribution) -->
   <div class="bento-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px;">
@@ -6195,6 +6260,8 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     </div>
 
   </div>
+
+  </div> <!-- Close tdContentContainer -->
 
 </section>
 

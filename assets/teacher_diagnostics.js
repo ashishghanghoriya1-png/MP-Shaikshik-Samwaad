@@ -105,17 +105,99 @@
     }
   };
 
-  /**
-   * Initialize Tab Data & Controls
-   */
-  window.initTeacherDiagnosticsTab = function() {
+  const AUTH_STORAGE_KEY = 'rsk_teacher_studio_unlocked';
+  const VALID_TEACHER_HASHES = [
+    'b3fad6589ccab501b7b87c331b435c14313a7bc3cc51a49214002d05a7021526', // Teacher#2026.Support@MP (Primary Strong Passcode)
+    '1161ecfea305909c69a1f789c4d6cdfc60cb6fc17e99b3f54e840b60d2ac774a', // RSK#2026.Teacher@MP
+    '49409725252c77a5187112e4525c2cda4fcd1dc7e38e51f437c512e2c00c24aa', // RSK#Teacher.Support@2026
+    'ed042bf0292dc81ac78c0c090a0d9d5d210953f1e7d25889c6223e297084e3b2'  // RSK#2026.Samwaad@MP (Executive master fallback)
+  ];
+
+  async function computeSha256(str) {
+    if (window.crypto && crypto.subtle) {
+      const msgUint8 = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    return '';
+  }
+
+  window.isTeacherStudioUnlocked = function() {
+    return sessionStorage.getItem(AUTH_STORAGE_KEY) === 'granted';
+  };
+
+  window.verifyTeacherStudioPasscode = async function() {
+    const input = document.getElementById('tdPassInput');
+    const err = document.getElementById('tdPassError');
+    if (!input) return;
+    const val = (input.value || '').trim();
+
+    if (!val) {
+      if (err) {
+        err.style.display = 'block';
+        err.innerText = (window.currentLang === 'hi') ? 'कृपया पासवर्ड दर्ज करें।' : 'Please enter the supervisor passcode.';
+      }
+      return;
+    }
+
+    const hash = await computeSha256(val);
+    if (VALID_TEACHER_HASHES.includes(hash)) {
+      sessionStorage.setItem(AUTH_STORAGE_KEY, 'granted');
+      if (err) err.style.display = 'none';
+      unlockTeacherStudioUI();
+    } else {
+      if (err) {
+        err.style.display = 'block';
+        err.innerText = (window.currentLang === 'hi') 
+          ? '❌ अमान्य पासवर्ड (Invalid Passcode)। कृपया सही पासवर्ड दर्ज करें।' 
+          : '❌ Invalid Passcode. Please check and re-enter.';
+      }
+      input.style.borderColor = '#dc2626';
+      setTimeout(() => {
+        if (input) input.style.borderColor = 'var(--border-subtle)';
+      }, 1500);
+    }
+  };
+
+  window.toggleTeacherPassVisibility = function() {
+    const input = document.getElementById('tdPassInput');
+    if (!input) return;
+    input.type = (input.type === 'password') ? 'text' : 'password';
+  };
+
+  window.lockTeacherStudio = function() {
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    const gate = document.getElementById('tdSecurityGate');
+    const content = document.getElementById('tdContentContainer');
+    if (gate) gate.style.display = 'block';
+    if (content) content.style.display = 'none';
+    const input = document.getElementById('tdPassInput');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    const err = document.getElementById('tdPassError');
+    if (err) err.style.display = 'none';
+  };
+
+  function unlockTeacherStudioUI() {
+    const gate = document.getElementById('tdSecurityGate');
+    const content = document.getElementById('tdContentContainer');
+    if (gate) gate.style.display = 'none';
+    if (content) content.style.display = 'block';
+
+    if (!isInitialized || allTeachers.length === 0) {
+      loadTeacherDiagnosticsData();
+    }
+  }
+
+  function loadTeacherDiagnosticsData() {
     if (isInitialized && allTeachers.length > 0) return;
 
-    // Check if data is preloaded via script tag
     if (window.TEACHER_DIAGNOSTICS_DATA) {
       loadDataPayload(window.TEACHER_DIAGNOSTICS_DATA);
     } else {
-      // Lazy fetch from compact JSON file
       const statusEl = document.getElementById('teacherLoadStatus');
       if (statusEl) statusEl.innerText = 'Loading teacher dataset (33,866 records)...';
       
@@ -134,6 +216,32 @@
           }
         });
     }
+  }
+
+  /**
+   * Initialize Tab Data & Controls
+   */
+  window.initTeacherDiagnosticsTab = function() {
+    if (!window.isTeacherStudioUnlocked()) {
+      const gate = document.getElementById('tdSecurityGate');
+      const content = document.getElementById('tdContentContainer');
+      if (gate) gate.style.display = 'block';
+      if (content) content.style.display = 'none';
+      
+      const input = document.getElementById('tdPassInput');
+      if (input && !input.hasAttribute('data-has-listener')) {
+        input.setAttribute('data-has-listener', 'true');
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            window.verifyTeacherStudioPasscode();
+          }
+        });
+      }
+      return;
+    }
+
+    unlockTeacherStudioUI();
   };
 
   /**
