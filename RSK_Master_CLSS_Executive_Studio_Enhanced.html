@@ -2523,46 +2523,171 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
   window.jumpToQuestionExplorer = function(targetQid) {
     if (!targetQid) return;
-    const cleanId = String(targetQid).replace(/[^0-9]/g, '');
 
-    // 1. Instantly hide any tooltip
+    // 1. Instantly dismiss any active question tooltip
     if (typeof window.hideQuestionTooltip === 'function') {
       window.hideQuestionTooltip(true);
     }
 
-    // 2. Activate tab-questions in mainStudioNav
-    const qNavBtn = document.querySelector("#mainStudioNav button[onclick*='tab-questions']");
+    // 2. Parse candidate question IDs (handles '82', 'Q82', 'Q95/Q177, Q178', etc.)
+    const str = String(targetQid || '');
+    const candidateIds = str.match(/\d+/g) || [];
+    if (candidateIds.length === 0) return;
+
+    // 3. Resolve target question and determine appropriate cycle & role filters
+    const dp = (typeof dataPackage !== 'undefined') ? dataPackage : (window.dataPackage || {});
+    const cycles = (dp && dp.cycles) || {};
+    let chosenId = null;
+    let requiredCycle = null;
+
+    // Check if any candidate exists in the current cycle
+    const currentSurveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((cycles[currentCycle] && cycles[currentCycle].surveys) || dp.surveys || []);
+    for (const cid of candidateIds) {
+      if (currentSurveys.some(s => String(s.questionId).replace(/^Q/i, '') === String(cid))) {
+        chosenId = cid;
+        break;
+      }
+    }
+
+    // If not found in active cycle, check where it exists (CONSOLIDATED -> SEP -> AUG)
+    if (!chosenId) {
+      const conSurveys = (cycles.CONSOLIDATED && cycles.CONSOLIDATED.surveys) || [];
+      for (const cid of candidateIds) {
+        if (conSurveys.some(s => String(s.questionId).replace(/^Q/i, '') === String(cid))) {
+          chosenId = cid;
+          requiredCycle = 'CONSOLIDATED';
+          break;
+        }
+      }
+      if (!chosenId) {
+        const sepSurveys = (cycles.SEP && cycles.SEP.surveys) || [];
+        for (const cid of candidateIds) {
+          if (sepSurveys.some(s => String(s.questionId).replace(/^Q/i, '') === String(cid))) {
+            chosenId = cid;
+            requiredCycle = 'SEP';
+            break;
+          }
+        }
+      }
+      if (!chosenId) {
+        const augSurveys = (cycles.AUG && cycles.AUG.surveys) || [];
+        for (const cid of candidateIds) {
+          if (augSurveys.some(s => String(s.questionId).replace(/^Q/i, '') === String(cid))) {
+            chosenId = cid;
+            requiredCycle = 'AUG';
+            break;
+          }
+        }
+      }
+      if (!chosenId) chosenId = candidateIds[0];
+    }
+
+    // 4. If a cycle switch is required to view this question, switch cycle
+    if (requiredCycle && typeof currentCycle !== 'undefined' && currentCycle !== requiredCycle) {
+      if (typeof setMonthSlicer === 'function') {
+        setMonthSlicer(requiredCycle);
+      } else {
+        currentCycle = requiredCycle;
+      }
+    }
+
+    // 5. Ensure question is visible under activeRole & activeProgram filters
+    const allKnownSurveys = (typeof getActiveSurveys === 'function') ? getActiveSurveys() : ((cycles[currentCycle] && cycles[currentCycle].surveys) || dp.surveys || []);
+    const matchingSurvey = allKnownSurveys.find(s => String(s.questionId).replace(/^Q/i, '') === String(chosenId));
+
+    if (matchingSurvey) {
+      if (typeof activeProgram !== 'undefined' && activeProgram !== 'ALL' && matchingSurvey.program && matchingSurvey.program !== activeProgram) {
+        if (typeof setProgramSlicer === 'function') setProgramSlicer('ALL');
+        else activeProgram = 'ALL';
+      }
+      if (typeof activeRole !== 'undefined' && activeRole !== 'ALL') {
+        const sRole = (matchingSurvey.role || '').toLowerCase();
+        const curRole = activeRole.toLowerCase();
+        let roleMatches = false;
+        if ((curRole.includes('part') || curRole.includes('teach')) && (sRole.includes('part') || sRole.includes('teach'))) roleMatches = true;
+        if (curRole.includes('fac') && sRole.includes('fac')) roleMatches = true;
+        if ((curRole.includes('mon') || curRole.includes('obs')) && (sRole.includes('mon') || sRole.includes('obs'))) roleMatches = true;
+        if (!roleMatches) {
+          if (typeof setRoleSlicer === 'function') setRoleSlicer('ALL');
+          else activeRole = 'ALL';
+        }
+      }
+    } else {
+      if (typeof activeRole !== 'undefined' && activeRole !== 'ALL') {
+        if (typeof setRoleSlicer === 'function') setRoleSlicer('ALL');
+        else activeRole = 'ALL';
+      }
+      if (typeof activeProgram !== 'undefined' && activeProgram !== 'ALL') {
+        if (typeof setProgramSlicer === 'function') setProgramSlicer('ALL');
+        else activeProgram = 'ALL';
+      }
+    }
+
+    // 6. Set pending question jump flag so refreshQuestionBankDropdown locks onto it immediately
+    window.pendingQuestionJump = String(chosenId);
+
+    // 7. Activate Tab 5 in Studio Nav
+    const qNavBtn = document.querySelector(".studio-nav .nav-item[onclick*='tab-questions'], #mainStudioNav button[onclick*='tab-questions']");
     if (typeof activateTab === 'function') {
       activateTab('tab-questions', qNavBtn);
     }
 
-    // 3. Select question in dropdown & trigger change
-    setTimeout(() => {
+    // 8. Bulletproof option selector function
+    function applySelectionToDropdown() {
       const sel = document.getElementById('qbSheetSelect');
-      if (sel) {
-        let foundIdx = -1;
+      if (!sel || !sel.options || sel.options.length === 0) return false;
+      const targetStr = String(chosenId).replace(/^Q/i, '').trim();
+      let foundIdx = -1;
+
+      // Exact value match (primary)
+      for (let i = 0; i < sel.options.length; i++) {
+        if (String(sel.options[i].value).replace(/^Q/i, '').trim() === targetStr) {
+          foundIdx = i;
+          break;
+        }
+      }
+      // Regex word-boundary match on option text: \bQ82\b (secondary)
+      if (foundIdx === -1) {
+        const re = new RegExp('\\bQ\\s*' + targetStr + '\\b', 'i');
         for (let i = 0; i < sel.options.length; i++) {
-          const val = String(sel.options[i].value).replace(/[^0-9]/g, '');
-          const txt = sel.options[i].innerText;
-          if (val === cleanId || txt.includes('Q' + cleanId) || txt.includes('Q ' + cleanId)) {
+          if (re.test(sel.options[i].innerText)) {
             foundIdx = i;
             break;
           }
         }
-        if (foundIdx !== -1) {
-          sel.selectedIndex = foundIdx;
-          sel.dispatchEvent(new Event('change'));
-        }
       }
 
-      // 4. Smooth scroll and focus pulse
+      if (foundIdx !== -1) {
+        sel.selectedIndex = foundIdx;
+        window.pendingQuestionJump = null;
+        if (typeof renderQuestionBankActive === 'function') {
+          renderQuestionBankActive();
+        }
+        sel.dispatchEvent(new Event('change'));
+        return true;
+      }
+      return false;
+    }
+
+    // Execute selection immediately
+    applySelectionToDropdown();
+
+    // Re-verify in next tick and after 60ms/150ms to defeat any DOM reflow/tab-fade race condition
+    setTimeout(applySelectionToDropdown, 50);
+    setTimeout(applySelectionToDropdown, 150);
+
+    // 9. Smooth scroll and focus pulse on Tab 5
+    setTimeout(() => {
       const targetSec = document.getElementById('tab-questions');
       if (targetSec) {
         targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        targetSec.classList.add('q-focus-pulse');
-        setTimeout(() => targetSec.classList.remove('q-focus-pulse'), 2500);
+        const focusTarget = document.getElementById('qbBanner') || document.getElementById('qbSheetSelect') || targetSec;
+        focusTarget.classList.remove('q-focus-pulse');
+        void focusTarget.offsetWidth;
+        focusTarget.classList.add('q-focus-pulse');
+        setTimeout(() => focusTarget.classList.remove('q-focus-pulse'), 2500);
       }
-    }, 60);
+    }, 80);
   };
 
   // Helper to generate interactive badge HTML
@@ -2627,7 +2752,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
                  onclick="toggleQuestionTooltip(event, '${cleanId}')"
                  ondblclick="jumpToQuestionExplorer('${cleanId}')" 
                  title="Click or hover to inspect question • Double-click to jump to survey explorer">
-              <span class="q-icon">📋</span> ${displayLabel} <span class="q-arrow">↗</span>
+              <span class="q-icon">📋</span> ${displayLabel} <span class="q-arrow" onclick="event.stopPropagation(); jumpToQuestionExplorer('${cleanId}')" title="Click to jump directly to survey explorer">↗</span>
             </span>`;
   };
 
@@ -8233,6 +8358,20 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             responsive: true,
             maintainAspectRatio: false,
             layout: { padding: { top: 22 } },
+            onClick: (evt, elements) => {
+              if (elements && elements.length > 0) {
+                const idx = elements[0].index;
+                const trustQids = ['91', '89', '90', '88'];
+                const qid = trustQids[idx];
+                if (qid && typeof window.jumpToQuestionExplorer === 'function') {
+                  window.jumpToQuestionExplorer(qid);
+                }
+              }
+            },
+            onHover: (event, chartElement) => {
+              const canvas = event.native ? event.native.target : event.chart.canvas;
+              if (canvas) canvas.style.cursor = chartElement[0] ? 'pointer' : 'default';
+            },
             plugins: {
               legend: { display: false },
               datalabels: {
@@ -8957,7 +9096,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             const tier = get4TierInfo(score);
             const distName = isHi ? (typeof getDistName === 'function' ? getDistName(dinfo.district) : dinfo.district) : dinfo.district;
             return `
-              <div style="background: var(--bg-surface-1); padding: 10px 12px; border-radius: 8px; border-left: 4px solid ${item.color}; border: 1px solid var(--border-hairline); border-left-width: 4px; display: flex; flex-direction: column; gap: 5px;">
+              <div style="background: var(--bg-surface-1); padding: 10px 12px; border-radius: 8px; border-left: 4px solid ${item.color}; border: 1px solid var(--border-hairline); border-left-width: 4px; display: flex; flex-direction: column; gap: 5px; cursor: pointer;" onclick="if (!event.target.closest('button') && !event.target.closest('.q-interactive-badge')) jumpToQuestionExplorer('${item.qid}')">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
                   <strong style="color: ${item.color}; font-size: 12.5px;">${idx + 1}. ${isHi ? item.nameHi : item.nameEn}</strong>
                   <div style="display: flex; align-items: center; gap: 6px;">
@@ -9610,7 +9749,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     }
 
     // 5. Question Bank
-    function refreshQuestionBankDropdown() {
+    function refreshQuestionBankDropdown(targetQidToSelect) {
       const sel = document.getElementById('qbSheetSelect');
       if (!sel) return;
       sel.innerHTML = '';
@@ -9670,8 +9809,36 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         sel.appendChild(opt);
       });
 
-      if (sel.options.length > 0) {
+      // Target selection logic: respect targetQidToSelect or window.pendingQuestionJump if present
+      const desiredId = (typeof targetQidToSelect !== 'undefined' ? targetQidToSelect : null) || window.pendingQuestionJump || null;
+      let targetIdx = -1;
+      if (desiredId && sel.options.length > 0) {
+        const cleanDesired = String(desiredId).replace(/^Q/i, '').trim();
+        for (let i = 0; i < sel.options.length; i++) {
+          if (String(sel.options[i].value).replace(/^Q/i, '').trim() === cleanDesired) {
+            targetIdx = i;
+            break;
+          }
+        }
+        if (targetIdx === -1) {
+          const re = new RegExp('\\bQ\\s*' + cleanDesired + '\\b', 'i');
+          for (let i = 0; i < sel.options.length; i++) {
+            if (re.test(sel.options[i].innerText)) {
+              targetIdx = i;
+              break;
+            }
+          }
+        }
+      }
+
+      if (targetIdx !== -1) {
+        sel.selectedIndex = targetIdx;
+        window.pendingQuestionJump = null;
+      } else if (sel.options.length > 0) {
         sel.selectedIndex = 0;
+      }
+
+      if (sel.options.length > 0) {
         renderQuestionBankActive();
       }
     }
