@@ -127,6 +127,7 @@
       const text177 = opt177[row[12]] || '';
       const text95 = opt95[row[13]] || '';
       const text97 = opt97[row[14]] || '';
+      const trustScore = row[15] !== undefined ? Number(row[15]) : 100.0;
 
       return {
         id: idx,
@@ -139,6 +140,7 @@
         as: augScore,
         ss: sepScore,
         sc: overallScore,
+        tr: trustScore,
         t: tier,
         g: gaps,
         t178: text178,
@@ -496,7 +498,7 @@
 
             <div style="text-align: right; background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px 16px; box-shadow: var(--shadow-tactile);">
               <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: var(--text-muted); text-transform: uppercase;">
-                ${isHi ? 'समग्र शिक्षण प्राप्तांक' : '10-Question Score'}
+                ${isHi ? 'शिक्षाशास्त्र प्राप्तांक' : 'Pedagogy Score'}
               </div>
               <div style="font-size: 26px; font-weight: 900; font-family: var(--font-mono); color: ${scoreColor}; margin-top: 2px;">
                 ${teacher.sc.toFixed(1)}%
@@ -505,24 +507,30 @@
           </div>
         </div>
 
-        <!-- Metrics Ribbon -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-hairline); border-bottom: 1px solid var(--border-subtle);">
-          <div style="background: var(--bg-surface-1); padding: 12px 16px; text-align: center;">
-            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted);">${isHi ? 'अगस्त प्राप्तांक' : 'August Score'}</div>
-            <div style="font-size: 16px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: ${teacher.as !== null ? 'var(--text-primary)' : 'var(--text-dim)'};">
+        <!-- Metrics Ribbon (4 Cards) -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-hairline); border-bottom: 1px solid var(--border-subtle);">
+          <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
+            <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'अगस्त प्राप्तांक' : 'August Pedagogy'}</div>
+            <div style="font-size: 15px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: ${teacher.as !== null ? 'var(--text-primary)' : 'var(--text-dim)'};">
               ${teacher.as !== null ? teacher.as.toFixed(1) + '%' : (isHi ? 'अनुपस्थित' : 'Not Attended')}
             </div>
           </div>
-          <div style="background: var(--bg-surface-1); padding: 12px 16px; text-align: center;">
-            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted);">${isHi ? 'सितंबर प्राप्तांक' : 'September Score'}</div>
-            <div style="font-size: 16px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: ${teacher.ss !== null ? 'var(--text-primary)' : 'var(--text-dim)'};">
+          <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
+            <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'सितंबर प्राप्तांक' : 'September Pedagogy'}</div>
+            <div style="font-size: 15px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: ${teacher.ss !== null ? 'var(--text-primary)' : 'var(--text-dim)'};">
               ${teacher.ss !== null ? teacher.ss.toFixed(1) + '%' : (isHi ? 'अनुपस्थित' : 'Not Attended')}
             </div>
           </div>
-          <div style="background: var(--bg-surface-1); padding: 12px 16px; text-align: center;">
-            <div style="font-size: 10.5px; font-weight: 700; color: var(--text-muted);">${isHi ? 'उपस्थिति चक्र' : 'Attendance Cycle'}</div>
-            <div style="font-size: 13px; font-weight: 800; margin-top: 4px; color: var(--peepul-teal);">
-              ${teacher.cy === 'BOTH' ? (isHi ? 'अगस्त + सितंबर दोनों' : 'Both Aug & Sep') : (teacher.cy === 'AUG' ? (isHi ? 'केवल अगस्त' : 'August Only') : (isHi ? 'केवल सितंबर' : 'September Only'))}
+          <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
+            <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'उपस्थिति चक्र' : 'Attendance Cycle'}</div>
+            <div style="font-size: 12px; font-weight: 800; margin-top: 4px; color: var(--peepul-teal);">
+              ${teacher.cy === 'BOTH' ? (isHi ? 'दोनों सत्र' : 'Both Cycles') : (teacher.cy === 'AUG' ? (isHi ? 'केवल अगस्त' : 'August Only') : (isHi ? 'केवल सितंबर' : 'September Only'))}
+            </div>
+          </div>
+          <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
+            <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'कक्षा उपयोगिता व विश्वास' : 'Trust & Utility'}</div>
+            <div style="font-size: 15px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: var(--peepul-indigo);">
+              ${teacher.tr !== undefined ? teacher.tr.toFixed(0) + '%' : '100%'}
             </div>
           </div>
         </div>

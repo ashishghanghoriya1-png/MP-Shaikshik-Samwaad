@@ -217,13 +217,26 @@ SELECT
     CASE WHEN s.emp_code IS NOT NULL THEN 
         ROUND(((s.corr_q82 + s.corr_q86 + s.corr_q177 + s.corr_q178 + s.corr_q179) * 20.0), 1)
     ELSE NULL END AS sep_ped_score,
-    -- 10-Question Comprehensive Score (out of 100%)
-    ROUND(
-        (
-            COALESCE((a.corr_q82 + a.corr_q86 + a.corr_q95 + a.corr_q96 + a.corr_q97 + a.corr_q90 + a.corr_q89 + a.corr_q88 + a.corr_q91) * 100.0 / 9.0, 0) +
-            COALESCE((s.corr_q82 + s.corr_q86 + s.corr_q177 + s.corr_q178 + s.corr_q179 + s.corr_q90 + s.corr_q89 + s.corr_q88 + s.corr_q91) * 100.0 / 9.0, 0)
-        ) / CASE WHEN a.emp_code IS NOT NULL AND s.emp_code IS NOT NULL THEN 2.0 ELSE 1.0 END
-    , 1) AS overall_score,
+    -- Pure Pedagogical Overall Score (out of 100%)
+    CASE 
+        WHEN a.emp_code IS NOT NULL AND s.emp_code IS NOT NULL THEN
+            ROUND((((a.corr_q82 + a.corr_q86 + a.corr_q95 + a.corr_q96 + a.corr_q97) * 20.0) + 
+                   ((s.corr_q82 + s.corr_q86 + s.corr_q177 + s.corr_q178 + s.corr_q179) * 20.0)) / 2.0, 1)
+        WHEN a.emp_code IS NOT NULL THEN
+            ROUND(((a.corr_q82 + a.corr_q86 + a.corr_q95 + a.corr_q96 + a.corr_q97) * 20.0), 1)
+        ELSE
+            ROUND(((s.corr_q82 + s.corr_q86 + s.corr_q177 + s.corr_q178 + s.corr_q179) * 20.0), 1)
+    END AS overall_score,
+    -- Classroom Trust & Utility (out of 4 questions: Q90, Q89, Q88, Q91)
+    CASE 
+        WHEN a.emp_code IS NOT NULL AND s.emp_code IS NOT NULL THEN
+            ROUND((((a.corr_q90 + a.corr_q89 + a.corr_q88 + a.corr_q91) * 25.0) + 
+                   ((s.corr_q90 + s.corr_q89 + s.corr_q88 + s.corr_q91) * 25.0)) / 2.0, 1)
+        WHEN a.emp_code IS NOT NULL THEN
+            ROUND(((a.corr_q90 + a.corr_q89 + a.corr_q88 + a.corr_q91) * 25.0), 1)
+        ELSE
+            ROUND(((s.corr_q90 + s.corr_q89 + s.corr_q88 + s.corr_q91) * 25.0), 1)
+    END AS trust_score,
     -- Misconception indicators
     a.corr_q82 AS a_q82, a.corr_q86 AS a_q86, a.corr_q95 AS a_q95, a.corr_q96 AS a_q96, a.corr_q97 AS a_q97,
     s.corr_q82 AS s_q82, s.corr_q86 AS s_q86, s.corr_q177 AS s_q177, s.corr_q178 AS s_q178, s.corr_q179 AS s_q179,
@@ -276,6 +289,7 @@ SELECT
     COALESCE(aug_ped_score, -1) as aug_score,
     COALESCE(sep_ped_score, -1) as sep_score,
     overall_score,
+    trust_score,
     -- specific gaps
     CASE WHEN a_q95 = 0 OR s_q177 = 0 THEN 1 ELSE 0 END as gap_tlm,
     CASE WHEN s_q178 = 0 THEN 1 ELSE 0 END as gap_probing,
@@ -290,42 +304,67 @@ FROM v_master_teachers
 ORDER BY overall_score DESC, emp_name ASC;
 """)
 
-teacher_records = []
-for r in teachers_cur.fetchall():
+rows = teachers_cur.fetchall()
+districts = sorted(list(set(str(r[2] or '') for r in rows)))
+d_map = {name: i for i, name in enumerate(districts)}
+
+blocks = sorted(list(set(str(r[3] or '') for r in rows)))
+b_map = {name: i for i, name in enumerate(blocks)}
+
+opt_178 = sorted(list(set(str(r[15][:60] if r[15] else '') for r in rows)))
+o178_map = {txt: i for i, txt in enumerate(opt_178)}
+
+opt_177 = sorted(list(set(str(r[16][:60] if r[16] else '') for r in rows)))
+o177_map = {txt: i for i, txt in enumerate(opt_177)}
+
+opt_95 = sorted(list(set(str(r[17][:60] if r[17] else '') for r in rows)))
+o95_map = {txt: i for i, txt in enumerate(opt_95)}
+
+opt_97 = sorted(list(set(str(r[18][:60] if r[18] else '') for r in rows)))
+o97_map = {txt: i for i, txt in enumerate(opt_97)}
+
+compact_rows = []
+for r in rows:
     score = float(r[8])
+    trust = float(r[9]) if r[9] is not None else 0.0
     tier = 'CHAMPION' if score >= 80 else ('PROFICIENT' if score >= 60 else ('DEVELOPING' if score >= 40 else 'SUPPORT_NEEDED'))
     
     # catalog gaps
     gaps = []
-    if r[9] == 1: gaps.append('TLM_CYCLE')
-    if r[10] == 1: gaps.append('PROBING')
-    if r[11] == 1: gaps.append('SAFETY')
-    if r[12] == 1: gaps.append('BELONGING')
-    if r[13] == 1: gaps.append('PURPOSE')
+    if r[10] == 1: gaps.append('TLM_CYCLE')
+    if r[11] == 1: gaps.append('PROBING')
+    if r[12] == 1: gaps.append('SAFETY')
+    if r[13] == 1: gaps.append('BELONGING')
+    if r[14] == 1: gaps.append('PURPOSE')
     
     aug_sc = float(r[6]) if r[6] is not None and float(r[6]) >= 0 else None
     sep_sc = float(r[7]) if r[7] is not None and float(r[7]) >= 0 else None
 
-    teacher_records.append({
-        'c': str(r[0] or ''),               # EmployeeCode
-        'n': str(r[1] or ''),               # EmployeeName
-        'd': str(r[2] or ''),               # District
-        'b': str(r[3] or ''),               # Block
-        'cl': str(r[4] or ''),              # Cluster
-        'cy': str(r[5] or ''),              # Cycles ('BOTH', 'AUG', 'SEP')
-        'as': aug_sc,                       # Aug Pedagogy Score
-        'ss': sep_sc,                       # Sep Pedagogy Score
-        'sc': score,                        # Overall 10-Question Score
-        't': tier,                          # Performance Tier
-        'g': gaps,                          # Learning Gap Codes
-        't178': str(r[14][:60]) if r[14] else '',
-        't177': str(r[15][:60]) if r[15] else '',
-        't95': str(r[16][:60]) if r[16] else '',
-        't97': str(r[17][:60]) if r[17] else ''
-    })
+    t178_txt = str(r[15][:60]) if r[15] else ''
+    t177_txt = str(r[16][:60]) if r[16] else ''
+    t95_txt = str(r[17][:60]) if r[17] else ''
+    t97_txt = str(r[18][:60]) if r[18] else ''
 
-# Write JSON
-diagnostic_export = {
+    compact_rows.append([
+        str(r[0] or ''),           # 0: Code
+        str(r[1] or ''),           # 1: Name
+        d_map[str(r[2] or '')],    # 2: District Idx
+        b_map[str(r[3] or '')],    # 3: Block Idx
+        str(r[4] or ''),           # 4: Cluster
+        str(r[5] or ''),           # 5: Cycles ('BOTH', 'AUG', 'SEP')
+        aug_sc,                    # 6: Aug Score
+        sep_sc,                    # 7: Sep Score
+        score,                     # 8: Overall Score (pure pedagogy)
+        tier,                      # 9: Tier
+        ','.join(gaps),            # 10: Gaps
+        o178_map[t178_txt],        # 11: Q178 idx
+        o177_map[t177_txt],        # 12: Q177 idx
+        o95_map[t95_txt],          # 13: Q95 idx
+        o97_map[t97_txt],          # 14: Q97 idx
+        trust                      # 15: Classroom Trust score
+    ])
+
+compact_export = {
     'summary': {
         'totalTeachers': int(summary[0]),
         'persistent': int(summary[1]),
@@ -337,14 +376,24 @@ diagnostic_export = {
         'developing': int(summary[7]),
         'prioritySupport': int(summary[8])
     },
-    'teachers': teacher_records
+    'districts': districts,
+    'blocks': blocks,
+    'opt178': opt_178,
+    'opt177': opt_177,
+    'opt95': opt_95,
+    'opt97': opt_97,
+    'teachers': compact_rows
 }
 
-json_path = 'data/teacher_diagnostics.json'
-with open(json_path, 'w', encoding='utf-8') as f:
-    json.dump(diagnostic_export, f, ensure_ascii=False)
+json_compact_path = 'data/teacher_diagnostics_compact.json'
+with open(json_compact_path, 'w', encoding='utf-8') as f:
+    json.dump(compact_export, f, ensure_ascii=False, separators=(',', ':'))
 
-file_size_mb = os.path.getsize(json_path) / (1024 * 1024)
-print(f"Exported {len(teacher_records):,} teachers to {json_path} ({file_size_mb:.2f} MB).")
+js_compact_path = 'data/teacher_diagnostics_compact.js'
+with open(js_compact_path, 'w', encoding='utf-8') as f:
+    f.write('window.TEACHER_DIAGNOSTICS_DATA = ' + json.dumps(compact_export, ensure_ascii=False, separators=(',', ':')) + ';')
+
+size_mb = os.path.getsize(json_compact_path) / (1024 * 1024)
+print(f"Exported {len(compact_rows):,} teachers to compact JSON & JS ({size_mb:.2f} MB).")
 print(f"Pipeline completed in {time.time() - start_time:.2f} seconds.")
 con.close()
