@@ -16,47 +16,13 @@
   let activeTeacherCode = null;
   let searchDebounceTimer = null;
   let currentTierFilter = 'ALL';
+  let currentCycleFilter = 'ALL';
   let isInitialized = false;
 
-  // Question Descriptions and Best Practices Dictionary
+  // Question Descriptions and Best Practices Dictionary (with Strict Cycle Binding)
   const PEDAGOGY_BENCHMARKS = {
-    TLM_CYCLE: {
-      qNum: 'Q177',
-      domainEn: 'Concrete to Abstract Learning (TLM)',
-      domainHi: 'मूर्त से अमूर्त शिक्षण (TLM चक्र)',
-      bestPracticeEn: 'Provide concrete experience with learning materials, followed by student reflection and concept consolidation.',
-      bestPracticeHi: 'बच्चों को पहले सामग्री के साथ मूर्त अनुभव दें, फिर उस पर चिंतन कराएं और अंत में अवधारणा का समेकन करें।',
-      misconceptionEn: 'Treating TLM as a decorative display or lecture prop held by the teacher rather than student-handled tools.',
-      misconceptionHi: 'TLM को बच्चों के हाथों में देने के बजाय शिक्षक द्वारा केवल प्रदर्शन या सजावट की वस्तु समझना।'
-    },
-    PROBING: {
-      qNum: 'Q178',
-      domainEn: 'Inquiry & Probing Questions',
-      domainHi: 'सटीक एवं विचारोत्तेजक प्रश्न पूछना',
-      bestPracticeEn: 'When a student answers incorrectly, pause and ask probing questions to uncover their thinking rather than giving the answer.',
-      bestPracticeHi: 'गलत उत्तर मिलने पर तुरंत सही उत्तर न बताएं, बल्कि पूरक प्रश्न पूछकर बच्चे की सोच और तर्क को बाहर लाएं।',
-      misconceptionEn: 'Immediate answer dictation: providing the right answer right away so the lesson proceeds faster.',
-      misconceptionHi: 'तुरंत सही उत्तर बता देना ताकि पाठ तेजी से आगे बढ़ सके, जिससे बच्चे की सोचने की प्रक्रिया रुक जाती है।'
-    },
-    SAFETY: {
-      qNum: 'Q96',
-      domainEn: 'Psychological Safety & Mistakes',
-      domainHi: 'भयमुक्त वातावरण एवं गलतियों का स्वागत',
-      bestPracticeEn: 'Treat mistakes as normal and essential learning steps; guide students to discover corrections independently.',
-      bestPracticeHi: 'गलतियों को सीखने का स्वाभाविक हिस्सा मानें और बच्चों को संकेत देकर स्वयं सुधार करने के लिए प्रेरित करें।',
-      misconceptionEn: 'Ignoring or scolding errors, which makes children hesitant to participate in classroom discussions.',
-      misconceptionHi: 'गलतियों पर डांटना या उन्हें अनदेखा करना, जिससे बच्चे कक्षा में बोलने से डरने लगते हैं।'
-    },
-    BELONGING: {
-      qNum: 'Q97',
-      domainEn: 'Classroom Belonging & Participation',
-      domainHi: 'कक्षा में अपनापन एवं सबकी सहभागिता',
-      bestPracticeEn: 'Involve every student in genuine classroom tasks and active pair work, not just the front-bench fast learners.',
-      bestPracticeHi: 'केवल आगे बैठने वाले होशियार बच्चों को नहीं, बल्कि हर बच्चे को कक्षा की वास्तविक जिम्मेदारियों और समूह कार्य में जोड़ना।',
-      misconceptionEn: 'Surface Praise: showering praise only on quick responders while shy or back-bench students remain passive.',
-      misconceptionHi: 'केवल जल्दी उत्तर देने वाले 2-3 बच्चों की तारीफ करना, जबकि बाकी बच्चे मूकदर्शक बने रहें।'
-    },
     PURPOSE: {
+      cycle: 'BOTH',
       qNum: 'Q82',
       domainEn: 'Shaikshik Samwaad Purpose & Culture',
       domainHi: 'शैक्षिक संवाद का मूल उद्देश्य एवं संस्कृति',
@@ -64,6 +30,78 @@
       bestPracticeHi: 'शैक्षिक संवाद साथी शिक्षकों के साथ अकादमिक विमर्श, शिक्षण चुनौतियों के साझा समाधान और सीखने का मंच है।',
       misconceptionEn: 'Treating Samwaad as administrative reporting or ritual attendance.',
       misconceptionHi: 'संवाद को केवल औपचारिकता या प्रशासनिक बैठक समझना।'
+    },
+    DESIGN_30_70: {
+      cycle: 'BOTH',
+      qNum: 'Q86',
+      domainEn: 'Session Design & 30:70 Practice',
+      domainHi: 'सत्र संरचना एवं 30:70 सहभागिता नियम',
+      bestPracticeEn: 'Teacher maintains a 30:70 balance: 30% guidance, 70% active student practice and peer reflection.',
+      bestPracticeHi: 'शिक्षक 30:70 का संतुलन रखते हैं: 30% निर्देश और 70% बच्चों द्वारा सक्रिय अभ्यास व सहकर्मी विमर्श।',
+      misconceptionEn: 'Teacher lecturing for over 80% of the period while students remain passive.',
+      misconceptionHi: 'पूरी कक्षा में शिक्षक का 80% से अधिक बोलना और बच्चों को चुपचाप बैठाए रखना।'
+    },
+    // August Only Questions:
+    STUDENT_AGENCY: {
+      cycle: 'AUG',
+      qNum: 'Q95',
+      domainEn: 'Student Agency & Interests (August)',
+      domainHi: 'विद्यार्थी सहभागिता एवं रुचियां (अगस्त सत्र)',
+      bestPracticeEn: 'Build learning activities around children’s real interests, capabilities, and classroom context.',
+      bestPracticeHi: 'बच्चों की रुचियों और क्षमताओं को जानकर उन्हें सीखने की वास्तविक गतिविधियों से जोड़ना।',
+      misconceptionEn: 'Treating student activity as mere busywork without connection to concept goals.',
+      misconceptionHi: 'गतिविधि को केवल समय बिताने का साधन समझना, अवधारणा से न जोड़ना।'
+    },
+    SAFETY: {
+      cycle: 'AUG',
+      qNum: 'Q96',
+      domainEn: 'Psychological Safety & Mistakes (August)',
+      domainHi: 'भयमुक्त वातावरण एवं गलतियों का स्वागत (अगस्त सत्र)',
+      bestPracticeEn: 'Treat mistakes as normal and essential learning steps; guide students to discover corrections independently.',
+      bestPracticeHi: 'गलतियों को सीखने का स्वाभाविक हिस्सा मानें और बच्चों को संकेत देकर स्वयं सुधार करने के लिए प्रेरित करें।',
+      misconceptionEn: 'Ignoring or scolding errors, which makes children hesitant to participate in classroom discussions.',
+      misconceptionHi: 'गलतियों पर डांटना या उन्हें अनदेखा करना, जिससे बच्चे कक्षा में बोलने से डरने लगते हैं।'
+    },
+    BELONGING: {
+      cycle: 'AUG',
+      qNum: 'Q97',
+      domainEn: 'Classroom Belonging & Participation (August)',
+      domainHi: 'कक्षा में अपनापन एवं सबकी सहभागिता (अगस्त सत्र)',
+      bestPracticeEn: 'Involve every student in genuine classroom tasks and active pair work, not just the front-bench fast learners.',
+      bestPracticeHi: 'केवल आगे बैठने वाले होशियार बच्चों को नहीं, बल्कि हर बच्चे को कक्षा की वास्तविक जिम्मेदारियों और समूह कार्य में जोड़ना।',
+      misconceptionEn: 'Surface Praise: showering praise only on quick responders while shy or back-bench students remain passive.',
+      misconceptionHi: 'केवल जल्दी उत्तर देने वाले 2-3 बच्चों की तारीफ करना, जबकि बाकी बच्चे मूकदर्शक बने रहें।'
+    },
+    // September Only Questions:
+    TLM_CYCLE: {
+      cycle: 'SEP',
+      qNum: 'Q177',
+      domainEn: 'Concrete to Abstract Learning - TLM (September)',
+      domainHi: 'मूर्त से अमूर्त शिक्षण चक्र - TLM (सितंबर सत्र)',
+      bestPracticeEn: 'Provide concrete experience with learning materials, followed by student reflection and concept consolidation.',
+      bestPracticeHi: 'बच्चों को पहले सामग्री के साथ मूर्त अनुभव दें, फिर उस पर चिंतन कराएं और अंत में अवधारणा का समेकन करें।',
+      misconceptionEn: 'Treating TLM as a decorative display or lecture prop held by the teacher rather than student-handled tools.',
+      misconceptionHi: 'TLM को बच्चों के हाथों में देने के बजाय शिक्षक द्वारा केवल प्रदर्शन या सजावट की वस्तु समझना।'
+    },
+    PROBING: {
+      cycle: 'SEP',
+      qNum: 'Q178',
+      domainEn: 'Inquiry & Probing Questions (September)',
+      domainHi: 'सटीक एवं विचारोत्तेजक प्रश्न पूछना (सितंबर सत्र)',
+      bestPracticeEn: 'When a student answers incorrectly, pause and ask probing questions to uncover their thinking rather than giving the answer.',
+      bestPracticeHi: 'गलत उत्तर मिलने पर तुरंत सही उत्तर न बताएं, बल्कि पूरक प्रश्न पूछकर बच्चे की सोच और तर्क को बाहर लाएं।',
+      misconceptionEn: 'Immediate answer dictation: providing the right answer right away so the lesson proceeds faster.',
+      misconceptionHi: 'तुरंत सही उत्तर बता देना ताकि पाठ तेजी से आगे बढ़ सके, जिससे बच्चे की सोचने की प्रक्रिया रुक जाती है।'
+    },
+    CONSOLIDATION: {
+      cycle: 'SEP',
+      qNum: 'Q179',
+      domainEn: 'Concept Consolidation (September)',
+      domainHi: 'अवधारणा का समेकन (सितंबर सत्र)',
+      bestPracticeEn: 'Conclude lessons by having students explain the central learning takeaway in their own words.',
+      bestPracticeHi: 'पाठ के अंत में मुख्य सीख को स्पष्ट करना और बच्चों से अपने शब्दों में अवधारणा का सारांश कहलवाना।',
+      misconceptionEn: 'Ending class abruptly without summarizing what was learned.',
+      misconceptionHi: 'कक्षा को बिना यह जाने समाप्त कर देना कि बच्चों ने क्या सीखा।'
     }
   };
 
@@ -150,6 +188,15 @@
         // Pre-computed lowercase search tokens for ultra-fast filtering
         searchToken: (code + ' ' + name).toLowerCase()
       };
+    });
+
+    // Prioritize teachers who attended BOTH sessions first
+    allTeachers.sort((a, b) => {
+      const aBoth = (a.cy === 'BOTH') ? 1 : 0;
+      const bBoth = (b.cy === 'BOTH') ? 1 : 0;
+      if (aBoth !== bBoth) return bBoth - aBoth;
+      if (b.sc !== a.sc) return b.sc - a.sc;
+      return a.n.localeCompare(b.n);
     });
 
     isInitialized = true;
@@ -269,8 +316,14 @@
     const selectedDist = distSelect ? distSelect.value : 'ALL';
     const blockSelect = document.getElementById('tdBlockSelect');
     const selectedBlock = blockSelect ? blockSelect.value : 'ALL';
+    const cycleSelect = document.getElementById('tdCycleSelect');
+    const selectedCycle = cycleSelect ? cycleSelect.value : 'ALL';
 
     filteredTeachers = allTeachers.filter(t => {
+      // Cycle match
+      if (selectedCycle !== 'ALL' && t.cy !== selectedCycle) {
+        return false;
+      }
       // Tier match
       if (currentTierFilter !== 'ALL' && t.t !== currentTierFilter) {
         return false;
@@ -290,6 +343,28 @@
       return true;
     });
 
+    // Prioritize teachers who attended BOTH sessions first
+    filteredTeachers.sort((a, b) => {
+      // 1. Both sessions priority
+      const aBoth = (a.cy === 'BOTH') ? 1 : 0;
+      const bBoth = (b.cy === 'BOTH') ? 1 : 0;
+      if (aBoth !== bBoth) {
+        return bBoth - aBoth; // BOTH comes first
+      }
+
+      // 2. Score ordering
+      if (currentTierFilter === 'SUPPORT_NEEDED') {
+        // In priority support, show teachers with lowest scores first (urgent intervention)
+        if (a.sc !== b.sc) return a.sc - b.sc;
+      } else {
+        // In champions / general view, show highest scores first
+        if (b.sc !== a.sc) return b.sc - a.sc;
+      }
+
+      // 3. Alphabetical name order
+      return a.n.localeCompare(b.n);
+    });
+
     const elapsed = (performance.now() - t0).toFixed(1);
     currentPage = 1;
     renderTeacherTable();
@@ -301,6 +376,8 @@
     if (searchInput) searchInput.value = '';
     const distSelect = document.getElementById('tdDistrictSelect');
     if (distSelect) distSelect.value = 'ALL';
+    const cycleSelect = document.getElementById('tdCycleSelect');
+    if (cycleSelect) cycleSelect.value = 'ALL';
     window.setTeacherTierFilter('ALL', document.querySelector('.td-tier-pill[data-tier="ALL"]'));
     window.updateBlockDropdown();
   };
@@ -457,18 +534,25 @@
     const cycleBadge = getCycleBadge(teacher.cy, true);
     const scoreColor = getScoreColor(teacher.sc);
 
-    // Pedagogical strengths & diagnosed gaps
+    // Pedagogical strengths & diagnosed gaps (Strictly Cycle-Aware)
     const masteredList = [];
     const gapsList = [];
 
-    ['TLM_CYCLE', 'PROBING', 'SAFETY', 'BELONGING', 'PURPOSE'].forEach(k => {
+    for (const k in PEDAGOGY_BENCHMARKS) {
       const benchmark = PEDAGOGY_BENCHMARKS[k];
+      
+      // Strict cycle isolation:
+      // If teacher did NOT attend August, NEVER evaluate or show August-only questions
+      if (benchmark.cycle === 'AUG' && teacher.cy === 'SEP') continue;
+      // If teacher did NOT attend September, NEVER evaluate or show September-only questions
+      if (benchmark.cycle === 'SEP' && teacher.cy === 'AUG') continue;
+
       if (teacher.g.includes(k)) {
         gapsList.push(benchmark);
       } else {
         masteredList.push(benchmark);
       }
-    });
+    }
 
     // Generate Qwen Mentor Prescription based on exact tier & identified gaps
     const prescription = generateQwenPrescription(teacher, isHi);
@@ -498,10 +582,13 @@
 
             <div style="text-align: right; background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px 16px; box-shadow: var(--shadow-tactile);">
               <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: var(--text-muted); text-transform: uppercase;">
-                ${isHi ? 'शिक्षाशास्त्र प्राप्तांक' : 'Pedagogy Score'}
+                ${teacher.cy === 'BOTH' ? (isHi ? 'संयुक्त शिक्षण प्राप्तांक' : 'Combined Pedagogy Score') : (teacher.cy === 'AUG' ? (isHi ? 'अगस्त शिक्षण प्राप्तांक' : 'August Pedagogy Score') : (isHi ? 'सितंबर शिक्षण प्राप्तांक' : 'September Pedagogy Score'))}
               </div>
               <div style="font-size: 26px; font-weight: 900; font-family: var(--font-mono); color: ${scoreColor}; margin-top: 2px;">
                 ${teacher.sc.toFixed(1)}%
+              </div>
+              <div style="font-size: 9.5px; color: var(--text-muted); margin-top: 2px;">
+                ${teacher.cy === 'BOTH' ? (isHi ? 'अगस्त व सितंबर का औसत' : 'Aug & Sep 5-Q Avg') : (teacher.cy === 'AUG' ? (isHi ? 'केवल अगस्त के 5 प्रश्न' : 'August 5 Questions') : (isHi ? 'केवल सितंबर के 5 प्रश्न' : 'September 5 Questions'))}
               </div>
             </div>
           </div>
@@ -512,14 +599,16 @@
           <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
             <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'अगस्त प्राप्तांक' : 'August Pedagogy'}</div>
             <div style="font-size: 15px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: ${teacher.as !== null ? 'var(--text-primary)' : 'var(--text-dim)'};">
-              ${teacher.as !== null ? teacher.as.toFixed(1) + '%' : (isHi ? 'अनुपस्थित' : 'Not Attended')}
+              ${teacher.as !== null ? teacher.as.toFixed(1) + '%' : (isHi ? 'सत्र में उपस्थित नहीं' : 'Not Attended')}
             </div>
+            ${teacher.as === null ? `<div style="font-size: 9px; color: var(--text-dim); margin-top: 2px;">${isHi ? 'कोई अंक नहीं' : 'Score: N/A'}</div>` : ''}
           </div>
           <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
             <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'सितंबर प्राप्तांक' : 'September Pedagogy'}</div>
             <div style="font-size: 15px; font-weight: 800; font-family: var(--font-mono); margin-top: 4px; color: ${teacher.ss !== null ? 'var(--text-primary)' : 'var(--text-dim)'};">
-              ${teacher.ss !== null ? teacher.ss.toFixed(1) + '%' : (isHi ? 'अनुपस्थित' : 'Not Attended')}
+              ${teacher.ss !== null ? teacher.ss.toFixed(1) + '%' : (isHi ? 'सत्र में उपस्थित नहीं' : 'Not Attended')}
             </div>
+            ${teacher.ss === null ? `<div style="font-size: 9px; color: var(--text-dim); margin-top: 2px;">${isHi ? 'कोई अंक नहीं' : 'Score: N/A'}</div>` : ''}
           </div>
           <div style="background: var(--bg-surface-1); padding: 12px 14px; text-align: center;">
             <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${isHi ? 'उपस्थिति चक्र' : 'Attendance Cycle'}</div>
@@ -642,49 +731,52 @@
   }
 
   /**
-   * Render Selected Options from Survey Data
+   * Render Selected Options from Survey Data (Strictly Cycle-Aware)
    */
   function renderSurveyResponseDetails(teacher, isHi) {
-    if (!teacher.t178 && !teacher.t177 && !teacher.t95 && !teacher.t97) {
+    const hasSep = (teacher.cy === 'BOTH' || teacher.cy === 'SEP');
+    const hasAug = (teacher.cy === 'BOTH' || teacher.cy === 'AUG');
+
+    if (!((hasSep && (teacher.t178 || teacher.t177)) || (hasAug && (teacher.t95 || teacher.t97)))) {
       return '';
     }
 
     return `
       <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px 16px;">
         <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
-          ${isHi ? 'सर्वेक्षण में शिक्षक द्वारा चुने गए उत्तर (Survey Response Evidence)' : 'Recorded Survey Responses vs. Best Practice'}
+          ${isHi ? 'उपस्थित सत्र के वास्तविक सर्वेक्षण उत्तर (Survey Evidence From Attended Session)' : 'Survey Evidence From Attended Session'}
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px; font-size: 11.5px;">
-          ${teacher.t178 ? `
+          ${(hasSep && teacher.t178) ? `
             <div style="border-left: 3px solid ${teacher.g.includes('PROBING') ? '#dc2626' : 'var(--accent-emerald)'}; padding-left: 10px;">
-              <div style="font-weight: 700; color: var(--text-primary);">Q178 (${isHi ? 'गलत उत्तर पर प्रतिक्रिया' : 'Reaction to Student Errors'}):</div>
+              <div style="font-weight: 700; color: var(--text-primary);">Q178 (सितंबर • ${isHi ? 'गलत उत्तर पर प्रतिक्रिया' : 'Reaction to Student Errors'}):</div>
               <div style="color: var(--text-secondary); margin-top: 2px;">
                 ${isHi ? 'चुना गया विकल्प:' : 'Selected Response:'} "<em>${escapeHtml(teacher.t178)}</em>"
               </div>
             </div>
           ` : ''}
 
-          ${teacher.t177 ? `
+          ${(hasSep && teacher.t177) ? `
             <div style="border-left: 3px solid ${teacher.g.includes('TLM_CYCLE') ? '#dc2626' : 'var(--accent-emerald)'}; padding-left: 10px;">
-              <div style="font-weight: 700; color: var(--text-primary);">Q177 (${isHi ? 'TLM का उपयोग चक्र' : 'TLM Utilization Cycle'}):</div>
+              <div style="font-weight: 700; color: var(--text-primary);">Q177 (सितंबर • ${isHi ? 'TLM का उपयोग चक्र' : 'TLM Utilization Cycle'}):</div>
               <div style="color: var(--text-secondary); margin-top: 2px;">
                 ${isHi ? 'चुना गया विकल्प:' : 'Selected Response:'} "<em>${escapeHtml(teacher.t177)}</em>"
               </div>
             </div>
           ` : ''}
 
-          ${teacher.t95 ? `
-            <div style="border-left: 3px solid ${teacher.g.includes('TLM_CYCLE') ? '#dc2626' : 'var(--accent-emerald)'}; padding-left: 10px;">
-              <div style="font-weight: 700; color: var(--text-primary);">Q95 (${isHi ? 'विद्यार्थी सहभागिता' : 'Student Agency'}):</div>
+          ${(hasAug && teacher.t95) ? `
+            <div style="border-left: 3px solid ${teacher.g.includes('STUDENT_AGENCY') ? '#dc2626' : 'var(--accent-emerald)'}; padding-left: 10px;">
+              <div style="font-weight: 700; color: var(--text-primary);">Q95 (अगस्त • ${isHi ? 'विद्यार्थी सहभागिता' : 'Student Agency'}):</div>
               <div style="color: var(--text-secondary); margin-top: 2px;">
                 ${isHi ? 'चुना गया विकल्प:' : 'Selected Response:'} "<em>${escapeHtml(teacher.t95)}</em>"
               </div>
             </div>
           ` : ''}
 
-          ${teacher.t97 ? `
+          ${(hasAug && teacher.t97) ? `
             <div style="border-left: 3px solid ${teacher.g.includes('BELONGING') ? '#dc2626' : 'var(--accent-emerald)'}; padding-left: 10px;">
-              <div style="font-weight: 700; color: var(--text-primary);">Q97 (${isHi ? 'कक्षा में अपनापन' : 'Classroom Belonging'}):</div>
+              <div style="font-weight: 700; color: var(--text-primary);">Q97 (अगस्त • ${isHi ? 'कक्षा में अपनापन' : 'Classroom Belonging'}):</div>
               <div style="color: var(--text-secondary); margin-top: 2px;">
                 ${isHi ? 'चुना गया विकल्प:' : 'Selected Response:'} "<em>${escapeHtml(teacher.t97)}</em>"
               </div>

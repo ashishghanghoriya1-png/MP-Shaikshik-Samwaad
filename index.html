@@ -6012,6 +6012,20 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         </select>
       </div>
 
+      <!-- Attendance Filter (Both Sessions First) -->
+      <div style="flex: 0 1 230px;">
+        <select 
+          id="tdCycleSelect" 
+          onchange="window.debouncedTeacherSearch()" 
+          style="width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 12.5px; font-family: var(--font-sans); border: 1.5px solid var(--border-subtle); border-radius: 8px; background: var(--bg-canvas); color: var(--text-primary); cursor: pointer;"
+        >
+          <option value="ALL">All Attendance (दोनों सत्र पहले)</option>
+          <option value="BOTH">Both Sessions (13,088)</option>
+          <option value="SEP">September Only (10,081)</option>
+          <option value="AUG">August Only (10,697)</option>
+        </select>
+      </div>
+
       <!-- Reset Button -->
       <div>
         <button 

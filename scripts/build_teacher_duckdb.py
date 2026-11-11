@@ -290,18 +290,21 @@ SELECT
     COALESCE(sep_ped_score, -1) as sep_score,
     overall_score,
     trust_score,
-    -- specific gaps
-    CASE WHEN a_q95 = 0 OR s_q177 = 0 THEN 1 ELSE 0 END as gap_tlm,
-    CASE WHEN s_q178 = 0 THEN 1 ELSE 0 END as gap_probing,
-    CASE WHEN a_q96 = 0 THEN 1 ELSE 0 END as gap_safety,
-    CASE WHEN a_q97 = 0 THEN 1 ELSE 0 END as gap_belonging,
-    CASE WHEN COALESCE(s_q82, a_q82) = 0 THEN 1 ELSE 0 END as gap_purpose,
+    -- specific gaps (strictly cycle-aware!)
+    CASE WHEN (cycle_attendance IN ('BOTH', 'AUG') AND a_q95 = 0) OR (cycle_attendance IN ('BOTH', 'SEP') AND s_q177 = 0) THEN 1 ELSE 0 END as gap_tlm,
+    CASE WHEN cycle_attendance IN ('BOTH', 'SEP') AND s_q178 = 0 THEN 1 ELSE 0 END as gap_probing,
+    CASE WHEN cycle_attendance IN ('BOTH', 'AUG') AND a_q96 = 0 THEN 1 ELSE 0 END as gap_safety,
+    CASE WHEN cycle_attendance IN ('BOTH', 'AUG') AND a_q97 = 0 THEN 1 ELSE 0 END as gap_belonging,
+    CASE WHEN (cycle_attendance IN ('BOTH', 'AUG') AND a_q82 = 0) OR (cycle_attendance IN ('BOTH', 'SEP') AND s_q82 = 0) THEN 1 ELSE 0 END as gap_purpose,
     COALESCE(raw_s_q178, '') as text_q178,
     COALESCE(raw_s_q177, '') as text_q177,
     COALESCE(raw_a_q95, '') as text_q95,
     COALESCE(raw_a_q97, '') as text_q97
 FROM v_master_teachers
-ORDER BY overall_score DESC, emp_name ASC;
+ORDER BY 
+    CASE WHEN cycle_attendance = 'BOTH' THEN 1 ELSE 2 END ASC,
+    overall_score DESC, 
+    emp_name ASC;
 """)
 
 rows = teachers_cur.fetchall()
