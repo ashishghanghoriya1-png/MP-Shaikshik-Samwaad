@@ -5961,13 +5961,13 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
     <!-- 6. State Average Score -->
     <div class="bento-card" style="padding: 14px 18px;">
-      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">
+      <div class="kpi-micro-label" id="tdKpiAvgScoreLabel" style="font-size: 10.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">
         <span>📊 STATE AVERAGE</span>
       </div>
       <div class="kpi-huge-val font-mono" id="tdKpiAvgScore" style="font-size: 22px; font-weight: 800; color: var(--peepul-indigo); margin-top: 4px;">
         59.8% <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(13,088 persistent)</span>
       </div>
-      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">10-Question Score</div>
+      <div class="kpi-sub-desc" id="tdKpiAvgScoreSub" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Pedagogical Score</div>
     </div>
 
   </div>
@@ -6013,16 +6013,16 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       </div>
 
       <!-- Attendance Filter (Both Sessions First) -->
-      <div style="flex: 0 1 230px;">
+      <div style="flex: 0 1 250px;">
         <select 
           id="tdCycleSelect" 
           onchange="window.debouncedTeacherSearch()" 
           style="width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 12.5px; font-family: var(--font-sans); border: 1.5px solid var(--border-subtle); border-radius: 8px; background: var(--bg-canvas); color: var(--text-primary); cursor: pointer;"
         >
-          <option value="ALL">All Attendance (दोनों सत्र पहले)</option>
-          <option value="BOTH">Both Sessions (13,088)</option>
-          <option value="SEP">September Only (10,081)</option>
-          <option value="AUG">August Only (10,697)</option>
+          <option value="ALL">All Teachers (33,866) - Both First</option>
+          <option value="BOTH">Attended Both Sessions (13,088)</option>
+          <option value="AUG">August Only - Missed Sep (10,697 of 23,785)</option>
+          <option value="SEP">September Only - Missed Aug (10,081 of 23,169)</option>
         </select>
       </div>
 
@@ -6045,11 +6045,11 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-right: 6px;">
         FILTER BY TIER:
       </span>
-      <button class="td-tier-pill active" data-tier="ALL" onclick="window.setTeacherTierFilter('ALL', this)">All (33,866)</button>
-      <button class="td-tier-pill" data-tier="CHAMPION" onclick="window.setTeacherTierFilter('CHAMPION', this)">⭐ Champions (9,451)</button>
-      <button class="td-tier-pill" data-tier="PROFICIENT" onclick="window.setTeacherTierFilter('PROFICIENT', this)">✓ Proficient (12,698)</button>
-      <button class="td-tier-pill" data-tier="DEVELOPING" onclick="window.setTeacherTierFilter('DEVELOPING', this)">⚡ Developing (8,798)</button>
-      <button class="td-tier-pill" data-tier="SUPPORT_NEEDED" onclick="window.setTeacherTierFilter('SUPPORT_NEEDED', this)">⚠️ Priority Support (2,919)</button>
+      <button class="td-tier-pill active" id="tdTierPillAll" data-tier="ALL" onclick="window.setTeacherTierFilter('ALL', this)">All (33,866)</button>
+      <button class="td-tier-pill" id="tdTierPillChampion" data-tier="CHAMPION" onclick="window.setTeacherTierFilter('CHAMPION', this)">⭐ Champions (9,451)</button>
+      <button class="td-tier-pill" id="tdTierPillProficient" data-tier="PROFICIENT" onclick="window.setTeacherTierFilter('PROFICIENT', this)">✓ Proficient (12,698)</button>
+      <button class="td-tier-pill" id="tdTierPillDeveloping" data-tier="DEVELOPING" onclick="window.setTeacherTierFilter('DEVELOPING', this)">⚡ Developing (8,798)</button>
+      <button class="td-tier-pill" id="tdTierPillSupport" data-tier="SUPPORT_NEEDED" onclick="window.setTeacherTierFilter('SUPPORT_NEEDED', this)">⚠️ Priority Support (2,919)</button>
     </div>
   </div>
 

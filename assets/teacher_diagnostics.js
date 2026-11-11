@@ -211,31 +211,91 @@
   }
 
   /**
-   * Render Top Summary Bento KPI Metrics
+   * Render Top Summary Bento KPI Metrics & Tier Pills dynamically
    */
-  function renderSummaryMetrics() {
-    const summary = diagnosticsData.summary || {};
-    const total = summary.totalTeachers || allTeachers.length || 33866;
-    const champ = summary.champions || 11143;
-    const prof = summary.proficient || 19570;
-    const dev = summary.developing || 3033;
-    const supp = summary.prioritySupport || 120;
-    const avgScore = summary.avgScore || 76.4;
-    const persistent = summary.persistent || 13088;
+  function updateDynamicMetrics(cohort, selectedDist, selectedBlock) {
+    const isHi = (window.currentLang === 'hi');
+    const total = cohort.length;
 
+    let champ = 0, prof = 0, dev = 0, supp = 0, scoreSum = 0, persistent = 0;
+    for (let i = 0; i < total; i++) {
+      const t = cohort[i];
+      if (t.t === 'CHAMPION') champ++;
+      else if (t.t === 'PROFICIENT') prof++;
+      else if (t.t === 'DEVELOPING') dev++;
+      else if (t.t === 'SUPPORT_NEEDED') supp++;
+
+      scoreSum += t.sc;
+      if (t.cy === 'BOTH') persistent++;
+    }
+
+    const avgScore = total > 0 ? (scoreSum / total).toFixed(1) : '0.0';
+
+    // Update Top Bento KPI Cards
     const elTotal = document.getElementById('tdKpiTotal');
     const elChamp = document.getElementById('tdKpiChampions');
     const elProf = document.getElementById('tdKpiProficient');
     const elDev = document.getElementById('tdKpiDeveloping');
     const elSupp = document.getElementById('tdKpiSupport');
     const elAvg = document.getElementById('tdKpiAvgScore');
+    const elAvgLabel = document.getElementById('tdKpiAvgScoreLabel');
+    const elAvgSub = document.getElementById('tdKpiAvgScoreSub');
 
-    if (elTotal) elTotal.innerText = Number(total).toLocaleString();
-    if (elChamp) elChamp.innerHTML = `${Number(champ).toLocaleString()} <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">(${(champ*100/total).toFixed(1)}%)</span>`;
-    if (elProf) elProf.innerHTML = `${Number(prof).toLocaleString()} <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">(${(prof*100/total).toFixed(1)}%)</span>`;
-    if (elDev) elDev.innerHTML = `${Number(dev).toLocaleString()} <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">(${(dev*100/total).toFixed(1)}%)</span>`;
-    if (elSupp) elSupp.innerHTML = `${Number(supp).toLocaleString()} <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">(${(supp*100/total).toFixed(1)}%)</span>`;
-    if (elAvg) elAvg.innerHTML = `${avgScore}% <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">(${Number(persistent).toLocaleString()} persistent)</span>`;
+    if (elTotal) elTotal.innerText = total.toLocaleString();
+    if (elChamp) {
+      const pct = total > 0 ? (champ * 100 / total).toFixed(1) : '0.0';
+      elChamp.innerHTML = `${champ.toLocaleString()} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(${pct}%)</span>`;
+    }
+    if (elProf) {
+      const pct = total > 0 ? (prof * 100 / total).toFixed(1) : '0.0';
+      elProf.innerHTML = `${prof.toLocaleString()} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(${pct}%)</span>`;
+    }
+    if (elDev) {
+      const pct = total > 0 ? (dev * 100 / total).toFixed(1) : '0.0';
+      elDev.innerHTML = `${dev.toLocaleString()} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(${pct}%)</span>`;
+    }
+    if (elSupp) {
+      const pct = total > 0 ? (supp * 100 / total).toFixed(1) : '0.0';
+      elSupp.innerHTML = `${supp.toLocaleString()} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(${pct}%)</span>`;
+    }
+    if (elAvg) {
+      elAvg.innerHTML = `${avgScore}% <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(${persistent.toLocaleString()} persistent)</span>`;
+    }
+    if (elAvgLabel) {
+      if (selectedBlock && selectedBlock !== 'ALL') {
+        elAvgLabel.innerHTML = `<span>📊 ${selectedBlock.toUpperCase()} AVERAGE</span>`;
+      } else if (selectedDist && selectedDist !== 'ALL') {
+        elAvgLabel.innerHTML = `<span>📊 ${selectedDist.toUpperCase()} AVERAGE</span>`;
+      } else {
+        elAvgLabel.innerHTML = `<span>📊 STATE AVERAGE</span>`;
+      }
+    }
+    if (elAvgSub) {
+      if (selectedBlock && selectedBlock !== 'ALL') {
+        elAvgSub.innerText = `${selectedBlock} Block Pedagogy Score`;
+      } else if (selectedDist && selectedDist !== 'ALL') {
+        elAvgSub.innerText = `${selectedDist} District Pedagogy Score`;
+      } else {
+        elAvgSub.innerText = 'Statewide Pedagogy Score';
+      }
+    }
+
+    // Update Tier Pills dynamically
+    const pillAll = document.getElementById('tdTierPillAll') || document.querySelector('.td-tier-pill[data-tier="ALL"]');
+    const pillChamp = document.getElementById('tdTierPillChampion') || document.querySelector('.td-tier-pill[data-tier="CHAMPION"]');
+    const pillProf = document.getElementById('tdTierPillProficient') || document.querySelector('.td-tier-pill[data-tier="PROFICIENT"]');
+    const pillDev = document.getElementById('tdTierPillDeveloping') || document.querySelector('.td-tier-pill[data-tier="DEVELOPING"]');
+    const pillSupp = document.getElementById('tdTierPillSupport') || document.querySelector('.td-tier-pill[data-tier="SUPPORT_NEEDED"]');
+
+    if (pillAll) pillAll.innerText = isHi ? `सभी (${total.toLocaleString()})` : `All (${total.toLocaleString()})`;
+    if (pillChamp) pillChamp.innerText = isHi ? `⭐ चैंपियन (${champ.toLocaleString()})` : `⭐ Champions (${champ.toLocaleString()})`;
+    if (pillProf) pillProf.innerText = isHi ? `✓ प्रवीण (${prof.toLocaleString()})` : `✓ Proficient (${prof.toLocaleString()})`;
+    if (pillDev) pillDev.innerText = isHi ? `⚡ विकासशील (${dev.toLocaleString()})` : `⚡ Developing (${dev.toLocaleString()})`;
+    if (pillSupp) pillSupp.innerText = isHi ? `⚠️ प्राथमिक सहयोग (${supp.toLocaleString()})` : `⚠️ Priority Support (${supp.toLocaleString()})`;
+  }
+
+  function renderSummaryMetrics() {
+    updateDynamicMetrics(allTeachers, 'ALL', 'ALL');
   }
 
   /**
@@ -319,13 +379,10 @@
     const cycleSelect = document.getElementById('tdCycleSelect');
     const selectedCycle = cycleSelect ? cycleSelect.value : 'ALL';
 
-    filteredTeachers = allTeachers.filter(t => {
+    // 1. Compute cohort based on District, Block, Cycle, and Search query (independent of active Tier)
+    const baseCohort = allTeachers.filter(t => {
       // Cycle match
       if (selectedCycle !== 'ALL' && t.cy !== selectedCycle) {
-        return false;
-      }
-      // Tier match
-      if (currentTierFilter !== 'ALL' && t.t !== currentTierFilter) {
         return false;
       }
       // District match
@@ -343,7 +400,18 @@
       return true;
     });
 
-    // Prioritize teachers who attended BOTH sessions first
+    // 2. Dynamically update Top Bento Cards and Tier Pills based on the active cohort
+    updateDynamicMetrics(baseCohort, selectedDist, selectedBlock);
+
+    // 3. Filter down by active Tier
+    filteredTeachers = baseCohort.filter(t => {
+      if (currentTierFilter !== 'ALL' && t.t !== currentTierFilter) {
+        return false;
+      }
+      return true;
+    });
+
+    // 4. Prioritize teachers who attended BOTH sessions first
     filteredTeachers.sort((a, b) => {
       // 1. Both sessions priority
       const aBoth = (a.cy === 'BOTH') ? 1 : 0;
