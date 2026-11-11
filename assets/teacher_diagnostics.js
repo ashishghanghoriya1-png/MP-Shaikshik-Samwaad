@@ -17,6 +17,9 @@
   let searchDebounceTimer = null;
   let currentTierFilter = 'ALL';
   let currentCycleFilter = 'ALL';
+  let currentTrajectoryFilter = 'ALL';
+  let clusterMap = {};
+  let blockMap = {};
   let isInitialized = false;
 
   // Question Descriptions and Best Practices Dictionary (with Strict Cycle Binding)
@@ -254,6 +257,9 @@
     const opt95 = payload.opt95 || [];
     const opt97 = payload.opt97 || [];
 
+    clusterMap = {};
+    blockMap = {};
+
     // Map 2D compact array into structured objects
     allTeachers = payload.teachers.map((row, idx) => {
       const code = row[0];
@@ -273,7 +279,25 @@
       const text97 = opt97[row[14]] || '';
       const trustScore = row[15] !== undefined ? Number(row[15]) : 100.0;
 
-      return {
+      // Trajectory calculation for persistent teachers
+      let trajectory = 'SINGLE';
+      let delta = null;
+      if (cycle === 'BOTH' && augScore !== null && sepScore !== null) {
+        delta = Math.round((sepScore - augScore) * 10) / 10;
+        if (delta >= 20.0) {
+          trajectory = 'RISING';
+        } else if (augScore >= 80.0 && sepScore >= 80.0) {
+          trajectory = 'CHAMPION';
+        } else if (delta <= -20.0) {
+          trajectory = 'DROP';
+        } else if (augScore < 40.0 && sepScore < 40.0) {
+          trajectory = 'PERSISTENT_SUPPORT';
+        } else {
+          trajectory = 'STABLE';
+        }
+      }
+
+      const teacherObj = {
         id: idx,
         c: code,
         n: name,
@@ -286,6 +310,8 @@
         sc: overallScore,
         tr: trustScore,
         t: tier,
+        traj: trajectory,
+        delta: delta,
         g: gaps,
         t178: text178,
         t177: text177,
@@ -294,6 +320,17 @@
         // Pre-computed lowercase search tokens for ultra-fast filtering
         searchToken: (code + ' ' + name).toLowerCase()
       };
+
+      if (clusterName) {
+        if (!clusterMap[clusterName]) clusterMap[clusterName] = [];
+        clusterMap[clusterName].push(teacherObj);
+      }
+      if (blockName) {
+        if (!blockMap[blockName]) blockMap[blockName] = [];
+        blockMap[blockName].push(teacherObj);
+      }
+
+      return teacherObj;
     });
 
     // Prioritize teachers who attended BOTH sessions first
@@ -317,19 +354,26 @@
   }
 
   /**
-   * Render Top Summary Bento KPI Metrics & Tier Pills dynamically
+   * Render Top Summary Bento KPI Metrics & Tier/Trajectory Pills dynamically
    */
   function updateDynamicMetrics(cohort, selectedDist, selectedBlock) {
     const isHi = (window.currentLang === 'hi');
     const total = cohort.length;
 
     let champ = 0, prof = 0, dev = 0, supp = 0, scoreSum = 0, persistent = 0;
+    let trajRising = 0, trajChamp = 0, trajDrop = 0, trajSupp = 0;
+
     for (let i = 0; i < total; i++) {
       const t = cohort[i];
       if (t.t === 'CHAMPION') champ++;
       else if (t.t === 'PROFICIENT') prof++;
       else if (t.t === 'DEVELOPING') dev++;
       else if (t.t === 'SUPPORT_NEEDED') supp++;
+
+      if (t.traj === 'RISING') trajRising++;
+      else if (t.traj === 'CHAMPION') trajChamp++;
+      else if (t.traj === 'DROP') trajDrop++;
+      else if (t.traj === 'PERSISTENT_SUPPORT') trajSupp++;
 
       scoreSum += t.sc;
       if (t.cy === 'BOTH') persistent++;
@@ -398,6 +442,19 @@
     if (pillProf) pillProf.innerText = isHi ? `✓ प्रवीण (${prof.toLocaleString()})` : `✓ Proficient (${prof.toLocaleString()})`;
     if (pillDev) pillDev.innerText = isHi ? `⚡ विकासशील (${dev.toLocaleString()})` : `⚡ Developing (${dev.toLocaleString()})`;
     if (pillSupp) pillSupp.innerText = isHi ? `⚠️ प्राथमिक सहयोग (${supp.toLocaleString()})` : `⚠️ Priority Support (${supp.toLocaleString()})`;
+
+    // Update Trajectory Pills dynamically
+    const pillTrajAll = document.getElementById('tdTrajPillAll') || document.querySelector('.td-traj-pill[data-traj="ALL"]');
+    const pillTrajRising = document.getElementById('tdTrajPillRising') || document.querySelector('.td-traj-pill[data-traj="RISING"]');
+    const pillTrajChamp = document.getElementById('tdTrajPillChampion') || document.querySelector('.td-traj-pill[data-traj="CHAMPION"]');
+    const pillTrajDrop = document.getElementById('tdTrajPillDrop') || document.querySelector('.td-traj-pill[data-traj="DROP"]');
+    const pillTrajSupp = document.getElementById('tdTrajPillSupport') || document.querySelector('.td-traj-pill[data-traj="PERSISTENT_SUPPORT"]');
+
+    if (pillTrajAll) pillTrajAll.innerText = isHi ? `सभी गतियां (${total.toLocaleString()})` : `All Trajectories (${total.toLocaleString()})`;
+    if (pillTrajRising) pillTrajRising.innerText = isHi ? `📈 उगते सितारे (${trajRising.toLocaleString()})` : `📈 Rising Stars (${trajRising.toLocaleString()})`;
+    if (pillTrajChamp) pillTrajChamp.innerText = isHi ? `🏆 सतत उत्कृष्ट (${trajChamp.toLocaleString()})` : `🏆 Consistent Champions (${trajChamp.toLocaleString()})`;
+    if (pillTrajDrop) pillTrajDrop.innerText = isHi ? `📉 गिरावट चेतावनी (${trajDrop.toLocaleString()})` : `📉 Drop Alerts (${trajDrop.toLocaleString()})`;
+    if (pillTrajSupp) pillTrajSupp.innerText = isHi ? `🚨 सतत सहयोग (${trajSupp.toLocaleString()})` : `🚨 Persistent Need (${trajSupp.toLocaleString()})`;
   }
 
   function renderSummaryMetrics() {
@@ -462,6 +519,16 @@
   };
 
   /**
+   * Growth Trajectory Pill Filter Handler
+   */
+  window.setTeacherTrajectoryFilter = function(traj, btnEl) {
+    currentTrajectoryFilter = traj;
+    document.querySelectorAll('.td-traj-pill').forEach(btn => btn.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    applyTeacherFilters();
+  };
+
+  /**
    * Search Input Debounce (150ms)
    */
   window.debouncedTeacherSearch = function() {
@@ -485,7 +552,7 @@
     const cycleSelect = document.getElementById('tdCycleSelect');
     const selectedCycle = cycleSelect ? cycleSelect.value : 'ALL';
 
-    // 1. Compute cohort based on District, Block, Cycle, and Search query (independent of active Tier)
+    // 1. Compute cohort based on District, Block, Cycle, and Search query (independent of active Tier & Trajectory)
     const baseCohort = allTeachers.filter(t => {
       // Cycle match
       if (selectedCycle !== 'ALL' && t.cy !== selectedCycle) {
@@ -506,18 +573,21 @@
       return true;
     });
 
-    // 2. Dynamically update Top Bento Cards and Tier Pills based on the active cohort
+    // 2. Dynamically update Top Bento Cards, Tier Pills, and Trajectory Pills based on the active cohort
     updateDynamicMetrics(baseCohort, selectedDist, selectedBlock);
 
-    // 3. Filter down by active Tier
+    // 3. Filter down by active Tier AND active Trajectory
     filteredTeachers = baseCohort.filter(t => {
       if (currentTierFilter !== 'ALL' && t.t !== currentTierFilter) {
+        return false;
+      }
+      if (currentTrajectoryFilter !== 'ALL' && t.traj !== currentTrajectoryFilter) {
         return false;
       }
       return true;
     });
 
-    // 4. Prioritize teachers who attended BOTH sessions first
+    // 4. Prioritize teachers who attended BOTH sessions first, then score or trajectory delta
     filteredTeachers.sort((a, b) => {
       // 1. Both sessions priority
       const aBoth = (a.cy === 'BOTH') ? 1 : 0;
@@ -526,8 +596,16 @@
         return bBoth - aBoth; // BOTH comes first
       }
 
-      // 2. Score ordering
-      if (currentTierFilter === 'SUPPORT_NEEDED') {
+      // 2. Trajectory specific sorting
+      if (currentTrajectoryFilter === 'RISING') {
+        const dA = a.delta !== null ? a.delta : -999;
+        const dB = b.delta !== null ? b.delta : -999;
+        if (dB !== dA) return dB - dA; // highest positive gain first (+60%, +40%...)
+      } else if (currentTrajectoryFilter === 'DROP') {
+        const dA = a.delta !== null ? a.delta : 999;
+        const dB = b.delta !== null ? b.delta : 999;
+        if (dA !== dB) return dA - dB; // biggest negative drop first (-60%, -40%...)
+      } else if (currentTierFilter === 'SUPPORT_NEEDED' || currentTrajectoryFilter === 'PERSISTENT_SUPPORT') {
         // In priority support, show teachers with lowest scores first (urgent intervention)
         if (a.sc !== b.sc) return a.sc - b.sc;
       } else {
@@ -553,6 +631,7 @@
     const cycleSelect = document.getElementById('tdCycleSelect');
     if (cycleSelect) cycleSelect.value = 'ALL';
     window.setTeacherTierFilter('ALL', document.querySelector('.td-tier-pill[data-tier="ALL"]'));
+    window.setTeacherTrajectoryFilter('ALL', document.querySelector('.td-traj-pill[data-traj="ALL"]'));
     window.updateBlockDropdown();
   };
 
@@ -607,6 +686,17 @@
       const tierBadge = getTierBadge(t.t);
       const cycleBadge = getCycleBadge(t.cy);
 
+      let trajBadge = '';
+      if (t.cy === 'BOTH' && t.delta !== null) {
+        if (t.delta > 0) {
+          trajBadge = `<div style="font-size: 10px; font-weight: 800; color: #059669; margin-top: 3px;">+${t.delta}% 📈</div>`;
+        } else if (t.delta < 0) {
+          trajBadge = `<div style="font-size: 10px; font-weight: 800; color: #dc2626; margin-top: 3px;">${t.delta}% 📉</div>`;
+        } else {
+          trajBadge = `<div style="font-size: 10px; font-weight: 700; color: var(--text-muted); margin-top: 3px;">0% ➖</div>`;
+        }
+      }
+
       html += `
         <tr class="td-teacher-row ${isSelected ? 'selected' : ''}" onclick="selectTeacherProfile('${t.c}')" style="cursor: pointer; transition: background 0.15s ease;">
           <td style="padding: 10px 12px; font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); text-align: center;">${rowNum}</td>
@@ -618,7 +708,10 @@
             <div style="font-weight: 600;">${escapeHtml(t.d)}</div>
             <div style="font-size: 11px; color: var(--text-muted);">${escapeHtml(t.b)}</div>
           </td>
-          <td style="padding: 10px 12px; text-align: center;">${cycleBadge}</td>
+          <td style="padding: 10px 12px; text-align: center;">
+            ${cycleBadge}
+            ${trajBadge}
+          </td>
           <td style="padding: 10px 12px; text-align: right; font-family: var(--font-mono); font-weight: 700; font-size: 13px;">
             <span style="color: ${getScoreColor(t.sc)};">${t.sc.toFixed(1)}%</span>
           </td>
@@ -800,6 +893,9 @@
 
         <div style="padding: 20px 22px; display: flex; flex-direction: column; gap: 20px;">
           
+          <!-- Growth Trajectory Progression Card (Aug -> Sep) -->
+          ${renderTrajectoryProgressionCard(teacher, isHi)}
+
           <!-- Competency Status (Mastered vs Learning Gaps) -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
             
@@ -898,6 +994,9 @@
 
           </div>
 
+          <!-- Geographic & Cluster Proximity Support Radar -->
+          ${renderProximityRadarCard(teacher, isHi)}
+
         </div>
 
       </div>
@@ -957,6 +1056,297 @@
             </div>
           ` : ''}
         </div>
+      </div>
+    `;
+  }
+
+  /**
+   * Render Growth Trajectory Progression Card (Aug vs Sep)
+   */
+  function renderTrajectoryProgressionCard(teacher, isHi) {
+    if (teacher.cy !== 'BOTH' || teacher.as === null || teacher.ss === null) {
+      const cyName = teacher.cy === 'AUG' ? (isHi ? 'केवल अगस्त सत्र' : 'August Session Only') : (isHi ? 'केवल सितंबर सत्र' : 'September Session Only');
+      return `
+        <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">⏱️</span>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-primary);">
+                ${isHi ? 'मासिक प्रगति (Trajectory):' : 'Monthly Trajectory:'} <span style="font-weight: 500; color: var(--text-secondary);">${cyName}</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                ${isHi ? 'शिक्षक ने केवल एक सत्र में भाग लिया है। दो सत्रों की तुलना आगामी शैक्षिक संवाद के बाद सक्रिय होगी।' : 'Teacher attended a single monthly session. Progression tracking activates upon attending consecutive cycles.'}
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--font-mono); font-weight: 800; font-size: 14px; color: ${getScoreColor(teacher.sc)};">
+            ${teacher.sc.toFixed(1)}%
+          </div>
+        </div>
+      `;
+    }
+
+    const delta = teacher.delta;
+    let badgeColor = 'var(--text-muted)';
+    let badgeBg = 'rgba(100, 116, 139, 0.1)';
+    let badgeBorder = 'rgba(100, 116, 139, 0.25)';
+    let badgeLabel = '';
+    let explanation = '';
+
+    if (teacher.traj === 'RISING') {
+      badgeColor = '#059669';
+      badgeBg = 'rgba(5, 150, 105, 0.12)';
+      badgeBorder = 'rgba(5, 150, 105, 0.3)';
+      badgeLabel = isHi ? `📈 तेजी से प्रगति (+${delta}% सुधार)` : `📈 Rising Star (+${delta}% gain)`;
+      explanation = isHi
+        ? `शिक्षक ने अगस्त (${teacher.as.toFixed(1)}%) की तुलना में सितंबर (${teacher.ss.toFixed(1)}%) में उत्कृष्ट सुधार दर्ज किया है। शिक्षण प्रक्रियाओं और कक्षा तकनीकों को तेजी से अपनाया जा रहा है।`
+        : `Teacher showed strong positive momentum from August (${teacher.as.toFixed(1)}%) to September (${teacher.ss.toFixed(1)}%), adopting core questioning and student-led practices.`;
+    } else if (teacher.traj === 'CHAMPION') {
+      badgeColor = '#4f46e5';
+      badgeBg = 'rgba(79, 70, 229, 0.12)';
+      badgeBorder = 'rgba(79, 70, 229, 0.3)';
+      badgeLabel = isHi ? '🏆 निरंतर अग्रणी (दोनों सत्र 80%+)' : '🏆 Consistent Champion (80%+ in both)';
+      explanation = isHi
+        ? `शिक्षक ने अगस्त (${teacher.as.toFixed(1)}%) और सितंबर (${teacher.ss.toFixed(1)}%) दोनों माह में लगातार 80% से अधिक अंक प्राप्त किए हैं। यह संकुल में आदर्श सहकर्मी मार्गदर्शक हैं।`
+        : `Consistently achieved 80%+ in both August (${teacher.as.toFixed(1)}%) and September (${teacher.ss.toFixed(1)}%). Excellent candidate for cluster peer mentoring and live demo lessons.`;
+    } else if (teacher.traj === 'DROP') {
+      badgeColor = '#dc2626';
+      badgeBg = 'rgba(220, 38, 38, 0.12)';
+      badgeBorder = 'rgba(220, 38, 38, 0.3)';
+      badgeLabel = isHi ? `📉 स्कोर में गिरावट (${delta}%)` : `📉 Score Drop Alert (${delta}%)`;
+      explanation = isHi
+        ? `शिक्षक का स्कोर अगस्त (${teacher.as.toFixed(1)}%) से सितंबर (${teacher.ss.toFixed(1)}%) में घटा है। सितंबर के विचारोत्तेजक प्रश्न (Q178) और सामग्री उपयोग में अतिरिक्त सहयोग की आवश्यकता है।`
+        : `Performance dipped from August (${teacher.as.toFixed(1)}%) to September (${teacher.ss.toFixed(1)}%). In September, student error handling (Q178) posed difficulty. Needs supportive coaching on error routines.`;
+    } else if (teacher.traj === 'PERSISTENT_SUPPORT') {
+      badgeColor = '#b91c1c';
+      badgeBg = 'rgba(185, 28, 28, 0.15)';
+      badgeBorder = 'rgba(185, 28, 28, 0.35)';
+      badgeLabel = isHi ? '🚨 निरंतर प्राथमिक सहयोग (<40%)' : '🚨 Persistent Support Needed (<40%)';
+      explanation = isHi
+        ? `शिक्षक दोनों सत्रों (अगस्त: ${teacher.as.toFixed(1)}%, सितंबर: ${teacher.ss.toFixed(1)}%) में 40% से नीचे रहे हैं। यह राज्य की सर्वोच्च प्राथमिकता वाली कोचिंग सूची में हैं। सीएसी द्वारा सीधा मार्गदर्शन अनिवार्य है।`
+        : `Teacher scored below 40% in both evaluation cycles (August: ${teacher.as.toFixed(1)}%, September: ${teacher.ss.toFixed(1)}%). Flagged for high-priority academic mentoring and supportive co-teaching.`;
+    } else {
+      badgeColor = 'var(--peepul-teal)';
+      badgeBg = 'rgba(0, 138, 171, 0.12)';
+      badgeBorder = 'rgba(0, 138, 171, 0.3)';
+      badgeLabel = isHi ? `➖ स्थिर प्रदर्शन (${delta >= 0 ? '+' : ''}${delta}%)` : `➖ Stable Progression (${delta >= 0 ? '+' : ''}${delta}%)`;
+      explanation = isHi
+        ? `शिक्षक का प्रदर्शन दोनों सत्रों में संतुलित रहा है (अगस्त: ${teacher.as.toFixed(1)}%, सितंबर: ${teacher.ss.toFixed(1)}%)।`
+        : `Steady performance across consecutive cycles (August: ${teacher.as.toFixed(1)}%, September: ${teacher.ss.toFixed(1)}%). Focus on moving from developing to champion routines.`;
+    }
+
+    return `
+      <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px 18px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">📈</span>
+            <span style="font-size: 12px; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isHi ? 'मासिक प्रगति ट्रैकिंग (August vs September Trajectory)' : 'Monthly Progression Trajectory (Aug vs Sep)'}
+            </span>
+          </div>
+          <span style="font-size: 11px; font-weight: 800; color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 3px 9px; border-radius: 6px;">
+            ${badgeLabel}
+          </span>
+        </div>
+
+        <!-- Visual Two-Bar Comparison -->
+        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; margin-bottom: 12px; background: var(--bg-surface-2); padding: 12px 14px; border-radius: 8px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+              <span style="font-weight: 700; color: var(--text-muted);">${isHi ? 'अगस्त 2026' : 'August 2026'}</span>
+              <span style="font-family: var(--font-mono); font-weight: 700; color: ${getScoreColor(teacher.as)};">${teacher.as.toFixed(1)}%</span>
+            </div>
+            <div style="background: rgba(148, 163, 184, 0.2); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background: ${getScoreColor(teacher.as)}; width: ${Math.min(100, teacher.as)}%; height: 100%; border-radius: 4px;"></div>
+            </div>
+          </div>
+
+          <div style="font-size: 18px; color: var(--text-muted); text-align: center; padding: 0 4px;">➔</div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+              <span style="font-weight: 700; color: var(--text-muted);">${isHi ? 'सितंबर 2026' : 'September 2026'}</span>
+              <span style="font-family: var(--font-mono); font-weight: 700; color: ${getScoreColor(teacher.ss)};">${teacher.ss.toFixed(1)}%</span>
+            </div>
+            <div style="background: rgba(148, 163, 184, 0.2); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background: ${getScoreColor(teacher.ss)}; width: ${Math.min(100, teacher.ss)}%; height: 100%; border-radius: 4px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5;">
+          ${explanation}
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * Render Geographic & Cluster Proximity Support Radar
+   */
+  function renderProximityRadarCard(teacher, isHi) {
+    const clusterName = teacher.cl;
+    const blockName = teacher.b;
+    const clusterTeachers = (clusterName && clusterMap[clusterName]) ? clusterMap[clusterName] : [];
+    const blockTeachers = (blockName && blockMap[blockName]) ? blockMap[blockName] : [];
+
+    // Cluster level breakdown
+    let cChamp = 0, cProf = 0, cDev = 0, cSupp = 0;
+    clusterTeachers.forEach(t => {
+      if (t.t === 'CHAMPION') cChamp++;
+      else if (t.t === 'PROFICIENT') cProf++;
+      else if (t.t === 'DEVELOPING') cDev++;
+      else if (t.t === 'SUPPORT_NEEDED') cSupp++;
+    });
+
+    const isChampion = (teacher.t === 'CHAMPION');
+    let buddyContent = '';
+
+    if (!isChampion) {
+      // Find nearest Champion in same cluster
+      let buddies = clusterTeachers.filter(t => t.c !== teacher.c && t.t === 'CHAMPION');
+      let buddyScope = isHi ? 'इसी संकुल में' : 'in same cluster';
+
+      // Fallback to same block if none in cluster
+      if (buddies.length === 0) {
+        buddies = blockTeachers.filter(t => t.c !== teacher.c && t.t === 'CHAMPION');
+        buddyScope = isHi ? `ब्लॉक ${teacher.b} में` : `in block ${teacher.b}`;
+      }
+
+      // If still none, fallback to Proficient in cluster
+      if (buddies.length === 0) {
+        buddies = clusterTeachers.filter(t => t.c !== teacher.c && t.t === 'PROFICIENT');
+        buddyScope = isHi ? 'संकुल के प्रवीण शिक्षक' : 'proficient teacher in cluster';
+      }
+
+      if (buddies.length > 0) {
+        // Pick highest scoring buddy
+        buddies.sort((a, b) => b.sc - a.sc);
+        const buddy = buddies[0];
+
+        buddyContent = `
+          <div style="background: rgba(5, 150, 105, 0.05); border: 1.5px dashed rgba(5, 150, 105, 0.35); border-radius: 8px; padding: 12px 14px; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 11px; font-weight: 800; color: var(--accent-emerald); text-transform: uppercase;">
+                🤝 ${isHi ? 'सुझावित सहकर्मी साथी (Recommended Peer Champion)' : 'Recommended Peer Champion Buddy'} (${buddyScope})
+              </span>
+              <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--accent-emerald); background: rgba(5, 150, 105, 0.1); padding: 2px 6px; border-radius: 4px;">
+                ${buddy.c} • ${buddy.sc.toFixed(1)}%
+              </span>
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: var(--text-primary);">
+              ${escapeHtml(buddy.n)}
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+              ${isHi ? 'संकुल:' : 'Cluster:'} ${escapeHtml(buddy.cl)} | ${escapeHtml(buddy.b)}, ${escapeHtml(buddy.d)}
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.45;">
+              ${isHi
+                ? `<strong>सहयोग सुझाव:</strong> ${escapeHtml(buddy.n)} के साथ सप्ताह में एक बार पाठ योजना की समीक्षा करवाएं। विशेषकर प्रश्न पूछने और बच्चों से चर्चा कराने की पद्धति पर सहयोगात्मक अभ्यास करें।`
+                : `<strong>Mentorship Match:</strong> Pair with ${escapeHtml(buddy.n)} for weekly lesson co-planning and classroom observation, focusing on probing questions and error routines.`}
+            </div>
+          </div>
+        `;
+      } else {
+        buddyContent = `
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 8px; font-style: italic;">
+            ${isHi ? 'संकुल अथवा ब्लॉक में कोई साथी शिक्षक अभी उपलब्ध नहीं है।' : 'No nearby peer champion found in the immediate block radius.'}
+          </div>
+        `;
+      }
+    } else {
+      // Teacher is Champion: show potential mentees in cluster who need support!
+      const mentees = clusterTeachers.filter(t => t.c !== teacher.c && (t.t === 'SUPPORT_NEEDED' || t.t === 'DEVELOPING'));
+      mentees.sort((a, b) => a.sc - b.sc); // lowest first
+
+      if (mentees.length > 0) {
+        buddyContent = `
+          <div style="background: rgba(79, 70, 229, 0.05); border: 1.5px dashed rgba(79, 70, 229, 0.35); border-radius: 8px; padding: 12px 14px; margin-top: 10px;">
+            <div style="font-size: 11px; font-weight: 800; color: var(--peepul-indigo); text-transform: uppercase; margin-bottom: 6px;">
+              🌟 ${isHi ? 'संकुल में मार्गदर्शन हेतु अनुशंसित सहकर्मी शिक्षक' : 'Recommended Cluster Mentees to Support'}
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              ${mentees.slice(0, 2).map(m => `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface-1); padding: 6px 10px; border-radius: 6px; font-size: 11.5px;">
+                  <div>
+                    <span style="font-weight: 700; color: var(--text-primary);">${escapeHtml(m.n)}</span>
+                    <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-left: 4px;">(${m.c})</span>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-weight: 700; color: ${getScoreColor(m.sc)}; font-size: 11px;">
+                    ${m.sc.toFixed(1)}% (${m.t === 'SUPPORT_NEEDED' ? (isHi ? 'सहयोग' : 'Support') : (isHi ? 'विकासशील' : 'Developing')})
+                  </span>
+                </div>
+              `).join('')}
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">
+              ${isHi
+                ? 'यह शिक्षक संकुल संवाद में इन साथियों के साथ बैठकर पाठ योजना और कक्षा संचालन के व्यावहारिक अनुभव साझा कर सकते हैं।'
+                : 'This champion teacher can sit with these cluster colleagues during monthly Samwaad to guide their lesson planning and instructional routines.'}
+            </div>
+          </div>
+        `;
+      } else {
+        buddyContent = `
+          <div style="font-size: 11.5px; color: var(--accent-emerald); margin-top: 8px; font-weight: 600;">
+            ✓ ${isHi ? 'इस संकुल के सभी उपस्थित शिक्षक प्रवीण या अग्रणी स्तर पर हैं।' : 'All participating teachers in this cluster are proficient or higher.'}
+          </div>
+        `;
+      }
+    }
+
+    return `
+      <div style="background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 16px 18px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">📍</span>
+            <span style="font-size: 12px; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isHi ? 'संकुल सहकर्मी सहायता तंत्र (Cluster Proximity Support Radar)' : 'Cluster Proximity & Peer Support Radar'}
+            </span>
+          </div>
+          <span style="font-size: 11px; font-family: var(--font-mono); font-weight: 700; color: var(--peepul-teal);">
+            ${clusterTeachers.length} ${isHi ? 'शिक्षक संकुल में मूल्यांकित' : 'Teachers in Cluster'}
+          </span>
+        </div>
+
+        <!-- Cluster Location & Summary -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px;">
+          <div style="background: var(--bg-surface-2); padding: 8px 10px; border-radius: 6px; font-size: 11px;">
+            <div style="color: var(--text-muted);">${isHi ? 'संकुल (Cluster)' : 'Cluster'}</div>
+            <div style="font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(clusterName)}">
+              ${escapeHtml(clusterName || 'N/A')}
+            </div>
+          </div>
+          <div style="background: var(--bg-surface-2); padding: 8px 10px; border-radius: 6px; font-size: 11px;">
+            <div style="color: var(--text-muted);">${isHi ? 'ब्लॉक एवं जिला' : 'Block & District'}</div>
+            <div style="font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              ${escapeHtml(blockName || 'N/A')}, ${escapeHtml(teacher.d || '')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Cluster Health Micro-Bar -->
+        <div style="background: var(--bg-surface-2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px;">
+            <span style="font-weight: 700; color: var(--text-muted);">${isHi ? 'संकुल में शिक्षक वितरण:' : 'Cluster Cohort Health:'}</span>
+            <span style="font-family: var(--font-mono); font-size: 10.5px;">
+              <span style="color: var(--accent-emerald); font-weight: 700;">${cChamp} ⭐</span> • 
+              <span style="color: var(--peepul-teal); font-weight: 700;">${cProf} ✓</span> • 
+              <span style="color: #d97706; font-weight: 700;">${cDev} ⚡</span> • 
+              <span style="color: #dc2626; font-weight: 700;">${cSupp} ⚠️</span>
+            </span>
+          </div>
+          <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: rgba(148, 163, 184, 0.2);">
+            ${clusterTeachers.length > 0 ? `
+              <div style="width: ${(cChamp / clusterTeachers.length) * 100}%; background: var(--accent-emerald);" title="Champions: ${cChamp}"></div>
+              <div style="width: ${(cProf / clusterTeachers.length) * 100}%; background: var(--peepul-teal);" title="Proficient: ${cProf}"></div>
+              <div style="width: ${(cDev / clusterTeachers.length) * 100}%; background: #d97706;" title="Developing: ${cDev}"></div>
+              <div style="width: ${(cSupp / clusterTeachers.length) * 100}%; background: #dc2626;" title="Support Needed: ${cSupp}"></div>
+            ` : '<div style="width: 100%; background: var(--text-muted);"></div>'}
+          </div>
+        </div>
+
+        <!-- Matched Peer Champion / Mentees -->
+        ${buddyContent}
       </div>
     `;
   }

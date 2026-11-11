@@ -66,7 +66,7 @@
       --radius-full: 9999px;
 
           /* Teacher Performance & Support Tab Styles */
-    .td-tier-pill {
+    .td-tier-pill, .td-traj-pill {
       padding: 5px 12px;
       font-size: 11.5px;
       font-weight: 700;
@@ -77,11 +77,11 @@
       cursor: pointer;
       transition: var(--transition-spring);
     }
-    .td-tier-pill:hover {
+    .td-tier-pill:hover, .td-traj-pill:hover {
       background: var(--bg-surface-3);
       color: var(--text-primary);
     }
-    .td-tier-pill.active {
+    .td-tier-pill.active, .td-traj-pill.active {
       background: var(--peepul-teal);
       border-color: var(--peepul-teal);
       color: #ffffff;
@@ -6115,6 +6115,18 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       <button class="td-tier-pill" id="tdTierPillProficient" data-tier="PROFICIENT" onclick="window.setTeacherTierFilter('PROFICIENT', this)">✓ Proficient (12,698)</button>
       <button class="td-tier-pill" id="tdTierPillDeveloping" data-tier="DEVELOPING" onclick="window.setTeacherTierFilter('DEVELOPING', this)">⚡ Developing (8,798)</button>
       <button class="td-tier-pill" id="tdTierPillSupport" data-tier="SUPPORT_NEEDED" onclick="window.setTeacherTierFilter('SUPPORT_NEEDED', this)">⚠️ Priority Support (2,919)</button>
+    </div>
+
+    <!-- Trajectory Filter Pills (Growth & Progression) -->
+    <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-hairline); flex-wrap: wrap;">
+      <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-right: 6px;">
+        GROWTH TRAJECTORY:
+      </span>
+      <button class="td-traj-pill active" id="tdTrajPillAll" data-traj="ALL" onclick="window.setTeacherTrajectoryFilter('ALL', this)">All Trajectories (33,866)</button>
+      <button class="td-traj-pill" id="tdTrajPillRising" data-traj="RISING" onclick="window.setTeacherTrajectoryFilter('RISING', this)">📈 Rising Stars (4,743)</button>
+      <button class="td-traj-pill" id="tdTrajPillChampion" data-traj="CHAMPION" onclick="window.setTeacherTrajectoryFilter('CHAMPION', this)">🏆 Consistent Champions (1,592)</button>
+      <button class="td-traj-pill" id="tdTrajPillDrop" data-traj="DROP" onclick="window.setTeacherTrajectoryFilter('DROP', this)">📉 Drop Alerts (4,062)</button>
+      <button class="td-traj-pill" id="tdTrajPillSupport" data-traj="PERSISTENT_SUPPORT" onclick="window.setTeacherTrajectoryFilter('PERSISTENT_SUPPORT', this)">🚨 Persistent Need (142)</button>
     </div>
   </div>
 
