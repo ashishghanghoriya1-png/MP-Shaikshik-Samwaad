@@ -3414,7 +3414,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <canvas id="ovPedagogyBar"></canvas>
 </div>
 <!-- Pedagogical Benchmark Explanatory Guide Box -->
-<div id="ovPedagogyGlossaryBox" style="margin-top: 8px; background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px 10px; max-height: 180px; overflow-y: auto;">
+<div id="ovPedagogyGlossaryBox" style="margin-top: 8px; background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px 10px; max-height: 240px; overflow-y: auto;">
   <!-- Populated dynamically via initOverviewCharts -->
 </div>
 </div>
@@ -3467,7 +3467,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
             </div>
 
             <!-- Teacher Trust Index Explanatory Guide Box -->
-            <div id="ovTrustGlossaryBox" style="margin-top: 8px; background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px 10px; max-height: 180px; overflow-y: auto;">
+            <div id="ovTrustGlossaryBox" style="margin-top: 8px; background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px 10px; max-height: 240px; overflow-y: auto;">
               <!-- Populated dynamically via initOverviewCharts -->
             </div>
           </div>
@@ -8391,68 +8391,109 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
           }
         });
       
-        // Render Teacher Trust Explanatory Guide Box
+        // Render Teacher Trust Explanatory Guide Box (Executive Pedagogy Matrix Format)
         const trustGlossaryEl = document.getElementById('ovTrustGlossaryBox');
-        if (trustGlossaryEl) {
-          if (isHi) {
-            trustGlossaryEl.innerHTML = `
-              <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--peepul-teal); font-family: var(--font-mono); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                <span>🔍 शिक्षक विश्वास सूचकांक (Teacher Trust Index): आंकड़े कैसे प्राप्त हुए?</span>
-                <span class="status-chip" style="font-size: 9.5px; background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal);">सर्वेक्षण प्रमाण आधारित</span>
-              </div>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; font-size: 11px; line-height: 1.45;">
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #059669;">
-                  <strong style="color: #059669;">1. मनोवैज्ञानिक सुरक्षा (Q91.1 - 93.8%):</strong>
-                  <span style="color: var(--text-secondary);">शिक्षकों द्वारा पुष्टि कि संवाद बिना किसी प्रशासनिक डर या फटकार के, खुली बातचीत और सीखने का सुरक्षित मंच है।</span>
+        if (trustGlossaryEl && typeof renderQBadge === 'function') {
+          const sTrust1 = data4[0];
+          const sTrust2 = data4[1];
+          const sTrust3 = data4[2];
+          const sTrust4 = data4[3];
+
+          const trustDetails = [
+            {
+              qid: '91',
+              nameEn: 'Safe for Doubts & Psychological Safety (Q91.1)',
+              nameHi: 'संदेह निवारण व मनोवैज्ञानिक सुरक्षा (Q91.1)',
+              textEn: '"To what extent do you trust Shaikshik Samwaad and feel safe to openly discuss classroom doubts?"',
+              textHi: '"आप \'शैक्षिक संवाद एवं इसकी चर्चा पर\' कितना भरोसा करते हैं?"',
+              approachEn: 'Psychological safety: Teachers affirm they can openly share teaching difficulties and student misconceptions without fear of administrative reprimand.',
+              approachHi: 'भयमुक्त वातावरण: शिक्षक पुष्टि करते हैं कि संवाद बिना किसी प्रशासनिक डर या फटकार के, खुली बातचीत और सीखने का सुरक्षित मंच है।',
+              score: sTrust1,
+              color: '#059669'
+            },
+            {
+              qid: '89',
+              nameEn: 'Academic & Pedagogy Focus (Q89)',
+              nameHi: 'अकादमिक व शिक्षण फोकस (Q89)',
+              textEn: '"Are you satisfied that the design principles of Samwaad keep discussions strictly centered on core academic points?"',
+              textHi: '"क्या आप संतुष्ट हैं कि \'संवाद के डिज़ाइन-सिद्धांत चर्चा को अकादमिक बिंदुओं पर केंद्रित रखते हैं?\'"',
+              approachEn: 'Instructional priority: High-value session time is dedicated to actionable classroom pedagogy, student learning, and lesson planning rather than administrative compliance.',
+              approachHi: 'अकादमिक प्राथमिकता: सत्र का अधिकांश समय प्रशासनिक निर्देशों के बजाय वास्तविक कक्षा शिक्षण, छात्र समझ और प्रभावी शिक्षण विधियों पर केंद्रित रहना।',
+              score: sTrust2,
+              color: '#0284c7'
+            },
+            {
+              qid: '90',
+              nameEn: 'Classroom Problem Solving (Q90)',
+              nameHi: 'कक्षा समस्या समाधान (Q90)',
+              textEn: '"Are you satisfied that Samwaad discussions directly help resolve your classroom teaching hurdles?"',
+              textHi: '"क्या आप संतुष्ट हैं कि \'शैक्षिक संवाद की चर्चा आपकी कक्षा-संबंधी चुनौतियों का समाधान करने में सक्षम है?\'"',
+              approachEn: 'Practical relevance: Collaborative peer exchange where teachers co-create concrete, tested instructional solutions for everyday classroom challenges.',
+              approachHi: 'व्यावहारिक उपयोगिता: सहकर्मी शिक्षकों व सहजकर्ताओं द्वारा कठिन पाठ्य अवधारणाओं व कक्षा चुनौतियों के लिए व्यावहारिक समाधान और सुझाव साझा करना।',
+              score: sTrust3,
+              color: '#10b981'
+            },
+            {
+              qid: '88',
+              nameEn: '2-Year Professional Growth (Q88)',
+              nameHi: '2-वर्षीय व्यावसायिक वृद्धि (Q88)',
+              textEn: '"Through participating in Samwaad over the past 2 years, has your understanding of your professional role and classroom responsibilities grown?"',
+              textHi: '"पिछले 2 वर्षों से संवाद में प्रतिभागिता से क्या संवाद हेतु आपकी भूमिका और जिम्मेदारियों पर समझ विकसित हो रही है?"',
+              approachEn: 'Long-term impact: Validates cumulative professional development—teachers report sustained growth in instructional confidence, facilitation, and student ownership.',
+              approachHi: 'दीर्घकालिक प्रभाव: 2 वर्षों की संवाद यात्रा में शिक्षकों द्वारा अपने शिक्षण कौशल, सहयोगात्मक आदतों और शैक्षणिक आत्म-विश्वास में निरंतर प्रगति का अनुभव।',
+              score: sTrust4,
+              color: '#7c3aed'
+            }
+          ];
+
+          const cardsHtml = trustDetails.map((item, idx) => {
+            return `
+              <div style="background: var(--bg-surface-1); padding: 10px 12px; border-radius: 8px; border-left: 4px solid ${item.color}; border: 1px solid var(--border-hairline); border-left-width: 4px; display: flex; flex-direction: column; gap: 5px; cursor: pointer;" onclick="if (!event.target.closest('button') && !event.target.closest('.q-interactive-badge')) jumpToQuestionExplorer('${item.qid}')">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                  <strong style="color: ${item.color}; font-size: 12.5px;">${idx + 1}. ${isHi ? item.nameHi : item.nameEn}</strong>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span class="pill-badge font-mono" style="background: rgba(16, 185, 129, 0.12); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 10.5px; font-weight: 800;">
+                      ${item.score.toFixed(1)}%
+                    </span>
+                    ${renderQBadge(item.qid, 'Q' + item.qid)}
+                  </div>
                 </div>
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #008aab;">
-                  <strong style="color: #008aab;">2. अकादमिक फोकस (Q89 - 91.4%):</strong>
-                  <span style="color: var(--text-secondary);">सत्र में केवल प्रशासनिक आदेशों के बजाय वास्तविक कक्षा शिक्षण पद्धतियों और समाधानों पर केंद्रित चर्चा की गई।</span>
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--text-primary); background: var(--bg-surface-2); padding: 5px 8px; border-radius: 5px;">
+                  📝 <em>${isHi ? item.textHi : item.textEn}</em>
                 </div>
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #4f46e5;">
-                  <strong style="color: #4f46e5;">3. समस्या समाधान (Q90 - 88.7%):</strong>
-                  <span style="color: var(--text-secondary);">कठिन पाठ्य अवधारणाओं व कक्षा चुनौतियों पर सहकर्मी शिक्षकों द्वारा व्यावहारिक समाधान और सुझाव साझा किए गए।</span>
+                <div style="font-size: 11px; color: var(--text-secondary);">
+                  <strong>🎯 ${isHi ? 'विश्वास दृष्टिकोण:' : 'Trust Rationale:'}</strong> ${isHi ? item.approachHi : item.approachEn}
                 </div>
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #7c3aed;">
-                  <strong style="color: #7c3aed;">4. 2-वर्षीय शिक्षण वृद्धि (Q88 - 92.5%):</strong>
-                  <span style="color: var(--text-secondary);">2 वर्षों के संवाद यात्रा में शिक्षकों द्वारा अपने शिक्षण कौशल और विषय ज्ञान में स्पष्ट सुधार का अनुभव।</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px;">
+                  <span style="font-size: 9.5px; color: var(--peepul-teal); font-family: var(--font-mono);">
+                    🖱️ ${isHi ? 'क्लिक करें: सीधे सर्वेक्षण प्रश्न पर जाएं' : 'Click to jump to survey explorer'}
+                  </span>
+                  <button type="button" class="slicer-btn" onclick="event.stopPropagation(); jumpToQuestionExplorer('${item.qid}')" style="font-size: 10px; padding: 2px 7px; font-weight: 700;">
+                    ${isHi ? 'प्रश्न देखें ↗' : 'Open Question ↗'}
+                  </button>
                 </div>
-              </div>
-              <div style="margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">
-                📌 <strong>गणना विधि:</strong> नेट ट्रस्ट स्कोर (NTS: +93.8%) राज्यभर के 23,785+ शिक्षकों के गोपनीय प्रतिक्रिया डेटा (प्रश्नावली Q91.1, Q89, Q90, Q88) का संयुक्त औसत है।
               </div>
             `;
-          } else {
-            trustGlossaryEl.innerHTML = `
-              <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--peepul-teal); font-family: var(--font-mono); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                <span>🔍 Teacher Trust Index: Methodology & How Figures Are Derived</span>
-                <span class="status-chip" style="font-size: 9.5px; background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal);">Survey Provenance</span>
-              </div>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; font-size: 11px; line-height: 1.45;">
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #059669;">
-                  <strong style="color: #059669;">1. Psychological Safety (Q91.1 — 93.8%):</strong>
-                  <span style="color: var(--text-secondary);">Measures non-judgmental climate—teachers affirm they can openly share teaching difficulties without fear of administrative reprimand.</span>
-                </div>
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #008aab;">
-                  <strong style="color: #008aab;">2. Academic Focus (Q89 — 91.4%):</strong>
-                  <span style="color: var(--text-secondary);">Confirms that dialogues dedicated high-value time to actionable classroom pedagogy rather than administrative circulars.</span>
-                </div>
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #4f46e5;">
-                  <strong style="color: #4f46e5;">3. Problem Solving (Q90 — 88.7%):</strong>
-                  <span style="color: var(--text-secondary);">Reflects collaborative peer exchange where facilitators and fellow teachers co-created solutions for student learning hurdles.</span>
-                </div>
-                <div style="background: var(--bg-surface-1); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #7c3aed;">
-                  <strong style="color: #7c3aed;">4. 2-Year Growth (Q88 — 92.5%):</strong>
-                  <span style="color: var(--text-secondary);">Validates long-term professional development—teachers affirm observable growth in classroom engagement over 2 years.</span>
-                </div>
-              </div>
-              <div style="margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono);">
-                📌 <strong>Calculation Methodology:</strong> Net Trust Score (NTS: +93.8%) is the composite affirmation average across all 23,785+ verified teacher survey responses in Sheets Q91, Q89, Q90, and Q88.
-              </div>
-            `;
-          }
-        }
-      }
+          }).join('');
+
+          const ntsScore = isSep ? '+96.6%' : (isConsolidated ? '+96.9%' : '+97.1%');
+
+          trustGlossaryEl.innerHTML = `
+            <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--peepul-teal); font-family: var(--font-mono); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <span>🔍 ${isHi ? 'शिक्षक विश्वास सूचकांक: मूल प्रश्न, आंकड़े एवं गणना विधि' : 'Teacher Trust Index: Questions, Provenance & Calculation Methodology'}</span>
+              <span class="status-chip" style="font-size: 10px; background: rgba(0, 138, 171, 0.08); color: var(--peepul-teal); font-weight: 700;">
+                ${isHi ? 'सर्वेक्षण प्रमाण आधारित (शीट्स Q91, Q89, Q90, Q88) • 🖱️ प्रश्न पर जाने हेतु क्लिक करें' : 'Survey Provenance (Sheets Q91, Q89, Q90, Q88) • 🖱️ Click card to jump to question'}
+              </span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px; font-size: 11.5px; line-height: 1.45;">
+              ${cardsHtml}
+            </div>
+            <div style="margin-top: 10px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+              <span>📌 <strong>${isHi ? 'गणना विधि:' : 'Calculation Methodology:'}</strong> ${isHi ? 'शुद्ध विश्वास स्कोर (NTS: ' + ntsScore + ') राज्यभर के 46,954+ शिक्षकों के गोपनीय प्रतिक्रिया डेटा (शीट्स Q91, Q89, Q90, Q88) का संयुक्त औसत है।' : 'Net Trust Score (NTS: ' + ntsScore + ') is the composite affirmation average across all verified teacher responses in Sheets Q91, Q89, Q90, and Q88.'}</span>
+              <span style="color: var(--peepul-teal); font-weight: 700;">🎯 All 4 metrics clickable</span>
+            </div>
+          `;
+        }}
     }
 
     
