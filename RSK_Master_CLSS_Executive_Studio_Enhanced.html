@@ -15,6 +15,8 @@
     </script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script src="assets/three.min.js"></script>
+  <script src="data/teacher_diagnostics_compact.js"></script>
+  <script src="assets/teacher_diagnostics.js"></script>
 <style>
     :root {
       --font-display: 'Comfortaa', cursive, sans-serif;
@@ -63,7 +65,53 @@
       --radius-lg: 16px;
       --radius-full: 9999px;
 
-      /* Emil Kowalski Multi-Layered Inset & Drop Shadows */
+          /* Teacher Performance & Support Tab Styles */
+    .td-tier-pill {
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface-2);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-spring);
+    }
+    .td-tier-pill:hover {
+      background: var(--bg-surface-3);
+      color: var(--text-primary);
+    }
+    .td-tier-pill.active {
+      background: var(--peepul-teal);
+      border-color: var(--peepul-teal);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 138, 171, 0.25);
+    }
+    .td-teacher-row:hover {
+      background: rgba(0, 138, 171, 0.04);
+    }
+    .td-teacher-row.selected {
+      background: rgba(0, 138, 171, 0.1) !important;
+      border-left: 3px solid var(--peepul-teal);
+    }
+    .td-page-btn {
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface-2);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .td-page-btn:hover:not(:disabled) {
+      background: var(--peepul-teal);
+      color: #ffffff;
+      border-color: var(--peepul-teal);
+    }
+
+    /* Emil Kowalski Multi-Layered Inset & Drop Shadows */
       --shadow-ambient: 0 12px 30px -6px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
       --shadow-tactile: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 1px 3px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.04);
       --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -3191,6 +3239,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 <button class="nav-item" id="navTabInsights" onclick="activateTab('tab-insights', this)"><span class="nav-dot"></span> 🤖 8. AI Insights</button>
 <button class="nav-item" id="navTabResearch" onclick="activateTab('tab-research', this)"><span class="nav-dot"></span> 📚 9. Qualitative Research</button>
 <button class="nav-item" id="navTabCohort" onclick="activateTab('tab-cohort', this)"><span class="nav-dot"></span> 👥 10. Teacher Attendance &amp; Cohorts</button>
+<button class="nav-item" id="navTabTeacherDiagnostics" onclick="activateTab('tab-teacher-diagnostics', this)"><span class="nav-dot"></span> 👨‍🏫 11. Teacher Performance &amp; Support</button>
 </nav>
 <main class="studio-canvas">
 <!-- 1. EXECUTIVE INTELLIGENCE -->
@@ -5832,6 +5881,310 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 </section>
 
 
+<!-- 11. TEACHER PERFORMANCE & SUPPORT TAB -->
+<section class="tab-section lang-fade-target" id="tab-teacher-diagnostics" style="display: none;">
+  
+  <!-- Header Title & Subtitle -->
+  <div class="panel-head" style="margin-bottom: 20px;">
+    <div>
+      <h2 style="font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0; font-family: var(--font-editorial); display: flex; align-items: center; gap: 10px;">
+        <span>👨‍🏫</span>
+        <span id="tdHeaderTitle">Teacher Performance &amp; Support</span>
+        <span style="font-size: 12px; font-family: var(--font-mono); background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); padding: 4px 10px; border-radius: 6px; font-weight: 700;">
+          33,866 Teachers Indexed
+        </span>
+      </h2>
+      <p id="tdHeaderSubtitle" style="font-size: 13px; color: var(--text-secondary); margin: 6px 0 0 0; line-height: 1.45;">
+        Search any teacher by Employee Code or Name to inspect their 10-question pedagogical assessment, identified classroom gaps, and mentor coaching action plan.
+      </p>
+    </div>
+    <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); background: var(--bg-surface-2); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-hairline);">
+      Data Engine: <strong>DuckDB High-Speed Analytical Layer</strong>
+    </div>
+  </div>
+
+  <!-- Top Bento KPI Ribbon (Statewide Distribution) -->
+  <div class="bento-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px;">
+    
+    <!-- 1. Total Teachers Evaluated -->
+    <div class="bento-card" style="padding: 14px 18px;">
+      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">
+        <span><span class="pulse-dot"></span> TOTAL EVALUATED</span>
+      </div>
+      <div class="kpi-huge-val font-mono" id="tdKpiTotal" style="font-size: 26px; font-weight: 800; margin-top: 4px;">33,866</div>
+      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Unique Teachers in MP</div>
+    </div>
+
+    <!-- 2. Master Champions (80-100%) -->
+    <div class="bento-card" style="padding: 14px 18px; border-top: 3px solid var(--accent-emerald);">
+      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: var(--accent-emerald); text-transform: uppercase;">
+        <span>⭐ CHAMPIONS (80%+)</span>
+      </div>
+      <div class="kpi-huge-val font-mono" id="tdKpiChampions" style="font-size: 22px; font-weight: 800; color: var(--accent-emerald); margin-top: 4px;">
+        11,143 <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(32.9%)</span>
+      </div>
+      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Role Models for Samwaad</div>
+    </div>
+
+    <!-- 3. Proficient (60-79%) -->
+    <div class="bento-card" style="padding: 14px 18px; border-top: 3px solid var(--peepul-teal);">
+      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: var(--peepul-teal); text-transform: uppercase;">
+        <span>✓ PROFICIENT (60-79%)</span>
+      </div>
+      <div class="kpi-huge-val font-mono" id="tdKpiProficient" style="font-size: 22px; font-weight: 800; color: var(--peepul-teal); margin-top: 4px;">
+        19,570 <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(57.8%)</span>
+      </div>
+      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Strong Classroom Trust</div>
+    </div>
+
+    <!-- 4. Developing (40-59%) -->
+    <div class="bento-card" style="padding: 14px 18px; border-top: 3px solid #d97706;">
+      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: #d97706; text-transform: uppercase;">
+        <span>⚡ DEVELOPING (40-59%)</span>
+      </div>
+      <div class="kpi-huge-val font-mono" id="tdKpiDeveloping" style="font-size: 22px; font-weight: 800; color: #d97706; margin-top: 4px;">
+        3,033 <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(9.0%)</span>
+      </div>
+      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Inquiry &amp; TLM Coaching</div>
+    </div>
+
+    <!-- 5. Priority Support (<40%) -->
+    <div class="bento-card" style="padding: 14px 18px; border-top: 3px solid #dc2626; background: rgba(220, 38, 38, 0.02);">
+      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: #dc2626; text-transform: uppercase;">
+        <span>⚠️ PRIORITY SUPPORT (&lt;40%)</span>
+      </div>
+      <div class="kpi-huge-val font-mono" id="tdKpiSupport" style="font-size: 22px; font-weight: 800; color: #dc2626; margin-top: 4px;">
+        120 <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(0.4%)</span>
+      </div>
+      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Direct Mentor Assistance</div>
+    </div>
+
+    <!-- 6. State Average Score -->
+    <div class="bento-card" style="padding: 14px 18px;">
+      <div class="kpi-micro-label" style="font-size: 10.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">
+        <span>📊 STATE AVERAGE</span>
+      </div>
+      <div class="kpi-huge-val font-mono" id="tdKpiAvgScore" style="font-size: 22px; font-weight: 800; color: var(--peepul-indigo); margin-top: 4px;">
+        76.4% <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">(13,088 persistent)</span>
+      </div>
+      <div class="kpi-sub-desc" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">10-Question Score</div>
+    </div>
+
+  </div>
+
+  <!-- Search and Slicer Ribbon -->
+  <div style="background: var(--bg-surface-1); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 22px; box-shadow: var(--shadow-tactile);">
+    <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;">
+      
+      <!-- Search Input Box -->
+      <div style="flex: 1 1 320px; position: relative;">
+        <input 
+          type="text" 
+          id="tdSearchInput" 
+          placeholder="🔍 Search by Employee Code (e.g. AZ8244) or Teacher Name..." 
+          oninput="window.debouncedTeacherSearch()" 
+          style="width: 100%; box-sizing: border-box; padding: 10px 14px 10px 36px; font-size: 13px; font-family: var(--font-sans); border: 1.5px solid var(--border-subtle); border-radius: 8px; background: var(--bg-canvas); color: var(--text-primary); outline: none; transition: var(--transition-spring);"
+          onfocus="this.style.borderColor='var(--peepul-teal)'; this.style.boxShadow='0 0 0 3px rgba(0, 138, 171, 0.15)';"
+          onblur="this.style.borderColor='var(--border-subtle)'; this.style.boxShadow='none';"
+        />
+        <span style="position: absolute; left: 12px; top: 11px; font-size: 14px; color: var(--text-dim); pointer-events: none;">🔍</span>
+      </div>
+
+      <!-- District Selector -->
+      <div style="flex: 0 1 200px;">
+        <select 
+          id="tdDistrictSelect" 
+          onchange="window.updateBlockDropdown()" 
+          style="width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 12.5px; font-family: var(--font-sans); border: 1.5px solid var(--border-subtle); border-radius: 8px; background: var(--bg-canvas); color: var(--text-primary); cursor: pointer;"
+        >
+          <option value="ALL">All 52 Districts (सभी 52 जिले)</option>
+        </select>
+      </div>
+
+      <!-- Block Selector -->
+      <div style="flex: 0 1 180px;">
+        <select 
+          id="tdBlockSelect" 
+          onchange="window.debouncedTeacherSearch()" 
+          style="width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 12.5px; font-family: var(--font-sans); border: 1.5px solid var(--border-subtle); border-radius: 8px; background: var(--bg-canvas); color: var(--text-primary); cursor: pointer;"
+        >
+          <option value="ALL">All Blocks (सभी ब्लॉक)</option>
+        </select>
+      </div>
+
+      <!-- Reset Button -->
+      <div>
+        <button 
+          onclick="window.clearTeacherFilters()" 
+          style="padding: 9px 16px; font-size: 12px; font-weight: 700; color: var(--text-secondary); background: var(--bg-surface-2); border: 1px solid var(--border-subtle); border-radius: 8px; cursor: pointer; transition: background 0.15s ease;"
+          onmouseover="this.style.background='var(--bg-surface-3)'"
+          onmouseout="this.style.background='var(--bg-surface-2)'"
+        >
+          🔄 Reset Filters
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Tier Filter Pills -->
+    <div style="display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-hairline); flex-wrap: wrap;">
+      <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-right: 6px;">
+        FILTER BY TIER:
+      </span>
+      <button class="td-tier-pill active" data-tier="ALL" onclick="window.setTeacherTierFilter('ALL', this)">All (33,866)</button>
+      <button class="td-tier-pill" data-tier="CHAMPION" onclick="window.setTeacherTierFilter('CHAMPION', this)">⭐ Champions (11,143)</button>
+      <button class="td-tier-pill" data-tier="PROFICIENT" onclick="window.setTeacherTierFilter('PROFICIENT', this)">✓ Proficient (19,570)</button>
+      <button class="td-tier-pill" data-tier="DEVELOPING" onclick="window.setTeacherTierFilter('DEVELOPING', this)">⚡ Developing (3,033)</button>
+      <button class="td-tier-pill" data-tier="SUPPORT_NEEDED" onclick="window.setTeacherTierFilter('SUPPORT_NEEDED', this)">⚠️ Priority Support (120)</button>
+    </div>
+  </div>
+
+  <!-- Filter Metrics Status Bar -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 12px; color: var(--text-muted);">
+    <div id="tdFilteredCount">
+      Loading teacher directory...
+    </div>
+    <div id="teacherLoadStatus" style="font-family: var(--font-mono); font-size: 11px; color: var(--peepul-teal);"></div>
+  </div>
+
+  <!-- Master Split-Pane Layout -->
+  <div style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: start; margin-bottom: 30px;">
+    
+    <!-- Left Pane: Teacher Roster Table -->
+    <div style="background: var(--bg-surface-1); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-ambient); overflow: hidden; display: flex; flex-direction: column;">
+      
+      <div style="padding: 14px 18px; border-bottom: 1px solid var(--border-subtle); background: var(--bg-surface-2); display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-weight: 800; font-size: 13px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">
+          👨‍🏫 Teacher Roster &amp; Scores
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">
+          Click any row to view diagnostic dossier
+        </div>
+      </div>
+
+      <div id="tdRosterWrapper" style="overflow-x: auto; max-height: 640px; scrollbar-width: thin;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
+          <thead>
+            <tr style="background: var(--bg-surface-2); border-bottom: 1.5px solid var(--border-subtle); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+              <th style="padding: 10px 12px; text-align: center; width: 44px;">#</th>
+              <th style="padding: 10px 12px;">Teacher / Code</th>
+              <th style="padding: 10px 12px;">District &amp; Block</th>
+              <th style="padding: 10px 12px; text-align: center;">Cycles</th>
+              <th style="padding: 10px 12px; text-align: right;">Score</th>
+              <th style="padding: 10px 12px; text-align: center;">Tier</th>
+              <th style="padding: 10px 12px; text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tdTeacherTableBody">
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 40px 16px; color: var(--text-muted);">
+                <div class="pulse-dot" style="margin: 0 auto 10px;"></div>
+                Loading teacher diagnostic data...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div id="tdPaginationControls"></div>
+
+    </div>
+
+    <!-- Right Pane: Active Teacher Diagnostic Dossier & Mentor Coaching Prescription -->
+    <div id="tdActiveDossierPane" style="position: sticky; top: 76px;">
+      <div style="background: var(--bg-surface-1); border: 1.5px dashed var(--border-subtle); border-radius: var(--radius-md); padding: 50px 24px; text-align: center; color: var(--text-muted);">
+        <div style="font-size: 36px; margin-bottom: 12px;">📋</div>
+        <div style="font-weight: 700; font-size: 15px; color: var(--text-secondary);">Select a Teacher from the Roster</div>
+        <div style="font-size: 12px; margin-top: 6px; line-height: 1.45;">
+          Click on any teacher record in the roster table or search by Employee Code to view their verified competencies, specific question gaps, and Qwen mentor coaching prescription.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Statewide Pedagogical Misconception Archetypes (Bottom Bento Grid) -->
+  <div style="margin-top: 36px; padding-top: 24px; border-top: 1.5px solid var(--border-subtle);">
+    
+    <div style="margin-bottom: 16px;">
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--text-primary); margin: 0; font-family: var(--font-editorial);">
+        Statewide Learning Gaps &amp; Coaching Solutions (राज्य स्तरीय शिक्षण चुनौतियां एवं समाधान)
+      </h3>
+      <p style="font-size: 12px; color: var(--text-secondary); margin: 4px 0 0 0;">
+        Four primary pedagogical hurdles identified across 46,954 survey responses in Madhya Pradesh, with field-tested coaching advice for Block Resource Coordinators.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+      
+      <!-- Archetype 1: Activity Trap -->
+      <div class="bento-card" style="padding: 16px 18px; border-left: 4px solid #f59e0b;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Q95 • 48.1% State Error</span>
+          <span style="font-size: 10px; font-family: var(--font-mono); background: rgba(245, 158, 11, 0.1); color: #d97706; padding: 2px 6px; border-radius: 4px;">Student Agency</span>
+        </div>
+        <div style="font-weight: 800; font-size: 13.5px; color: var(--text-primary);">The Activity Trap (गतिविधि जाल)</div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+          <strong>Misconception:</strong> Assuming fun games and busy hands equate to learning, without tying the activity back to concept mastery.
+        </div>
+        <div style="font-size: 11.5px; color: var(--peepul-teal); margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); line-height: 1.35;">
+          <strong>Coaching Solution:</strong> Require students to spend 5 minutes after every activity explaining what they discovered in their own words.
+        </div>
+      </div>
+
+      <!-- Archetype 2: Physical Craft Prop Trap -->
+      <div class="bento-card" style="padding: 16px 18px; border-left: 4px solid var(--accent-rose);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 800; color: var(--accent-rose); text-transform: uppercase;">Q177 • 52.2% State Error</span>
+          <span style="font-size: 10px; font-family: var(--font-mono); background: rgba(29, 78, 216, 0.1); color: var(--accent-rose); padding: 2px 6px; border-radius: 4px;">TLM Utilization</span>
+        </div>
+        <div style="font-weight: 800; font-size: 13.5px; color: var(--text-primary);">Physical Craft Prop Trap (प्रदर्शन वस्तु जाल)</div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+          <strong>Misconception:</strong> Teacher holds up a chart or model in front of the room while children watch passively from benches.
+        </div>
+        <div style="font-size: 11.5px; color: var(--peepul-teal); margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); line-height: 1.35;">
+          <strong>Coaching Solution:</strong> Materials belong in children's hands. Use the 3-step sequence: Concrete Experience &rarr; Reflection &rarr; Concept Consolidation.
+        </div>
+      </div>
+
+      <!-- Archetype 3: Immediate Answer Dictation -->
+      <div class="bento-card" style="padding: 16px 18px; border-left: 4px solid #dc2626;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 800; color: #dc2626; text-transform: uppercase;">Q178 • 64.7% State Error</span>
+          <span style="font-size: 10px; font-family: var(--font-mono); background: rgba(220, 38, 38, 0.1); color: #dc2626; padding: 2px 6px; border-radius: 4px;">Inquiry Probing</span>
+        </div>
+        <div style="font-weight: 800; font-size: 13.5px; color: var(--text-primary);">Answer Dictation Trap (तुरंत उत्तर बताने का जाल)</div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+          <strong>Misconception:</strong> Telling the child the correct answer immediately when they struggle, to keep the lesson moving on schedule.
+        </div>
+        <div style="font-size: 11.5px; color: var(--peepul-teal); margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); line-height: 1.35;">
+          <strong>Coaching Solution:</strong> Practice the 5-second pause. Ask: <em>"What makes you think that? Let's test your idea together."</em>
+        </div>
+      </div>
+
+      <!-- Archetype 4: Surface Praise Trap -->
+      <div class="bento-card" style="padding: 16px 18px; border-left: 4px solid var(--peepul-indigo);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 800; color: var(--peepul-indigo); text-transform: uppercase;">Q97 • 53.7% State Error</span>
+          <span style="font-size: 10px; font-family: var(--font-mono); background: rgba(79, 70, 229, 0.1); color: var(--peepul-indigo); padding: 2px 6px; border-radius: 4px;">Belongingness</span>
+        </div>
+        <div style="font-weight: 800; font-size: 13.5px; color: var(--text-primary);">Surface Praise Trap (सीमित प्रशंसा जाल)</div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 6px; line-height: 1.4;">
+          <strong>Misconception:</strong> Praising only the fastest 2-3 front-bench children while quieter students disengage.
+        </div>
+        <div style="font-size: 11.5px; color: var(--peepul-teal); margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-hairline); line-height: 1.35;">
+          <strong>Coaching Solution:</strong> True belonging comes from giving every student a meaningful role in pair and group work.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
 </main>
 <!-- Global Footer & Provenance -->
 <footer style="margin-top: 48px; padding: 24px 32px 36px; border-top: 1px solid var(--border-hairline); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 11.5px; color: var(--text-muted); font-family: var(--font-sans);">
@@ -6752,7 +7105,8 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
           { id: 'tab-governance', en: '💡 7. Recommended Measures', hi: '💡 7. अनुशंसित सुझाव' },
           { id: 'tab-insights', en: '🤖 8. AI Insights', hi: '🤖 8. AI अंतर्दृष्टि' },
           { id: 'tab-research', en: '📚 9. Qualitative Research', hi: '📚 9. गुणात्मक शोध' },
-          { id: 'tab-cohort', en: '👥 10. Teacher Attendance & Cohorts', hi: '👥 10. शिक्षक उपस्थिति एवं प्रवाह' }
+          { id: 'tab-cohort', en: '👥 10. Teacher Attendance & Cohorts', hi: '👥 10. शिक्षक उपस्थिति एवं प्रवाह' },
+          { id: 'tab-teacher-diagnostics', en: '👨‍🏫 11. Teacher Performance & Support', hi: '👨‍🏫 11. शिक्षक प्रदर्शन एवं सहयोग' }
         ];
 
         navTabMappings.forEach(m => {
@@ -6774,6 +7128,9 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
         }
         if (typeof initResearchTab === 'function') {
           initResearchTab();
+        }
+        if (typeof window.updateTeacherDiagnosticsLang === 'function') {
+          window.updateTeacherDiagnosticsLang();
         }
 
         // 5. Tab 1: Overview Panel Titles & Scope Buttons
@@ -7589,6 +7946,9 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
       if (tabId === 'tab-cohort' && typeof window.renderCohortTab === 'function') {
         window.renderCohortTab();
+      }
+      if (tabId === 'tab-teacher-diagnostics' && typeof window.initTeacherDiagnosticsTab === 'function') {
+        window.initTeacherDiagnosticsTab();
       }
 
       if (window.Motion && window.Motion.animate && activeSec) {
