@@ -106,11 +106,9 @@
   };
 
   const AUTH_STORAGE_KEY = 'rsk_teacher_studio_unlocked';
+  // Strictly restricted to Teacher#2026.Support@MP only
   const VALID_TEACHER_HASHES = [
-    'b3fad6589ccab501b7b87c331b435c14313a7bc3cc51a49214002d05a7021526', // Teacher#2026.Support@MP (Primary Strong Passcode)
-    '1161ecfea305909c69a1f789c4d6cdfc60cb6fc17e99b3f54e840b60d2ac774a', // RSK#2026.Teacher@MP
-    '49409725252c77a5187112e4525c2cda4fcd1dc7e38e51f437c512e2c00c24aa', // RSK#Teacher.Support@2026
-    'ed042bf0292dc81ac78c0c090a0d9d5d210953f1e7d25889c6223e297084e3b2'  // RSK#2026.Samwaad@MP (Executive master fallback)
+    'b3fad6589ccab501b7b87c331b435c14313a7bc3cc51a49214002d05a7021526' // Teacher#2026.Support@MP
   ];
 
   async function computeSha256(str) {
