@@ -4025,6 +4025,8 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
 
 <!-- Multi-Cycle Pedagogy & Feedback Delta Matrix (August vs. September) -->
+      <!-- Multi-Cycle Pedagogy & Feedback Delta Matrix (August vs. September) -->
+      <!-- Multi-Cycle Pedagogy & Feedback Delta Matrix (August vs. September) -->
       <div class="panel-box" id="pedMultiCycleDeltaPanel" style="margin-top: 24px; background: var(--bg-surface-1); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 22px 24px;">
         
         <!-- Panel Header -->
@@ -4032,34 +4034,59 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
           <div>
             <div class="panel-head-title" id="pedDeltaHeading" style="font-size: 16px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
               <span>📊</span>
-              <span id="pedDeltaTitleText">Multi-Cycle Pedagogy &amp; Feedback Delta Matrix (August vs. September)</span>
+              <span id="pedDeltaTitleText">Pedagogical Feedback Shift: August vs. September Diverging Delta</span>
             </div>
             <div id="pedDeltaSubtitleText" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
-              Empirical longitudinal shift across matching teacher pedagogical &amp; feedback survey questions (N = 46,954 Total Responses).
+              Diverging Horizontal Tornado Chart showing longitudinal changes across matching teacher survey questions (N = 46,954 Total Responses).
             </div>
             <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 2px;">
               [Ref: <em>SS_ResponseDetail_Cluster Level_Grades 6-8_August.xlsx</em> (23,785) &amp; <em>September.xlsx</em> (23,169) | Sheets: <strong>Participants</strong> &amp; <strong>Facilitator</strong>]
             </div>
           </div>
 
-          <!-- Controls: Search & Status Filter -->
+          <!-- Controls: View Toggle (Tornado vs Table) & Search -->
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            
+            <!-- View Mode Switcher -->
+            <div style="display: flex; background: var(--bg-surface-2); padding: 3px; border-radius: 8px; border: 1px solid var(--border-hairline);">
+              <button 
+                type="button" 
+                id="btnViewTornado" 
+                onclick="window.switchPedDeltaView('TORNADO')" 
+                style="padding: 5px 12px; font-size: 11.5px; font-weight: 800; border: none; border-radius: 6px; background: var(--bg-surface-1); color: var(--peepul-teal); cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);"
+              >
+                <span>📊</span>
+                <span id="lblViewTornado">Tornado Chart</span>
+              </button>
+              <button 
+                type="button" 
+                id="btnViewTable" 
+                onclick="window.switchPedDeltaView('TABLE')" 
+                style="padding: 5px 12px; font-size: 11.5px; font-weight: 800; border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 5px;"
+              >
+                <span>📋</span>
+                <span id="lblViewTable">Data Table</span>
+              </button>
+            </div>
+
+            <!-- Search Box -->
             <div style="position: relative;">
               <input 
                 type="text" 
                 id="pedDeltaSearchInput" 
                 placeholder="Search indicator..." 
                 oninput="window.filterPedDeltaTable()" 
-                style="padding: 6px 12px 6px 28px; font-size: 11.5px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface-2); color: var(--text-primary); outline: none; width: 170px;"
+                style="padding: 6px 12px 6px 28px; font-size: 11.5px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface-2); color: var(--text-primary); outline: none; width: 160px;"
               />
               <span style="position: absolute; left: 9px; top: 6px; font-size: 11px; color: var(--text-muted);">🔍</span>
             </div>
 
+            <!-- Filter Status Group -->
             <div class="filter-btn-group" id="pedDeltaFilterGroup" style="display: flex; gap: 4px; background: var(--bg-surface-2); padding: 3px; border-radius: 8px; border: 1px solid var(--border-hairline);">
-              <button type="button" class="btn-filter-pill active" onclick="window.setPedDeltaFilter('ALL', this)" style="padding: 4px 10px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: var(--bg-surface-1); color: var(--text-primary); cursor: pointer;">All (17)</button>
-              <button type="button" class="btn-filter-pill" onclick="window.setPedDeltaFilter('IMPROVED', this)" style="padding: 4px 10px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: transparent; color: #059669; cursor: pointer;">🟢 Improved (8)</button>
-              <button type="button" class="btn-filter-pill" onclick="window.setPedDeltaFilter('DECLINED', this)" style="padding: 4px 10px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: transparent; color: #dc2626; cursor: pointer;">🔴 Declined (6)</button>
-              <button type="button" class="btn-filter-pill" onclick="window.setPedDeltaFilter('STABLE', this)" style="padding: 4px 10px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: transparent; color: var(--text-muted); cursor: pointer;">⚪ Stable (3)</button>
+              <button type="button" class="btn-filter-pill active" onclick="window.setPedDeltaFilter('ALL', this)" style="padding: 4px 9px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: var(--bg-surface-1); color: var(--text-primary); cursor: pointer;">All</button>
+              <button type="button" class="btn-filter-pill" onclick="window.setPedDeltaFilter('IMPROVED', this)" style="padding: 4px 9px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: transparent; color: #059669; cursor: pointer;">🟢 Improved</button>
+              <button type="button" class="btn-filter-pill" onclick="window.setPedDeltaFilter('DECLINED', this)" style="padding: 4px 9px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: transparent; color: #dc2626; cursor: pointer;">🔴 Declined</button>
+              <button type="button" class="btn-filter-pill" onclick="window.setPedDeltaFilter('STABLE', this)" style="padding: 4px 9px; font-size: 11px; font-weight: 700; border: none; border-radius: 6px; background: transparent; color: var(--text-muted); cursor: pointer;">⚪ Stable</button>
             </div>
           </div>
         </div>
@@ -4091,22 +4118,48 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
           </div>
         </div>
 
-        <!-- Interactive Comparison Table Viewport -->
-        <div class="table-viewport" style="overflow-x: auto; border: 1px solid var(--border-hairline); border-radius: 10px;">
-          <table id="pedDeltaTable" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12.5px;">
-            <thead>
-              <tr style="background: var(--bg-surface-2); border-bottom: 1.5px solid var(--border-subtle);">
-                <th style="padding: 10px 14px; font-weight: 800; color: var(--text-primary); width: 34%;" id="thPedCol1">INDICATOR &amp; SURVEY QUESTION</th>
-                <th style="padding: 10px 12px; font-weight: 800; color: var(--text-secondary); width: 15%; text-align: right;" id="thPedCol2">AUGUST 2026<br><span style="font-size: 10.5px; font-weight: 600; color: var(--text-muted);">N = 23,785</span></th>
-                <th style="padding: 10px 12px; font-weight: 800; color: var(--peepul-teal); width: 15%; text-align: right;" id="thPedCol3">SEPTEMBER 2026<br><span style="font-size: 10.5px; font-weight: 600; color: var(--text-muted);">N = 23,169</span></th>
-                <th style="padding: 10px 12px; font-weight: 800; color: var(--text-primary); width: 12%; text-align: center;" id="thPedCol4">NET DELTA (Δ)</th>
-                <th style="padding: 10px 14px; font-weight: 800; color: var(--text-secondary); width: 24%;" id="thPedCol5">PEDAGOGICAL FIELD TAKEAWAY</th>
-              </tr>
-            </thead>
-            <tbody id="pedDeltaTableBody">
-              <!-- Dynamically rendered via renderPedDeltaTable() -->
-            </tbody>
-          </table>
+        <!-- 1. TORNADO CHART VIEW CONTAINER (Default Active) -->
+        <div id="pedTornadoViewContainer" style="display: block;">
+          
+          <!-- Tornado Axis Legend -->
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; background: var(--bg-surface-2); border-radius: 8px; margin-bottom: 12px; font-size: 11.5px; font-weight: 800; border: 1px solid var(--border-hairline);">
+            <div style="color: #dc2626; display: flex; align-items: center; gap: 6px;">
+              <span>◀</span>
+              <span id="lblTornadoDeclined">DECLINED IN SEPTEMBER (–)</span>
+            </div>
+            <div style="color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.5px;" id="lblTornadoZero">
+              | 0.00% CENTER BASELINE |
+            </div>
+            <div style="color: #059669; display: flex; align-items: center; gap: 6px;">
+              <span id="lblTornadoImproved">IMPROVED IN SEPTEMBER (+)</span>
+              <span>▶</span>
+            </div>
+          </div>
+
+          <!-- Tornado Bars Container -->
+          <div id="pedTornadoBarsList" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Dynamically populated via renderPedTornadoChart() -->
+          </div>
+        </div>
+
+        <!-- 2. DATA TABLE VIEW CONTAINER (Hidden by Default) -->
+        <div id="pedTableViewContainer" style="display: none;">
+          <div class="table-viewport" style="overflow-x: auto; border: 1px solid var(--border-hairline); border-radius: 10px;">
+            <table id="pedDeltaTable" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12.5px;">
+              <thead>
+                <tr style="background: var(--bg-surface-2); border-bottom: 1.5px solid var(--border-subtle);">
+                  <th style="padding: 10px 14px; font-weight: 800; color: var(--text-primary); width: 34%;" id="thPedCol1">INDICATOR &amp; SURVEY QUESTION</th>
+                  <th style="padding: 10px 12px; font-weight: 800; color: var(--text-secondary); width: 15%; text-align: right;" id="thPedCol2">AUGUST 2026<br><span style="font-size: 10.5px; font-weight: 600; color: var(--text-muted);">N = 23,785</span></th>
+                  <th style="padding: 10px 12px; font-weight: 800; color: var(--peepul-teal); width: 15%; text-align: right;" id="thPedCol3">SEPTEMBER 2026<br><span style="font-size: 10.5px; font-weight: 600; color: var(--text-muted);">N = 23,169</span></th>
+                  <th style="padding: 10px 12px; font-weight: 800; color: var(--text-primary); width: 12%; text-align: center;" id="thPedCol4">NET DELTA (Δ)</th>
+                  <th style="padding: 10px 14px; font-weight: 800; color: var(--text-secondary); width: 24%;" id="thPedCol5">PEDAGOGICAL FIELD TAKEAWAY</th>
+                </tr>
+              </thead>
+              <tbody id="pedDeltaTableBody">
+                <!-- Dynamically rendered via renderPedDeltaTable() -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </div>
@@ -6253,7 +6306,7 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     };
 
     function setLanguage(lang) {
-      if (typeof window.renderPedDeltaTable === 'function') window.renderPedDeltaTable();
+      if (typeof window.renderPedTornadoChart === 'function') { if (window.currentPedDeltaView === 'TABLE') window.renderPedDeltaTable(); else window.renderPedTornadoChart(); }
       if (currentLang === lang) return;
       currentLang = lang;
 
@@ -9374,10 +9427,53 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
 
     // 6. Pedagogy Radar
     // ==========================================
-  // MULTI-CYCLE PEDAGOGY & FEEDBACK DELTA ENGINE
+  // ==========================================
+  // MULTI-CYCLE PEDAGOGY & FEEDBACK DELTA & TORNADO ENGINE
+  // ==========================================
+  // ==========================================
+  // MULTI-CYCLE PEDAGOGY & FEEDBACK DELTA & TORNADO ENGINE
   // ==========================================
   window.pedDeltaDataset = [{"q": "Q82", "category": "PURPOSE", "titleEn": "Core Purpose & Concept Clarity", "titleHi": "संवाद का मूल उद्देश्य एवं वैचारिक स्पष्टता", "descEn": "Correctly identified that cultural event planning is NOT a Samvaad objective", "descHi": "सही पहचान की कि सांस्कृतिक कार्यक्रम बनाना संवाद का उद्देश्य नहीं है", "aug": 62.42, "sep": 64.94, "delta": 2.51, "status": "IMPROVED", "takeawayEn": "Fewer teachers view Samvaad as an administrative/cultural meeting; understanding of academic mandate rose +2.51%.", "takeawayHi": "शिक्षकों में संवाद के अकादमिक उद्देश्य की समझ में +2.51% का महत्वपूर्ण सुधार हुआ है।"}, {"q": "Q87", "category": "PRACTICE", "titleEn": "Improvement in Teaching-Learning Processes", "titleHi": "कक्षा शिक्षण-अधिगम प्रक्रियाओं में प्रत्यक्ष सुधार", "descEn": "Teacher confirmed discussion improves classroom teaching-learning delivery", "descHi": "शिक्षकों ने पुष्टि की कि संवाद से शिक्षण-अधिगम प्रक्रियाओं में सुधार हुआ है", "aug": 86.18, "sep": 86.62, "delta": 0.44, "status": "IMPROVED", "takeawayEn": "Consistent recognition that peer discussions directly enhance lesson execution in classrooms.", "takeawayHi": "86.6% शिक्षकों ने माना कि संवाद से उनकी कक्षा शिक्षण प्रक्रियाओं में सीधा सुधार हो रहा है।"}, {"q": "Q86", "category": "DESIGN", "titleEn": "Discussion on State Academic Themes", "titleHi": "राज्य शिक्षा केंद्र द्वारा निर्धारित अकादमिक थीम पर चर्चा", "descEn": "Discussions strictly adhered to state-prescribed academic subject matter", "descHi": "संवाद में राज्य शिक्षा केंद्र द्वारा सुझावित विषय पर केंद्रित चर्चा हुई", "aug": 79.49, "sep": 80.12, "delta": 0.63, "status": "IMPROVED", "takeawayEn": "More clusters successfully curtailed non-academic drift and maintained syllabus fidelity.", "takeawayHi": "गैर-अकादमिक भटकाव में कमी आई और 80.1% संकुलों में निर्धारित विषय पर चर्चा हुई।"}, {"q": "Q86", "category": "DESIGN", "titleEn": "Quality Feedback at Session Conclusion", "titleHi": "सत्र के अंत में चर्चा की गुणवत्ता पर फीडबैक", "descEn": "Facilitators formally captured participant feedback on discussion quality", "descHi": "संवाद के अंत में चर्चा की गुणवत्ता पर संरचित फीडबैक लिया गया", "aug": 85.6, "sep": 85.84, "delta": 0.24, "status": "IMPROVED", "takeawayEn": "Reflective closure and quality appraisal institutionalized across 85%+ venues.", "takeawayHi": "85.8% संकुलों में सत्र के अंत में औपचारिक फीडबैक और गुणवत्ता समीक्षा की गई।"}, {"q": "Q86", "category": "PRACTICE", "titleEn": "Post-Work Assigned for Classroom Application", "titleHi": "कक्षा में प्रयोग हेतु पोस्ट-वर्क की योजना", "descEn": "Actionable post-session classroom application tasks assigned", "descHi": "सीख को कक्षा में लागू करने हेतु व्यावहारिक पोस्ट-वर्क दिया गया", "aug": 80.17, "sep": 80.34, "delta": 0.17, "status": "IMPROVED", "takeawayEn": "Actionable bridge from Samvaad dialogue into real school practice maintained above 80%.", "takeawayHi": "80.3% शिक्षकों को संवाद की सीख को कक्षा में आजमाने हेतु व्यावहारिक पोस्ट-वर्क मिला।"}, {"q": "Q87", "category": "PEDAGOGY", "titleEn": "Strengthening Conceptual Theme Understanding", "titleHi": "चर्चा की थीम पर वैचारिक समझ सुदृढ़ होना", "descEn": "Deepened pedagogical comprehension of core teaching concepts", "descHi": "शिक्षकों की विषयगत एवं शिक्षणशास्त्रीय अवधारणाओं पर समझ मजबूत हुई", "aug": 77.33, "sep": 77.5, "delta": 0.17, "status": "IMPROVED", "takeawayEn": "Over 3 out of 4 teachers confirm Samvaad improves their foundational concept grasp.", "takeawayHi": "77.5% शिक्षकों ने बताया कि संवाद से उनकी विषयगत समझ अधिक स्पष्ट और सुदृढ़ हुई।"}, {"q": "Q86", "category": "GOVERNANCE", "titleEn": "Strict Adherence to Planned Time Structure", "titleHi": "पूर्वनिर्धारित समय-सीमा का अनुपालन", "descEn": "Facilitators conducted sessions within scheduled agenda timing", "descHi": "चर्चा के दौरान पूर्वनिर्धारित समय एवं एजेंडा का कड़ाई से पालन हुआ", "aug": 81.96, "sep": 82.11, "delta": 0.15, "status": "IMPROVED", "takeawayEn": "Time management and agenda discipline held firm across statewide venues.", "takeawayHi": "82.1% संकुलों में समय प्रबंधन और एजेंडा अनुशासन का प्रभावी पालन हुआ।"}, {"q": "Q71", "category": "RESOURCES", "titleEn": "Printed Facilitator Guide Availability", "titleHi": "सहजकर्ताओं को मार्गदर्शिका का प्रिंट आउट उपलब्ध होना", "descEn": "Facilitators provided with physical printed guidebooks (Facilitator survey)", "descHi": "सहजकर्ताओं को भौतिक मुद्रित मार्गदर्शिका समय पर उपलब्ध कराई गई", "aug": 96.41, "sep": 97.34, "delta": 0.94, "status": "IMPROVED", "takeawayEn": "Near-universal physical resource penetration reaching 97.3% of all facilitators.", "takeawayHi": "97.3% सहजकर्ताओं को मुद्रित मार्गदर्शिका प्राप्त हुई, जो भौतिक सामग्री की उच्च उपलब्धता दर्शाती है।"}, {"q": "Q88", "category": "OWNERSHIP", "titleEn": "2-Year Samvaad Role Clarity & Ownership", "titleHi": "2 वर्षों से संवाद में भूमिका एवं जिम्मेदारी की समझ", "descEn": "Clear on personal role in institutionalized decentralized Samvaad", "descHi": "शिक्षकों में अपनी भूमिका और अकादमिक जिम्मेदारियों पर पूर्ण स्पष्टता है", "aug": 99.55, "sep": 99.56, "delta": 0.02, "status": "STABLE", "takeawayEn": "Universal multi-year program familiarity; virtually zero ambiguity on teacher role.", "takeawayHi": "99.6% शिक्षकों में अपनी भूमिका को लेकर पूर्ण स्पष्टता और स्वामित्व बना हुआ है।"}, {"q": "Q89", "category": "DESIGN", "titleEn": "Satisfaction with Academic Focus", "titleHi": "अकादमिक बिंदुओं पर चर्चा केंद्रित रहने से संतुष्टि", "descEn": "Design principles successfully protect academic integrity of discussions", "descHi": "डिज़ाइन सिद्धांत चर्चा को गैर-अकादमिक मुद्दों से बचाकर अकादमिक बिंदुओं पर केंद्रित रखते हैं", "aug": 99.19, "sep": 99.21, "delta": 0.03, "status": "STABLE", "takeawayEn": "Near-unanimous satisfaction that session norms keep talk centered on student learning.", "takeawayHi": "99.2% शिक्षक संतुष्ट हैं कि संवाद केवल अकादमिक एवं शिक्षण बिंदुओं पर केंद्रित रहता है।"}, {"q": "Q90", "category": "PRACTICE", "titleEn": "Capacity to Solve Classroom Hurdles", "titleHi": "कक्षा-संबंधी चुनौतियों का समाधान करने में सक्षमता", "descEn": "Discussions capable of resolving real classroom teaching barriers", "descHi": "संवाद की चर्चाएं कक्षा की व्यावहारिक समस्याओं को हल करने में सक्षम हैं", "aug": 99.28, "sep": 99.2, "delta": -0.08, "status": "STABLE", "takeawayEn": "Overwhelming majority (99.2%) find Samvaad practically useful for classroom hurdles.", "takeawayHi": "99.2% शिक्षकों का मानना है कि संवाद उनकी कक्षा चुनौतियों का हल निकालने में सक्षम है।"}, {"q": "Q86", "category": "DESIGN", "titleEn": "30:70 Facilitator:Teacher Talk Ratio", "titleHi": "सहजकर्ता एवं प्रतिभागियों के बीच 30:70 संवाद अनुपात", "descEn": "Participant teachers dominated dialogue over facilitator lecturing", "descHi": "सहजकर्ता केवल 30% बोले और 70% समय शिक्षकों को बोलने का अवसर मिला", "aug": 82.24, "sep": 82.07, "delta": -0.17, "status": "DECLINED", "takeawayEn": "Complex September TLM protocols led to slight rise in facilitator lecturing (-0.17%).", "takeawayHi": "सितंबर में टीएलएम प्रदर्शन के कारण सहजकर्ताओं का बोलना थोड़ा बढ़ा, जिससे 30:70 अनुपात में 0.17% गिरावट आई।"}, {"q": "Q86", "category": "CULTURE", "titleEn": "Equal Speaking Opportunity for All", "titleHi": "सभी प्रतिभागियों को बातचीत के समान अवसर", "descEn": "Every attendee had an active voice, preventing dominant speakers", "descHi": "सभी शिक्षकों को बिना किसी झिझक के अपनी बात रखने का समान मौका मिला", "aug": 84.75, "sep": 84.44, "delta": -0.31, "status": "DECLINED", "takeawayEn": "Slight compression in equitable airtime during technical TLM demonstrations.", "takeawayHi": "टीएलएम गतिविधियों के दौरान कुछ शिक्षकों को समान समय न मिलने से इसमें 0.31% की हल्की गिरावट आई।"}, {"q": "Q91", "category": "TRUST", "titleEn": "Complete Teacher Trust & Psychological Safety", "titleHi": "संवाद एवं चर्चा पर पूर्ण भरोसा (मनोवैज्ञानिक सुरक्षा)", "descEn": "Teachers reporting complete, unreserved faith in the Samvaad platform", "descHi": "शिक्षकों द्वारा शैक्षिक संवाद मंच पर 'हाँ, पूरी तरह से' भरोसा व्यक्त किया गया", "aug": 90.76, "sep": 90.12, "delta": -0.64, "status": "DECLINED", "takeawayEn": "Minor shift (-0.64%) into partial trust ('to some extent' rose from 9.0% to 9.6%).", "takeawayHi": "पूर्ण भरोसे में 0.64% की कमी आई, जो 'कुछ हद तक' विकल्प (9.0% से 9.6%) की ओर स्थानांतरित हुआ।"}, {"q": "Q87", "category": "PEDAGOGY", "titleEn": "Classroom Teaching Confidence Growth", "titleHi": "शिक्षक के रूप में कक्षा आत्मविश्वास में वृद्धि", "descEn": "Gained direct self-efficacy and confidence to execute lessons in class", "descHi": "संवाद के बाद कक्षा में नए तरीकों को लागू करने के आत्मविश्वास में वृद्धि", "aug": 82.13, "sep": 80.98, "delta": -1.15, "status": "DECLINED", "takeawayEn": "New September TLM concepts created temporary implementation uncertainty (-1.15%).", "takeawayHi": "सितंबर में नई टीएलएम अवधारणाओं के कारण तात्कालिक कार्यान्वयन आत्मविश्वास में 1.15% की कमी आई।"}, {"q": "Q87", "category": "COLLABORATION", "titleEn": "Learning Innovative Practices from Peers", "titleHi": "सहकर्मी शिक्षकों से नवाचारी प्रैक्टिसेस सीखना", "descEn": "Gained practical, innovative classroom ideas from colleague teachers", "descHi": "पीयर समुदाय से कक्षा शिक्षण के नए नवाचारों और तरीकों की जानकारी मिली", "aug": 73.41, "sep": 71.13, "delta": -2.28, "status": "DECLINED", "takeawayEn": "Sessions focused more on guide compliance, reducing spontaneous peer sharing (-2.28%).", "takeawayHi": "मार्गदर्शिका के तकनीकी पालन पर अधिक ध्यान देने से शिक्षकों के बीच स्वतःस्फूर्त नवाचार साझा करने में 2.28% की कमी आई।"}, {"q": "Q87", "category": "DISENGAGEMENT", "titleEn": "Teacher Skepticism / Disengagement", "titleHi": "संवाद के प्रति उदासीनता / संशय", "descEn": "Teachers expressing skepticism ('Samvaad will not help me in any way')", "descHi": "शिक्षकों द्वारा यह राय देना कि 'संवाद किसी भी प्रकार से मेरी मदद नहीं करेगा'", "aug": 9.59, "sep": 10.49, "delta": 0.9, "status": "DECLINED", "takeawayEn": "Skepticism rose +0.90%, highlighting need for supportive coaching over administrative scrutiny.", "takeawayHi": "उदासीनता में +0.90% की वृद्धि हुई, जो प्रशासनिक दबाव के बजाय सहयोगात्मक हैंडहोल्डिंग की आवश्यकता दर्शाती है।"}];
   window.currentPedDeltaFilter = 'ALL';
+  window.currentPedDeltaView = 'TORNADO'; // 'TORNADO' or 'TABLE'
+
+  window.switchPedDeltaView = function(view) {
+    window.currentPedDeltaView = view;
+    const btnTornado = document.getElementById('btnViewTornado');
+    const btnTable = document.getElementById('btnViewTable');
+    const tornadoContainer = document.getElementById('pedTornadoViewContainer');
+    const tableContainer = document.getElementById('pedTableViewContainer');
+
+    if (view === 'TORNADO') {
+      if (tornadoContainer) tornadoContainer.style.display = 'block';
+      if (tableContainer) tableContainer.style.display = 'none';
+      if (btnTornado) {
+        btnTornado.style.background = 'var(--bg-surface-1)';
+        btnTornado.style.color = 'var(--peepul-teal)';
+        btnTornado.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)';
+      }
+      if (btnTable) {
+        btnTable.style.background = 'transparent';
+        btnTable.style.color = 'var(--text-secondary)';
+        btnTable.style.boxShadow = 'none';
+      }
+      window.renderPedTornadoChart();
+    } else {
+      if (tornadoContainer) tornadoContainer.style.display = 'none';
+      if (tableContainer) tableContainer.style.display = 'block';
+      if (btnTable) {
+        btnTable.style.background = 'var(--bg-surface-1)';
+        btnTable.style.color = 'var(--peepul-teal)';
+        btnTable.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)';
+      }
+      if (btnTornado) {
+        btnTornado.style.background = 'transparent';
+        btnTornado.style.color = 'var(--text-secondary)';
+        btnTornado.style.boxShadow = 'none';
+      }
+      window.renderPedDeltaTable();
+    }
+  };
 
   window.setPedDeltaFilter = function(filter, btn) {
     window.currentPedDeltaFilter = filter;
@@ -9386,26 +9482,31 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       const btns = btnGroup.querySelectorAll('button');
       btns.forEach(b => {
         b.style.background = 'transparent';
-        if (b.innerText.includes('Improved')) b.style.color = '#059669';
-        else if (b.innerText.includes('Declined')) b.style.color = '#dc2626';
-        else if (b.innerText.includes('Stable')) b.style.color = 'var(--text-muted)';
+        if (b.innerText.includes('Improved') || b.innerText.includes('सुधार')) b.style.color = '#059669';
+        else if (b.innerText.includes('Declined') || b.innerText.includes('समीक्षा')) b.style.color = '#dc2626';
+        else if (b.innerText.includes('Stable') || b.innerText.includes('स्थिर')) b.style.color = 'var(--text-muted)';
         else b.style.color = 'var(--text-primary)';
       });
       if (btn) {
         btn.style.background = 'var(--bg-surface-1)';
       }
     }
-    window.renderPedDeltaTable();
+    if (window.currentPedDeltaView === 'TORNADO') {
+      window.renderPedTornadoChart();
+    } else {
+      window.renderPedDeltaTable();
+    }
   };
 
   window.filterPedDeltaTable = function() {
-    window.renderPedDeltaTable();
+    if (window.currentPedDeltaView === 'TORNADO') {
+      window.renderPedTornadoChart();
+    } else {
+      window.renderPedDeltaTable();
+    }
   };
 
-  window.renderPedDeltaTable = function() {
-    const tbody = document.getElementById('pedDeltaTableBody');
-    if (!tbody) return;
-
+  window.getFilteredPedDeltaList = function() {
     const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
     const searchVal = (document.getElementById('pedDeltaSearchInput')?.value || '').toLowerCase().trim();
     const filter = window.currentPedDeltaFilter || 'ALL';
@@ -9421,21 +9522,232 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
       return true;
     });
 
-    // Update Headings & Cards for Language
+    // Custom sorting: Improvements on top (highest gain to lowest), then Stable, then Declines (mildest to steepest decline at bottom)
+    list.sort((a, b) => {
+      const rank = (item) => {
+        if (item.status === 'IMPROVED') return 1;
+        if (item.status === 'STABLE') return 2;
+        return 3;
+      };
+      const rA = rank(a);
+      const rB = rank(b);
+      if (rA !== rB) return rA - rB;
+      
+      // Inside IMPROVED: highest positive delta first
+      if (rA === 1) return b.delta - a.delta;
+      // Inside STABLE: closest to zero
+      if (rA === 2) return b.delta - a.delta;
+      // Inside DECLINED: mildest dip first, steepest drop at the very bottom
+      const scoreA = a.category === 'DISENGAGEMENT' ? -a.delta : a.delta;
+      const scoreB = b.category === 'DISENGAGEMENT' ? -b.delta : b.delta;
+      return scoreB - scoreA;
+    });
+
+    return list;
+  };
+
+  // 1. RENDER DIVERGING TORNADO CHART
+  window.renderPedTornadoChart = function() {
+    const container = document.getElementById('pedTornadoBarsList');
+    if (!container) return;
+
+    const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+    const list = window.getFilteredPedDeltaList();
+
+    window.updatePedDeltaLanguageUI(isHi);
+
+    if (list.length === 0) {
+      container.innerHTML = `<div style="text-align: center; padding: 36px; color: var(--text-muted); font-size: 13px;">${isHi ? 'कोई संकेतक नहीं मिला' : 'No matching indicators found.'}</div>`;
+      return;
+    }
+
+    const maxScale = 2.8;
+
+    let html = '';
+    list.forEach(item => {
+      const title = isHi ? item.titleHi : item.titleEn;
+      const takeaway = isHi ? item.takeawayHi : item.takeawayEn;
+      const deltaVal = item.delta;
+      const absDelta = Math.abs(deltaVal);
+      const barPct = Math.min(100, Math.max(4, (absDelta / maxScale) * 100));
+
+      let barLeftLaneHtml = '';
+      let barRightLaneHtml = '';
+
+      if (item.status === 'IMPROVED') {
+        // Positive Improvement (Right Lane)
+        barLeftLaneHtml = '';
+        barRightLaneHtml = `
+          <div style="height: 16px; width: ${barPct}%; background: linear-gradient(90deg, #059669 0%, #10b981 100%); border-radius: 0 4px 4px 0; box-shadow: 0 1px 3px rgba(5,150,105,0.2);"></div>
+          <span style="font-size: 11px; font-weight: 800; font-family: var(--font-mono); color: #059669; margin-left: 8px; white-space: nowrap;">
+            ▲ +${deltaVal.toFixed(2)}%
+          </span>
+        `;
+      } else if (item.status === 'DECLINED') {
+        // Adverse / Decline (Left Lane in Red)
+        // For Disengagement, delta is positive (+0.90%) but adverse
+        const sign = (item.category === 'DISENGAGEMENT') ? '+' : '';
+        const note = (item.category === 'DISENGAGEMENT') ? (isHi ? ' (उदासीनता वृद्धि)' : ' (Skepticism Rise)') : '';
+        barLeftLaneHtml = `
+          <span style="font-size: 11px; font-weight: 800; font-family: var(--font-mono); color: #dc2626; margin-right: 8px; white-space: nowrap;">
+            ▼ ${sign}${deltaVal.toFixed(2)}%${note}
+          </span>
+          <div style="height: 16px; width: ${barPct}%; background: linear-gradient(270deg, #dc2626 0%, #ef4444 100%); border-radius: 4px 0 0 4px; box-shadow: 0 1px 3px rgba(220,38,38,0.2);"></div>
+        `;
+        barRightLaneHtml = '';
+      } else {
+        // Neutral / Stable
+        barLeftLaneHtml = '';
+        barRightLaneHtml = `
+          <div style="height: 12px; width: 6px; background: #94a3b8; border-radius: 2px;"></div>
+          <span style="font-size: 10.5px; font-weight: 700; font-family: var(--font-mono); color: var(--text-muted); margin-left: 6px; white-space: nowrap;">
+            — +${deltaVal.toFixed(2)}% (${item.sep.toFixed(1)}% ${isHi ? 'स्थिर' : 'Stable'})
+          </span>
+        `;
+      }
+
+      html += `
+        <div style="display: grid; grid-template-columns: 260px 1fr 270px; gap: 14px; align-items: center; padding: 10px 14px; border-radius: 8px; background: var(--bg-surface-2); border: 1px solid var(--border-hairline); transition: border-color 0.15s ease, background 0.15s ease;" onmouseover="this.style.background='var(--bg-surface-1)'; this.style.borderColor='var(--peepul-teal)';" onmouseout="this.style.background='var(--bg-surface-2)'; this.style.borderColor='var(--border-hairline)';">
+          
+          <!-- Col 1: Question info -->
+          <div>
+            <div style="display: flex; align-items: center; gap: 7px;">
+              <span style="display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 800; font-family: var(--font-mono); background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.25);">
+                ${item.q}
+              </span>
+              <strong style="font-size: 12.5px; color: var(--text-primary); line-height: 1.3;">${title}</strong>
+            </div>
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 3px;">
+              Aug: <strong>${item.aug.toFixed(2)}%</strong> ➔ Sep: <strong style="color: var(--peepul-teal);">${item.sep.toFixed(2)}%</strong>
+            </div>
+          </div>
+
+          <!-- Col 2: Diverging Bar Canvas -->
+          <div style="position: relative; height: 28px; width: 100%; display: flex; align-items: center;">
+            
+            <!-- Left Lane (Negative) -->
+            <div style="width: 50%; height: 100%; position: relative; display: flex; justify-content: flex-end; align-items: center; border-right: 1.5px solid var(--border-subtle); padding-right: 4px;">
+              ${barLeftLaneHtml}
+            </div>
+
+            <!-- Right Lane (Positive) -->
+            <div style="width: 50%; height: 100%; position: relative; display: flex; justify-content: flex-start; align-items: center; border-left: 1.5px solid var(--border-subtle); padding-left: 4px;">
+              ${barRightLaneHtml}
+            </div>
+
+          </div>
+
+          <!-- Col 3: Takeaway -->
+          <div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; border-left: 2px solid var(--border-hairline); padding-left: 10px;">
+            ${takeaway}
+          </div>
+
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  };
+
+  // 2. RENDER DETAILED DATA TABLE VIEW
+  window.renderPedDeltaTable = function() {
+    const tbody = document.getElementById('pedDeltaTableBody');
+    if (!tbody) return;
+
+    const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
+    const list = window.getFilteredPedDeltaList();
+
+    window.updatePedDeltaLanguageUI(isHi);
+
+    if (list.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 13px;">${isHi ? 'कोई संकेतक नहीं मिला' : 'No matching indicators found.'}</td></tr>`;
+      return;
+    }
+
+    let rowsHtml = '';
+    list.forEach(item => {
+      const title = isHi ? item.titleHi : item.titleEn;
+      const desc = isHi ? item.descHi : item.descEn;
+      const takeaway = isHi ? item.takeawayHi : item.takeawayEn;
+
+      let deltaBadge = '';
+      if (item.status === 'IMPROVED') {
+        deltaBadge = `<span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; font-family: var(--font-mono); background: rgba(5, 150, 105, 0.12); color: #059669; border: 1px solid rgba(5, 150, 105, 0.3);">▲ +${item.delta.toFixed(2)}%</span>`;
+      } else if (item.status === 'DECLINED') {
+        const sign = (item.category === 'DISENGAGEMENT') ? '+' : '';
+        const note = (item.category === 'DISENGAGEMENT') ? (isHi ? ' (उदासीनता)' : ' (Skepticism)') : '';
+        deltaBadge = `<span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; font-family: var(--font-mono); background: rgba(220, 38, 38, 0.12); color: #dc2626; border: 1px solid rgba(220, 38, 38, 0.3);">▼ ${sign}${item.delta.toFixed(2)}%${note}</span>`;
+      } else {
+        deltaBadge = `<span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; font-family: var(--font-mono); background: var(--bg-surface-2); color: var(--text-muted); border: 1px solid var(--border-subtle);">— +${item.delta.toFixed(2)}%</span>`;
+      }
+
+      rowsHtml += `
+        <tr style="border-bottom: 1px solid var(--border-hairline); transition: background 0.15s ease;" onmouseover="this.style.background='var(--bg-surface-2)'" onmouseout="this.style.background='transparent'">
+          <td style="padding: 12px 14px; vertical-align: middle;">
+            <div style="display: flex; align-items: flex-start; gap: 8px;">
+              <span style="display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 10.5px; font-weight: 800; font-family: var(--font-mono); background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.25); margin-top: 1px;">
+                ${item.q}
+              </span>
+              <div>
+                <strong style="color: var(--text-primary); font-size: 13px;">${title}</strong>
+                <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.4;">${desc}</div>
+              </div>
+            </div>
+          </td>
+          <td style="padding: 12px 14px; vertical-align: middle; text-align: right;">
+            <div class="font-mono" style="font-weight: 800; font-size: 13.5px; color: var(--text-secondary);">${item.aug.toFixed(2)}%</div>
+            <div style="height: 5px; width: 100%; background: var(--bg-surface-2); border-radius: 9999px; overflow: hidden; margin-top: 5px; border: 1px solid var(--border-hairline);">
+              <div style="height: 100%; width: ${Math.min(100, item.aug)}%; background: #64748b; border-radius: 9999px;"></div>
+            </div>
+          </td>
+          <td style="padding: 12px 14px; vertical-align: middle; text-align: right;">
+            <div class="font-mono" style="font-weight: 800; font-size: 13.5px; color: var(--peepul-teal);">${item.sep.toFixed(2)}%</div>
+            <div style="height: 5px; width: 100%; background: var(--bg-surface-2); border-radius: 9999px; overflow: hidden; margin-top: 5px; border: 1px solid var(--border-hairline);">
+              <div style="height: 100%; width: ${Math.min(100, item.sep)}%; background: var(--peepul-teal); border-radius: 9999px;"></div>
+            </div>
+          </td>
+          <td style="padding: 12px 14px; vertical-align: middle; text-align: center;">
+            ${deltaBadge}
+          </td>
+          <td style="padding: 12px 14px; vertical-align: middle;">
+            <div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.45;">
+              ${takeaway}
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+
+    tbody.innerHTML = rowsHtml;
+  };
+
+  // Helper for Language Updates
+  window.updatePedDeltaLanguageUI = function(isHi) {
     const titleEl = document.getElementById('pedDeltaTitleText');
     if (titleEl) {
       titleEl.innerText = isHi 
-        ? 'बहु-चक्र शिक्षणशास्त्र एवं फीडबैक तुलनात्मक मैट्रिक्स (अगस्त बनाम सितंबर)'
-        : 'Multi-Cycle Pedagogy & Feedback Delta Matrix (August vs. September)';
+        ? 'शिक्षणशास्त्रीय फीडबैक बदलाव: अगस्त बनाम सितंबर डायवर्जिंग डेल्टा'
+        : 'Pedagogical Feedback Shift: August vs. September Diverging Delta';
     }
     const subEl = document.getElementById('pedDeltaSubtitleText');
     if (subEl) {
       subEl.innerText = isHi
-        ? 'समान शिक्षणशास्त्रीय एवं फीडबैक प्रश्नों पर शिक्षकों की प्रतिक्रियाओं में बदलाव (46,954 शिक्षक प्रतिक्रियाएं)'
-        : 'Empirical longitudinal shift across matching teacher pedagogical & feedback survey questions (N = 46,954 Total Responses).';
+        ? 'समान शिक्षणशास्त्रीय एवं फीडबैक प्रश्नों पर शिक्षकों की प्रतिक्रियाओं में बदलाव दर्शाने वाला डायवर्जिंग टॉरनेडो चार्ट (46,954 शिक्षक प्रतिक्रियाएं)'
+        : 'Diverging Horizontal Tornado Chart showing longitudinal changes across matching teacher survey questions (N = 46,954 Total Responses).';
     }
 
-    // Update Mini Ribbon Cards
+    const lblTornado = document.getElementById('lblViewTornado');
+    const lblTable = document.getElementById('lblViewTable');
+    if (lblTornado) lblTornado.innerText = isHi ? 'टॉरनेडो चार्ट' : 'Tornado Chart';
+    if (lblTable) lblTable.innerText = isHi ? 'डेटा तालिका' : 'Data Table';
+
+    const lblDec = document.getElementById('lblTornadoDeclined');
+    const lblImp = document.getElementById('lblTornadoImproved');
+    const lblZero = document.getElementById('lblTornadoZero');
+    if (lblDec) lblDec.innerText = isHi ? 'सितंबर में कमी / समीक्षा योग्य (–)' : 'DECLINED IN SEPTEMBER (–)';
+    if (lblImp) lblImp.innerText = isHi ? 'सितंबर में सुधार / प्रगति (+)' : 'IMPROVED IN SEPTEMBER (+)';
+    if (lblZero) lblZero.innerText = isHi ? '| 0.00% केंद्र आधाररेखा |' : '| 0.00% CENTER BASELINE |';
+
     const c1L = document.getElementById('pedCard1Lbl');
     const c1S = document.getElementById('pedCard1Sub');
     if (c1L) c1L.innerText = isHi ? 'कुल तुलनात्मक संकेतक' : 'TOTAL INDICATORS COMPARED';
@@ -9454,9 +9766,8 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     const c4L = document.getElementById('pedCard4Lbl');
     const c4S = document.getElementById('pedCard4Sub');
     if (c4L) c4L.innerText = isHi ? 'उच्च स्थिरता आधाररेखा' : 'HIGH FIDELITY BASELINE';
-    if (c4S) c4S.innerText = isHi ? 'भूमिका स्पष्टता एवं अकादमिक फोकस 99%+' : 'Role clarity & academic focus sustained 99%+';
+    if (c4S) c4S.innerText = isHi ? 'भूमिका स्पष्टता एवं अकादमिक फोकस 99%+' : 'Role clarity & academic focus sustained';
 
-    // Update Table Headers
     const th1 = document.getElementById('thPedCol1');
     const th2 = document.getElementById('thPedCol2');
     const th3 = document.getElementById('thPedCol3');
@@ -9467,83 +9778,10 @@ body.rsk-locked > *:not(#rskAccessGate):not(script):not(style) {
     if (th3) th3.innerHTML = isHi ? 'सितंबर 2026<br><span style="font-size: 10.5px; font-weight: 600; color: var(--text-muted);">N = 23,169</span>' : 'SEPTEMBER 2026<br><span style="font-size: 10.5px; font-weight: 600; color: var(--text-muted);">N = 23,169</span>';
     if (th4) th4.innerHTML = isHi ? 'शुद्ध अंतर (Δ)' : 'NET DELTA (Δ)';
     if (th5) th5.innerHTML = isHi ? 'कक्षा शिक्षणशास्त्रीय प्रभाव एवं निष्कर्ष' : 'PEDAGOGICAL FIELD TAKEAWAY';
-
-    if (list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 13px;">${isHi ? 'कोई संकेतक नहीं मिला' : 'No matching indicators found.'}</td></tr>`;
-      return;
-    }
-
-    let rowsHtml = '';
-    list.forEach(item => {
-      const title = isHi ? item.titleHi : item.titleEn;
-      const desc = isHi ? item.descHi : item.descEn;
-      const takeaway = isHi ? item.takeawayHi : item.takeawayEn;
-
-      // Delta styling
-      let deltaBadge = '';
-      let statusIcon = '';
-      if (item.status === 'IMPROVED') {
-        deltaBadge = `<span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; font-family: var(--font-mono); background: rgba(5, 150, 105, 0.12); color: #059669; border: 1px solid rgba(5, 150, 105, 0.3);">▲ +${item.delta.toFixed(2)}%</span>`;
-        statusIcon = '🟢';
-      } else if (item.status === 'DECLINED') {
-        const sign = item.delta > 0 ? '+' : '';
-        deltaBadge = `<span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; font-family: var(--font-mono); background: rgba(220, 38, 38, 0.12); color: #dc2626; border: 1px solid rgba(220, 38, 38, 0.3);">▼ ${sign}${item.delta.toFixed(2)}%</span>`;
-        statusIcon = '🔴';
-      } else {
-        deltaBadge = `<span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; font-family: var(--font-mono); background: var(--bg-surface-2); color: var(--text-muted); border: 1px solid var(--border-subtle);">— +${item.delta.toFixed(2)}%</span>`;
-        statusIcon = '⚪';
-      }
-
-      rowsHtml += `
-        <tr style="border-bottom: 1px solid var(--border-hairline); transition: background 0.15s ease;" onmouseover="this.style.background='var(--bg-surface-2)'" onmouseout="this.style.background='transparent'">
-          <td style="padding: 12px 14px; vertical-align: middle;">
-            <div style="display: flex; align-items: flex-start; gap: 8px;">
-              <span style="display: inline-block; padding: 2px 7px; border-radius: 5px; font-size: 10.5px; font-weight: 800; font-family: var(--font-mono); background: rgba(0, 138, 171, 0.1); color: var(--peepul-teal); border: 1px solid rgba(0, 138, 171, 0.25); margin-top: 1px;">
-                ${item.q}
-              </span>
-              <div>
-                <strong style="color: var(--text-primary); font-size: 13px;">${title}</strong>
-                <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.4;">${desc}</div>
-              </div>
-            </div>
-          </td>
-
-          <!-- August Value & Visual Bar -->
-          <td style="padding: 12px 14px; vertical-align: middle; text-align: right;">
-            <div class="font-mono" style="font-weight: 800; font-size: 13.5px; color: var(--text-secondary);">${item.aug.toFixed(2)}%</div>
-            <div style="height: 5px; width: 100%; background: var(--bg-surface-2); border-radius: 9999px; overflow: hidden; margin-top: 5px; border: 1px solid var(--border-hairline);">
-              <div style="height: 100%; width: ${Math.min(100, item.aug)}%; background: #64748b; border-radius: 9999px;"></div>
-            </div>
-          </td>
-
-          <!-- September Value & Visual Bar -->
-          <td style="padding: 12px 14px; vertical-align: middle; text-align: right;">
-            <div class="font-mono" style="font-weight: 800; font-size: 13.5px; color: var(--peepul-teal);">${item.sep.toFixed(2)}%</div>
-            <div style="height: 5px; width: 100%; background: var(--bg-surface-2); border-radius: 9999px; overflow: hidden; margin-top: 5px; border: 1px solid var(--border-hairline);">
-              <div style="height: 100%; width: ${Math.min(100, item.sep)}%; background: var(--peepul-teal); border-radius: 9999px;"></div>
-            </div>
-          </td>
-
-          <!-- Net Delta -->
-          <td style="padding: 12px 14px; vertical-align: middle; text-align: center;">
-            ${deltaBadge}
-          </td>
-
-          <!-- Takeaway -->
-          <td style="padding: 12px 14px; vertical-align: middle;">
-            <div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.45;">
-              ${takeaway}
-            </div>
-          </td>
-        </tr>
-      `;
-    });
-
-    tbody.innerHTML = rowsHtml;
   };
 
     function initPedagogyRadar() {
-      if (typeof window.renderPedDeltaTable === 'function') window.renderPedDeltaTable();
+      if (typeof window.renderPedTornadoChart === 'function') { if (window.currentPedDeltaView === 'TABLE') window.renderPedDeltaTable(); else window.renderPedTornadoChart(); }
       const isHi = (typeof currentLang !== 'undefined' && currentLang === 'hi');
       const isSep = (currentCycle === 'SEP');
       const isConsolidated = (currentCycle === 'CONSOLIDATED');
